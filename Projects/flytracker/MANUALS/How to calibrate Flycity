@@ -1,0 +1,105 @@
+How to calibrate the cameras in Flycity
+m.george 2013
+
+* Make sure master switch is turned on and everything is plugged in
+
+(1) Install the calibration grid tower
+
+	(a) Unhook the two power cables from the panels and the vga-like cable leading to the panel controller
+	(b) Unhook the AC vent from the base of the arena. This is accomplished by unscrewing an screw attaching a metal support to the table and then removing the plastic wall of the base. 
+	(c) Remove the infared diffuser and LED panel from the floor of the arena. Be careful not to produce too much strain on the cables or they will seperate from the face of the LED panel.
+	(d) Place the calibration tower on the stage below the area floor, sliding the four metal posts into the holes on the stage. Be careful not to touch the top camera.
+
+(2) Turn on Cameras and perform dark correction
+	
+	(a) Turn on all three cameras by pushing on/off button on back
+	(b) Cover each camera lens with black paper
+	(b) Open the PFV camera software. All three cameras should show up with their own windows.
+	(c) Click each camera window and change bitshift (top panel) to 4
+	(d) Once all cameras are at a bitshift of 4 click shading --> calibrate --> ok (right panel)
+	(e) Change bitshift of each camera to 2
+	(f) Remove lens covers
+
+(3) Turn on the LED panel hovering above the arena. Make sure it is illuminating the stage.
+
+(4) Activate "low light" mode in the PFV software (right panel)
+
+(5) Take calibration snapshots
+
+	(a) Navigate to snapshots location:
+	
+		/home/"user"/Dropbox/Projects/flytracker/Photron/snapshots/
+		C:\Dropbox\Projects\flytracker\Photron\snapshots\
+
+	(b) Create a folder with todays date.
+	(c) Copy the contents of the "template" folder to the new folder.
+	(d) In the PFV software, change the save location of snapshots to your new folders location:
+
+		Dropdown menu: options --> data, snapshots
+
+	(e) Click each camera window and click snapshot (right panel)
+	(f) Compare the snapshot to the first template photo. If they are really different, one of the following may be wrong:
+
+		1. The calibration tower location is skewed --> move towers position by wiggling it
+		2. A camera has moved --> move the camera back to its initial position by manipulating each cameras mount
+
+	(g) turn the black micromanipulator knob 10 turns counter-clockwise. A white dot on the face of the knob indicates position
+	(h) take a new snapshot for each camera
+	(i) turn the black micromanipulator knob another 10 turns counter-clockwise
+	(j) take a new snapshot for each camera
+
+(6) Rename calibration snapshots
+
+	/home/"user"/Dropbox/WORK/calibration_arena/01_rename_calib_images
+	C:\Dropbox\WORK\calibration_arena\01_rename_calib_images\	
+	
+	(a) Open Matlab
+	(b) Make the working directory the location of the snapshot images
+	(c) run rename_calib_image_tif_copy.m in matlab, < add to path >
+
+(7) Extract grid corners
+
+	/home/"user"/Dropbox/WORK/calibration_arena/02_checkb_recog
+	C:\Dropbox\WORK\calibration_arena\02_checkb_recog\
+
+	(a) Make the working directory the location of the snapshot images
+	(b) run calib_gui.m in Matlab in standard mode
+	(c) Click "Image Names" for each position
+
+		1. pos*_cam
+		2. t (for tiff)
+
+	(d) Click "Extract Grid Corners"
+
+		1. Advance through all options until you get to figure with crosshairs
+		2. For each position draw the following back for all three camera angles
+
+			pos1_cam = A4G8
+			pos2_cam = A5G11
+			pos3_cam = A9G12
+
+		3. Rename the resulting calib_data.mat file to:
+
+			calib_data_pos*_A*G*.mat
+
+	(e) Repeat steps 7(c) through 7(d) for each camera position, renaming each resulting .mat file
+
+(8) Run the DLT and MDLT function on your calib_data_pos*_A*G*.mat files
+
+	/home/"user"/Dropbox/WORK/calibration_arena/03_DLT
+	C:\Dropbox\WORK\calibration_arena\03_DLT
+
+	(a) Make the working directory the location of the snapshot images
+	(b) Run 'A_calib_coord_checkb_3pos_5mm_10T_rotate_autopos.m'
+	(c) Run 'B_MDLTcalib_3cam_autosave.m' (note: this file requires matlab symbolic math toolbox)
+
+		The result of part 8(c) should be a 'MDLT_coeff.mat' file and a really small mean deviation (e.g. 7*10^-5)
+		If the MDLT file fails to converge or the mean deviation is really high, start over (sucks I know)
+		
+	
+(9) Copy contents to data hard drive, CALIS folder
+
+	Input:
+	/home/"user"/Dropbox/Projects/flytracker/Photron/snapshots/"todays date"
+	C:\Dropbox\Projects\flytracker\Photron\snapshots\"todays date"
+
