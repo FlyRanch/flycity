@@ -1,0 +1,8 @@
+syntax: glob
+*.asv
+*~
+*.o
+*.egg-info
+*.swp
+.DS_Store
+solutions
