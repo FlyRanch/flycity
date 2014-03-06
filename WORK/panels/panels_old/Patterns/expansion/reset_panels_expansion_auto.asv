@@ -1,0 +1,38 @@
+clear
+clc
+
+samplerate=1
+samplespertrigger=1
+
+AI = analoginput('mcc',0);
+hwch = [0];
+manes = cell(size(hwch));
+names{1} = 'SWtrigger';
+chans = addchannel(AI,hwch,'ames');
+set(AI,'SampleRate',samplerate);
+set(AI,'SamplesPerTrigger',samplespertrigger);
+input('start')
+
+stop = 0;
+running = 0;
+
+while stop == 0
+
+    start(AI)
+    pause(1/samplerate);
+    
+    data = getdata(AI);
+    
+    if (data<2) && running==1
+        Panel_com('stop')
+        running
+
+
+
+
+Panel_com('stop');
+Panel_com('set_pattern_id',1);
+Panel_com('send_gain_bias',[0 0 50 0]);
+Panel_com('set_position', [117 1]);
+% Panel_com('all_off');
+% Panel_com('start');
