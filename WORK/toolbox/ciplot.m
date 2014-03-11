@@ -19,6 +19,7 @@ end
 
 if nargin<4
     colour='b';
+    colour=[.5 .5 .5];
 end
 
 if nargin<3

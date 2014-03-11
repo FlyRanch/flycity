@@ -1,4 +1,4 @@
-function compass_zeroup(u, v, varargin)
+function [X] = compass_zeroup(u, v, varargin)
 %EARTH_COMPASS   Earth-coordinate compass plot
 %                 - Changes plot labels to N,S,E,W
 % 
@@ -25,7 +25,7 @@ function compass_zeroup(u, v, varargin)
 %
 %
 
-compass(u, v, varargin{:});
+[X] = compass(u, v, varargin{:});
 
 hHiddenText = findall(gca,'type','text');
 Angles = 0 : 30 : 330;
