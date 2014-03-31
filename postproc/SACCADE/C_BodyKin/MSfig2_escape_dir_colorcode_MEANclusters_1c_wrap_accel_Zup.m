@@ -23,8 +23,9 @@ hold on
 
 %% plot mean clusters
 
-% Az_norm = pathDB.Fz-1;
-Az_norm = -(pathDB.Fz-1);   % z up pos
+Az_norm = pathDB.Fz-1;
+% Az_norm = -(pathDB.Fz-1);   % z down pos
+% Az_norm_plot = -Az_norm_plot;   % z down pos
 
 for j=1:length(color_var)
     i=j;
@@ -50,7 +51,7 @@ for j=1:length(color_var)
         subplot(3,3,6)
         plot(t-t_shift(i),Ahor_norm_plot(:,i),'-','color',grey_color,'linewidth',.25)
         subplot(3,3,9)
-        plot(t-t_shift(i),-Az_norm_plot(:,i),'-','color',grey_color,'linewidth',.25)
+        plot(t-t_shift(i),Az_norm_plot(:,i),'-','color',grey_color,'linewidth',.25)
 
     end
 end

@@ -33,10 +33,10 @@ MwingNair = Mwing+Maddedmass;
 
 %% damping coeff [Nm/s] !!! RAD based !!!
 
-% Yaw damping from Dickinson et al 2010 & converted to Dh scale
+% Yaw damping from Dickson et al 2010 & converted to Dh scale
 Cyaw   = 1.14e-10;
 
-% roll and pitch damping scaled from yaw acordoing to Cheng et al 2009 (table 2)
+% roll and pitch damping scaled from yaw according to Cheng et al 2009 (table 2)
 Croll  = 0.55 * Cyaw;
 Cpitch = 0.19 * Cyaw;
 

@@ -17,12 +17,20 @@ load('FnMqs_timeseries.mat')
 mkdir('MSfigs_timeseries_KinNqsTorque')
 cd('MSfigs_timeseries_KinNqsTorque')
 
+n_nonan = find(isnan(t_wb_seq_mean_all)==0);
+t_start = t_wb_seq_mean_all(n_nonan);
+dt = mean(gradient(t_start));
+t_stop = t_start + dt;
+t_mid = t_start + dt/2;
+t_ds = t_start + dt/4;
+t_us = t_start + dt*3/4;
+
 %% freq
 figure
 subplot(3,1,1)
 hold on
-ciplot(f_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0)-1.96*f_wb_seq_ste_all(isnan(t_wb_seq_mean_all)==0),f_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0)+1.96*f_wb_seq_ste_all(isnan(t_wb_seq_mean_all)==0),t_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0))
-plot(t_wb_seq_mean_all,f_wb_seq_mean_all,'-k.')
+ciplot(f_wb_seq_mean_all(n_nonan)-1.96*f_wb_seq_ste_all(n_nonan),f_wb_seq_mean_all(n_nonan)+1.96*f_wb_seq_ste_all(n_nonan),t_mid)
+plot(t_mid,f_wb_seq_mean_all(n_nonan),'-k.')
 
 % xlabel('time [sec]')
 xlim([-.05 .06]) 
@@ -36,15 +44,15 @@ subplot(3,1,2)
 hold on
 
 % body dyn torque
-ciplot(F_mean_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0)-1.96*F_mean_wb_seq_ste_all(isnan(t_wb_seq_mean_all)==0),F_mean_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0)+1.96*F_mean_wb_seq_ste_all(isnan(t_wb_seq_mean_all)==0),t_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0))
-plot(t_wb_seq_mean_all,F_mean_wb_seq_mean_all,'-k.')
+ciplot(F_mean_wb_seq_mean_all(n_nonan)-1.96*F_mean_wb_seq_ste_all(n_nonan),F_mean_wb_seq_mean_all(n_nonan)+1.96*F_mean_wb_seq_ste_all(n_nonan),t_mid)
+plot(t_mid,F_mean_wb_seq_mean_all(n_nonan),'-k.')
 
 % QSmodel torque
 F_trans_norm_timeseries_WBmean = sqrt(Fx_trans_norm_timeseries_WBmean.^2 + Fy_trans_norm_timeseries_WBmean.^2 + Fz_trans_norm_timeseries_WBmean.^2);
 F_transNrot_norm_timeseries_WBmean = sqrt(Fx_transNrot_norm_timeseries_WBmean.^2 + Fy_transNrot_norm_timeseries_WBmean.^2 + Fz_transNrot_norm_timeseries_WBmean.^2);
 
-plot(t_wb_seq_mean_all,F_trans_norm_timeseries_WBmean,'-m.')
-plot(t_wb_seq_mean_all,F_transNrot_norm_timeseries_WBmean,'-g.')
+plot(t_mid,F_trans_norm_timeseries_WBmean(n_nonan),'-m.')
+plot(t_mid,F_transNrot_norm_timeseries_WBmean(n_nonan),'-g.')
 
 % xlabel('time [sec]')
 ylabel('F/mg')
@@ -63,12 +71,12 @@ subplot(3,1,1)
 hold on
 
 % body dyn torque
-ciplot(Mroll_mean_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0)-1.96*Mroll_mean_wb_seq_ste_all(isnan(t_wb_seq_mean_all)==0),Mroll_mean_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0)+1.96*Mroll_mean_wb_seq_ste_all(isnan(t_wb_seq_mean_all)==0),t_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0))
-plot(t_wb_seq_mean_all,Mroll_mean_wb_seq_mean_all,'-k.')
+ciplot(Mroll_mean_wb_seq_mean_all(n_nonan)-1.96*Mroll_mean_wb_seq_ste_all(n_nonan),Mroll_mean_wb_seq_mean_all(n_nonan)+1.96*Mroll_mean_wb_seq_ste_all(n_nonan),t_mid)
+plot(t_mid,Mroll_mean_wb_seq_mean_all(n_nonan),'-k.')
 
 % QSmodel torque
-plot(t_wb_seq_mean_all,Mx_trans_norm_timeseries_WBmean,'-m.')
-plot(t_wb_seq_mean_all,Mx_transNrot_norm_timeseries_WBmean,'-g.')
+plot(t_mid,Mx_trans_norm_timeseries_WBmean(n_nonan),'-m.')
+plot(t_mid,Mx_transNrot_norm_timeseries_WBmean(n_nonan),'-g.')
 
 % xlabel('time [sec]')
 ylabel('Troll/M(g+a)')
@@ -82,12 +90,12 @@ subplot(3,1,2)
 hold on
 
 % body dyn torque
-ciplot(Mpitch_mean_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0)-1.96*Mpitch_mean_wb_seq_ste_all(isnan(t_wb_seq_mean_all)==0),Mpitch_mean_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0)+1.96*Mpitch_mean_wb_seq_ste_all(isnan(t_wb_seq_mean_all)==0),t_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0))
-plot(t_wb_seq_mean_all,Mpitch_mean_wb_seq_mean_all,'-k.')
+ciplot(Mpitch_mean_wb_seq_mean_all(n_nonan)-1.96*Mpitch_mean_wb_seq_ste_all(n_nonan),Mpitch_mean_wb_seq_mean_all(n_nonan)+1.96*Mpitch_mean_wb_seq_ste_all(n_nonan),t_mid)
+plot(t_mid,Mpitch_mean_wb_seq_mean_all(n_nonan),'-k.')
 
 % QSmodel torque
-plot(t_wb_seq_mean_all,My_trans_norm_timeseries_WBmean,'-m.')
-plot(t_wb_seq_mean_all,My_transNrot_norm_timeseries_WBmean,'-g.')
+plot(t_mid,My_trans_norm_timeseries_WBmean(n_nonan),'-m.')
+plot(t_mid,My_transNrot_norm_timeseries_WBmean(n_nonan),'-g.')
 
 % xlabel('time [sec]')
 ylabel('Tpitch/M(g+a)')
@@ -101,12 +109,12 @@ subplot(3,1,3)
 hold on
 
 % body dyn torque
-ciplot(Myaw_mean_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0)-1.96*Myaw_mean_wb_seq_ste_all(isnan(t_wb_seq_mean_all)==0),Myaw_mean_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0)+1.96*Myaw_mean_wb_seq_ste_all(isnan(t_wb_seq_mean_all)==0),t_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0))
-plot(t_wb_seq_mean_all,Myaw_mean_wb_seq_mean_all,'-k.')
+ciplot(Myaw_mean_wb_seq_mean_all(n_nonan)-1.96*Myaw_mean_wb_seq_ste_all(n_nonan),Myaw_mean_wb_seq_mean_all(n_nonan)+1.96*Myaw_mean_wb_seq_ste_all(n_nonan),t_mid)
+plot(t_mid,Myaw_mean_wb_seq_mean_all(n_nonan),'-k.')
 
 % QSmodel torque
-plot(t_wb_seq_mean_all,Mz_trans_norm_timeseries_WBmean,'-m.')
-plot(t_wb_seq_mean_all,Mz_transNrot_norm_timeseries_WBmean,'-g.')
+plot(t_mid,Mz_trans_norm_timeseries_WBmean(n_nonan),'-m.')
+plot(t_mid,Mz_transNrot_norm_timeseries_WBmean(n_nonan),'-g.')
 
 xlabel('time [sec]')
 ylabel('Tyaw/M(g+a)')
@@ -125,12 +133,12 @@ subplot(3,1,1)
 hold on
 
 % body dyn torque
-ciplot(M_R_mean_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0)-1.96*M_R_mean_wb_seq_ste_all(isnan(t_wb_seq_mean_all)==0),M_R_mean_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0)+1.96*M_R_mean_wb_seq_ste_all(isnan(t_wb_seq_mean_all)==0),t_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0))
-plot(t_wb_seq_mean_all,M_R_mean_wb_seq_mean_all,'-k.')
+ciplot(M_R_mean_wb_seq_mean_all(n_nonan)-1.96*M_R_mean_wb_seq_ste_all(n_nonan),M_R_mean_wb_seq_mean_all(n_nonan)+1.96*M_R_mean_wb_seq_ste_all(n_nonan),t_mid)
+plot(t_mid,M_R_mean_wb_seq_mean_all(n_nonan),'-k.')
 
 % QSmodel torque
-plot(t_wb_seq_mean_all,M_R_trans_norm_timeseries_WBmean,'-m.')
-plot(t_wb_seq_mean_all,M_R_transNrot_norm_timeseries_WBmean,'-g.')
+plot(t_mid,M_R_trans_norm_timeseries_WBmean(n_nonan),'-m.')
+plot(t_mid,M_R_transNrot_norm_timeseries_WBmean(n_nonan),'-g.')
 
 % xlabel('time [sec]')
 ylabel('T_R/M(g+a)')
@@ -144,12 +152,12 @@ subplot(3,1,2)
 hold on
 
 % body dyn torque
-ciplot(M_L_mean_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0)-1.96*M_L_mean_wb_seq_ste_all(isnan(t_wb_seq_mean_all)==0),M_L_mean_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0)+1.96*M_L_mean_wb_seq_ste_all(isnan(t_wb_seq_mean_all)==0),t_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0))
-plot(t_wb_seq_mean_all,M_L_mean_wb_seq_mean_all,'-k.')
+ciplot(M_L_mean_wb_seq_mean_all(n_nonan)-1.96*M_L_mean_wb_seq_ste_all(n_nonan),M_L_mean_wb_seq_mean_all(n_nonan)+1.96*M_L_mean_wb_seq_ste_all(n_nonan),t_mid)
+plot(t_mid,M_L_mean_wb_seq_mean_all(n_nonan),'-k.')
 
 % QSmodel torque
-plot(t_wb_seq_mean_all,M_L_trans_norm_timeseries_WBmean,'-m.')
-plot(t_wb_seq_mean_all,M_L_transNrot_norm_timeseries_WBmean,'-g.')
+plot(t_mid,M_L_trans_norm_timeseries_WBmean(n_nonan),'-m.')
+plot(t_mid,M_L_transNrot_norm_timeseries_WBmean(n_nonan),'-g.')
 
 % xlabel('time [sec]')
 ylabel('T_L/M(g+a)')
@@ -163,12 +171,12 @@ subplot(3,1,3)
 hold on
 
 % body dyn torque
-ciplot(Myaw_mean_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0)-1.96*Myaw_mean_wb_seq_ste_all(isnan(t_wb_seq_mean_all)==0),Myaw_mean_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0)+1.96*Myaw_mean_wb_seq_ste_all(isnan(t_wb_seq_mean_all)==0),t_wb_seq_mean_all(isnan(t_wb_seq_mean_all)==0))
-plot(t_wb_seq_mean_all,Myaw_mean_wb_seq_mean_all,'-k.')
+ciplot(Myaw_mean_wb_seq_mean_all(n_nonan)-1.96*Myaw_mean_wb_seq_ste_all(n_nonan),Myaw_mean_wb_seq_mean_all(n_nonan)+1.96*Myaw_mean_wb_seq_ste_all(n_nonan),t_mid)
+plot(t_mid,Myaw_mean_wb_seq_mean_all(n_nonan),'-k.')
 
 % QSmodel torque
-plot(t_wb_seq_mean_all,Mz_trans_norm_timeseries_WBmean,'-m.')
-plot(t_wb_seq_mean_all,Mz_transNrot_norm_timeseries_WBmean,'-g.')
+plot(t_mid,Mz_trans_norm_timeseries_WBmean(n_nonan),'-m.')
+plot(t_mid,Mz_transNrot_norm_timeseries_WBmean(n_nonan),'-g.')
 
 xlabel('time [sec]')
 ylabel('Tyaw/M(g+a)')
@@ -237,9 +245,9 @@ figure
 % L+R
 subplot(3,1,1)
 hold on
-plot(t_wb_seq_mean_all,Astroke_wb_R_seq_bins,'-b.')
-plot(t_wb_seq_mean_all,Astroke_wb_L_seq_bins,'-r.')
-% plot(t_wb_seq_mean_all,Astroke_wb_seq_bins,'-g.'])
+plot(t_mid,Astroke_wb_R_seq_bins(n_nonan),'-b.')
+plot(t_mid,Astroke_wb_L_seq_bins(n_nonan),'-r.')
+% plot(t_mid,Astroke_wb_seq_bins(n_nonan),'-g.'])
 
 % xlabel('time [sec]')
 xlim([-.05 .06]) 
@@ -251,9 +259,9 @@ set(gca,'YTick',[-90:5:190])
 % L-R
 subplot(3,1,2)
 hold on
-plot(t_wb_seq_mean_all,-dAstroke_wb_seq_bins,'-g.','color',[.5 .5 .5])
-plot(t_wb_seq_mean_all,Dstroke_wb_seq_bins_MAX,'-r.','color',[1 .5 0])
-plot(t_wb_seq_mean_all,Dstroke_wb_seq_bins_MIN,'-b.','color',[0 .5 1])
+plot(t_mid,-dAstroke_wb_seq_bins(n_nonan),'-g.','color',[.5 .5 .5])
+plot(t_stop,Dstroke_wb_seq_bins_MAX(n_nonan),'-r.','color',[1 .5 0])
+plot(t_mid,Dstroke_wb_seq_bins_MIN(n_nonan),'-b.','color',[0 .5 1])
 
 xlabel('time [sec]')
 xlim([-.05 .06]) 
@@ -272,9 +280,9 @@ figure
 % Downstroke
 subplot(3,1,1)
 hold on
-plot(t_wb_seq_mean_all,pitch_wb_R_seq_bins_MAXmidDS,'-b.')
-plot(t_wb_seq_mean_all,pitch_wb_L_seq_bins_MAXmidDS,'-r.')
-% plot(t_wb_seq_mean_all,Dpitch_wb_seq_bins_MAXmidDS,'-g.')
+plot(t_ds,pitch_wb_R_seq_bins_MAXmidDS(n_nonan),'-b.')
+plot(t_ds,pitch_wb_L_seq_bins_MAXmidDS(n_nonan),'-r.')
+% plot(t_mid,Dpitch_wb_seq_bins_MAXmidDS(n_nonan),'-g.')
 
 % xlabel('time [sec]')
 xlim([-.05 .06]) 
@@ -286,9 +294,9 @@ set(gca,'YTick',[-90:5:90])
 % Upstroke
 subplot(3,1,2)
 hold on
-plot(t_wb_seq_mean_all,pitch_wb_R_seq_bins_MINmidUS,'-b.')
-plot(t_wb_seq_mean_all,pitch_wb_L_seq_bins_MINmidUS,'-r.')
-% plot(t_wb_seq_mean_all,Dpitch_wb_seq_bins_MINmidUS,'-g.')
+plot(t_us,pitch_wb_R_seq_bins_MINmidUS(n_nonan),'-b.')
+plot(t_us,pitch_wb_L_seq_bins_MINmidUS(n_nonan),'-r.')
+% plot(t_mid,Dpitch_wb_seq_bins_MINmidUS(n_nonan),'-g.')
 
 % xlabel('time [sec]')
 xlim([-.05 .06]) 
@@ -300,9 +308,9 @@ set(gca,'YTick',[-90:5:90])
 % L-R
 subplot(3,1,3)
 hold on
-plot(t_wb_seq_mean_all,Dpitch_wb_seq_bins_MAXmidDS,'-r.','color',[1 .5 0])
-plot(t_wb_seq_mean_all,Dpitch_wb_seq_bins_MINmidUS,'-b.','color',[0 .5 1])
-% plot(t_wb_seq_mean_all,-dApitch_wb_seq_bins,'-g.','color',[.5 .5 .5])
+plot(t_ds,Dpitch_wb_seq_bins_MAXmidDS(n_nonan),'-b.','color',[0 .5 1])
+plot(t_us,Dpitch_wb_seq_bins_MINmidUS(n_nonan),'-r.','color',[1 .5 0])
+% plot(t_mid,-dApitch_wb_seq_bins(n_nonan),'-g.','color',[.5 .5 .5])
 
 xlabel('time [sec]')
 xlim([-.05 .06]) 
@@ -321,8 +329,8 @@ figure
 % Downstroke
 subplot(3,1,1)
 hold on
-plot(t_wb_seq_mean_all,Adev_wb_R_seq_bins_DS,'-b.')
-plot(t_wb_seq_mean_all,Adev_wb_L_seq_bins_DS,'-r.')
+plot(t_ds,Adev_wb_R_seq_bins_DS(n_nonan),'-b.')
+plot(t_ds,Adev_wb_L_seq_bins_DS(n_nonan),'-r.')
 
 % xlabel('time [sec]')
 xlim([-.05 .06]) 
@@ -335,8 +343,8 @@ set(gca,'YTick',[-90:5:90])
 subplot(3,1,2)
 hold on
 
-plot(t_wb_seq_mean_all,Adev_wb_R_seq_bins_US,'-b.')
-plot(t_wb_seq_mean_all,Adev_wb_L_seq_bins_US,'-r.')
+plot(t_us,Adev_wb_R_seq_bins_US(n_nonan),'-b.')
+plot(t_us,Adev_wb_L_seq_bins_US(n_nonan),'-r.')
 
 % xlabel('time [sec]')
 xlim([-.05 .06]) 
@@ -348,9 +356,9 @@ set(gca,'YTick',[-90:5:90])
 % L-R
 subplot(3,1,3)
 hold on
-plot(t_wb_seq_mean_all,dAdev_wb_seq_bins_DS,'-b.','color',[0 .5 1])
-plot(t_wb_seq_mean_all,dAdev_wb_seq_bins_US,'-r.','color',[1 .5 0])
-% plot(t_wb_seq_mean_all,-dAdev_wb_seq_bins,'-g.','color',[.5 .5 .5])
+plot(t_ds,dAdev_wb_seq_bins_DS(n_nonan),'-b.','color',[0 .5 1])
+plot(t_us,dAdev_wb_seq_bins_US(n_nonan),'-r.','color',[1 .5 0])
+% plot(t_mid,-dAdev_wb_seq_bins(n_nonan),'-g.','color',[.5 .5 .5])
 
 xlabel('time [sec]')
 xlim([-.05 .06]) 

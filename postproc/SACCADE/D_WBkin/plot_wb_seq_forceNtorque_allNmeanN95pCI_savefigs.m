@@ -1,4 +1,28 @@
-% torque
+%% force
+figure
+subplot(3,1,1)
+hold on
+plot(t_wb_seq_pre_mean_all,F_mean_wb_seq_pre_all,'.','color',[0 .5 1])
+plot(t_wb_seq_post_mean_all,F_mean_wb_seq_post_all,'.','color',[1 .5 0])
+
+plot(t_wb_seq_pre_mean_all,F_mean_wb_seq_pre_mean_all,'color',[0 .5 1])
+plot(t_wb_seq_post_mean_all,F_mean_wb_seq_post_mean_all,'color',[1 .5 0])
+
+plot(t_wb_seq_mean_all,F_mean_wb_seq_mean_all,':k')
+ciplot(F_mean_wb_seq_mean_all-1.96*F_mean_wb_seq_ste_all,F_mean_wb_seq_mean_all+1.96*F_mean_wb_seq_ste_all,t_wb_seq_mean_all)
+
+xlabel('time [sec]')
+ylabel('F/mg')
+xlim([-.05 .06]) 
+ylim([.5 1.5])
+set(gca,'XTick',-0.05:0.05:.05) 
+set(gca,'YTick',[0:.5:2]) 
+
+saveas(gca,['ForceVsTime_allNmean.fig'])
+saveas(gca,['ForceVsTime_allNmean.png'])
+plot2svg(['ForceVsTime_allNmean.svg'])
+
+%% torque
 % Mroll, Mpitch
 figure
 subplot(3,3,1)
@@ -17,6 +41,7 @@ ylabel('Mroll')
 title('Total Torque')
 xlim([-.05 .06]) 
 ylim([-.05 .05])
+set(gca,'XTick',-0.05:0.05:.05,'XTickLabel',[]) 
 set(gca,'YTick',[-.1:.025:1]) 
 
 subplot(3,3,2)
@@ -35,6 +60,7 @@ ciplot(Mroll_mean_wb_accel_seq_mean_all-1.96*Mroll_mean_wb_accel_seq_ste_all,Mro
 title('Inertial Torque')
 xlim([-.05 .06]) 
 ylim([-.05 .05])
+set(gca,'XTick',-0.05:0.05:.05,'XTickLabel',[]) 
 set(gca,'YTick',[-.1:.025:1]) 
 
 subplot(3,3,3)
@@ -53,6 +79,7 @@ ciplot(Mroll_mean_wb_damp_seq_mean_all-1.96*Mroll_mean_wb_damp_seq_ste_all,Mroll
 title('Damping Torque')
 xlim([-.05 .06]) 
 ylim([-.05 .05])
+set(gca,'XTick',-0.05:0.05:.05,'XTickLabel',[]) 
 set(gca,'YTick',[-.1:.025:1]) 
 
 subplot(3,3,4)
@@ -70,6 +97,7 @@ ciplot(Mpitch_mean_wb_seq_mean_all-1.96*Mpitch_mean_wb_seq_ste_all,Mpitch_mean_w
 ylabel('Mpitch')
 xlim([-.05 .06]) 
 ylim([-.05 .05])
+set(gca,'XTick',-0.05:0.05:.05,'XTickLabel',[]) 
 set(gca,'YTick',[-.1:.025:1]) 
 
 subplot(3,3,5)
@@ -104,6 +132,7 @@ ciplot(Mpitch_mean_wb_damp_seq_mean_all-1.96*Mpitch_mean_wb_damp_seq_ste_all,Mpi
 % ylabel('Mpitch')
 xlim([-.05 .06]) 
 ylim([-.05 .05])
+set(gca,'XTick',-0.05:0.05:.05,'XTickLabel',[]) 
 set(gca,'YTick',[-.1:.025:1]) 
 
 subplot(3,3,7)
@@ -121,6 +150,7 @@ xlabel('time [sec]')
 ylabel('Myaw')
 xlim([-.05 .06]) 
 ylim([-.0 .1])
+set(gca,'XTick',-0.05:0.05:.05)
 set(gca,'YTick',[-.1:.025:1])
 
 subplot(3,3,8)
@@ -138,6 +168,7 @@ xlabel('time [sec]')
 % ylabel('Myaw')
 xlim([-.05 .06]) 
 ylim([-.05 .05])
+set(gca,'XTick',-0.05:0.05:.05)
 set(gca,'YTick',[-.1:.025:1]) 
 
 subplot(3,3,9)
@@ -155,6 +186,7 @@ xlabel('time [sec]')
 % ylabel('Myaw')
 xlim([-.05 .06]) 
 ylim([-.0 .1])
+set(gca,'XTick',-0.05:0.05:.05)
 set(gca,'YTick',[-.1:.025:1])
 
 saveas(gca,['TorqueVsTime_RollPitchYaw_allNmean.fig'])
@@ -179,6 +211,7 @@ ylabel('M_R')
 title('Total Torque')
 xlim([-.05 .06]) 
 ylim([-.05 .05])
+set(gca,'XTick',-0.05:0.05:.05,'XTickLabel',[]) 
 set(gca,'YTick',[-.1:.025:1]) 
 
 subplot(3,3,2)
@@ -197,6 +230,7 @@ ciplot(M_R_mean_wb_accel_seq_mean_all-1.96*M_R_mean_wb_accel_seq_ste_all,M_R_mea
 title('Inertial Torque')
 xlim([-.05 .06]) 
 ylim([-.05 .05])
+set(gca,'XTick',-0.05:0.05:.05,'XTickLabel',[]) 
 set(gca,'YTick',[-.1:.025:1]) 
 
 subplot(3,3,3)
@@ -215,6 +249,7 @@ ciplot(M_R_mean_wb_damp_seq_mean_all-1.96*M_R_mean_wb_damp_seq_ste_all,M_R_mean_
 title('Damping Torque')
 xlim([-.05 .06]) 
 ylim([-.05 .05])
+set(gca,'XTick',-0.05:0.05:.05,'XTickLabel',[]) 
 set(gca,'YTick',[-.1:.025:1]) 
 
 subplot(3,3,4)
@@ -232,6 +267,7 @@ ciplot(M_L_mean_wb_seq_mean_all-1.96*M_L_mean_wb_seq_ste_all,M_L_mean_wb_seq_mea
 ylabel('M_L')
 xlim([-.05 .06]) 
 ylim([-.05 .05])
+set(gca,'XTick',-0.05:0.05:.05,'XTickLabel',[]) 
 set(gca,'YTick',[-.1:.025:1]) 
 
 subplot(3,3,5)
@@ -249,6 +285,7 @@ ciplot(M_L_mean_wb_accel_seq_mean_all-1.96*M_L_mean_wb_accel_seq_ste_all,M_L_mea
 % ylabel('M_L')
 xlim([-.05 .06]) 
 ylim([-.05 .05])
+set(gca,'XTick',-0.05:0.05:.05,'XTickLabel',[]) 
 set(gca,'YTick',[-.1:.025:1]) 
 
 subplot(3,3,6)
@@ -266,6 +303,7 @@ ciplot(M_L_mean_wb_damp_seq_mean_all-1.96*M_L_mean_wb_damp_seq_ste_all,M_L_mean_
 % ylabel('M_L')
 xlim([-.05 .06]) 
 ylim([-.05 .05])
+set(gca,'XTick',-0.05:0.05:.05,'XTickLabel',[]) 
 set(gca,'YTick',[-.1:.025:1]) 
 
 subplot(3,3,7)
@@ -283,6 +321,7 @@ xlabel('time [sec]')
 ylabel('Myaw')
 xlim([-.05 .06]) 
 ylim([-.0 .1])
+set(gca,'XTick',-0.05:0.05:.05)
 set(gca,'YTick',[-.1:.025:1])
 
 subplot(3,3,8)
@@ -300,6 +339,7 @@ xlabel('time [sec]')
 % ylabel('Myaw')
 xlim([-.05 .06]) 
 ylim([-.05 .05])
+set(gca,'XTick',-0.05:0.05:.05)
 set(gca,'YTick',[-.1:.025:1]) 
 
 subplot(3,3,9)
@@ -317,6 +357,7 @@ xlabel('time [sec]')
 % ylabel('Myaw')
 xlim([-.05 .06]) 
 ylim([-.0 .1])
+set(gca,'XTick',-0.05:0.05:.05)
 set(gca,'YTick',[-.1:.025:1])
 
 saveas(gca,['TorqueVsTime_rotLnRnYaw_allNmean.fig'])
