@@ -1,6 +1,6 @@
 import numpy as np
 
-def get_signal_dict(filename):
+def get_axon_signals(filename):
     from neo.io.axonio import AxonIO
     reader = AxonIO(filename=filename)
     blocks = reader.read()
