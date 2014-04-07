@@ -157,7 +157,7 @@ for frame=frame1:frame2
 %             PAR.imagepath, cam, PAR.stub, frame,PAR.image_filter(2:end));
         
         % photron file struc
-        input_filename = ([PAR.imagepath, PAR.stub(1:3), num2str(cam), PAR.stub(5:end), '/', PAR.stub(1:3), num2str(cam), PAR.stub(5:end), sprintf(['%0',num2str(3),'d'], frame),PAR.image_filter(2:end)]);
+        input_filename = ([PAR.imagepath, PAR.stub(1:3), num2str(cam), PAR.stub(5:end), '/', PAR.stub(1:3), num2str(cam), PAR.stub(5:end), sprintf(['%0',num2str(PAR.digits),'d'], frame),PAR.image_filter(2:end)]);
         Input(:,:,cam) = imread(input_filename);
     end
     

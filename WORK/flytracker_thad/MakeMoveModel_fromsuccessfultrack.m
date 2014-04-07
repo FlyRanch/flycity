@@ -40,11 +40,17 @@ clear all
 %         cd(list(i).name) % then open it
 clear all
 
+first_frame = 17;
+start_frame = 18;
+end_frame = 682;
+
+
+
         cd flytracks
 
         list2 = dir('fly*');
  
-            for j = 1:length(list2)
+            for j = start_frame-first_frame:end_frame-first_frame
                 load(list2(j).name);
                 MoveModel.solnQ(:,j)=xh;
             end

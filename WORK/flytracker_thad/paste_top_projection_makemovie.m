@@ -110,7 +110,7 @@ fps = 7500/skip;
         end
 
     PAR = ManualFit.ImageData;
-
+    PAR.digits = 4;
     % 1st frame
     sols = dir('*.mat');
     frame = str2num(sols(2).name(4:end-4));
@@ -176,7 +176,8 @@ fps = 7500/skip;
             %THL mod 2_17_14 hack for filenames - where does this
             %PAR.digits variable keep getting set to 6 - these setting 
             %should all be part of a preferences type file!
-            PAR.digits = 3
+            %PAR.digits = 3
+            disp(PAR.digits)
             input_filename =  [PAR.imagepath PAR.stub(1:3) num2str(cam) PAR.stub(5:end) '/' PAR.stub(1:3) num2str(cam) PAR.stub(5:end)  sprintf(['%0',num2str(PAR.digits),'d'], frame) PAR.image_filter(2:end)];
 
 %             % FLYDATA1 -> FLYDATA2

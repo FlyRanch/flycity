@@ -28,7 +28,7 @@ clear
 clc
 
 start = clock;
-%startframe = 20;
+%startframe = 681;
 %ICframe = startframe;
 
 BGframe = 2;
@@ -58,8 +58,8 @@ getBodyShape = true;
 % getBodyShape = false;
 
 %% to plot or not to plot
-plot_data = true
-%plot_data = false;
+plot_data = false;
+%plot_data = true;
 
 
 fprintf('\nDEMSE_MODAL : This demonstration performs state estimation\n');
@@ -77,34 +77,35 @@ warning off
 
 % cd '/home/matt/Dropbox/WORK/flytracker/flytracker'
 %addpath(pwd);
-addpath('/home/matt/Dropbox/WORK/flytracker_thad');
-addpath('/home/matt/Dropbox/WORK/flytracker_thad/mex/');
-addpath('/home/matt/Dropbox/WORK/flytracker_thad/core/');
-addpath('/home/matt/Dropbox/WORK/flytracker_thad/results/');
-addpath('/home/matt/Dropbox/WORK/postproc/AA_check_wbkin/')
-
-addpath('/home/florian/Dropbox/FlyCity/WORK/flytracker_thad');
-addpath('/home/florian/Dropbox/FlyCity/WORK/flytracker_thad/mex/');
-addpath('/home/florian/Dropbox/FlyCity/WORK/flytracker_thad/core/');
-addpath('/home/florian/Dropbox/FlyCity/WORK/flytracker_thad/results/');
-addpath('/home/florian/Dropbox/FlyCity/WORK/postproc/AA_check_wbkin/')
-
-addpath('/home/flycity/Dropbox/WORK/flytracker_thad');
-addpath('/home/flycity/Dropbox/WORK/flytracker_thad/mex/');
-addpath('/home/flycity/Dropbox/WORK/flytracker_thad/core/');
-addpath('/home/flycity/Dropbox/WORK/flytracker_thad/results/');
-addpath('/home/flycity/Dropbox/WORK/postproc/AA_check_wbkin/')
-
-addpath('/home/nicole/Dropbox/WORK/flytracker_thad');
-addpath('/home/nicole/Dropbox/WORK/flytracker_thad/mex/');
-addpath('/home/nicole/Dropbox/WORK/flytracker_thad/core/');
-addpath('/home/nicole/Dropbox/WORK/flytracker_thad/results/');
-addpath('/home/nicole/Dropbox/WORK/postproc/AA_check_wbkin/')
+% addpath('/home/matt/Dropbox/WORK/flytracker_thad');
+% addpath('/home/matt/Dropbox/WORK/flytracker_thad/mex/');
+% addpath('/home/matt/Dropbox/WORK/flytracker_thad/core/');
+% addpath('/home/matt/Dropbox/WORK/flytracker_thad/results/');
+% addpath('/home/matt/Dropbox/WORK/postproc/AA_check_wbkin/');
+% addpath('/home/matt/Dropbox/WORK/flytracker_thad/SpinConv');
+% 
+% addpath('/home/florian/Dropbox/FlyCity/WORK/flytracker_thad');
+% addpath('/home/florian/Dropbox/FlyCity/WORK/flytracker_thad/mex/');
+% addpath('/home/florian/Dropbox/FlyCity/WORK/flytracker_thad/core/');
+% addpath('/home/florian/Dropbox/FlyCity/WORK/flytracker_thad/results/');
+% addpath('/home/florian/Dropbox/FlyCity/WORK/postproc/AA_check_wbkin/')
+% 
+% addpath('/home/flycity/Dropbox/WORK/flytracker_thad');
+% addpath('/home/flycity/Dropbox/WORK/flytracker_thad/mex/');
+% addpath('/home/flycity/Dropbox/WORK/flytracker_thad/core/');
+% addpath('/home/flycity/Dropbox/WORK/flytracker_thad/results/');
+% addpath('/home/flycity/Dropbox/WORK/postproc/AA_check_wbkin/')
+% 
+% addpath('/home/nicole/Dropbox/WORK/flytracker_thad');
+% addpath('/home/nicole/Dropbox/WORK/flytracker_thad/mex/');
+% addpath('/home/nicole/Dropbox/WORK/flytracker_thad/core/');
+% addpath('/home/nicole/Dropbox/WORK/flytracker_thad/results/');
+% addpath('/home/nicole/Dropbox/WORK/postproc/AA_check_wbkin/');
 
 %% KINE file
 
-KinePath = '/media/DATA1/Video_pilot_1/solutions/';
-% KinePath = '/media/Matt01/solutions/';
+%KinePath = '/media/DATA1/Video_pilot_1/solutions/';
+KinePath = '/media/Matt01/solutions/';
 
 % manual select
 KineName = [];
@@ -113,16 +114,16 @@ KineName = [];
 
 % MoveModelPath = '/home/flycity/Dropbox/Models/matt_5.2013/';
 if isdir('/home/matt/Dropbox/WORK/flytracker_thad') == 1
-    MoveModelPath = '/home/matt/Dropbox/Models/matt_5.2013/';
+    MoveModelPath = '/home/matt/Dropbox/Models/';
 end
 if isdir('/home/flycity/Dropbox/WORK/flytracker_thad') == 1;
-    MoveModelPath = '/home/flycity/Dropbox/Models/matt_5.2013/';
+    MoveModelPath = '/home/flycity/Dropbox/Models/';
 end
 if isdir('/home/nicole/Dropbox/WORK/flytracker_thad') == 1;
-    MoveModelPath = '/home/nicole/Dropbox/Models/matt_5.2013/';
+    MoveModelPath = '/home/nicole/Dropbox/Models/';
 end
 if isdir('/home/florian/Dropbox/FlyCity/WORK/flytracker_thad') == 1
-    MoveModelPath = '/home/florian/Dropbox/FlyCity/Models/matt_5.2013/';
+    MoveModelPath = '/home/florian/Dropbox/FlyCity/Models/';
 end
 
 %% florians models
@@ -153,13 +154,37 @@ MoveModelName16 = 'MoveModel_NOSearch_20130412_S0002_frame0001-0036_NOstimulus_o
 MoveModelName17 = 'MoveModel_NOSearch_20130412_S0017_frame0026-0037_NOstimulus_strokerev.mat';
 MoveModelName18 = 'MoveModel_NOSearch_20130412_S0027_frame0760-0774_90deg_strokerev.mat';
 
+%Manually tracked tethered melanogaster 6000 fps
+MoveModelName19 = 'MoveModel_NOsearch_20140310_S0001_melanogaster.mat'
+MoveModelName20 = 'MoveModel_IncSearch_20140310_S0001.mat'
+MoveModelName21 = 'MoveModel_IncSearch_20140327_S0001.mat'
+MoveModelName22 = 'MoveModel_IncSearch_20140327_S0005.mat'
+MoveModelName23 = 'MoveModel_IncSearch_20140401_S0001.mat'
+
+%Successfully tracked tethered melanogaster 6000 fps
+MoveModelName24 = '20140310_S0001_successful_flytrack_MoveModel_frm599_615.mat'
+MoveModelName25 = '20140310_S0001_successful_flytrack_MoveModel_frm411_448.mat'
+MoveModelName26 = '20140310_S0001_successful_flytrack_MoveModel_frm246_325.mat'
+MoveModelName27 = '20140310_S0001_successful_flytrack_MoveModel_frm141_203.mat'
+MoveModelName28 = '20140327_S0001_successful_flytrack_MoveModel_frm18_682.mat'
+
 MoveModelNameS = {
-    MoveModelName13
-    MoveModelName14
-    MoveModelName15
-    MoveModelName16
-    MoveModelName17
-    MoveModelName18};
+    MoveModelName20
+    MoveModelName21
+    MoveModelName22
+    MoveModelName23
+    MoveModelName28};
+
+% MoveModelNameS = {
+%     MoveModelName19
+%     MoveModelName20
+%     MoveModelName21
+%     MoveModelName22
+%     MoveModelName23};
+
+
+% MoveModelNameS = {
+%     MoveModelName19};
 
 % MoveModelNameS = {
 %     MoveModelName1
@@ -243,7 +268,7 @@ ICframe = find(data.kine.body.data.length~=0, 1, 'last' )
 % endframe = ICframe+399;
 % endframe = ICframe+950;
 %endframe = ICframe + 200;
-endframe = 682;
+endframe = 1365;
 
 if exist('startframe') == 0
     startframe = ICframe;
@@ -327,12 +352,15 @@ streams = 2;
 % BodySearchDist = [15 15];
 
 % FTMmod 20120627 BEST SETTINGS Dm
-WingSearchDist = [10 15];
-BodySearchDist = [10 10];
+%WingSearchDist = [10 15];
+%BodySearchDist = [10 10];
 
 % Dh (?)
-WingSearchDist = [25 30];
-BodySearchDist = [20 20];
+%WingSearchDist = [25 30];
+%BodySearchDist = [20 20];
+
+WingSearchDist = [120 120];
+BodySearchDist = [5 5];
 
 numfeatpts = 30;
 
@@ -341,19 +369,22 @@ numfeatpts = 30;
 % MoveModelScale = .95:.01:1.05;
 MoveModelScale = 1;
 
-BWfilterRatio = 0.5; % reduce min threshold
-WingBodyRatio = 0.5; % increase wing-body treshold
+BWfilterRatio = 0.1; % reduce min threshold
+WingBodyRatio = 0.7; % increase wing-body treshold
 % BWfilterRatio = 1; % reduce min threshold
 % WingBodyRatio = 1; % increase wing-body treshold
 %% VARS
 
 % 2*standard deviation in degrees;
-angvar = 0.02;  % FTMmod
-% angvar = 0.002;
+%angvar = 0.6;  % FTMmod
+%angvar = 0.002;
+angvar = 0.002;
+%angvar = 2.0;
 
 %Variance for the wing joint locations
+%JointVar = [0.001 0.0004 0.0003];
+
 JointVar = [0.001 0.0004 0.0003];
- 
 %Variance for the body linear acceleration
 LinVar = [0.183 0.639 1.33];
 %Variance for the body angular acceleration
@@ -436,7 +467,7 @@ end
 
 %% store data in PAR
 PAR.plot_data = plot_data;
-PAR.digits = 3;
+PAR.digits = 4;
 
 PAR.CalibFile = CalibFile;
 PAR.FileFromKine = FileFromKine;
@@ -562,7 +593,13 @@ Px = diag(repmat(Px_,1,PAR.numfly));
 %--- Call inference algorithm / estimator
 % Square Root Central Difference Kalman Filter
 %---------------
+
 InfDS.spkfParams  = sqrt(3);    % scale factor (CDKF parameter h)
+%InfDS.spkfParams  = sqrt(10);
+%THL mod
+%InfDS.spkfParams  = sqrt(0.2);
+
+
 Sx = chol(Px)';
 srcdkf_const(Xh(:,1),Sx,pNoise,oNoise,InfDS,frames,useIC);
 % srcdkf_const_variablestep(Xh(:,1),Sx,pNoise,oNoise,InfDS,frames,useIC);
