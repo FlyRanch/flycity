@@ -17,7 +17,7 @@ param_file.close()
 class Fly(object):
     """Controler object for fly data, FLy is initialized with a 'fly_record dictionary
     and the object is used to facilitate adding and removing data from this dictionary
-    but does does not itself own the dictionary - if Fly is deleted, the dictionary
+    but does does not itself own the dictionary: if Fly is deleted, the dictionary
     can still exist"""
     def __init__(self,fly_record):
         self.flynum = fly_record['flynum']
