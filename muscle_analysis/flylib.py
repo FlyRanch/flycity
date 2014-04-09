@@ -124,15 +124,18 @@ class Fly(object):
         	try:
         		frame_idxs = self.get_frame_idxs(epoch,exp['axon_data'])
         	except IndexError:
-        		warnings.warn("problem extracting idxs from camera_sync_signal for epoch num %s using linearly spaced index idx's over the camera epoch instead"%(i))
+        		warnings.warn("problem extracting idxs from camera_sync_signal for" + \ 
+        		"epoch %s using even spaced idx's over the camera epoch instead"%(i))
         		frame_idxs = fallback_frame_idx(epoch)
         	if not(np.shape(frame_idxs)[0] == numframes):
         		import warnings
-        		warnings.warn("problem extracting idxs from camera_sync_signal for epoch num %s using linearly spaced index idx's over the camera epoch instead"%(i))        		
+        		warnings.warn("problem extracting idxs from camera_sync_signal for" + \ 
+        		"epoch %s using even spaced idx's over the camera epoch instead"%(i))        		
         		frame_idxs = fallback_frame_idx(epoch)
         	frame_idx_list.append(frame_idxs)
         times = exp['axon_data']['times']
         [d.update({'axon_epoch':epoch}) for d,epoch in zip(exp['kine_sequences'],cam_epochs)]
+        [d.update({'expan_pol':self.lookup_trial_from_ypos(experiment_name,epoch)}) for d,epoch in zip(exp['kine_sequences'],cam_epochs)]
         [d.update({'axon_idxs':idxs}) for d,idxs in zip(exp['kine_sequences'],frame_idx_list)]
         [d.update({'axon_times':times[idxs]}) for d,idxs in zip(exp['kine_sequences'],frame_idx_list)]
         #exp['frame_idxs'] = frame_idxs
@@ -143,6 +146,18 @@ class Fly(object):
         frame_idxs = [x[0]+cam_epoch[0] for x in idx_by_thresh(axondata['CamSync'][cam_epoch]*-1,-3.5)]
         frame_idxs[0] -=1
         return frame_idxs
+        
+    def lookup_trial_from_ypos(self,experiment_name,epoch):
+    	"""map the Y position signal to the trial type - given some epoch to average
+    	over. A future version will be able to figure out what that interval should be
+    	- but this might be hard to do without loosing generality"""
+    	exp = self.fly_record['experiments'][experiment_name]
+    	if 'axon_data' not in exp.keys(): self.load_axon_data(experiment_name)
+    	epoch_ypos = np.mean(exp['axon_data']['Ypos'][epoch])
+    	trial_idx = np.argmin(abs(exp['Ypos_trial_volts']-epoch_ypos))
+    	trial_val = exp['Ypos_trial_vals'][trial_idx]
+    	return trial_val
+    	
 
 def get_axon_signals(filename):
     from neo.io.axonio import AxonIO
