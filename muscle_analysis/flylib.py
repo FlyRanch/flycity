@@ -122,16 +122,16 @@ class Fly(object):
         frame_idx_list = list()
         for i,epoch in enumerate(cam_epochs):
         	try:
-        		frame_idxs = self.get_frame_idxs(epoch,exp['axon_data'])
+        	    frame_idxs = self.get_frame_idxs(epoch,exp['axon_data'])
         	except IndexError:
-        		warnings.warn("problem extracting idxs from camera_sync_signal for" + \ 
-        		"epoch %s using even spaced idx's over the camera epoch instead"%(i))
-        		frame_idxs = fallback_frame_idx(epoch)
+        	    warnings.warn("problem extracting idxs from camera_sync_signal for"+ \
+        	    "epoch %s using even spaced idx's over the camera epoch instead"%(i))
+        	    frame_idxs = fallback_frame_idx(epoch)
         	if not(np.shape(frame_idxs)[0] == numframes):
-        		import warnings
-        		warnings.warn("problem extracting idxs from camera_sync_signal for" + \ 
-        		"epoch %s using even spaced idx's over the camera epoch instead"%(i))        		
-        		frame_idxs = fallback_frame_idx(epoch)
+        	    import warnings
+        	    warnings.warn("problem extracting idxs from camera_sync_signal for"+ \
+        	    "epoch %s using even spaced idx's over the camera epoch instead"%(i))
+        	    frame_idxs = fallback_frame_idx(epoch)
         	frame_idx_list.append(frame_idxs)
         times = exp['axon_data']['times']
         [d.update({'axon_epoch':epoch}) for d,epoch in zip(exp['kine_sequences'],cam_epochs)]
