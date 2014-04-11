@@ -104,7 +104,7 @@ class Fly(object):
     def get_cam_epochs(self,experiment_name):
         """load and sync the axon and photron data for the capture epochs of a
         given experiment. Loads the axon and photron data if they are not already loaded"""
-        exp = self.fly_record['experiments']['lr_blob_expansion']
+        exp = self.fly_record['experiments'][experiment_name]
         fps = pq.Quantity(np.float64(exp['photron_frame_rate_Hz']),'Hz')
         if 'axon_data' not in exp.keys(): self.load_axon_data(experiment_name)
     	if 'kine_sequences' not in exp.keys(): self.load_kine_sequences(experiment_name)
@@ -157,7 +157,26 @@ class Fly(object):
     	trial_idx = np.argmin(abs(exp['Ypos_trial_volts']-epoch_ypos))
     	trial_val = exp['Ypos_trial_vals'][trial_idx]
     	return trial_val
-    	
+    
+    def calc_seqs_strokeplanes(self,experiment_name):
+        exp = self.fly_record['experiments'][experiment_name]
+        if 'photron_sequences' not in exp.keys(): self.load_photron_sequences(experiment_name)
+        seqs = exp['photron_sequences']
+        exp['strokeplanes'] = [self.calc_seq_strokeplane(s) for s in seqs]
+        
+    def calc_seq_strokeplane(self,seq):
+        q_left = np.squeeze(seq[:,[9,10,11,8]])
+        q_right = np.squeeze(seq[:,[13,14,15,12]])
+        import transformations as trans
+        rot_mats_left = np.array([trans.quaternion_matrix(x.T)[:3,:3] for x in q_left])
+        rot_mats_right = np.array([trans.quaternion_matrix(x.T)[:3,:3] for x in q_right])
+        l_wingtip = np.dot(rot_mats_left,[0,1,0]).T
+        r_wingtip = np.dot(rot_mats_right,[0,-1,0]).T
+        from scipy.stats import linregress
+        idx = ~np.isnan(l_wingtip[0])
+        l_slope = linregress(l_wingtip[0][idx],l_wingtip[2][idx])[0]
+        r_slope = linregress(r_wingtip[0][idx],r_wingtip[2][idx])[0]
+        return (np.rad2deg(np.arctan(l_slope)),np.rad2deg(np.arctan(r_slope)))
 
 def get_axon_signals(filename):
     from neo.io.axonio import AxonIO
