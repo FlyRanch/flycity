@@ -159,12 +159,14 @@ class Fly(object):
     	return trial_val
     
     def calc_seqs_strokeplanes(self,experiment_name):
+        """calculate the strokeplane for all the seqences of an experiment"""
         exp = self.fly_record['experiments'][experiment_name]
         if 'photron_sequences' not in exp.keys(): self.load_photron_sequences(experiment_name)
         seqs = exp['photron_sequences']
         exp['strokeplanes'] = [self.calc_seq_strokeplane(s) for s in seqs]
         
     def calc_seq_strokeplane(self,seq):
+        """calculate the strokeplane from the quaternions of a sequence"""
         q_left = np.squeeze(seq[:,[9,10,11,8]])
         q_right = np.squeeze(seq[:,[13,14,15,12]])
         import transformations as trans
@@ -177,6 +179,20 @@ class Fly(object):
         l_slope = linregress(l_wingtip[0][idx],l_wingtip[2][idx])[0]
         r_slope = linregress(r_wingtip[0][idx],r_wingtip[2][idx])[0]
         return (np.rad2deg(np.arctan(l_slope)),np.rad2deg(np.arctan(r_slope)))
+
+    def get_kine_phases(self,
+                        axon_times,
+                        kine_times,
+                        kine_sequence,
+                        mode = 'Hilbert',
+                        fband = (150,250)):
+        """return the time series of the wingstroke phase extracted from the wingbeat
+        kine. The physiology and kine sampling times are needed - interpolate for the ephys times.
+        also need function to break up the signal into wingstrokes - find the ventral stroke reversal
+        using amplitude"""
+        pass
+
+
 
 def get_axon_signals(filename):
     from neo.io.axonio import AxonIO
@@ -205,3 +221,15 @@ def idx_by_thresh(signal,thresh = 0.1):
     return idx_list
 
 
+def butter_bandpass(lowcut, highcut, sampling_period, order=5):
+    sampling_frequency = 1.0/sampling_frequency
+    nyq = 0.5 * sampling_frequency
+    low = lowcut / nyq
+    high = highcut / nyq
+    b, a = scipy.butter(order, [low, high], btype='band')
+    return b, a
+
+def butter_bandpass_filter(data, lowcut, highcut, sampling_period, order=5):
+    b, a = butter_bandpass(lowcut, highcut, fs, order=order)
+    y = scipy.filtfilt(b, a, data)
+    return y
