@@ -186,17 +186,56 @@ class Fly(object):
         return (np.rad2deg(np.arctan(l_slope)),np.rad2deg(np.arctan(r_slope)))
 
     
-    def calc_strokes(self,experiment_name):
+    def calc_strokes(self,experiment_name,seq_num,num_samples = 500):
     	"""resample the wb into an evenly sampled phase-averaged matrix for each
     	sequence"""
-    	kine_phases = self.get_kine_phases('lr_blob_expansion',snum)
+    	kine_phases = self.get_kine_phases('lr_blob_expansion',seq_num)
     	expmnt = self.fly_record['experiments']['lr_blob_expansion']
-    	s_amp_L = expmnt['kine_sequences'][snum][stroke_amp_L]
-    	s_amp_R = expmnt['kine_sequences'][snum][stroke_amp_R]
-    	s_dev_L = expmnt['kine_sequences'][snum][stroke_dev_L]
-    	s_dev_R = expmnt['kine_sequences'][snum][stroke_dev_R]
-    	w_rot_L = expmnt['kine_sequences'][snum][wing_rot_L]
-    	w_rot_R = expmnt['kine_sequences'][snum][wing_rot_R]
+    	kine_keys = [stroke_amp_L,stroke_amp_R,
+    				 stroke_dev_L,stroke_dev_R,
+    				 wing_rot_L,wing_rot_R,]
+    	#resample at these phases
+    	xi = np.linspace(0,2*np.pi,num_samples)
+    	#list of sampled kine phases
+    	kine_phs_list = kine_phases['stroke_phases_kin']
+    	#list of sampled ephys phases
+    	ephys_phs_list = kine_phases['stroke_phases_axon']
+    	#list of kine times for alignment within the sequence
+    	times_list = kine_phases['stroke_times']
+    	#list of the kine idxs
+    	wing_idx_list = kine_phases['stroke_kin_idx']
+    	#list of the ephys idx brackets
+    	ephys_idx_bracket_list = kine_phases['stroke_phys_idx']
+    	#construct as lists to start
+    	resampled_strokes = {stroke_amp_L:list(),stroke_amp_R:list(),
+    					  stroke_dev_L:list(),stroke_dev_R:list(),
+    					  wing_rot_L:list(),wing_rot_R:list(),
+    					  'axon_stroke_mtrx':list(),'stroke_idx_in_seq':list(),
+    					  'stroke_times_in_exp':list()}
+    	#resample the wb_kine
+    	from scipy.interpolate import griddata
+    	for i,idxs in enumerate(wing_idx_list):
+    		if np.shape(idxs)[0] > 20:
+    			for kine_key in kine_keys:
+    				signal = expmnt['kine_sequences'][seq_num][kine_key]
+    				kine_phase = kine_phs_list[i]
+    				resampled_signal = griddata(kine_phase,
+    											signal[idxs],
+    											xi,method = 'cubic')
+    				resampled_strokes[kine_key].append(resampled_signal)
+    			resampled_strokes['stroke_idx_in_seq'].append(i)
+    			resampled_strokes['stroke_times_in_exp'].append(times_list[i])
+    	#now add the physiology
+    	for i in resampled_strokes['stroke_idx_in_seq']:
+    		x0,x1 = ephys_idx_bracket_list[i]
+    		ephys_sig = expmnt['axon_data']['AMsysCh1'][x0:x1]
+    		ephys_phase = ephys_phs_list[i]
+    		resamp = griddata(ephys_phase,ephys_sig,xi,method = 'cubic')
+    		resampled_strokes['axon_stroke_mtrx'].append(resamp)
+    	#convert the lists to arrays
+    	for key in resampled_strokes.keys():
+    		resampled_strokes[key] = np.squeeze(np.array(resampled_strokes[key]))
+    	return resampled_strokes
     	
     	
     def get_kine_phases(self,
