@@ -9,6 +9,13 @@ import quantities as pq
 import scipy.io
 import warnings
 
+stroke_amp_R = 'phi_R'
+stroke_amp_L = 'phi_L'
+stroke_dev_R = 'theta_R'
+stroke_dev_L = 'theta_L'
+wing_rot_R = 'eta_R'
+wing_rot_L = 'eta_L'
+
 param_file = open('params.json','rb')
 params = json.load(param_file)
 param_file.close()
@@ -181,18 +188,46 @@ class Fly(object):
         return (np.rad2deg(np.arctan(l_slope)),np.rad2deg(np.arctan(r_slope)))
 
     def get_kine_phases(self,
-                        axon_times,
-                        kine_times,
-                        kine_sequence,
-                        mode = 'Hilbert',
+                        experiment_name,
+                        seq_num,
+                        mode = 'hilbert',
                         fband = (150,250)):
         """return the time series of the wingstroke phase extracted from the wingbeat
-        kine. The physiology and kine sampling times are needed - interpolate for the ephys times.
-        also need function to break up the signal into wingstrokes - find the ventral stroke reversal
-        using amplitude"""
-        pass
-
-
+        kine. Send the function the experiment name and the sequence number of intrest
+        it should return the data needed to chop up the kine and physiology into 
+        wingstrokes and put the data into the phase domain. 'mode' and 'fband' currently
+        not used"""
+        exp = self.fly_record['experiments'][experiment_name]
+        #if 'kine_sequences' not in exp.keys(): self.load_kine_sequences(experiment_name)
+        seq = exp['kine_sequences'][seq_num]
+        from scipy.signal import hilbert
+        kine_times = seq['axon_times']
+        amp_signal =(seq[stroke_amp_R] + seq[stroke_amp_L])/2
+        nan_idx = np.argwhere(~np.isnan(amp_signal))[0][0]
+        amp_signal = amp_signal[~np.isnan(amp_signal)]
+        kine_times = kine_times[~np.isnan(amp_signal)]
+        filt_sig = butter_bandpass_filter(amp_signal,150.,250.,kine_times[1]-kine_times[0],order = 3)
+        peaks = scipy.signal.find_peaks_cwt(filt_sig*-1,np.arange(1,20))
+        A = np.angle(hilbert(filt_sig))
+        A = np.mod(np.unwrap(A),2*np.pi)
+        #find the phase of the ventral stroke reversal and re-wrap
+        peak_phase = np.mean(A[peaks])
+        A2 = np.mod(np.unwrap(A)+peak_phase,2*np.pi)
+        idx = scipy.where(np.diff(A2)<0)[0]+1
+        stai = 0
+        stpi = len(idx)-2
+        stroke_times = list();stroke_phases = list()
+        stroke_phys_idx = list();stroke_kin_idx = list()
+        if 'axon_data' not in exp.keys(): self.load_axon_data(experiment_name)
+        axon_times = exp['axon_data']['times'][seq['axon_epoch']]
+        for i1,i2 in zip(idx[stai:stpi],idx[stai+1:stpi+1]):
+            stroke_times.append(kine_times[i1+nan_idx:i2+nan_idx])
+            stroke_phases.append(A2[i1:i2])
+            stroke_kin_idx.append(np.arange(i1+nan_idx,i2+nan_idx))
+            axon_i1 = np.argwhere(axon_times>=stroke_times[-1][0])[0]+seq['axon_epoch'][0]
+            axon_i2 = np.argwhere(axon_times>stroke_times[-1][-1])[0]+seq['axon_epoch'][0]
+            stroke_phys_idx.append([axon_i1,axon_i2])
+        return {'stroke_times':stroke_times,'stroke_phases':stroke_phases,'stroke_kin_idx':stroke_kin_idx,'stroke_phys_idx':stroke_phys_idx}
 
 def get_axon_signals(filename):
     from neo.io.axonio import AxonIO
@@ -220,16 +255,15 @@ def idx_by_thresh(signal,thresh = 0.1):
     idx_list = [x[1:] for x in idx_list]
     return idx_list
 
-
 def butter_bandpass(lowcut, highcut, sampling_period, order=5):
-    sampling_frequency = 1.0/sampling_frequency
+    sampling_frequency = 1.0/sampling_period
     nyq = 0.5 * sampling_frequency
     low = lowcut / nyq
     high = highcut / nyq
-    b, a = scipy.butter(order, [low, high], btype='band')
+    b, a = scipy.signal.butter(order, [low, high], btype='band')
     return b, a
 
 def butter_bandpass_filter(data, lowcut, highcut, sampling_period, order=5):
-    b, a = butter_bandpass(lowcut, highcut, fs, order=order)
-    y = scipy.filtfilt(b, a, data)
+    b, a = butter_bandpass(lowcut, highcut, sampling_period, order=order)
+    y = scipy.signal.filtfilt(b, a, data)
     return y
