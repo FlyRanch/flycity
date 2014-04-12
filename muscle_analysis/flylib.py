@@ -36,8 +36,8 @@ class Fly(object):
         self.fly_path = self.rootpath + ('Fly%04d/')%(fly_record['flynum'])
         
     def load_kine_sequences(self,experiment_name):
-    	"""load all the matlab generated kine sequences for an exp"""
-    	snums = self.fly_record['experiments'][experiment_name]['photron_seq_nums']
+        """load all the matlab generated kine sequences for an exp"""
+        snums = self.fly_record['experiments'][experiment_name]['photron_seq_nums']
         frmtstr = self.fly_record['experiments'][experiment_name]['solution_format_string']
         frmtstr += self.fly_record['experiments'][experiment_name]['kine_filename']
         kinefiles = [self.fly_path + frmtstr%(snum) for snum in snums]
@@ -48,26 +48,26 @@ class Fly(object):
         self.fly_record['experiments'][experiment_name]['kine_sequences'] = kines
         
     def load_wbkine(self,kine_filename):
-    	"""load the matlab generated wb kine and append with some info for convenience"""
-    	kine_data = scipy.io.loadmat(kine_filename)
-    	##now to make life easier add the frame numbers to the dictionary
-    	first_track = np.argwhere(~np.isnan(kine_data['eta_L']))[0][0]+1
-    	last_track = np.shape(kine_data['eta_R'])[0]
-    	#sanity check
-    	def check_first_frame():
-    		kfn = kine_filename.split('/')[-1]
-    		flytracks_path = kine_filename.replace(kfn,'flytracks/')
-        	#get the list of frames
-        	tracklist = filter(lambda x: x.startswith('fly'), os.listdir(flytracks_path))
-        	framenums = [np.int(s.strip('fly.mat')) for s in tracklist]
-        	return np.min(framenums),np.max(framenums)
+        """load the matlab generated wb kine and append with some info for convenience"""
+        kine_data = scipy.io.loadmat(kine_filename)
+        ##now to make life easier add the frame numbers to the dictionary
+        first_track = np.argwhere(~np.isnan(kine_data['eta_L']))[0][0]+1
+        last_track = np.shape(kine_data['eta_R'])[0]
+        #sanity check
+        def check_first_frame():
+            kfn = kine_filename.split('/')[-1]
+            flytracks_path = kine_filename.replace(kfn,'flytracks/')
+            #get the list of frames
+            tracklist = filter(lambda x: x.startswith('fly'), os.listdir(flytracks_path))
+            framenums = [np.int(s.strip('fly.mat')) for s in tracklist]
+            return np.min(framenums),np.max(framenums)
         assert first_track == check_first_frame()[0],(first_track,check_first_frame()[0])
         assert last_track == check_first_frame()[1],(last_track,check_first_frame()[1])
         kine_data['first_track'] = first_track
         kine_data['last_track'] = last_track
         kine_data['frame_nums'] = np.arange(1,last_track)
         return kine_data
-    	
+        
     def load_photron_sequences(self,experiment_name):
         """function loads the photron sequences from a given experiment without using
         matlab file"""
@@ -76,7 +76,7 @@ class Fly(object):
         seqpaths = [self.fly_path + frmtstr%(snum) for snum in snums]
         seqs = [self.load_solution_seq(seqpath) for seqpath in seqpaths]
         self.fly_record['experiments'][experiment_name]['photron_sequences'] = seqs
-    	
+        
     def load_solution_seq(self,sequence_path):
         """convenience function to load the sequence from fly tracks function will cat
         the frame numbers into the first row the kine matrx, also the untracked frames
@@ -114,7 +114,7 @@ class Fly(object):
         exp = self.fly_record['experiments'][experiment_name]
         fps = pq.Quantity(np.float64(exp['photron_frame_rate_Hz']),'Hz')
         if 'axon_data' not in exp.keys(): self.load_axon_data(experiment_name)
-    	if 'kine_sequences' not in exp.keys(): self.load_kine_sequences(experiment_name)
+        if 'kine_sequences' not in exp.keys(): self.load_kine_sequences(experiment_name)
         kine_data = exp['kine_sequences']
         numframes = exp['kine_sequences'][0]['last_track']
         capture_epoch = numframes/fps
@@ -124,29 +124,27 @@ class Fly(object):
         start_idxs = [x[0] for x in trig_idx]
         cam_epochs = [np.arange(np.int(x),np.int(x)+capture_samples,dtype = np.int) for x in start_idxs]
         def fallback_frame_idx(cam_epoch):
-        	idx = np.array(np.ceil(np.linspace(cam_epoch[0],cam_epoch[-1],numframes)),dtype = int)
-        	return idx
+            idx = np.array(np.ceil(np.linspace(cam_epoch[0],cam_epoch[-1],numframes)),dtype = int)
+            return idx
         frame_idx_list = list()
         for i,epoch in enumerate(cam_epochs):
-        	try:
-        	    frame_idxs = self.get_frame_idxs(epoch,exp['axon_data'])
-        	except IndexError:
-        	    warnings.warn("problem extracting idxs from camera_sync_signal for"+ \
-        	    "epoch %s using even spaced idx's over the camera epoch instead"%(i))
-        	    frame_idxs = fallback_frame_idx(epoch)
-        	if not(np.shape(frame_idxs)[0] == numframes):
-        	    import warnings
-        	    warnings.warn("problem extracting idxs from camera_sync_signal for"+ \
-        	    "epoch %s using even spaced idx's over the camera epoch instead"%(i))
-        	    frame_idxs = fallback_frame_idx(epoch)
-        	frame_idx_list.append(frame_idxs)
+            try:
+                frame_idxs = self.get_frame_idxs(epoch,exp['axon_data'])
+            except IndexError:
+                warnings.warn("problem extracting idxs from camera_sync_signal for"+ \
+                "epoch %s using even spaced idx's over the camera epoch instead"%(i))
+                frame_idxs = fallback_frame_idx(epoch)
+            if not(np.shape(frame_idxs)[0] == numframes):
+                import warnings
+                warnings.warn("problem extracting idxs from camera_sync_signal for"+ \
+                "epoch %s using even spaced idx's over the camera epoch instead"%(i))
+                frame_idxs = fallback_frame_idx(epoch)
+            frame_idx_list.append(frame_idxs)
         times = exp['axon_data']['times']
         [d.update({'axon_epoch':epoch}) for d,epoch in zip(exp['kine_sequences'],cam_epochs)]
         [d.update({'expan_pol':self.lookup_trial_from_ypos(experiment_name,epoch)}) for d,epoch in zip(exp['kine_sequences'],cam_epochs)]
         [d.update({'axon_idxs':idxs}) for d,idxs in zip(exp['kine_sequences'],frame_idx_list)]
         [d.update({'axon_times':times[idxs]}) for d,idxs in zip(exp['kine_sequences'],frame_idx_list)]
-        #exp['frame_idxs'] = frame_idxs
-        #exp['frame_times'] = [times[idx] for idx in frame_idxs]
     
     def get_frame_idxs(self,cam_epoch,axondata):
         """exctract the sync pulse from the camera epochs"""
@@ -155,15 +153,15 @@ class Fly(object):
         return frame_idxs
         
     def lookup_trial_from_ypos(self,experiment_name,epoch):
-    	"""map the Y position signal to the trial type - given some epoch to average
-    	over. A future version will be able to figure out what that interval should be
-    	- but this might be hard to do without loosing generality"""
-    	exp = self.fly_record['experiments'][experiment_name]
-    	if 'axon_data' not in exp.keys(): self.load_axon_data(experiment_name)
-    	epoch_ypos = np.mean(exp['axon_data']['Ypos'][epoch])
-    	trial_idx = np.argmin(abs(exp['Ypos_trial_volts']-epoch_ypos))
-    	trial_val = exp['Ypos_trial_vals'][trial_idx]
-    	return trial_val
+        """map the Y position signal to the trial type - given some epoch to average
+        over. A future version will be able to figure out what that interval should be
+        - but this might be hard to do without loosing generality"""
+        exp = self.fly_record['experiments'][experiment_name]
+        if 'axon_data' not in exp.keys(): self.load_axon_data(experiment_name)
+        epoch_ypos = np.mean(exp['axon_data']['Ypos'][epoch])
+        trial_idx = np.argmin(abs(exp['Ypos_trial_volts']-epoch_ypos))
+        trial_val = exp['Ypos_trial_vals'][trial_idx]
+        return trial_val
     
     def calc_seqs_strokeplanes(self,experiment_name):
         """calculate the strokeplane for all the seqences of an experiment"""
@@ -187,6 +185,20 @@ class Fly(object):
         r_slope = linregress(r_wingtip[0][idx],r_wingtip[2][idx])[0]
         return (np.rad2deg(np.arctan(l_slope)),np.rad2deg(np.arctan(r_slope)))
 
+    
+    def calc_strokes(self,experiment_name):
+    	"""resample the wb into an evenly sampled phase-averaged matrix for each
+    	sequence"""
+    	kine_phases = self.get_kine_phases('lr_blob_expansion',snum)
+    	expmnt = self.fly_record['experiments']['lr_blob_expansion']
+    	s_amp_L = expmnt['kine_sequences'][snum][stroke_amp_L]
+    	s_amp_R = expmnt['kine_sequences'][snum][stroke_amp_R]
+    	s_dev_L = expmnt['kine_sequences'][snum][stroke_dev_L]
+    	s_dev_R = expmnt['kine_sequences'][snum][stroke_dev_R]
+    	w_rot_L = expmnt['kine_sequences'][snum][wing_rot_L]
+    	w_rot_R = expmnt['kine_sequences'][snum][wing_rot_R]
+    	
+    	
     def get_kine_phases(self,
                         experiment_name,
                         seq_num,
@@ -212,23 +224,30 @@ class Fly(object):
         A = np.mod(np.unwrap(A),2*np.pi)
         #find the phase of the ventral stroke reversal and re-wrap
         peak_phase = np.mean(A[peaks])
-        A2 = np.mod(np.unwrap(A)+peak_phase,2*np.pi)
+        A2 = np.mod(np.unwrap(A)+peak_phase+np.pi,2*np.pi)
         idx = scipy.where(np.diff(A2)<0)[0]+1
         stai = 0
         stpi = len(idx)-2
-        stroke_times = list();stroke_phases = list()
-        stroke_phys_idx = list();stroke_kin_idx = list()
+        #store the data in some lists
+        stroke_times = list();stroke_phases = list();stroke_phys_idx = list();
+        stroke_kin_idx = list();axon_phases = list()
+        #we need the axon data to load the phys data
         if 'axon_data' not in exp.keys(): self.load_axon_data(experiment_name)
         axon_times = exp['axon_data']['times'][seq['axon_epoch']]
-        for i1,i2 in zip(idx[stai:stpi],idx[stai+1:stpi+1]):
+        for i1,i2 in zip(idx[stai:stpi],idx[stai+1:stpi+1])[:-3]:
             stroke_times.append(kine_times[i1+nan_idx:i2+nan_idx])
             stroke_phases.append(A2[i1:i2])
             stroke_kin_idx.append(np.arange(i1+nan_idx,i2+nan_idx))
             axon_i1 = np.argwhere(axon_times>=stroke_times[-1][0])[0]+seq['axon_epoch'][0]
             axon_i2 = np.argwhere(axon_times>stroke_times[-1][-1])[0]+seq['axon_epoch'][0]
             stroke_phys_idx.append([axon_i1,axon_i2])
-        return {'stroke_times':stroke_times,'stroke_phases':stroke_phases,'stroke_kin_idx':stroke_kin_idx,'stroke_phys_idx':stroke_phys_idx}
-
+            axon_phases.append(np.linspace(0, 2*np.pi, axon_i2-axon_i1))
+        return {'stroke_times':stroke_times,
+                'stroke_phases_kin':stroke_phases,
+                'stroke_kin_idx':stroke_kin_idx,
+                'stroke_phys_idx':stroke_phys_idx,
+                'stroke_phases_axon':axon_phases}
+        
 def get_axon_signals(filename):
     from neo.io.axonio import AxonIO
     reader = AxonIO(filename=filename)
