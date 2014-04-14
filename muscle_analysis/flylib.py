@@ -22,18 +22,17 @@ param_file.close()
 #rootpath = params['platform_paths'][sys.platform] + params['root_dir']
 
 class Squadron(object):
-	"""Controller object to facilitate the groupwise analysis of the fly data"""
-	def __init__(self,fly_db):
-		self.fly_db = fly_db
-		self.flies = [Fly(fly_db[flyn]) for flyn in fly_db.keys()]
-	
-	def load_kine(self):
-		"just load the kine data for each fly"
-		for fly in self.flies:
-			try:
-				f = open(
-		
-	
+    """Controller object to facilitate the groupwise analysis of the fly data"""
+    def __init__(self,fly_db):
+        self.fly_db = fly_db
+        self.flies = [Fly(fly_db[flyn]) for flyn in fly_db.keys()]
+    
+    def load_kine(self,experiment_name):
+        "just load the kine data for each fly"
+        for fly in self.flies:
+            fly.load_processed_seq(experiment_name)
+        
+    
 class Fly(object):
     """Controler object for fly data, FLy is initialized with a 'fly_record dictionary
     and the object is used to facilitate adding and removing data from this dictionary
@@ -47,6 +46,13 @@ class Fly(object):
         self.param_file.close()
         self.rootpath = self.params['platform_paths'][sys.platform] + self.params['root_dir']
         self.fly_path = self.rootpath + ('Fly%04d/')%(fly_record['flynum'])
+        
+    def load_processed_seq(self,experiment_name):
+        import cPickle
+        f = self.fly_path + 'lr_blob_expansion_processed_kine.cpkl'
+        f = open(f,'rb')
+        seqs = cPickle.load(f)
+        self.fly_record['experiments'][experiment_name]['kine_sequences'] = seqs
         
     def load_kine_sequences(self,experiment_name):
         """load all the matlab generated kine sequences for an exp"""
@@ -353,15 +359,39 @@ def fit_harmonic(strk_mtrx,p_init):
     p1,msg = optimize.leastsq(errfunc, p_init[:], args=(x_fit,np.rad2deg(y_fit)))
     return p1
     
+def fit_harmonic_fast(strk_mtrx,p_init):
+    num_strokes = np.shape(strk_mtrx)[0]
+    reshaped = np.squeeze(np.reshape(strk_mtrx,(np.size(strk_mtrx),1)))
+    phases = np.linspace(0,2*np.pi*num_strokes,np.size(strk_mtrx))
+    y_fit = reshaped[~np.isnan(reshaped)]
+    x_fit = phases[~np.isnan(reshaped)]
+    from scipy import optimize
+    ##speed things up by pre-computing the sin and cosine values
+    order = (len(p_init)-1)/2
+    n = np.arange(1,order+1)
+    onesmat = np.ones((len(n),len(x_fit)))
+    phase_mtrx = ((onesmat*x_fit).T*n).T
+    cos_mtrx = np.cos(phase_mtrx)
+    sin_mtrx = np.sin(phase_mtrx)
+    p1,msg = optimize.leastsq(errfunc, p_init[:], args=(cos_mtrx,sin_mtrx,np.rad2deg(y_fit)))
+    return p1
+    
+def harmonic_fast(p,cos_mtrx,sin_mtrx):
+    cp = np.array(p[1:-1:2])[:,np.newaxis]
+    sp = np.array(p[2::2])[:,np.newaxis]
+    hmtrx = cos_mtrx*cp + sin_mtrx*sp
+    return p[0] + np.sum(hmtrx,axis = 0)
+    
 def harmonic(phase,p):
     order = (len(p)-1)/2
     n = np.arange(1,order+1)
-    def h(ph):
-        return p[0] + sum([p[i]*np.cos((n+1)*ph) + p[i+1]*np.sin((n+1)*ph) for 
-        n,i in enumerate(range(1,order+1,2))])
-    return [h(ph) for ph in phase]
+    onesmat = np.ones((len(n),len(phases)))
+    phase_mtrx = ((onesmat*phases).T*n).T
+    cp = np.array(p[1:-1:2])[:,np.newaxis]
+    sp = np.array(p[2::2])[:,np.newaxis]
+    hmtrx = np.cos(phase_mtrx)*cp + np.sin(phase_mtrx)*sp
+    return p[0] + np.sum(hmtrx,axis = 0)
 
-def errfunc(p, x, y):
-    return harmonic(x,p)-y
-
+def errfunc(p,cos_mtrx,sin_mtrx,y):
+    return harmonic_fast(p,cos_mtrx,sin_mtrx)-y
 
