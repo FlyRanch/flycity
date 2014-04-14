@@ -21,6 +21,19 @@ params = json.load(param_file)
 param_file.close()
 #rootpath = params['platform_paths'][sys.platform] + params['root_dir']
 
+class Squadron(object):
+	"""Controller object to facilitate the groupwise analysis of the fly data"""
+	def __init__(self,fly_db):
+		self.fly_db = fly_db
+		self.flies = [Fly(fly_db[flyn]) for flyn in fly_db.keys()]
+	
+	def load_kine(self):
+		"just load the kine data for each fly"
+		for fly in self.flies:
+			try:
+				f = open(
+		
+	
 class Fly(object):
     """Controler object for fly data, FLy is initialized with a 'fly_record dictionary
     and the object is used to facilitate adding and removing data from this dictionary
