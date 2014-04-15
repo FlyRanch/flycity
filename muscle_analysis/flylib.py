@@ -385,8 +385,8 @@ def harmonic_fast(p,cos_mtrx,sin_mtrx):
 def harmonic(phase,p):
     order = (len(p)-1)/2
     n = np.arange(1,order+1)
-    onesmat = np.ones((len(n),len(phases)))
-    phase_mtrx = ((onesmat*phases).T*n).T
+    onesmat = np.ones((len(n),len(phase)))
+    phase_mtrx = ((onesmat*phase).T*n).T
     cp = np.array(p[1:-1:2])[:,np.newaxis]
     sp = np.array(p[2::2])[:,np.newaxis]
     hmtrx = np.cos(phase_mtrx)*cp + np.sin(phase_mtrx)*sp
