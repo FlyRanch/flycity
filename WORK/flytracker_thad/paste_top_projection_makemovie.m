@@ -51,14 +51,15 @@ load([PathName FileName]);
 
 % cam views
 % cams = [1:3];
-cams = 1;
+%cams = 1;
 %cams = 2;
-%cams = 3;
+cams = 3;
 
 % frames
 frames = dir('fly*')
 frame_start = str2num(frames(1).name(4:end-4))
 frame_end = str2num(frames(end).name(4:end-4))
+%frame_end = 100
 % frame_end = frame_start+21;
 
 %     frame_end = frame_start+999;
@@ -68,11 +69,11 @@ frame_end = str2num(frames(end).name(4:end-4))
 %changes the scaling of the final figure, as percentage of original image
 %resolution to make fit on screen.
 
-% plotscale = 1;
+%plotscale = 1;
 % plotscale = 0.55;
-plotscale = 0.4;
+%plotscale = 0.4;
 % plotscale = 0.8;
-% plotscale = 0.9;
+plotscale = 0.9;
 
  
 %skip frames (1=no skip)
@@ -80,7 +81,8 @@ skip = 1
 if exist('skip')==0
     skip = 3
 end
-fps = 7500/skip;
+
+fps = 6000/skip;
 
     cd(PathName)
     cd ..
@@ -92,7 +94,7 @@ fps = 7500/skip;
     elseif cams == 3;
         movfilename = ['top_projection_',num2str(fps),'fps.avi'];
     end
-    mov = avifile(movfilename, 'compression', 'none');
+    mov = avifile(movfilename, 'compression', 'none','fps',3);
 
     solname = [cd,'/'];
 
@@ -122,7 +124,7 @@ fps = 7500/skip;
     color = {'g','g'};
     lw = 1;
 
-    plotpredict = 0;
+    plotpredict = 1;
     plotcur = 1;
     OccTag = 0;    %Set to 1 to see the artificial occlusion
 
@@ -214,7 +216,8 @@ fps = 7500/skip;
         sol = xh;
 
         if plotpredict == 1
-            load([PAR.solutionpath PAR.solutiondirname '/fly' sprintf(['%0',num2str(PAR.digits),'d'], frame+1) '.mat']);
+            %load([PAR.solutionpath PAR.solutiondirname '/fly' sprintf(['%0',num2str(PAR.digits),'d'], frame+1) '.mat']);
+            load([PAR.solutionpath PAR.solutiondirname '/fly' sprintf(['%0',num2str(PAR.digits),'d'], frame) '.mat']);
             sol1 = InternalVariablesDS.xh_;
 
         %     bodyscrew = sol1(1:6);
@@ -290,7 +293,8 @@ fps = 7500/skip;
 
             figure(fignum*10+i);
             clf
-            imagesc(Input(:,:,i));
+            clims = [ 5 120 ]
+            imagesc(Input(:,:,i),clims);
             %imagesc(imadjust(Input(:,:,i)));
             colormap gray
 
