@@ -349,7 +349,7 @@ def butter_bandpass_filter(data, lowcut, highcut, sampling_period, order=5):
     y = scipy.signal.filtfilt(b, a, data)
     return y
     
-def fit_harmonic_fast(strk_mtrx,p_init):
+def fit_fourier_pcomp(strk_mtrx,p_init):
     num_strokes = np.shape(strk_mtrx)[0]
     reshaped = np.squeeze(np.reshape(strk_mtrx,(np.size(strk_mtrx),1)))
     phases = np.linspace(0,2*np.pi*num_strokes,np.size(strk_mtrx))
@@ -366,13 +366,13 @@ def fit_harmonic_fast(strk_mtrx,p_init):
     p1,msg = optimize.leastsq(errfunc, p_init[:], args=(cos_mtrx,sin_mtrx,np.rad2deg(y_fit)))
     return p1
     
-def harmonic_fast(p,cos_mtrx,sin_mtrx):
+def fourier_pcomp(p,cos_mtrx,sin_mtrx):
     cp = np.array(p[1:-1:2])[:,np.newaxis]
     sp = np.array(p[2::2])[:,np.newaxis]
     hmtrx = cos_mtrx*cp + sin_mtrx*sp
     return p[0] + np.sum(hmtrx,axis = 0)
     
-def harmonic(phase,p):
+def fourier(phase,p):
     order = (len(p)-1)/2
     n = np.arange(1,order+1)
     onesmat = np.ones((len(n),len(phase)))
@@ -383,5 +383,5 @@ def harmonic(phase,p):
     return p[0] + np.sum(hmtrx,axis = 0)
 
 def errfunc(p,cos_mtrx,sin_mtrx,y):
-    return harmonic_fast(p,cos_mtrx,sin_mtrx)-y
+    return fourier_pcomp(p,cos_mtrx,sin_mtrx)-y
 
