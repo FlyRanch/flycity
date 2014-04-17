@@ -348,16 +348,6 @@ def butter_bandpass_filter(data, lowcut, highcut, sampling_period, order=5):
     b, a = butter_bandpass(lowcut, highcut, sampling_period, order=order)
     y = scipy.signal.filtfilt(b, a, data)
     return y
-
-def fit_harmonic(strk_mtrx,p_init):
-    num_strokes = np.shape(strk_mtrx)[0]
-    reshaped = np.squeeze(np.reshape(strk_mtrx,(np.size(strk_mtrx),1)))
-    phases = np.linspace(0,2*np.pi*num_strokes,np.size(strk_mtrx))
-    y_fit = reshaped[~np.isnan(reshaped)]
-    x_fit = phases[~np.isnan(reshaped)]
-    from scipy import optimize
-    p1,msg = optimize.leastsq(errfunc, p_init[:], args=(x_fit,np.rad2deg(y_fit)))
-    return p1
     
 def fit_harmonic_fast(strk_mtrx,p_init):
     num_strokes = np.shape(strk_mtrx)[0]
