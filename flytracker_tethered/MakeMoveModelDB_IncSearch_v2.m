@@ -45,10 +45,10 @@ global PAR
 
 % cd '/home/florian/Dropbox/WORK/flytracker/flytracker'
 % addpath(pwd);
-addpath('/home/matt/Dropbox/WORK/flytracker');
-addpath('/home/matt/Dropbox/WORK/flytracker/mex/');
-addpath('/home/matt/Dropbox/WORK/flytracker/core/');
-addpath('/home/matt/Dropbox/WORK/flytracker/results/');
+addpath('/home/matt/Dropbox/WORK/flytracker_thad');
+addpath('/home/matt/Dropbox/WORK/flytracker_thad/mex/');
+addpath('/home/matt/Dropbox/WORK/flytracker_thad/core/');
+addpath('/home/matt/Dropbox/WORK/flytracker_thad/results/');
 
 
 %% KINE file
@@ -112,6 +112,8 @@ allfiles = dir(['*',FileName(end-3:end)]);
 % ICframe = find(data.kine.body.data.length~=0, 1, 'last' );
 
 % startframe = str2num(allfiles(1).name(end-6:end-4));
+startframe = 20
+ICframe = 20
 startframe = ICframe;
 
 endframe = str2num(allfiles(end).name(end-9:end-4));
@@ -319,6 +321,7 @@ if getIC == true
 %     save([PAR.solutionpath  PAR.solutiondirname '/ManualFit_' PAR.solutiondirname],'ManualFit');
 %     
     %% make movement model
+    PAR.digits = 4;
     MoveModel = auto_init_multi(ManualFit,PAR.ICframe,'IC_mult');
     save([PAR.solutionpath,'MoveModel_IncSearch' KineName(5:end)],'MoveModel');
 

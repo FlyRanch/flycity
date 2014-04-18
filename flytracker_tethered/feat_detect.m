@@ -112,10 +112,15 @@ for mm = 1:PAR.numcam
     IMbody = imfill(IMbody,'holes');
     
     % smooth edges
-    SE = strel('disk',2); 
+    SE = strel('disk',4); 
+    %disp('here')
 %     SE = strel('square',2)
+    
+    %IMbody = imdilate(IMbody,SE);
     IMbody = imerode(IMbody,SE);
     IMbody = imdilate(IMbody,SE);
+    
+    %data = imdilate(data,SE);
     data = imerode(data,SE);
     data = imdilate(data,SE);
     
