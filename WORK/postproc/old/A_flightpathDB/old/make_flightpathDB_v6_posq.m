@@ -1,0 +1,65 @@
+function [pathDB,settings] = make_flightpathDB_v6_posq(pathDB,settings,expansion)
+
+file_name = 'fly';
+dirname = 'flytracks';
+
+digits = 6;
+start_dir = 3;
+start_file = 2; % exclude ManualFit
+
+if exist('pathDB') == 1
+    t = pathDB.t;
+    pos = pathDB.pos_obs;
+    qbody = pathDB.qbody_obs;
+    qwingL = pathDB.qwingL_obs;
+    qwingR = pathDB.qwingR_obs;
+end
+
+%% construct pathDB
+seq = size(pos,2);
+alldirs=dir;
+for i=start_dir:length(alldirs)
+    length(alldirs)-i
+    if alldirs(i).isdir==1
+        cd(alldirs(i).name);
+        
+        if exist(dirname)==7
+            cd(dirname)
+            
+            seq=seq+1;
+            settings.seq(seq,1) = str2num(alldirs(i).name(1:8));
+            settings.seq(seq,2) = str2num(alldirs(i).name(11:14));
+            settings.expansion.speed(seq,1) = expansion.speed;
+            settings.expansion.VerPos(seq,1) = expansion.VerPos;
+            settings.expansion.HorPos(seq,1) = expansion.HorPos;
+            settings.expansion.stepwise(seq,1) = expansion.stepwise;
+            
+            pos(1:length(t),seq,1:3)=nan;
+            qbody(1:length(t),seq,1:4)=nan;
+            qwingL(1:length(t),seq,1:4)=nan;
+            qwingR(1:length(t),seq,1:4)=nan;
+
+            allfiles=dir('*.mat');
+            for n=start_file:length(allfiles)
+                name_now = allfiles(n).name;
+                if exist(name_now)==2
+                    load(name_now)
+
+                    frame_now = str2num(name_now(length(file_name)+1:length(file_name)+digits));
+                    
+                    pos(frame_now,seq,1:3) = xh(1:3);
+                    qbody(frame_now,seq,1:4) = xh(4:7);
+                    qwingL(frame_now,seq,1:4) = xh(8:11);
+                    qwingR(frame_now,seq,1:4) = xh(12:15);
+                end
+            end
+            cd ..
+        end
+        cd ..
+    end
+end
+
+pathDB.pos_obs = pos;
+pathDB.qbody_obs = qbody;
+pathDB.qwingL_obs = qwingL;
+pathDB.qwingR_obs = qwingR;
