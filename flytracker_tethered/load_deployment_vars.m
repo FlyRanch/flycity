@@ -1,5 +1,5 @@
 %% Run variables
-date_str = '20140401'
+date_str = '20140410'
 seq_number = 1
 startframe = 0;
 endframe = 1365;
@@ -98,8 +98,7 @@ move_model_groups('manual_track_tethered_hydei_7500fps') = {'MoveModel_IncSearch
                                                               'MoveModel_NOSearch_20130412_S0002_frame0001-0036_NOstimulus_onewingbeat.mat';
                                                               'MoveModel_NOSearch_20130412_S0017_frame0026-0037_NOstimulus_strokerev.mat';
                                                               'MoveModel_NOSearch_20130412_S0027_frame0760-0774_90deg_strokerev.mat';}
-move_model_groups('manual_track_tethered_melanogaster_6000fps') = {'MoveModel_NOsearch_20140310_S0001_melanogaster.mat',
-                                                                   'MoveModel_IncSearch_20140310_S0001.mat',
+move_model_groups('manual_track_tethered_melanogaster_6000fps') = {'MoveModel_IncSearch_20140310_S0001.mat',
                                                                    'MoveModel_IncSearch_20140327_S0001.mat',
                                                                    'MoveModel_IncSearch_20140327_S0005.mat',
                                                                    'MoveModel_IncSearch_20140401_S0001.mat'}
@@ -109,7 +108,7 @@ move_model_groups('computer_track_tethered_melanogaster_6000fps') = {'20140310_S
                                                                      '20140310_S0001_successful_flytrack_MoveModel_frm141_203.mat',
                                                                      '20140327_S0001_successful_flytrack_MoveModel_frm18_682.mat'}
 
-MoveModelNameS = move_model_groups('computer_track_tethered_melanogaster_6000fps');
+MoveModelNameS = move_model_groups('manual_track_tethered_melanogaster_6000fps');
 
 
 

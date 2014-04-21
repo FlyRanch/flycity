@@ -26,14 +26,20 @@
 close all
 clear
 clc
-
 start = clock;
 
 % software paths
-addpath(fullfile(software_root_dir,'mex');
-addpath(fullfile(software_root_dir,'core');
-addpath(fullfile(software_root_dir,'results');
-addpath(fullfile(software_root_dir,'postproc','AA_check_wbkin');
+addpath(fullfile(software_root_dir,'mex'));
+addpath(fullfile(software_root_dir,'core'));
+addpath(fullfile(software_root_dir,'results'));
+addpath(fullfile(software_root_dir,'postproc','AA_check_wbkin'));
+addpath(fullfile(software_root_dir,'postproc','AA_check_wbkin','WBKinProg_Johan'));
+addpath(fullfile(software_root_dir,'postproc','AA_check_wbkin','WBKinProg_Johan','Kalman_Filter'));
+addpath(fullfile(software_root_dir,'postproc','AA_check_wbkin','WBKinProg_Johan','Plot'));
+addpath(fullfile(software_root_dir,'postproc','AA_check_wbkin','WBKinProg_Johan','Plot','Smoothing_plots'));
+addpath(fullfile(software_root_dir,'postproc','AA_check_wbkin','WBKinProg_Johan','Body_model'));
+addpath(fullfile(software_root_dir,'postproc','AA_check_wbkin','WBKinProg_Johan','Body_model','mex'));
+addpath(fullfile(software_root_dir,'postproc','AA_check_wbkin','WBKinProg_Johan','Type2Regression'));
 
 %% Add the subdirectories that contain important / necessary files
 % flytracker program files
