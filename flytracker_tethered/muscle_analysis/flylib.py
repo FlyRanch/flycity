@@ -210,7 +210,7 @@ class Fly(object):
         return (np.rad2deg(np.arctan(l_slope)),np.rad2deg(np.arctan(r_slope)))
 
     def resample_strokes(self,experiment_name,seq_num,num_samples = 500):
-        """resample the wb into an evenly sampled phase-averaged matrix for each
+        """resample the wb into an evenly sampled phase-domain matrix for each
         sequence"""
         kine_phases = self.get_kine_phases('lr_blob_expansion',seq_num)
         expmnt = self.fly_record['experiments']['lr_blob_expansion']
