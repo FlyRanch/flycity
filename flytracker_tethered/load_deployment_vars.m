@@ -1,21 +1,41 @@
+%% Run variables
+date_str = '20140401'
+seq_number = 1
+startframe = 0;
+endframe = 1365;
+
 %% Deployment variables
-seq_number = '20140115_S004'
 software_root_dir = '/home/matt/flycity/flytracker_tethered'
 data_root_dir = '/media/thad01b/'
 
-%% Kine variables
+%% Kine settings
 kine_dir = fullfile(software_root_dir,'kine');
 setup_path = fullfile(software_root_dir,'kine','setup');
 kine_mfile_path = kine_dir;
 
-%% Flytracker data
+%% Flytracker settings
+% PAR is a static structure that defines various parameters of the tracking
+% sequence
+global PAR
+% String formating conventions
+seq_format_str = 'C%03dH%03dS%04d' %cam number, head number, sequence number
+sol_format_str = '%s_S%04d'%date_str, sol number
+% File path formating
+MoveModelPath = fullfile(software_root_dir,'Models');
+sol_root_path = fullfile(data_root_dir,'solutions');
+seq_sol_path = fullfile(sol_root_path,sprintf(sol_format_str,date_str,seq_number))
+FileFromKine = fullfile(seq_sol_path,['kine_',sprintf(sol_format_str,date_str,seq_number),'.mat']);
+cam1_seq_path = fullfile(data_root_dir,'Photron','SEQS',date_str,sprintf(seq_format_str,1,1,1))
+cam1_files = dir(fullfile(cam1_seq_path,'*tif'));
+cam1_file1 = cam1_files(1).name
+cih_file = dir(fullfile(cam1_seq_path,'*.cih'));
+
 BGframe = 2;
 getIC = true;
 getBodyShape = true;
-sol_data_path = fullfile(data_root_dir,'solutions')
+
 % to plot or not to plot
 plot_data = false;
-sol_data_path = fullfile(data_root_dir,'solutions')
 
 % This is the number of sample points used within the Fly model.
 %It changes how fine the mesh is. 
@@ -30,13 +50,17 @@ T2 = 2; %# of steps towards center of wing
 etamax = 0;
 paramdim = 1;
 %number of flies
-numfly = 1;
+flynum = [1 ];  %[1 2];
+numfly = length(flynum);
+OccludeShape = {[],[],[]};
+%spline order
+c = 4; 
 statedim = 15*ones(1,numfly); 
 pNoisedim = statedim;
 % This is the number of frames to scan back when performing the pattern
 % matching in the motion prediction.
 NumPrevSol = 5;
-% Dont know what this does
+% Dont know what this is?
 streams = 2;
 % Tracker search distance (moved from Closest_PtsNrmlGate1, FTM 20120605)
 WingSearchDist = [120 120];
@@ -54,7 +78,7 @@ JointVar = [0.001 0.0004 0.0003];
 LinVar = [0.183 0.639 1.33];
 %Variance for the body angular acceleration
 AngVar = [.168 .181 2.20];
-
+%Settings for the movement models
 move_model_groups = containers.Map()
 move_model_groups('computer_track_tethered_hydei_7500fps') = {'20130412_S0011_successful_flytrack_MoveModel.mat',
                                                               '20130412_S0017_successful_flytrack_MoveModel.mat',
@@ -86,3 +110,11 @@ move_model_groups('computer_track_tethered_melanogaster_6000fps') = {'20140310_S
                                                                      '20140327_S0001_successful_flytrack_MoveModel_frm18_682.mat'}
 
 MoveModelNameS = move_model_groups('computer_track_tethered_melanogaster_6000fps');
+
+
+
+% addpath('/home/flycity/Dropbox/WORK/flytracker_thad');
+% addpath('/home/flycity/Dropbox/WORK/flytracker_thad/mex/');
+% addpath('/home/flycity/Dropbox/WORK/flytracker_thad/core/');
+% addpath('/home/flycity/Dropbox/WORK/flytracker_thad/results/');
+% addpath('/home/flycity/Dropbox/WORK/postproc/AA_check_wbkin/')
