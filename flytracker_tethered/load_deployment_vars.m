@@ -29,6 +29,8 @@ T2 = 2; %# of steps towards center of wing
 %The subsample scale of the image is 1/2^(pwr)
 etamax = 0;
 paramdim = 1;
+%number of flies
+numfly = 1;
 statedim = 15*ones(1,numfly); 
 pNoisedim = statedim;
 % This is the number of frames to scan back when performing the pattern
@@ -49,7 +51,7 @@ angvar = 0.002;
 %Variance for the wing joint locations
 JointVar = [0.001 0.0004 0.0003];
 %Variance for the body linear acceleration
-LinVar = [0.183 0.639 1.33
+LinVar = [0.183 0.639 1.33];
 %Variance for the body angular acceleration
 AngVar = [.168 .181 2.20];
 

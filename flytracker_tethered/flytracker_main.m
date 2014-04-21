@@ -420,51 +420,6 @@ else
     save([PAR.solutionpath '/' PAR.solutiondirname '/ManualFit_' PAR.solutiondirname],'ManualFit');
 end
 
-
-% getImageData = true;
-% 
-% if getImageData
-%     PAR = LoadVideo(PathName,FileName,solutionpath);
-%         
-%     ManualFit.ImageData = PAR;
-%     
-%     % Make two directories to save the estimated state and the features into
-%     % if they don't already exist
-%     if exist([PAR.solutionpath,PAR.solutiondirname]) ~= 7
-%         mkdir(PAR.solutionpath,[ PAR.solutiondirname]);
-%         mkdir(PAR.solutionpath,['Features']);
-%         mkdir([PAR.solutionpath,'Images/cam1']);
-%         mkdir([PAR.solutionpath,'Images/cam2']);
-%         mkdir([PAR.solutionpath,'Images/cam3']);
-%         mkdir([PAR.solutionpath,'Projections/cam1']);
-%         mkdir([PAR.solutionpath,'Projections/cam2']);
-%         mkdir([PAR.solutionpath,'Projections/cam3']);
-%     end
-% 
-%     save([PAR.solutionpath PAR.solutiondirname '/' 'ManualFit_' PAR.solutiondirname],'ManualFit');
-% else
-%     %Load the previously stored data
-%     [FileName,PathName] = uigetfile({'*.mat'},'Select "ManualFit" data file for the video sequence',solutionpath);
-%     load([PathName FileName]);
-%     
-%     % Check that the paths stored in 'ManualFit' match the location that you
-%     % just selected the file from
-%     % If 75% of the paths match , then we'll assume everything's okay.
-%     endd = round(.75*length(ManualFit.ImageData.solutionpath));
-%     
-%     if strcmp(PathName(1:endd),ManualFit.ImageData.solutionpath(1:endd)) == 0
-%         %if different, run Loadvideo routine
-%         warning('The directories stored in ManualFit structure do not match its current location.\n You are prompted to relocate the directories',[]);
-%         
-%         PAR = LoadVideo;
-%         ManualFit.ImageData = PAR;
-%         save([PAR.solutionpath  PAR.solutiondirname '/' 'ManualFit_' PAR.solutiondirname],'ManualFit');
-%     else
-%         PAR = ManualFit.ImageData;
-%     end
-% end
-
-
 %% store data in PAR
 PAR.plot_data = plot_data;
 PAR.digits = 4;
