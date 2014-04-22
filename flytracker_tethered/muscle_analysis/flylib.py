@@ -29,7 +29,7 @@ class Squadron(object):
     def load_kine(self,experiment_name):
         "just load the kine data for each fly"
         for fly in self.flies:
-            fly.load_processed_seq(experiment_name)
+            fly.load_processed_wbkin(experiment_name)
         
     
 class Fly(object):
@@ -46,7 +46,7 @@ class Fly(object):
         self.rootpath = self.params['platform_paths'][sys.platform] + self.params['root_dir']
         self.fly_path = self.rootpath + ('Fly%04d/')%(fly_record['flynum'])
         
-    def load_processed_kine(self,experiment_name):
+    def load_processed_wbkin(self,experiment_name):
         """load the processed (resampled ect) kine data from a cPickle file saved in the 
         primary directory of the fly - gets around the need to load all the axon data
         into memory"""
@@ -54,29 +54,29 @@ class Fly(object):
         f = self.fly_path + 'lr_blob_expansion_processed_kine.cpkl'
         f = open(f,'rb')
         seqs = cPickle.load(f)
-        self.fly_record['experiments'][experiment_name]['kine_sequences'] = seqs
+        self.fly_record['experiments'][experiment_name]['wbkin_sequences'] = seqs
         
-    def save_processed_kine(self,experiment_name):
+    def save_processed_wbkin(self,experiment_name):
         """cPickle the processed kine data to be loaded later - helps with memory 
         management""" 
         import cPickle
-        f = open(self.fly_path + experiment_name + '_processed_kine.cpkl','wb')
-        cPickle.dump(self.fly_record['experiments'][experiment_name]['kine_sequences'],f)
+        f = open(self.fly_path + experiment_name + '_processed_wbkin.cpkl','wb')
+        cPickle.dump(self.fly_record['experiments'][experiment_name]['wbkin_sequences'],f)
         f.close()   
         
-    def load_kine_sequences(self,experiment_name):
+    def load_wbkin_sequences(self,experiment_name):
         """load all the matlab generated kine sequences for an exp"""
         snums = self.fly_record['experiments'][experiment_name]['photron_seq_nums']
         frmtstr = self.fly_record['experiments'][experiment_name]['solution_format_string']
         frmtstr += self.fly_record['experiments'][experiment_name]['kine_filename']
         kinefiles = [self.fly_path + frmtstr%(snum) for snum in snums]
-        kines = [self.load_wbkine(kine_filename) for kine_filename in kinefiles]
+        kines = [self.load_wbkin(kine_filename) for kine_filename in kinefiles]
         #add the file string since if the list of sequences for a fly is re-arranged
         #this key will allow them to be re-sorted in order
         [k.update({'seq_num':snum}) for k,snum in zip(kines,snums)]
-        self.fly_record['experiments'][experiment_name]['kine_sequences'] = kines
+        self.fly_record['experiments'][experiment_name]['wbkin_sequences'] = kines
         
-    def load_wbkine(self,kine_filename):
+    def load_wbkin(self,kine_filename):
         """load the matlab generated wb kine and append with some info for convenience"""
         kine_data = scipy.io.loadmat(kine_filename)
         ##now to make life easier add the frame numbers to the dictionary
@@ -110,7 +110,7 @@ class Fly(object):
         """convenience function to load the sequence from fly tracks function will cat
         the frame numbers into the first row the kine matrx, also the untracked frames
         before the start of the sequence are padded with NaNs - tries to emulate the same 
-        format as the WB kine file"""
+        format as the WBkin file"""
         flytracks_path = sequence_path + 'flytracks/'
         #get the list of frames
         tracklist = filter(lambda x: x.startswith('fly'), os.listdir(flytracks_path))
@@ -143,9 +143,9 @@ class Fly(object):
         exp = self.fly_record['experiments'][experiment_name]
         fps = pq.Quantity(np.float64(exp['photron_frame_rate_Hz']),'Hz')
         if 'axon_data' not in exp.keys(): self.load_axon_data(experiment_name)
-        if 'kine_sequences' not in exp.keys(): self.load_kine_sequences(experiment_name)
-        kine_data = exp['kine_sequences']
-        numframes = exp['kine_sequences'][0]['last_track']
+        if 'wbkin_sequences' not in exp.keys(): self.load_wbkin_sequences(experiment_name)
+        kine_data = exp['wbkin_sequences']
+        numframes = exp['wbkin_sequences'][0]['last_track']
         capture_epoch = numframes/fps
         ax_dt = pq.Quantity(exp['axon_data']['sampling_period'],'s')
         capture_samples = np.ceil(capture_epoch/ax_dt)
@@ -170,10 +170,10 @@ class Fly(object):
                 frame_idxs = fallback_frame_idx(epoch)
             frame_idx_list.append(frame_idxs)
         times = exp['axon_data']['times']
-        [d.update({'axon_epoch':epoch}) for d,epoch in zip(exp['kine_sequences'],cam_epochs)]
-        [d.update({'expan_pol':self.lookup_trial_from_ypos(experiment_name,epoch)}) for d,epoch in zip(exp['kine_sequences'],cam_epochs)]
-        [d.update({'axon_idxs':idxs}) for d,idxs in zip(exp['kine_sequences'],frame_idx_list)]
-        [d.update({'axon_times':times[idxs]}) for d,idxs in zip(exp['kine_sequences'],frame_idx_list)]
+        [d.update({'axon_epoch':epoch}) for d,epoch in zip(exp['wbkin_sequences'],cam_epochs)]
+        [d.update({'expan_pol':self.lookup_trial_from_ypos(experiment_name,epoch)}) for d,epoch in zip(exp['wbkin_sequences'],cam_epochs)]
+        [d.update({'axon_idxs':idxs}) for d,idxs in zip(exp['wbkin_sequences'],frame_idx_list)]
+        [d.update({'axon_times':times[idxs]}) for d,idxs in zip(exp['wbkin_sequences'],frame_idx_list)]
     
     def get_frame_idxs(self,cam_epoch,axondata):
         """exctract the sync pulse from the camera epochs"""
@@ -217,23 +217,23 @@ class Fly(object):
     def resample_strokes(self,experiment_name,seq_num,num_samples = 500):
         """resample the wb into an evenly sampled phase-domain matrix for each
         sequence"""
-        kine_phases = self.get_kine_phases('lr_blob_expansion',seq_num)
+        wbkin_phases = self.get_kine_phases('lr_blob_expansion',seq_num)
         expmnt = self.fly_record['experiments']['lr_blob_expansion']
-        kine_keys = [stroke_amp_L,stroke_amp_R,
+        wbkin_keys = [stroke_amp_L,stroke_amp_R,
                      stroke_dev_L,stroke_dev_R,
                      wing_rot_L,wing_rot_R,]
         #resample at these phases
-        xi = np.linspace(0,2*np.pi,num_samples)
-        #list of sampled kine phases
-        kine_phs_list = kine_phases['stroke_phases_kin']
+        xi = np.linspace(0,4*np.pi,num_samples)
+        #list of sampled wbkin phases
+        wbkin_phs_list = wbkin_phases['stroke_phases_kin']
         #list of sampled ephys phases
-        ephys_phs_list = kine_phases['stroke_phases_axon']
-        #list of kine times for alignment within the sequence
-        times_list = kine_phases['stroke_times']
+        ephys_phs_list = wbkin_phases['stroke_phases_axon']
+        #list of wbkin times for alignment within the sequence
+        times_list = wbkin_phases['stroke_times']
         #list of the kine idxs
-        wing_idx_list = kine_phases['stroke_kin_idx']
+        wing_idx_list = wbkin_phases['stroke_kin_idx']
         #list of the ephys idx brackets
-        ephys_idx_bracket_list = kine_phases['stroke_phys_idx']
+        ephys_idx_bracket_list = wbkin_phases['stroke_phys_idx']
         #construct as lists to start
         resampled_strokes = {stroke_amp_L:list(),stroke_amp_R:list(),
                           stroke_dev_L:list(),stroke_dev_R:list(),
@@ -244,10 +244,10 @@ class Fly(object):
         from scipy.interpolate import griddata
         for i,idxs in enumerate(wing_idx_list):
             if np.shape(idxs)[0] > 20:
-                for kine_key in kine_keys:
-                    signal = expmnt['kine_sequences'][seq_num][kine_key]
-                    kine_phase = kine_phs_list[i]
-                    resampled_signal = griddata(kine_phase,
+                for kine_key in wbkin_keys:
+                    signal = expmnt['wbkin_sequences'][seq_num][kine_key]
+                    kine_phase = wbkin_phs_list[i]
+                    resampled_signal = griddata(np.unwrap(kine_phase),
                                                 signal[idxs],
                                                 xi,method = 'cubic')
                     resampled_strokes[kine_key].append(resampled_signal)
@@ -263,7 +263,7 @@ class Fly(object):
         #convert the lists to arrays
         for key in resampled_strokes.keys():
             resampled_strokes[key] = np.squeeze(np.array(resampled_strokes[key]))
-        expmnt['kine_sequences'][seq_num]['resampled_strokes'] = resampled_strokes
+        expmnt['wbkin_sequences'][seq_num]['resampled_strokes'] = resampled_strokes
         
     def get_kine_phases(self,
                         experiment_name,
@@ -277,7 +277,7 @@ class Fly(object):
         not used"""
         exp = self.fly_record['experiments'][experiment_name]
         #if 'kine_sequences' not in exp.keys(): self.load_kine_sequences(experiment_name)
-        seq = exp['kine_sequences'][seq_num]
+        seq = exp['wbkin_sequences'][seq_num]
         from scipy.signal import hilbert
         kine_times = seq['axon_times']
         amp_signal =(seq[stroke_amp_R] + seq[stroke_amp_L])/2
@@ -290,7 +290,7 @@ class Fly(object):
         A = np.mod(np.unwrap(A),2*np.pi)
         #find the phase of the ventral stroke reversal and re-wrap
         peak_phase = np.mean(A[peaks])
-        A2 = np.mod(np.unwrap(A)+peak_phase+np.pi,2*np.pi)
+        A2 = np.mod(np.unwrap(A)+peak_phase,2*np.pi)
         idx = np.where(np.diff(A2)<0)[0]+1
         stai = 0
         stpi = len(idx)-2
@@ -300,19 +300,20 @@ class Fly(object):
         #we need the axon data to load the phys data
         if 'axon_data' not in exp.keys(): self.load_axon_data(experiment_name)
         axon_times = exp['axon_data']['times'][seq['axon_epoch']]
-        for i1,i2 in zip(idx[stai:stpi],idx[stai+1:stpi+1])[:-3]:
+        for i1,i2 in zip(idx[stai:stpi],idx[stai+2:stpi+2])[:-3]:
             stroke_times.append(kine_times[i1+nan_idx:i2+nan_idx])
             stroke_phases.append(A2[i1:i2])
             stroke_kin_idx.append(np.arange(i1+nan_idx,i2+nan_idx))
             axon_i1 = np.argwhere(axon_times>=stroke_times[-1][0])[0]+seq['axon_epoch'][0]
             axon_i2 = np.argwhere(axon_times>stroke_times[-1][-1])[0]+seq['axon_epoch'][0]
             stroke_phys_idx.append([axon_i1,axon_i2])
-            axon_phases.append(np.linspace(0, 2*np.pi, axon_i2-axon_i1))
+            axon_phases.append(np.linspace(0, 4*np.pi, axon_i2-axon_i1))
         return {'stroke_times':stroke_times,
                 'stroke_phases_kin':stroke_phases,
                 'stroke_kin_idx':stroke_kin_idx,
                 'stroke_phys_idx':stroke_phys_idx,
-                'stroke_phases_axon':axon_phases}
+                'stroke_phases_axon':axon_phases,
+                'phot_seq_phases':A2}
         
 def get_axon_signals(filename):
     from neo.io.axonio import AxonIO
@@ -353,7 +354,7 @@ def butter_bandpass_filter(data, lowcut, highcut, sampling_period, order=5):
     y = scipy.signal.filtfilt(b, a, data)
     return y
     
-def fit_fourier_pcomp(strk_mtrx,p_init):
+def fit_fourier(strk_mtrx,p_init):
     num_strokes = np.shape(strk_mtrx)[0]
     reshaped = np.squeeze(np.reshape(strk_mtrx,(np.size(strk_mtrx),1)))
     phases = np.linspace(0,2*np.pi*num_strokes,np.size(strk_mtrx))
