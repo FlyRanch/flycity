@@ -74,7 +74,7 @@ end
 
 %% const
 cd(cam1_seq_path)
-ICframe = find(data.kine.body.data.length~=0, 1, 'last' )
+ICframe = startframe %find(data.kine.body.data.length~=0, 1, 'first' )
 
 %% Endframe as offset of IC frame
 
@@ -232,7 +232,6 @@ model = gssm_flyOcc('init');
 
 % Define start and end frames of calculation
 frames = [startframe endframe];
-
 Arg.type = 'state';                             
 Arg.tag = ['State estimation for ' PAR.stub ' data.']; 
 Arg.model = model;                      

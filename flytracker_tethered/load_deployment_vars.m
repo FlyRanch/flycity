@@ -1,7 +1,7 @@
 %% Run variables
 date_str = '20140410'
 seq_number = 1
-startframe = 1;
+startframe = 9;
 BGframe = 2;
 endframe = 1365;
 
