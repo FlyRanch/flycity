@@ -46,12 +46,23 @@ class Fly(object):
         self.rootpath = self.params['platform_paths'][sys.platform] + self.params['root_dir']
         self.fly_path = self.rootpath + ('Fly%04d/')%(fly_record['flynum'])
         
-    def load_processed_seq(self,experiment_name):
+    def load_processed_kine(self,experiment_name):
+        """load the processed (resampled ect) kine data from a cPickle file saved in the 
+        primary directory of the fly - gets around the need to load all the axon data
+        into memory"""
         import cPickle
         f = self.fly_path + 'lr_blob_expansion_processed_kine.cpkl'
         f = open(f,'rb')
         seqs = cPickle.load(f)
         self.fly_record['experiments'][experiment_name]['kine_sequences'] = seqs
+        
+    def save_processed_kine(self,experiment_name):
+        """cPickle the processed kine data to be loaded later - helps with memory 
+        management""" 
+        import cPickle
+        f = open(self.fly_path + experiment_name + '_processed_kine.cpkl','wb')
+        cPickle.dump(self.fly_record['experiments'][experiment_name]['kine_sequences'],f)
+        f.close()   
         
     def load_kine_sequences(self,experiment_name):
         """load all the matlab generated kine sequences for an exp"""
@@ -85,13 +96,7 @@ class Fly(object):
         kine_data['last_track'] = last_track
         kine_data['frame_nums'] = np.arange(1,last_track)
         return kine_data
-    
-    def save_expmnt_kine(self,experiment_name):
-        import cPickle
-        f = open(self.fly_path + experiment_name + '_processed_kine.cpkl','wb')
-        cPickle.dump(self.fly_record['experiments'][experiment_name]['kine_sequences'],f)
-        f.close()   
-            
+     
     def load_photron_sequences(self,experiment_name):
         """function loads the photron sequences from a given experiment without using
         matlab file"""
