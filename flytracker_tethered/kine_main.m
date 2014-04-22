@@ -17,7 +17,7 @@
 %
 % 2004.06.28 Version 2_1 includes scripts and debugging by Qing Liu
 %---------------------------------------------------------------------
-function kine_main(setup_file,data_path)
+function kine_main()
 %clear all
 
 load_deployment_vars
@@ -53,9 +53,9 @@ disp(setup_file)
           
 %setup_path = [cd,filesep,'setup',filesep];
 
-found_file = exist([setup_path,setup_file]);
+found_file = exist(fullfile(setup_path,setup_file));
 if found_file == 2
-    data.setup = load([setup_path,setup_file]);
+    data.setup = load(fullfile(setup_path,setup_file));
 else
     msg = 'No default setup file detected, please create a setup called "default" using the Setup choice in the Options menu';
     dlgname = 'NO DEFAULT SETUP';
@@ -99,7 +99,7 @@ end
 
 if isfield(data.setup,'data_path') == 0
     %setup_wrong = setup_wrong + 1;
-    data.setup.data_path = data_path;
+    data.setup.data_path = cam1_seq_path;
 end
 
 if exist(data.setup.data_path) == 0
