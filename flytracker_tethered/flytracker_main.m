@@ -27,18 +27,20 @@ close all
 clear
 clc
 start = clock;
-
+load_deployment_vars
 % software paths
+addpath(fullfile(software_root_dir,'flytracker_library'));
 addpath(fullfile(software_root_dir,'mex'));
 addpath(fullfile(software_root_dir,'core'));
 addpath(fullfile(software_root_dir,'results'));
+addpath(fullfile(software_root_dir,'SpinConv'));
 addpath(fullfile(software_root_dir,'postproc','AA_check_wbkin'));
 addpath(fullfile(software_root_dir,'postproc','AA_check_wbkin','WBKinProg_Johan'));
 addpath(fullfile(software_root_dir,'postproc','AA_check_wbkin','WBKinProg_Johan','Kalman_Filter'));
 addpath(fullfile(software_root_dir,'postproc','AA_check_wbkin','WBKinProg_Johan','Plot'));
 addpath(fullfile(software_root_dir,'postproc','AA_check_wbkin','WBKinProg_Johan','Plot','Smoothing_plots'));
 addpath(fullfile(software_root_dir,'postproc','AA_check_wbkin','WBKinProg_Johan','Body_model'));
-addpath(fullfile(software_root_dir,'postproc','AA_check_wbkin','WBKinProg_Johan','Body_model','mex'));
+%addpath(fullfile(software_root_dir,'postproc','AA_check_wbkin','WBKinProg_Johan','Body_model','mex'));
 addpath(fullfile(software_root_dir,'postproc','AA_check_wbkin','WBKinProg_Johan','Type2Regression'));
 
 %% Add the subdirectories that contain important / necessary files
@@ -55,7 +57,7 @@ if exist(FileFromKine)~=2
 end
 load(FileFromKine);
 %check to make sure that we have a good first file to work with
-if exist(PathName) ~= 7
+if exist(cam1_seq_path) ~= 7
     [cam1_file1,cam1_seq_path] = uigetfile('*.tif','Click on any image in video sequence');
 end
 %check to make sure the solution path for the sequence exists
@@ -71,7 +73,7 @@ if exist(CalibFile)~=2
 end
 
 %% const
-cd(PathName)
+cd(cam1_seq_path)
 ICframe = find(data.kine.body.data.length~=0, 1, 'last' )
 
 %% Endframe as offset of IC frame
@@ -88,7 +90,7 @@ framesample = 1;
 numcam = 3;
 
 % frame rate
-cd(PathName)
+cd(cam1_seq_path)
 cam_info = importdata(cih_file,' ',12);
 fps = cam_info.data(1);
 dt = 1/fps;
@@ -104,7 +106,7 @@ imgres = [size(im,1) size(im,2)];
 useIC = getIC; % FTMmod: dont load frame<startframe, but use ICframe
 
 %% FTMmod: load previous ManualFit if it exists
-PAR = LoadVideo(PathName,FileName,solutionpath);
+PAR = LoadVideo(cam1_seq_path,cam1_file1,seq_sol_path);
 
 if exist([PAR.solutionpath PAR.solutiondirname '/ManualFit_' PAR.solutiondirname '.mat'])==2
     
@@ -192,6 +194,7 @@ PAR.BWfilterRatio = BWfilterRatio;
 PAR.WingBodyRatio = WingBodyRatio;
 %% Get Initial Conditions
 if getIC == true
+    disp('here')
     %Calculate the initial condition
     ManualFit = auto_init(ManualFit,PAR.ICframe,'BG');
     ManualFit = auto_init(ManualFit,PAR.ICframe,'IC');
