@@ -1,13 +1,13 @@
 %% Run variables
-date_str = '20140410'
+date_str = '20140402'
 seq_number = 1
-startframe = 9;
+startframe = 13;
 BGframe = 2;
 endframe = 1365;
 
 %% Deployment variables
 software_root_dir = '/home/matt/flycity/flytracker_tethered'
-data_root_dir = '/media/thad01b/'
+data_root_dir = '/media/thad01/'
 
 %% Kine settings
 kine_dir = fullfile(software_root_dir,'kine');
@@ -103,7 +103,8 @@ move_model_groups('manual_track_tethered_hydei_7500fps') = {'MoveModel_IncSearch
 move_model_groups('manual_track_tethered_melanogaster_6000fps') = {'MoveModel_IncSearch_20140310_S0001.mat',
                                                                    'MoveModel_IncSearch_20140327_S0001.mat',
                                                                    'MoveModel_IncSearch_20140327_S0005.mat',
-                                                                   'MoveModel_IncSearch_20140401_S0001.mat'};
+                                                                   'MoveModel_IncSearch_20140401_S0001.mat',
+                                                                   'MoveModel_IncSearch_20140402_S0001.mat'};
 move_model_groups('computer_track_tethered_melanogaster_6000fps') = {'20140310_S0001_successful_flytrack_MoveModel_frm599_615.mat',
                                                                      '20140310_S0001_successful_flytrack_MoveModel_frm411_448.mat',
                                                                      '20140310_S0001_successful_flytrack_MoveModel_frm246_325.mat',

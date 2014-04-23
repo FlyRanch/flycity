@@ -198,7 +198,7 @@ if getIC == true
     %% make movement model
     PAR.digits = 4;
     MoveModel = auto_init_multi(ManualFit,PAR.ICframe,'IC_mult');
-    %save([PAR.solutionpath,'MoveModel_IncSearch' KineName(5:end)],'MoveModel');
+    save([PAR.solutionpath,'MoveModel_IncSearch_' sprintf(sol_format_str,date_str,seq_number)],'MoveModel');
 
     % MoveModel = auto_init_multi_nosearch(ManualFit,PAR.ICframe,'IC_mult');
     % save([PAR.solutionpath,'MoveModel_NOsearch' KineName(5:end)],'MoveModel');
