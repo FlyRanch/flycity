@@ -74,7 +74,7 @@ end
 
 %% const
 cd(cam1_seq_path)
-ICframe = startframe %find(data.kine.body.data.length~=0, 1, 'first' )
+ICframe = find(data.kine.body.data.length~=0, 1, 'first' )
 
 %% Endframe as offset of IC frame
 
