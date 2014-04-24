@@ -70,13 +70,13 @@ class Fly(object):
         frmtstr = self.fly_record['experiments'][experiment_name]['solution_format_string']
         frmtstr += self.fly_record['experiments'][experiment_name]['kine_filename']
         kinefiles = [self.fly_path + frmtstr%(snum) for snum in snums]
-        kines = [self.load_wbkin(kine_filename) for kine_filename in kinefiles]
+        kines = [self.load_wbkin_file(kine_filename) for kine_filename in kinefiles]
         #add the file string since if the list of sequences for a fly is re-arranged
         #this key will allow them to be re-sorted in order
         [k.update({'seq_num':snum}) for k,snum in zip(kines,snums)]
         self.fly_record['experiments'][experiment_name]['wbkin_sequences'] = kines
         
-    def load_wbkin(self,kine_filename):
+    def load_wbkin_file(self,kine_filename):
         """load the matlab generated wb kine and append with some info for convenience"""
         kine_data = scipy.io.loadmat(kine_filename)
         ##now to make life easier add the frame numbers to the dictionary
@@ -97,16 +97,16 @@ class Fly(object):
         kine_data['frame_nums'] = np.arange(1,last_track)
         return kine_data
      
-    def load_photron_sequences(self,experiment_name):
+    def load_solution_sequences(self,experiment_name):
         """function loads the photron sequences from a given experiment without using
         matlab file"""
         snums = self.fly_record['experiments'][experiment_name]['photron_seq_nums']
         frmtstr = self.fly_record['experiments'][experiment_name]['solution_format_string']
         seqpaths = [self.fly_path + frmtstr%(snum) for snum in snums]
-        seqs = [self.load_solution_seq(seqpath) for seqpath in seqpaths]
-        self.fly_record['experiments'][experiment_name]['photron_sequences'] = seqs
+        seqs = [self.load_solution_files(seqpath) for seqpath in seqpaths]
+        self.fly_record['experiments'][experiment_name]['solution_sequences'] = seqs
         
-    def load_solution_seq(self,sequence_path):
+    def load_solution_files(self,sequence_path):
         """convenience function to load the sequence from fly tracks function will cat
         the frame numbers into the first row the kine matrx, also the untracked frames
         before the start of the sequence are padded with NaNs - tries to emulate the same 
@@ -195,8 +195,8 @@ class Fly(object):
     def calc_seqs_strokeplanes(self,experiment_name):
         """calculate the strokeplane for all the seqences of an experiment"""
         exp = self.fly_record['experiments'][experiment_name]
-        if 'photron_sequences' not in exp.keys(): self.load_photron_sequences(experiment_name)
-        seqs = exp['photron_sequences']
+        if 'solution_sequences' not in exp.keys(): self.load_solution_sequences(experiment_name)
+        seqs = exp['solution_sequences']
         exp['strokeplanes'] = [self.calc_seq_strokeplane(s) for s in seqs]
         
     def calc_seq_strokeplane(self,seq):
