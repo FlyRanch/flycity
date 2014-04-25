@@ -46,7 +46,7 @@ class Fly(object):
         self.fly_path = self.rootpath + ('Fly%04d/')%(fly_record['flynum'])
     
 class Experiment(object):
-    """Controler class for an individual experiments init with the fly_record and
+    """Controller class for an individual experiments init with the fly_record and
     experiment name holds a reference to the experiment record in the fly_record 
     to facilitate operations on those data"""
     
@@ -99,23 +99,7 @@ class Experiment(object):
         seqpaths = [self.fly_path + frmtstr%(snum) for snum in snums]
         seqs = [load_solution_files(seqpath) for seqpath in seqpaths]
         self.exp_record['solution_sequences'] = seqs
-
-class Sequence(object):
-    def __init__(self,exp_record,seq_num,fly_path):
-        self.exp_record = exp_record
-        self.fly_path = fly_path
-        self.seq_num = seq_num
-        self.seq_record = exp_record[seq_num]
-        frmtstr = self.exp_record['solution_format_string']
-        self.seq_path = self.fly_path + frmtstr%(self.seq_num)
-    
-    def load_seqence(self):
-        self.seq_record['solution_data'] = load_solution_files(self.seq_path)
-        frmtstr = self.exp_record['solution_format_string']
-        frmtstr += self.exp_record['kine_filename']
-        kine_filename = self.fly_path + frmtstr%(self.seq_num)
-        self.seq_record['wbkin_data'] = load_wbkin_file(kine_filename)
-    
+        
     def get_cam_epochs(self):
         """load and sync the axon and photron data for the capture epochs of a
         given experiment. Loads the axon and photron data if they are not already loaded"""
@@ -154,7 +138,24 @@ class Sequence(object):
         [d.update({'expan_pol':self.lookup_trial_from_ypos(epoch)}) for d,epoch in zip(self.exp_record['wbkin_sequences'],cam_epochs)]
         [d.update({'axon_idxs':idxs}) for d,idxs in zip(self.exp_record['wbkin_sequences'],frame_idx_list)]
         [d.update({'axon_times':times[idxs]}) for d,idxs in zip(self.exp_record['wbkin_sequences'],frame_idx_list)]
+        
+
+class Sequence(object):
+    def __init__(self,exp_record,seq_num,fly_path):
+        self.exp_record = exp_record
+        self.fly_path = fly_path
+        self.seq_num = seq_num
+        self.seq_record = exp_record[seq_num]
+        frmtstr = self.exp_record['solution_format_string']
+        self.seq_path = self.fly_path + frmtstr%(self.seq_num)
     
+    def load_seqence(self):
+        self.seq_record['solution_data'] = load_solution_files(self.seq_path)
+        frmtstr = self.exp_record['solution_format_string']
+        frmtstr += self.exp_record['kine_filename']
+        kine_filename = self.fly_path + frmtstr%(self.seq_num)
+        self.seq_record['wbkin_data'] = load_wbkin_file(kine_filename)
+        
     def lookup_trial_from_ypos(self,epoch):
         """map the Y position signal to the trial type - given some epoch to average
         over. A future version will be able to figure out what that interval should be
