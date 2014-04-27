@@ -8,8 +8,8 @@ import quantities as pq
 import scipy.io
 import warnings
 
-stroke_amp_R = 'phi_R'
-stroke_amp_L = 'phi_L'
+stro_R = 'phi_R'
+stro_L = 'phi_L'
 stroke_dev_R = 'theta_R'
 stroke_dev_L = 'theta_L'
 wing_rot_R = 'eta_R'
@@ -24,7 +24,7 @@ class Squadron(object):
     """Controller object to facilitate the groupwise analysis of the fly data"""
     def __init__(self,fly_db):
         self.fly_db = fly_db
-        self.flies = [Fly(fly_db[flyn]) for flyn in fly_db.keys()]
+        self.flies = [Fly(fly_db,int(flyn)) for flyn in fly_db.keys()]
     
     def load_kine(self,experiment_name):
         "just load the kine data for each fly"
@@ -44,6 +44,13 @@ class Fly(object):
         self.param_file.close()
         self.rootpath = self.params['platform_paths'][sys.platform] + self.params['root_dir']
         self.fly_path = self.rootpath + ('Fly%04d/')%(flynum)
+        self.experiments = self.get_experiments()
+        
+    def get_experiments(self):
+        experiments = dict()
+        for experiment_name in self.fly_record['experiments'].keys():
+            experiments[experiment_name] = Experiment(self.fly_record,experiment_name,self.fly_path)
+        return experiments
     
 class Experiment(object):
     """Controller class for an individual experiments init with the fly_record and
@@ -104,14 +111,15 @@ class Experiment(object):
                 warnings.warn("problem extracting idxs from camera_sync_signal for epoch %s using even spaced idx's over the camera epoch instead"%(snum))
                 frame_idxs = fallback_frame_idx(epoch,numframes)
             if not('axon' in sequence.seq_record.keys()):
-                sequence.seq_record.create_group('ephys')
-            sequence.seq_record['axon']['epoch'] = epoch
-            sequence.seq_record['axon']['idxs'] = frame_idxs
-            sequence.seq_record['axon']['times'] = times[frame_idxs]
+                sequence.seq_record.create_group('axon')
+            sequence.seq_record['wbkin']['axon_epoch'] = epoch
+            sequence.seq_record['wbkin']['axon_idxs'] = frame_idxs
+            sequence.seq_record['wbkin']['axon_times'] = times[frame_idxs]
             keys = filter(lambda x: not(x in ['times','sampling_period']),self.exp_record['axon_data'].keys())
             for key in keys:
                 signal = np.array(self.exp_record['axon_data'][key])
-                sequence.seq_record['axon'][key] = signal[frame_idxs]
+                sequence.seq_record['axon'][key] = signal[frame_idxs[0]:frame_idxs[-1]]
+            sequence.seq_record['axon']['times'] = times[frame_idxs[0]:frame_idxs[-1]]
             sequence.seq_record['expan_pol'] = sequence.lookup_trial_from_ypos()
 
 class Sequence(object):
@@ -144,7 +152,7 @@ class Sequence(object):
         """map the Y position signal to the trial type - given some epoch to average
         over. A future version will be able to figure out what that interval should be
         - but this might be hard to do without loosing generality"""
-        epoch_ypos = np.mean(self.seq_record['ephys']['Ypos'])
+        epoch_ypos = np.mean(self.seq_record['axon']['Ypos'])
         trial_idx = np.argmin(abs(self.exp_record['Ypos_trial_volts']-epoch_ypos))
         trial_val = self.exp_record['Ypos_trial_vals'][trial_idx]
         return trial_val
@@ -165,18 +173,14 @@ class Sequence(object):
         it should return the data needed to chop up the kine and physiology into 
         wingstrokes and put the data into the phase domain. 'mode' and 'fband' currently
         not used"""
-        exp = self.fly_record['experiments'][experiment_name]
-        #if 'kine_sequences' not in exp.keys(): self.load_kine_sequences(experiment_name)
-        seq = exp['wbkin_sequences'][seq_num]
-        
-        
         from scipy.signal import hilbert
-        kine_times = seq['axon']['times']
-        amp_signal =(seq[stroke_amp_R] + seq[stroke_amp_L])/2
-        nan_idx = np.argwhere(~np.isnan(amp_signal))[0][0]
-        amp_signal = amp_signal[~np.isnan(amp_signal)]
-        kine_times = kine_times[~np.isnan(amp_signal)]
-        filt_sig = butter_bandpass_filter(amp_signal,150.,250.,kine_times[1]-kine_times[0],order = 3)
+        frame_times = self.seq_record['wbkin']['axon_times']
+        stro_angle = np.array((self.seq_record['wbkin'][stro_L][:,] + self.seq_record['wbkin'][stro_R][:,])/2)
+        stro_angle = np.squeeze(stro_angle)
+        nan_idx = np.argwhere(~np.isnan(stro_angle))[0][0]
+        frame_times = frame_times[~np.isnan(stro_angle)]
+        stro_angle = stro_angle[~np.isnan(stro_angle)]
+        filt_sig = butter_bandpass_filter(stro_angle,150.,250.,frame_times[1]-frame_times[0],order = 3)
         peaks = scipy.signal.find_peaks_cwt(filt_sig*-1,np.arange(1,20))
         A = np.angle(hilbert(filt_sig))
         A = np.mod(np.unwrap(A),2*np.pi)
@@ -190,14 +194,13 @@ class Sequence(object):
         stroke_times = list();stroke_phases = list();stroke_phys_idx = list();
         stroke_kin_idx = list();axon_phases = list()
         #we need the axon data to load the phys data
-        if 'axon_data' not in exp.keys(): self.load_axon_data(experiment_name)
-        axon_times = exp['axon_data']['times'][seq['axon_epoch']]
-        for i1,i2 in zip(idx[stai:stpi],idx[stai+2:stpi+2])[:-3]:
-            stroke_times.append(kine_times[i1+nan_idx:i2+nan_idx])
+        axon_times = self.seq_record['axon']['times']
+        for i1,i2 in zip(idx[stai:stpi],idx[stai+3:stpi+3])[:-5]:
+            stroke_times.append(frame_times[i1+nan_idx:i2+nan_idx])
             stroke_phases.append(A2[i1:i2])
             stroke_kin_idx.append(np.arange(i1+nan_idx,i2+nan_idx))
-            axon_i1 = np.argwhere(axon_times>=stroke_times[-1][0])[0]+seq['axon_epoch'][0]
-            axon_i2 = np.argwhere(axon_times>stroke_times[-1][-1])[0]+seq['axon_epoch'][0]
+            axon_i1 = np.argwhere(axon_times>=stroke_times[-1][0])[0]
+            axon_i2 = np.argwhere(axon_times>stroke_times[-1][-1])[0]
             stroke_phys_idx.append([axon_i1,axon_i2])
             axon_phases.append(np.linspace(0, 4*np.pi, axon_i2-axon_i1))
         return {'stroke_times':stroke_times,
