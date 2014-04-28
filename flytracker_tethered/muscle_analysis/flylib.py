@@ -114,12 +114,12 @@ class Experiment(object):
                 sequence.seq_record.create_group('axon')
             sequence.seq_record['wbkin']['axon_epoch'] = epoch
             sequence.seq_record['wbkin']['axon_idxs'] = frame_idxs
-            sequence.seq_record['wbkin']['axon_times'] = times[frame_idxs]
+            sequence.seq_record['wbkin']['photron_sample_times'] = times[frame_idxs]
             keys = filter(lambda x: not(x in ['times','sampling_period']),self.exp_record['axon_data'].keys())
             for key in keys:
                 signal = np.array(self.exp_record['axon_data'][key])
                 sequence.seq_record['axon'][key] = signal[frame_idxs[0]:frame_idxs[-1]]
-            sequence.seq_record['axon']['times'] = times[frame_idxs[0]:frame_idxs[-1]]
+            sequence.seq_record['axon']['axon_sample_times'] = times[frame_idxs[0]:frame_idxs[-1]]
             sequence.seq_record['expan_pol'] = sequence.lookup_trial_from_ypos()
 
 class Sequence(object):
@@ -165,7 +165,7 @@ class Sequence(object):
         seqs = self.exp_record['solution_sequences']
         self.exp_record['strokeplanes'] = [calc_seq_strokeplane(s) for s in seqs]
         
-    def get_kine_phases(self,
+    def calc_kine_phases(self,
                         mode = 'hilbert',
                         fband = (150,250)):
         """return the time series of the wingstroke phase extracted from the wingbeat
@@ -174,11 +174,12 @@ class Sequence(object):
         wingstrokes and put the data into the phase domain. 'mode' and 'fband' currently
         not used"""
         from scipy.signal import hilbert
-        frame_times = self.seq_record['wbkin']['axon_times']
+        frame_times = self.seq_record['wbkin']['photron_sample_times']
         stro_angle = np.array((self.seq_record['wbkin'][stro_L][:,] + self.seq_record['wbkin'][stro_R][:,])/2)
         stro_angle = np.squeeze(stro_angle)
-        nan_idx = np.argwhere(~np.isnan(stro_angle))[0][0]
+        nan_idx = np.argwhere(~np.isnan(stro_angle))
         frame_times = frame_times[~np.isnan(stro_angle)]
+        phase_trace = stro_angle.copy()
         stro_angle = stro_angle[~np.isnan(stro_angle)]
         filt_sig = butter_bandpass_filter(stro_angle,150.,250.,frame_times[1]-frame_times[0],order = 3)
         peaks = scipy.signal.find_peaks_cwt(filt_sig*-1,np.arange(1,20))
@@ -186,29 +187,29 @@ class Sequence(object):
         A = np.mod(np.unwrap(A),2*np.pi)
         #find the phase of the ventral stroke reversal and re-wrap
         peak_phase = np.mean(A[peaks])
-        A2 = np.mod(np.unwrap(A)+peak_phase,2*np.pi)
-        idx = np.where(np.diff(A2)<0)[0]+1
+        A2 = np.unwrap(A)+peak_phase
+        phase_trace[nan_idx] = A2[:]
+        self.seq_record['wbkin']['seq_phase'] = phase_trace
+    
+    def select_wb_idx(self):
+        phases = np.array(self.seq_record['wbkin']['seq_phase'])
+        frame_times = np.array(self.seq_record['wbkin']['photron_sample_times'])
+        nanidx = np.squeeze(np.argwhere(~np.isnan(phases)))
+        idx = np.argwhere(np.diff(np.mod(phases[nanidx],2*np.pi))<0)[:,0]+1+nanidx[0]
+        print idx
         stai = 0
         stpi = len(idx)-2
         #store the data in some lists
-        stroke_times = list();stroke_phases = list();stroke_phys_idx = list();
-        stroke_kin_idx = list();axon_phases = list()
+        stroke_phys_idx = list();stroke_kin_idx = list()
         #we need the axon data to load the phys data
-        axon_times = self.seq_record['axon']['times']
+        axon_times = self.seq_record['axon']['axon_sample_times']
         for i1,i2 in zip(idx[stai:stpi],idx[stai+3:stpi+3])[:-5]:
-            stroke_times.append(frame_times[i1+nan_idx:i2+nan_idx])
-            stroke_phases.append(A2[i1:i2])
-            stroke_kin_idx.append(np.arange(i1+nan_idx,i2+nan_idx))
-            axon_i1 = np.argwhere(axon_times>=stroke_times[-1][0])[0]
-            axon_i2 = np.argwhere(axon_times>stroke_times[-1][-1])[0]
-            stroke_phys_idx.append([axon_i1,axon_i2])
-            axon_phases.append(np.linspace(0, 4*np.pi, axon_i2-axon_i1))
-        return {'stroke_times':stroke_times,
-                'stroke_phases_kin':stroke_phases,
-                'stroke_kin_idx':stroke_kin_idx,
-                'stroke_phys_idx':stroke_phys_idx,
-                'stroke_phases_axon':axon_phases,
-                'phot_seq_phases':A2}
+            stroke_kin_idx.append(np.arange(i1,i2))
+            axon_i1 = np.argwhere(axon_times>=frame_times[i1])[0]
+            axon_i2 = np.argwhere(axon_times>frame_times[i2])[0]
+            stroke_phys_idx.append(np.arange(axon_i1,axon_i2))
+        return {'photron_sample_idx':stroke_kin_idx,
+                'axon_sample_idx':stroke_phys_idx}
                 
     def resample_strokes(self,seq_num,num_samples = 500):
         """resample the wb into an evenly sampled phase-domain matrix for each
