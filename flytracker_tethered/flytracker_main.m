@@ -74,12 +74,15 @@ end
 
 %% const
 cd(cam1_seq_path)
-ICframe = find(data.kine.body.data.length~=0, 1, 'first' )
+%ICframe = find(data.kine.body.data.length~=0, 1, 'first' )
 
 %% Endframe as offset of IC frame
 
 if exist('startframe') == 0
+    ICframe = find(data.kine.body.data.length~=0, 1, 'first' )
     startframe = ICframe;
+else
+    ICframe = startframe - 1
 end
 
 numframes = endframe-startframe+1;
@@ -272,6 +275,6 @@ time_used = stop-start
 secs_per_frame = ((time_used(3)*24*60*60 + time_used(4)*60*60 + time_used(5)*60 + time_used(6)) / (endframe-startframe)*framesample);
 
 % make projection movie
-cd(solutionpath);
+cd(seq_sol_path);
 paste_top_projection_makemovie
 %A_Wing_kinematics_v2_checkFlyData

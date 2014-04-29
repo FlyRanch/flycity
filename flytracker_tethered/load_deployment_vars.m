@@ -1,13 +1,13 @@
 %% Run variables
-date_str = '20140410'
-seq_number = 1
-%startframe = 13;
-BGframe = 2;
+date_str = '20140428'
+seq_number = 6;
+%startframe = 193;
+BGframe = 1;
 endframe = 1365;
 
 %% Deployment variables
 software_root_dir = '/home/matt/flycity/flytracker_tethered'
-data_root_dir = '/media/thad01/'
+data_root_dir = '/media/thad01b/'
 
 %% Kine settings
 kine_dir = fullfile(software_root_dir,'kine');
@@ -27,17 +27,17 @@ MoveModelPath = fullfile(software_root_dir,'Models',filesep);
 sol_root_path = fullfile(data_root_dir,'solutions');
 seq_sol_path = fullfile(sol_root_path,sprintf(sol_format_str,date_str,seq_number),filesep)
 FileFromKine = fullfile(seq_sol_path,['kine_',sprintf(sol_format_str,date_str,seq_number),'.mat']);
-cam1_seq_path = fullfile(data_root_dir,'Photron','SEQS',date_str,sprintf(seq_format_str,1,1,1),filesep)
+cam1_seq_path = fullfile(data_root_dir,'Photron','SEQS',date_str,sprintf(seq_format_str,1,1,seq_number),filesep)
 cam1_files = dir(fullfile(cam1_seq_path,'*tif'));
 cam1_file1 = cam1_files(1).name
 cih_file = dir(fullfile(cam1_seq_path,'*.cih'));
 cih_file = cih_file.name;
 
 getIC = true;
-getBodyShape = true;
+getBodyShape = false;
 
 % to plot or not to plot
-plot_data = true;
+plot_data = false;
 
 % This is the number of sample points used within the Fly model.
 %It changes how fine the mesh is. 
@@ -106,7 +106,9 @@ move_model_groups('manual_track_tethered_melanogaster_6000fps') = {'MoveModel_In
                                                                    'MoveModel_IncSearch_20140401_S0001.mat',
                                                                    'MoveModel_IncSearch_20140402_S0001.mat',
                                                                    'MoveModel_IncSearch_20140402_S0002.mat',
-                                                                   'MoveModel_IncSearch_20140410_S0001.mat'};
+                                                                   'MoveModel_IncSearch_20140410_S0001.mat',
+                                                                   'MoveModel_IncSearch_20140410_S0007.mat',
+                                                                   'MoveModel_IncSearch_20140428_S0001.mat'};
 move_model_groups('computer_track_tethered_melanogaster_6000fps') = {'20140310_S0001_successful_flytrack_MoveModel_frm599_615.mat',
                                                                      '20140310_S0001_successful_flytrack_MoveModel_frm411_448.mat',
                                                                      '20140310_S0001_successful_flytrack_MoveModel_frm246_325.mat',
