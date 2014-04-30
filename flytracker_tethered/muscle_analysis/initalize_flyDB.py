@@ -14,7 +14,6 @@ def main():
     cPickle.dump(fly_db,f)
     f.close()
     
-    
 fly_db = h5py.File("flydb.hdf5", "w")
 #############################################################################################fly_record = dict()
 flynum = str(111)

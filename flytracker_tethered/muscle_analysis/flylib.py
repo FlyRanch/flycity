@@ -20,6 +20,9 @@ params = json.load(param_file)
 param_file.close()
 #rootpath = params['platform_paths'][sys.platform] + params['root_dir']
 
+photron_interest_signals = ['eta_L','eta_R','phi_L','phi_R','photron_sample_times','theta_L','theta_R']
+axon_interest_signals = ['AMsysCh1','CamSync','LeftWing','Ph0','Ph1','Ph2','Photostim','RightWing','WBSync','Xpos','Ypos','axon_sample_times']
+
 class Squadron(object):
     """Controller object to facilitate the groupwise analysis of the fly data"""
     def __init__(self,fly_db):
@@ -36,14 +39,14 @@ class Fly(object):
     and the object is used to facilitate adding and removing data from this dictionary
     but does does not itself own the dictionary: if Fly is deleted, the dictionary
     can still exist"""
-    def __init__(self,fly_db,flynum):
-        self.flynum = flynum
-        self.fly_record = fly_db[str(flynum)]
+    def __init__(self,fly_db,fly_num):
+        self.fly_num = fly_num
+        self.fly_record = fly_db[str(fly_num)]
         self.param_file = open('params.json','rb')
         self.params = json.load(self.param_file)
         self.param_file.close()
         self.rootpath = self.params['platform_paths'][sys.platform] + self.params['root_dir']
-        self.fly_path = self.rootpath + ('Fly%04d/')%(flynum)
+        self.fly_path = self.rootpath + ('Fly%04d/')%(fly_num)
         self.experiments = self.get_experiments()
         
     def get_experiments(self):
@@ -139,6 +142,7 @@ class Sequence(object):
         self.seq_record['flytracks'] = load_flytracks_files(self.seq_path)
         
     def import_processed_wbkin(self):
+        """import the wbkin file produced by Johan's matlab script"""
         frmtstr = self.exp_record['solution_format_string'][0]
         frmtstr += self.exp_record['kine_filename'][0]
         kine_filename = self.fly_path + frmtstr%(self.seq_num)
@@ -165,14 +169,9 @@ class Sequence(object):
         seqs = self.exp_record['solution_sequences']
         self.exp_record['strokeplanes'] = [calc_seq_strokeplane(s) for s in seqs]
         
-    def calc_kine_phases(self,
-                        mode = 'hilbert',
-                        fband = (150,250)):
-        """return the time series of the wingstroke phase extracted from the wingbeat
-        kine. Send the function the experiment name and the sequence number of intrest
-        it should return the data needed to chop up the kine and physiology into 
-        wingstrokes and put the data into the phase domain. 'mode' and 'fband' currently
-        not used"""
+    def calc_kine_phases(self,fband = (150,250)):
+        """calculate the time series of the wingstroke phase extracted from the wingbeat
+        kine inplace. 'fband' defines the frequency band to detect phases"""
         from scipy.signal import hilbert
         frame_times = self.seq_record['wbkin']['photron_sample_times']
         stro_angle = np.array((self.seq_record['wbkin'][stro_L][:,] + self.seq_record['wbkin'][stro_R][:,])/2)
@@ -181,7 +180,7 @@ class Sequence(object):
         frame_times = frame_times[~np.isnan(stro_angle)]
         phase_trace = stro_angle.copy()
         stro_angle = stro_angle[~np.isnan(stro_angle)]
-        filt_sig = butter_bandpass_filter(stro_angle,150.,250.,frame_times[1]-frame_times[0],order = 3)
+        filt_sig = butter_bandpass_filter(stro_angle,fband[0],fband[1],frame_times[1]-frame_times[0],order = 3)
         peaks = scipy.signal.find_peaks_cwt(filt_sig*-1,np.arange(1,20))
         A = np.angle(hilbert(filt_sig))
         A = np.mod(np.unwrap(A),2*np.pi)
@@ -190,13 +189,65 @@ class Sequence(object):
         A2 = np.unwrap(A)+peak_phase
         phase_trace[nan_idx] = A2[:]
         self.seq_record['wbkin']['seq_phase'] = phase_trace
-    
+        
+    def calc_wb_mtrx(self,num_samples = 1500):
+        """resample the data from  the photron and axon signals into the phase domain-
+        currently three cycles -2pi to 4pi"""
+        import scipy
+        wb_idx = self.select_wb_idx()
+        phase = np.array(self.seq_record['wbkin']['seq_phase'])
+        photron_sample_times = np.array(self.seq_record['wbkin']['photron_sample_times'])
+        axon_sample_times = np.array(self.seq_record['axon']['axon_sample_times'])
+        wb_mtrx = dict()
+        for key in photron_interest_signals:
+            wb_mtrx[key] = list()
+        for key in axon_interest_signals:
+            wb_mtrx[key] = list()
+        for a_samp,p_samp in zip(wb_idx['axon_sample_idx'],wb_idx['photron_sample_idx']):
+            try:
+                phase = np.array(self.seq_record['wbkin']['seq_phase'])
+                photron_sample_times_wb = photron_sample_times[p_samp]
+                axon_sample_times_wb = axon_sample_times[a_samp]
+                #### get a shifted phase trace
+                zero_idx = np.argwhere(np.diff(np.mod(phase[p_samp],2*np.pi))<0)[0]
+                phs_points_photron = phase[p_samp]-phase[p_samp][zero_idx]
+                #### get the phases at the axon sample points
+                phs_points_axon = scipy.interpolate.griddata(photron_sample_times_wb,
+                                                 phs_points_photron,
+                                                 axon_sample_times_wb,
+                                                 method = 'cubic')
+                nans = np.isnan(phs_points_axon)
+                #### now resample all the photron and axon signals at xi
+                xi = np.linspace(-2*np.pi,4*np.pi,num_samples)
+                for key in photron_interest_signals:
+                    signal = np.squeeze(np.array(self.seq_record['wbkin'][key])[p_samp])
+                    if key in ['eta_L','eta_R']:
+                        signal = np.unwrap(signal - np.pi/2)
+                    wb_mtrx[key].append(scipy.interpolate.griddata(phs_points_photron,
+                                                       signal,
+                                                       xi,
+                                                       method = 'cubic'))
+                for key in axon_interest_signals:
+                    signal = np.squeeze(np.array(self.seq_record['axon'][key])[a_samp])
+                    wb_mtrx[key].append(scipy.interpolate.griddata(phs_points_axon[~nans],
+                                                       signal[~nans],
+                                                       xi,
+                                                       method = 'linear'))
+            except ValueError:
+                print np.shape(phs_points_photron)
+                print np.shape(axon_sample_times_wb)
+                print np.shape(photron_sample_times_wb)
+        self.seq_record.create_group('wb_mtrx')
+        for key in wb_mtrx:
+            self.seq_record['wb_mtrx'][key] = np.array(wb_mtrx[key])
+                                                       
     def select_wb_idx(self):
+        """utility function to extract the indices of the wingstrokes, used for the
+        calc_wb_mtrx function"""
         phases = np.array(self.seq_record['wbkin']['seq_phase'])
         frame_times = np.array(self.seq_record['wbkin']['photron_sample_times'])
         nanidx = np.squeeze(np.argwhere(~np.isnan(phases)))
         idx = np.argwhere(np.diff(np.mod(phases[nanidx],2*np.pi))<0)[:,0]+1+nanidx[0]
-        print idx
         stai = 0
         stpi = len(idx)-2
         #store the data in some lists
@@ -210,59 +261,6 @@ class Sequence(object):
             stroke_phys_idx.append(np.arange(axon_i1,axon_i2))
         return {'photron_sample_idx':stroke_kin_idx,
                 'axon_sample_idx':stroke_phys_idx}
-                
-    def resample_strokes(self,seq_num,num_samples = 500):
-        """resample the wb into an evenly sampled phase-domain matrix for each
-        sequence"""
-        wbkin_phases = self.get_kine_phases('lr_blob_expansion',seq_num)
-        expmnt = self.fly_record['experiments']['lr_blob_expansion']
-        wbkin_keys = [stroke_amp_L,stroke_amp_R,
-                     stroke_dev_L,stroke_dev_R,
-                     wing_rot_L,wing_rot_R,]
-        #resample at these phases
-        xi = np.linspace(0,4*np.pi,num_samples)
-        #list of sampled wbkin phases
-        wbkin_phs_list = wbkin_phases['stroke_phases_kin']
-        #list of sampled ephys phases
-        ephys_phs_list = wbkin_phases['stroke_phases_axon']
-        #list of wbkin times for alignment within the sequence
-        times_list = wbkin_phases['stroke_times']
-        #list of the kine idxs
-        wing_idx_list = wbkin_phases['stroke_kin_idx']
-        #list of the ephys idx brackets
-        ephys_idx_bracket_list = wbkin_phases['stroke_phys_idx']
-        #construct as lists to start
-        resampled_strokes = {stroke_amp_L:list(),stroke_amp_R:list(),
-                          stroke_dev_L:list(),stroke_dev_R:list(),
-                          wing_rot_L:list(),wing_rot_R:list(),
-                          'axon_stroke_mtrx':list(),'stroke_idx_in_seq':list(),
-                          'stroke_times_in_exp':list()}
-        #resample the wb_kine
-        from scipy.interpolate import griddata
-        for i,idxs in enumerate(wing_idx_list):
-            if np.shape(idxs)[0] > 20:
-                for kine_key in wbkin_keys:
-                    signal = expmnt['wbkin_sequences'][seq_num][kine_key]
-                    kine_phase = wbkin_phs_list[i]
-                    resampled_signal = griddata(np.unwrap(kine_phase),
-                                                signal[idxs],
-                                                xi,method = 'cubic')
-                    resampled_strokes[kine_key].append(resampled_signal)
-                resampled_strokes['stroke_idx_in_seq'].append(i)
-                resampled_strokes['stroke_times_in_exp'].append(times_list[i])
-        #now add the physiology
-        for i in resampled_strokes['stroke_idx_in_seq']:
-            x0,x1 = ephys_idx_bracket_list[i]
-            ephys_sig = expmnt['axon_data']['AMsysCh1'][x0:x1]
-            ephys_phase = ephys_phs_list[i]
-            resamp = griddata(ephys_phase,ephys_sig,xi,method = 'cubic')
-            resampled_strokes['axon_stroke_mtrx'].append(resamp)
-        #convert the lists to arrays
-        for key in resampled_strokes.keys():
-            resampled_strokes[key] = np.squeeze(np.array(resampled_strokes[key]))
-        expmnt['wbkin_sequences'][seq_num]['resampled_strokes'] = resampled_strokes
-        
-
 
 def calc_seq_strokeplane(self,seq):
     """calculate the strokeplane from the quaternions of a sequence"""
