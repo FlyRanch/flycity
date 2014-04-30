@@ -6,7 +6,7 @@ close all
 loc = cd;
 % name=['cali_matrix_interp',loc(end-7:end)]
 name=['cali_matrix_',loc(end-7:end)]
-start = 3000;
+start = 20000;
 
 %% left wing: fly ref NOT robo ref
 list = dir('g_cal_left*.mat')

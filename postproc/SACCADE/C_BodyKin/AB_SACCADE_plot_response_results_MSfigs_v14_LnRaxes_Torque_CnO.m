@@ -2,10 +2,6 @@ clc
 clear
 close all
 
-addpath('/home/florian/Dropbox/WORK/toolbox')
-addpath('/home/florian/Dropbox/WORK/toolbox/plot2svg')
-addpath('/home/florian/Dropbox/WORK/toolbox/CircStat')
-
 %% rotation & counter-rotation time windows
 t_rot1_min = -.025;
 t_rot1_max = -.005;

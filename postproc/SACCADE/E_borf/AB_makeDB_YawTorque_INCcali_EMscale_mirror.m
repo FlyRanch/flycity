@@ -17,7 +17,8 @@ cali_file = cali_file.name
 load(cali_file)
 
 %% borf data
-load_dir = 'FreqNorm_Yaw_02182014';
+load_dir = dir('FreqNorm_Yaw_*');
+load_dir = load_dir.name
 load_name = 'F_yaw_LR';
 save_name =  load_name;
 

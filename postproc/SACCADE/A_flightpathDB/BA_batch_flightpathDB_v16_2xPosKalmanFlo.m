@@ -2,13 +2,6 @@ clear
 clc
 close all
 
-addpath('/home/florian/Dropbox/WORK/toolbox')
-addpath('/home/florian/Dropbox/WORK/toolbox/kalman')
-addpath('/home/florian/Dropbox/WORK/toolbox/kalman/EKF')
-addpath('/home/florian/Dropbox/WORK/toolbox/kalman/KalmanAll/Kalman')
-addpath('/home/florian/Dropbox/WORK/toolbox/kalman/KalmanAll/KPMstats')
-addpath('/home/florian/Dropbox/WORK/toolbox/kalman/KalmanAll/KPMtools')
-
 root = cd;
 dirs = dir;
 

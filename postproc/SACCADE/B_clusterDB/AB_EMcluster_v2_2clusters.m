@@ -4,9 +4,6 @@ clc
 clear
 close all
 
-addpath('/home/florian/Dropbox/WORK/toolbox')
-addpath('/home/florian/Dropbox/WORK/toolbox/plot2svg')
-
 % load('flightpathDB_pos_INCq.mat')
 % load('flightpathDB_pos_qbodyEKF.mat')
 % load('flightpathDB_pos_qbodyEKF_INCroll_2clusters_Ahor2.75mps2_strokeplane47.5deg_startframe1.mat')

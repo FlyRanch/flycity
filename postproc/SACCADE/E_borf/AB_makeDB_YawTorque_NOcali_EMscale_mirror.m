@@ -6,7 +6,7 @@ close all
 warning off
 
 
-load_dir = 'FreqNorm_Yaw_02182014';
+load_dir = 'FreqNorm_Yaw_04162014';
 load_name = 'F_yaw_LR';
 save_name =  load_name;
 

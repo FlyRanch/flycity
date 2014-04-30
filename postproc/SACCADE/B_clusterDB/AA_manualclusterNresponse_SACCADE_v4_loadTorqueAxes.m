@@ -4,10 +4,6 @@ clc
 clear
 close all
 
-addpath('/home/florian/Dropbox/WORK/toolbox')
-addpath('/home/florian/Dropbox/WORK/toolbox/plot2svg')
-addpath('/home/florian/Dropbox/WORK/flytracker/flytracker')
-
 loadname = ('flightpathDB_pos_qbodyEKF_INCroll.mat');
 if exist(loadname) ~= 2
     loadname = ('flightpathDB_pos_qbodyEKF_NOroll.mat');

@@ -16,9 +16,8 @@ cali_file = cali_file.name
 load(cali_file)
 
 %% borf data
-% load_dir = 'FreqNorm_TurnAxis_02202014';
-% load_dir = 'FreqNorm_TurnAxis_03122014';
-load_dir = 'FreqNorm_TurnAxis_03172014_HI';
+load_dir = dir('FreqNorm_TurnAxis*');
+load_dir = load_dir.name
 load_name = 'F_roll_LR';
 save_name =  'F_Raxis_LR';
 

@@ -2,11 +2,6 @@ clc
 clear
 close all
 
-addpath('/home/florian/Dropbox/WORK/toolbox')
-addpath('/home/florian/Dropbox/WORK/toolbox/plot2svg')
-addpath('/home/florian/Dropbox/WORK/toolbox/CircStat')
-addpath('/home/florian/Dropbox/WORK/toolbox/flytracker')
-
 loadname=dir('WBdataset_all_*')
 loadname=loadname.name;
 load(loadname)
