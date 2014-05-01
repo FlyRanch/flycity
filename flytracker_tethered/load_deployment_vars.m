@@ -1,6 +1,6 @@
 %% Run variables
 date_str = '20140428'
-seq_number = 6;
+seq_number = 1;
 %startframe = 193;
 BGframe = 1;
 endframe = 1365;
@@ -14,6 +14,7 @@ kine_dir = fullfile(software_root_dir,'kine');
 setup_path = fullfile(software_root_dir,'kine','setup');
 kine_mfile_path = kine_dir;
 setup_file = 'flightmuscles.mat';
+
 
 %% Flytracker settings
 % PAR is a static structure that defines various parameters of the tracking

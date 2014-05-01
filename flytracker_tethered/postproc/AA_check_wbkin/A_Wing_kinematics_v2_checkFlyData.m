@@ -43,10 +43,10 @@ settings.strokeplane_WBkin = strokeplane_WBkin;
 %%
 
 % initialize settings
-settings.path_names = add_paths;
-settings.fps = 7500;
-settings.frame_end = 5588;
-settings.trigger_frame = 2795;
+%settings.path_names = add_paths;
+settings.fps = 6000;
+settings.frame_end = 1365;
+settings.trigger_frame = 0;
 
 
 % Determine whether data is going to be saved or not [0 = off, 1 = on]:

@@ -4,7 +4,7 @@ savefile = 'pathDB1.mat';
 file_name = 'fly';
 dirname = 'flytracks';
 
-digits = 6;
+digits = 4;
 start_dir = 1;
 start_file = 4; % exclude ManualFit
 

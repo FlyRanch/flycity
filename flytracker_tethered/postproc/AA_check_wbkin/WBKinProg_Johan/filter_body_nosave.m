@@ -23,9 +23,9 @@ az = nan(size(pathDB.x));
 for i=1:size(pathDB.x,2)
     
     % start and stop point for the measurements
-    start = find(isnan(pathDB.x(:,i))==0, 1 );
+    %start = find(isnan(pathDB.x(:,i))==0, 1 );
+    start = find(isnan(pathDB.x(:,i))==0, 1, 'first' );
     stop = find(isnan(pathDB.x(:,i))==0, 1, 'last' );
-    
     % select measurements from NaN values
     Y = ([pathDB.x(start:stop,i) pathDB.y(start:stop,i) pathDB.z(start:stop,i)])';
     
