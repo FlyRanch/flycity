@@ -1,5 +1,70 @@
 import numpy as np
 
+class SpikePool(neo.SpikeTrain):
+    """hold a Sub group of spikes for further processing - keep track of spike
+    pool and spike pool indecies so it is easy to mix the results back in"""
+    def __init__(self,*args,**argv):
+        super(SpikePool,self).__init__(args,argv)
+        self.wv_mtrx = np.vstack([np.array(wv) for wv in self.waveforms])
+        self.spk_ind = np.arange(0,np.shape(self.wv_mtrx)[0])
+            
+    def copy_slice(self,sli,rezero = False):
+        """copy a spiketrain with metadata also enable slicing"""
+        st = self[sli]
+        if rezero:
+            shift = st.waveforms[0].times[0]
+        else:
+            shift = pq.Quantity(0,'s')
+        wvfrms = [neo.AnalogSignal(np.array(wf),
+                               units = wf.units,
+                               sampling_rate = wf.sampling_rate,
+                               name = wf.name,
+                               t_start = wf.t_start - shift)
+                               for wf in st.waveforms]
+        #pk_ind = self.annotations['pk_ind'][sli]
+        t_start = wvfrms[0].times[0]
+        t_stop = wvfrms[-1].times[-1]
+        return SpikePool(np.array(st)-float(shift),
+                        units = st.units,
+                        sampling_rate = st.sampling_rate,
+                        waveforms = wvfrms,
+                        left_sweep = st.left_sweep,
+                        t_start = t_start,
+                        t_stop = t_stop)
+        
+    def __reduce__(self):
+        return _new_spikepool, (self.__class__, np.array(self),
+                                 self.t_stop, self.units, self.dtype, True,
+                                 self.sampling_rate, self.t_start,
+                                 self.waveforms, self.left_sweep,
+                                 self.name, self.file_origin, self.description,
+                                 self.annotations)
+       
+                                
+def get_spike_pool(sweep,thresh = 10,wl=25,wr=20,filter_window = 35):
+    from scipy.signal import medfilt
+    detrend = np.array(sweep)-medfilt(sweep,filter_window)
+    deltas = np.diff(np.array(detrend>thresh,dtype = 'float'))
+    starts = np.argwhere(deltas>0.5)
+    stops = np.argwhere(deltas<-0.5)
+    if starts[0] > stops[0]:
+        stops = stops[1:]
+    if stops[-1] < starts[-1]:
+        starts = starts[:-1]
+    intervals = np.hstack((starts,stops))
+    peaks = [np.argmax(sweep[sta:stp])+sta for sta,stp in intervals]
+    waveforms = [sweep[pk-wl:pk+wr] for pk in peaks][2:-2]
+    sweep.sampling_period.units = 's'
+    pk_tms = sweep.times[array(peaks)][2:-2]
+    spike_pool = SpikePool(pk_tms,
+                                sweep.t_stop,
+                                sampling_rate = sweep.sampling_rate,
+                                waveforms = waveforms,
+                                left_sweep = wl*sweep.sampling_period,
+                                t_start = sweep.t_start,
+                                pk_ind = peaks)
+    return spike_pool
+    
 class SpkCollection(object):
     """class to hold the data for a collection of spikes.holds the matrx of waveforms
     and indxs from the trace that correspond to those waveforms""" 
