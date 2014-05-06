@@ -1,14 +1,14 @@
 function [temp] = pathDB3_nosave(settings,pathDB)
 % addpath('/home/florian/Dropbox/WORK/flytracker/flytracker')
-addpath('/home/florian/Dropbox/FlyCity/WORK/flytracker')
-addpath('/home/florian/Dropbox/FlyCity/WORK/flytracker/mex/')
-addpath('/home/florian/Dropbox/FlyCity/WORK/flytracker/core/')
-addpath('/home/florian/Dropbox/FlyCity/WORK/flytracker/results/')
+%addpath('/home/florian/Dropbox/FlyCity/WORK/flytracker')
+%addpath('/home/florian/Dropbox/FlyCity/WORK/flytracker/mex/')
+%addpath('/home/florian/Dropbox/FlyCity/WORK/flytracker/core/')
+%addpath('/home/florian/Dropbox/FlyCity/WORK/flytracker/results/')
 
-addpath('/home/matt/Dropbox/WORK/flytracker')
-addpath('/home/matt/Dropbox/WORK/flytracker/mex/')
-addpath('/home/matt/Dropbox/WORK/flytracker/core/')
-addpath('/home/matt/Dropbox/WORK/flytracker/results/')
+%addpath('/home/matt/Dropbox/WORK/flytracker')
+%addpath('/home/matt/Dropbox/WORK/flytracker/mex/')
+%addpath('/home/matt/Dropbox/WORK/flytracker/core/')
+%addpath('/home/matt/Dropbox/WORK/flytracker/results/')
 
 savefile = 'pathDB3.mat';
 

@@ -12,8 +12,8 @@ function [ p ] = test_for_clap(p,PAR)
     BL = PAR.params.bodyscale*(PAR.params.bodylen+PAR.params.headlen);
     RJTrans = BL.*([0.2021 0.1055 -0.1477]);
     LJTrans = BL.*([0.2021 -0.1055 -0.1477]);
-    RJTrans = RJTrans .* 0.001*1.2;
-    LJTrans = LJTrans .* 0.001*1.2;
+    RJTrans = RJTrans .* 0.001*1.1;
+    LJTrans = LJTrans .* 0.001*1.1;
     %now test for a clap pose - at this point just use the condition
     %that a wing has crossed the mid-sagital plane. Edit to apply a more 
     %rigorous condition.

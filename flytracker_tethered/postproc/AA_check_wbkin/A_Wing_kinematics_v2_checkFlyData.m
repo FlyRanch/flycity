@@ -12,7 +12,7 @@
 % clear
 % close all
 % clc
-
+clear all
 if exist('flytracks') == 7
     cd('flytracks')
     fly_list = dir('fly*');
@@ -36,9 +36,9 @@ if exist('flytracks') == 7
 % constants
 % strokeplane_WBkin = -55;
 % strokeplane_WBkin = -45;
-strokeplane_WBkin = -47.5;
+%strokeplane_WBkin = -47.5;
 
-settings.strokeplane_WBkin = strokeplane_WBkin;
+%settings.strokeplane_WBkin = strokeplane_WBkin;
 
 %%
 
@@ -559,6 +559,8 @@ if exist('pathDB1.mat')==2
     clear temp
 else
     temp = make_pathDB1_nosave(settings,pathDB);
+    strokeplane_WBkin = stroke_plane_angle(temp);
+    settings.strokeplane_WBkin = strokeplane_WBkin;
 %     temp = load('pathDB1.mat');
         pathDB.x = temp.x;
         pathDB.y = temp.y;
@@ -909,10 +911,10 @@ end
 end
 
 %% plot wb kin
-eta_L = 180/pi()*(eta_L) - 90;
-eta_R = 180/pi()*(eta_R) - 90;
-eta_L(eta_L<-180) = eta_L(eta_L<-180) + 360;
-eta_R(eta_R<-180) = eta_R(eta_R<-180) + 360;
+%eta_L = 180/pi()*(eta_L) - 90;
+%eta_R = 180/pi()*(eta_R) - 90;
+%eta_L(eta_L<-180) = eta_L(eta_L<-180) + 360;
+%eta_R(eta_R<-180) = eta_R(eta_R<-180) + 360;
 
 % figure
 subplot(3,1,1)
