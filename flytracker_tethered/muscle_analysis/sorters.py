@@ -1,4 +1,5 @@
 import numpy as np
+import neo
 
 class SpikePool(neo.SpikeTrain):
     """hold a Sub group of spikes for further processing - keep track of spike
@@ -6,6 +7,7 @@ class SpikePool(neo.SpikeTrain):
     def __init__(self,*args,**argv):
         super(SpikePool,self).__init__(args,argv)
         self.wv_mtrx = np.vstack([np.array(wv) for wv in self.waveforms])
+        self.time_mtrx = np.vstack([wf.times for wf in self.waveforms])
         self.spk_ind = np.arange(0,np.shape(self.wv_mtrx)[0])
             
     def copy_slice(self,sli,rezero = False):
@@ -39,31 +41,6 @@ class SpikePool(neo.SpikeTrain):
                                  self.waveforms, self.left_sweep,
                                  self.name, self.file_origin, self.description,
                                  self.annotations)
-       
-                                
-def get_spike_pool(sweep,thresh = 10,wl=25,wr=20,filter_window = 35):
-    from scipy.signal import medfilt
-    detrend = np.array(sweep)-medfilt(sweep,filter_window)
-    deltas = np.diff(np.array(detrend>thresh,dtype = 'float'))
-    starts = np.argwhere(deltas>0.5)
-    stops = np.argwhere(deltas<-0.5)
-    if starts[0] > stops[0]:
-        stops = stops[1:]
-    if stops[-1] < starts[-1]:
-        starts = starts[:-1]
-    intervals = np.hstack((starts,stops))
-    peaks = [np.argmax(sweep[sta:stp])+sta for sta,stp in intervals]
-    waveforms = [sweep[pk-wl:pk+wr] for pk in peaks][2:-2]
-    sweep.sampling_period.units = 's'
-    pk_tms = sweep.times[array(peaks)][2:-2]
-    spike_pool = SpikePool(pk_tms,
-                                sweep.t_stop,
-                                sampling_rate = sweep.sampling_rate,
-                                waveforms = waveforms,
-                                left_sweep = wl*sweep.sampling_period,
-                                t_start = sweep.t_start,
-                                pk_ind = peaks)
-    return spike_pool
     
 class SpkCollection(object):
     """class to hold the data for a collection of spikes.holds the matrx of waveforms
@@ -74,11 +51,11 @@ class SpkCollection(object):
         self.params = params
         
     def collection_wvmtrx(self):
-    """return the matrix of waveforms"""
+        """return the matrix of waveforms"""
         return self.spike_pool.wv_mtrx[self.collection_ind(),:]
         
     def collection_ind(self):
-    """return the indices of the spikes"""
+        """return the indices of the spikes"""
         return self.spike_pool.spk_ind[np.argwhere(self.selection_mask)[:,0]]
         
 class SpkSelector(SpkCollection):
@@ -106,7 +83,7 @@ class SpkSelector(SpkCollection):
         return self.spike_pool.wv_mtrx[self.ind_from_labels(select_labels)]
         
     def select(self):
-        """Used in classes that implements a methed to generate the labels inhereted
+        """abstract methed to generate the labels - inheriting
         classes should set self.labels[self.collection_ind()] to something"""
         pass
 
@@ -123,12 +100,12 @@ class SpkTransformer(SpkCollection):
         return self.trnsmtrx[self.collection_ind(),:]
     
     def transform(self):
-        """perform the transformation inherited classes should set self.trnsmtrx.
+        """perform the transformation inheriting classes should set self.trnsmtrx.
         can assume to have a subsample in self.collection_ind() to improve efficiency"""
         pass
 
 class SampleRandomSeq(SpkSelector):
-    def select(self,seq_len,n_seq):
+    def select(self):
         seq_len = self.params['seq_len']
         n_seq = self.params['n_seq']
         import random
@@ -284,4 +261,46 @@ class PCATransform2(SpkTransformer):
                                      whiten = self.params['pca_whiten'])
         self.est.fit(wv_mtrx)
         self.trnsmtrx[self.collection_ind(),:] = self.est.transform(wv_mtrx)
-        
+
+def plot_clusters(selector,plot_slice = slice(0,10,1)):
+    import pylab as plb
+    plb.figure(figsize=(2,4))
+    mask = selector.selection_mask
+    sp = selector.spike_pool
+    times = sp.waveforms[0].times - sp.waveforms[0].times[0]
+    peak_times = np.array(sp.times)[mask] - np.array([wf.times[0] for wf in sp.waveforms])[mask]
+    wv_mtrx = sp.wv_mtrx[mask,:]
+    labels = selector.labels[mask]
+    for wf,lb,tm in zip(wv_mtrx[plot_slice],labels[plot_slice],peak_times[plot_slice]):
+        try:
+            plb.subplot(2,1,int(lb)+1)
+            color_lookup = {'':'b','0':'r','1':'g'}
+            color = color_lookup[lb]
+            plb.plot(times,wf,color = color,alpha = 0.2)
+            plb.plot(tm,1,'o')
+        except ValueError:
+            pass  
+                                
+def get_spike_pool(sweep,thresh = 10,wl=25,wr=20,filter_window = 35):
+    from scipy.signal import medfilt
+    detrend = np.array(sweep)-medfilt(sweep,filter_window)
+    deltas = np.diff(np.array(detrend>thresh,dtype = 'float'))
+    starts = np.argwhere(deltas>0.5)
+    stops = np.argwhere(deltas<-0.5)
+    if starts[0] > stops[0]:
+        stops = stops[1:]
+    if stops[-1] < starts[-1]:
+        starts = starts[:-1]
+    intervals = np.hstack((starts,stops))
+    peaks = [np.argmax(sweep[sta:stp])+sta for sta,stp in intervals][2:-2]
+    waveforms = [sweep[pk-wl:pk+wr] for pk in peaks]
+    sweep.sampling_period.units = 's'
+    pk_tms = sweep.times[np.array(peaks)]
+    spike_pool = SpikePool(pk_tms,
+                                sweep.t_stop,
+                                sampling_rate = sweep.sampling_rate,
+                                waveforms = waveforms,
+                                left_sweep = wl*sweep.sampling_period,
+                                t_start = sweep.t_start,
+                                pk_ind = peaks)
+    return spike_pool        

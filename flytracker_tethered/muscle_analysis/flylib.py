@@ -6,7 +6,7 @@ import random
 import scipy
 import quantities as pq
 import scipy.io
-import warnings
+#import warnings
 
 stro_R = 'phi_R'
 stro_L = 'phi_L'
@@ -54,6 +54,7 @@ class Fly(object):
         for experiment_name in self.fly_record['experiments'].keys():
             experiments[experiment_name] = Experiment(self.fly_record,experiment_name,self.fly_path)
         return experiments
+        
     
 class Experiment(object):
     """Controller class for an individual experiments init with the fly_record and
@@ -86,8 +87,60 @@ class Experiment(object):
             self.exp_record.create_group('axon_data')
         for key in axondata:
             self.exp_record['axon_data'][key] = axondata[key]
+            
+    def calc_spikepool(self,thresh =5,wl = 100, wr = 200,filter_window = 55):
+        """initialize a putative pool of unsorted spikes"""
+        if not('spike_data' in self.exp_record.keys()):
+            self.exp_record.create_group('spike_data')
+        else:
+            del(self.exp_record['spike_data'])
+            self.exp_record.create_group('spike_data')
+        sweep = np.array(self.exp_record['axon_data']['AMsysCh1'])
+        times = np.array(self.exp_record['axon_data']['times'])
+        import neo
+        import sorters
+        sig = neo.AnalogSignal(sweep,units = 'V',sampling_period = pq.Quantity(times[1]-times[0],'s'))
+        sp = sorters.get_spike_pool(sig,
+                                    thresh=thresh,
+                                    wl = wl, wr = wr,
+                                    filter_window = filter_window)
+        self.exp_record['spike_data']['spike_pool'] = np.array(sp)
+        self.exp_record['spike_data']['wv_mtrx'] = sp.wv_mtrx
+        self.exp_record['spike_data']['time_mtrx'] = sp.time_mtrx
+        self.exp_record['spike_data']['peak_times'] = np.array(sp.times)
+        self.sp = sp
     
+    def set_spike_selection(self,cell_name,selection_mask):
+        """add a selection mask for spikes of a particular cell"""
+        if not(cell_name in self.exp_record['spike_data'].keys()):
+            self.exp_record['spike_data'].create_group(cell_name)
+        else:
+            del(self.exp_record['spike_data'][cell_name])
+            self.exp_record['spike_data'].create_group(cell_name)
+        self.exp_record['spike_data'][cell_name]['selection_mask'] = selection_mask
+    
+    def sync_sorted_spikes(self,cell_name):
+        """mix the sorted spikes into the wb_mtrx"""
+        for seq_key in self.sequences.keys():
+            seq = self.sequences[seq_key]
+            wb_times_mtrx = np.array(seq.seq_record['wb_mtrx']['axon_sample_times'])
+            wb_spike_mtrx = np.zeros_like(wb_times_mtrx)
+            mask = np.array(self.exp_record['spike_data'][cell_name]['selection_mask'])
+            spk_times = self.exp_record['spike_data']['peak_times'][mask]
+            for wb in np.arange(np.shape(wb_times_mtrx)[0]):
+                wb_times = wb_times_mtrx[wb,:]
+                cond1 = wb_times[~np.isnan(wb_times)][0]<spk_times
+                cond2 = wb_times[~np.isnan(wb_times)][-1]>spk_times
+                spikes_in_wb = np.argwhere(cond1 & cond2)
+                for spk in spikes_in_wb:
+                    idx = np.argwhere(np.diff((wb_times>spk_times[spk]).astype(float))>0)
+                    wb_spike_mtrx[wb,idx] = 1
+            if 'spikes_%s'%cell_name in seq.seq_record['wb_mtrx'].keys():
+                del(seq.seq_record['wb_mtrx']['spikes_%s'%cell_name])
+            seq.seq_record['wb_mtrx']['spikes_%s'%cell_name] = wb_spike_mtrx
+        
     def sync_sequences(self):
+        """sync the timing of ephys and high speed video data"""
         if 'axon_data' not in self.exp_record.keys():
             self.import_axon_data(experiment_name)
         fps = pq.Quantity(np.float64(self.exp_record['photron_frame_rate_Hz']),'Hz')
@@ -107,6 +160,7 @@ class Experiment(object):
             try:
                 frame_idxs = get_frame_idxs(epoch,self.exp_record['axon_data'])
             except IndexError:
+                import warnings
                 warnings.warn("problem extracting idxs from camera_sync_signal for sequence %s using even spaced idx's over the camera epoch instead"%(snum))
                 frame_idxs = fallback_frame_idx(epoch,numframes)
             if not(np.shape(frame_idxs)[0] == numframes):
@@ -169,7 +223,7 @@ class Sequence(object):
         seqs = self.exp_record['solution_sequences']
         self.exp_record['strokeplanes'] = [calc_seq_strokeplane(s) for s in seqs]
         
-    def calc_kine_phases(self,fband = (150,250)):
+    def calc_kine_phases(self,fband = (180,300)):
         """calculate the time series of the wingstroke phase extracted from the wingbeat
         kine inplace. 'fband' defines the frequency band to detect phases"""
         from scipy.signal import hilbert
@@ -233,10 +287,8 @@ class Sequence(object):
                                                        signal[~nans],
                                                        xi,
                                                        method = 'linear'))
-            except ValueError:
-                print np.shape(phs_points_photron)
-                print np.shape(axon_sample_times_wb)
-                print np.shape(photron_sample_times_wb)
+            except Exception as err:
+               print err
         self.seq_record.create_group('wb_mtrx')
         for key in wb_mtrx:
             self.seq_record['wb_mtrx'][key] = np.array(wb_mtrx[key])
