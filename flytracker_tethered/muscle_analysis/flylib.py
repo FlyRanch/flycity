@@ -292,6 +292,15 @@ class Sequence(object):
         self.seq_record.create_group('wb_mtrx')
         for key in wb_mtrx:
             self.seq_record['wb_mtrx'][key] = np.array(wb_mtrx[key])
+            
+    def calc_stim_frame(self,x_thresh = 2.5):
+        idx_col = np.argwhere(np.array(self.seq_record['axon']['Xpos'])>x_thresh)[0]
+        t_col = np.array(self.seq_record['axon']['axon_sample_times'])[idx_col]
+        ax_times = np.array(self.seq_record['wb_mtrx']['axon_sample_times'])
+        ph_times = np.array(self.seq_record['wb_mtrx']['photron_sample_times'])
+        mean_times = (ax_times+ph_times)/2
+        stim_times= mean_times - t_col
+        update_dset(self.seq_record['wb_mtrx'],'stim_frame_times',stim_times)
                                                        
     def select_wb_idx(self):
         """utility function to extract the indices of the wingstrokes, used for the
@@ -461,3 +470,9 @@ def fourier(phase,p):
 def errfunc(p,cos_mtrx,sin_mtrx,y):
     return fourier_pcomp(p,cos_mtrx,sin_mtrx)-y
 
+def update_dset(dset,key,value):
+    if not(key in dset.keys()):
+        dset[key] = value
+    else:
+        del(dset[key])
+        dset[key] = value

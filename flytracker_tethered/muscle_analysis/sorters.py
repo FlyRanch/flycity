@@ -61,8 +61,8 @@ class SpkCollection(object):
 class SpkSelector(SpkCollection):
     """object that will mask out a matrix of spikes from a list of labels"""
     def __init__(self,spike_pool,selection_mask,input_mtrx,params):
-        """init a collection of spikes and associated labels - these can be different
-        clusters from a k means or similar..""" 
+        """init a collection of spikes and associated labels - for instance, different
+        clusters from a k means....""" 
         super(SpkSelector,self).__init__(spike_pool,selection_mask,params)
         self.input_mtrx = input_mtrx
         self.labels = np.zeros(np.shape(selection_mask),dtype = 'S20')
@@ -83,7 +83,7 @@ class SpkSelector(SpkCollection):
         return self.spike_pool.wv_mtrx[self.ind_from_labels(select_labels)]
         
     def select(self):
-        """abstract methed to generate the labels - inheriting
+        """abstract method to generate the labels - inheriting
         classes should set self.labels[self.collection_ind()] to something"""
         pass
 
@@ -267,7 +267,7 @@ def plot_clusters(selector,plot_slice = slice(0,10,1)):
     plb.figure(figsize=(2,4))
     mask = selector.selection_mask
     sp = selector.spike_pool
-    times = sp.waveforms[0].times - sp.waveforms[0].times[0]
+    times = np.array(sp.waveforms[0].times - sp.waveforms[0].times[0])
     peak_times = np.array(sp.times)[mask] - np.array([wf.times[0] for wf in sp.waveforms])[mask]
     wv_mtrx = sp.wv_mtrx[mask,:]
     labels = selector.labels[mask]
