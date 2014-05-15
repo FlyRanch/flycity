@@ -110,7 +110,7 @@ class Experiment(object):
         self.exp_record['spike_data']['peak_times'] = np.array(sp.times)
         self.sp = sp
     
-    def set_spike_selection(self,cell_name,selection_mask):
+    def set_spike_selection(self,cell_name,selection_mask,pickle_data = True):
         """add a selection mask for spikes of a particular cell"""
         if not(cell_name in self.exp_record['spike_data'].keys()):
             self.exp_record['spike_data'].create_group(cell_name)
@@ -118,6 +118,14 @@ class Experiment(object):
             del(self.exp_record['spike_data'][cell_name])
             self.exp_record['spike_data'].create_group(cell_name)
         self.exp_record['spike_data'][cell_name]['selection_mask'] = selection_mask
+        if pickle_data:
+            sp_file = open(self.fly_path+'spike_pool.cpkl','wb')
+            mask_file = open(self.fly_path+'spike_mask.cpkl','wb')
+            import cPickle as cpkl
+            cpkl.dump(np.array(self.sp),sp_file)
+            cpkl.dump(np.array(selection_mask),mask_file)
+            sp_file.close()
+            sp_file.close()
     
     def sync_sorted_spikes(self,cell_name):
         """mix the sorted spikes into the wb_mtrx"""
