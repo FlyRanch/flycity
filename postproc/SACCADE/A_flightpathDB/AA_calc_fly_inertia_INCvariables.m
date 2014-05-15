@@ -107,9 +107,12 @@ Ipitch = Ipitch_disc;
 
 % LOW inertia inc added mass disc, -.025<tpre<-.005, .03<tpost<-.06
 rot_axis_angle = 23.2; % [deg] !!!
+% -.025<tpre<-.005
+rot1_axis_angle = 36.5; % [deg] !!!
+% .03<tpost<-.06
+rot2_axis_angle = 8.3; % [deg] !!!
 
 save('flyVars_addedmassDisc.mat')
-
 %% sphere
 Iyaw = Iyaw_sphere;
 Iroll = Iroll_sphere;
