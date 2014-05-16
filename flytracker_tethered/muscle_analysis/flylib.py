@@ -88,7 +88,7 @@ class Experiment(object):
         for key in axondata:
             self.exp_record['axon_data'][key] = axondata[key]
             
-    def calc_spikepool(self,thresh =5,wl = 100, wr = 200,filter_window = 55):
+    def calc_spikepool(self,thresh =5,wl = 100, wr = 200,filter_window = 55,invert_polarity = False):
         """initialize a putative pool of unsorted spikes"""
         if not('spike_data' in self.exp_record.keys()):
             self.exp_record.create_group('spike_data')
@@ -97,6 +97,8 @@ class Experiment(object):
             self.exp_record.create_group('spike_data')
         sweep = np.array(self.exp_record['axon_data']['AMsysCh1'])
         times = np.array(self.exp_record['axon_data']['times'])
+        if invert_polarity:
+            sweep *= -1
         import neo
         import sorters
         sig = neo.AnalogSignal(sweep,units = 'V',sampling_period = pq.Quantity(times[1]-times[0],'s'))
