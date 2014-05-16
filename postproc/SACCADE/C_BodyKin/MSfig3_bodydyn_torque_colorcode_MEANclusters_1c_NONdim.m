@@ -50,7 +50,7 @@ for j=1:length(color_var)
         plot(t-t_shift(i),Mpitch_norm(:,i),'-','color',grey_color,'linewidth',.25)
         subplot(3,3,9)
         plot(t-t_shift(i),Myaw_norm(:,i),'-','color',grey_color,'linewidth',.25)
-        
+%         pause
     end
 end
 

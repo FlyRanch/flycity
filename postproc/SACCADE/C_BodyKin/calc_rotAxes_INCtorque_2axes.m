@@ -1,5 +1,4 @@
 
-
 rot_axis_pos_mirror = atan2d(pitch,roll_mirror);
 rot_axis_vel_mirror = atan2d(pitch_dot,roll_dot_mirror);
 rot_axis_accel_mirror = atan2d(pitch_dot_dot,roll_dot_dot_mirror);
@@ -145,6 +144,28 @@ for i=1:size(rot_axis_vel_plot,2)
     M_axis2_norm_0stop = M_axis2_norm_now(t_now>0 & t_now<t_stop);
     M_axis2normal_norm_0stop = M_axis2normal_norm_now(t_now>0 & t_now<t_stop);
     
+    % t_start < t_cut
+    Mpitch_norm_startcut = Mpitch_norm_now(t_now>t_start & t_now<t_cut);
+    Mroll_norm_startcut = Mroll_norm_now(t_now>t_start & t_now<t_cut);
+    Myaw_norm_startcut = Myaw_norm_now(t_now>t_start & t_now<t_cut);
+    M_L_norm_startcut = M_L_norm_now(t_now>t_start & t_now<t_cut);
+    M_R_norm_startcut = M_R_norm_now(t_now>t_start & t_now<t_cut);
+    M_axis1_norm_startcut = M_axis1_norm_now(t_now>t_start & t_now<t_cut);
+    M_axis1normal_norm_startcut = M_axis1normal_norm_now(t_now>t_start & t_now<t_cut);
+    M_axis2_norm_startcut = M_axis2_norm_now(t_now>t_start & t_now<t_cut);
+    M_axis2normal_norm_startcut = M_axis2normal_norm_now(t_now>t_start & t_now<t_cut);
+    
+    % t_cut < t_stop
+    Mpitch_norm_cutstop = Mpitch_norm_now(t_now>t_cut & t_now<t_stop);
+    Mroll_norm_cutstop = Mroll_norm_now(t_now>t_cut & t_now<t_stop);
+    Myaw_norm_cutstop = Myaw_norm_now(t_now>t_cut & t_now<t_stop);
+    M_L_norm_cutstop = M_L_norm_now(t_now>t_cut & t_now<t_stop);
+    M_R_norm_cutstop = M_R_norm_now(t_now>t_cut & t_now<t_stop);
+    M_axis1_norm_cutstop = M_axis1_norm_now(t_now>t_cut & t_now<t_stop);
+    M_axis1normal_norm_cutstop = M_axis1normal_norm_now(t_now>t_cut & t_now<t_stop);
+    M_axis2_norm_cutstop = M_axis2_norm_now(t_now>t_cut & t_now<t_stop);
+    M_axis2normal_norm_cutstop = M_axis2normal_norm_now(t_now>t_cut & t_now<t_stop);
+    
     % MIN&MAX&MEAN TORQUES
     Mroll_norm_max_startstop(i,1) = max(Mroll_norm_startstop);
     Mpitch_norm_max_startstop(i,1) = max(Mpitch_norm_startstop);
@@ -155,6 +176,26 @@ for i=1:size(rot_axis_vel_plot,2)
     M_axis1normal_norm_max_startstop(i,1) = max(M_axis1normal_norm_startstop);
     M_axis2_norm_max_startstop(i,1) = max(M_axis2_norm_startstop);
     M_axis2normal_norm_max_startstop(i,1) = max(M_axis2normal_norm_startstop);
+    
+    Mroll_norm_max_startcut(i,1) = max(Mroll_norm_startcut);
+    Mpitch_norm_max_startcut(i,1) = max(Mpitch_norm_startcut);
+    Myaw_norm_max_startcut(i,1) = max(Myaw_norm_startcut);
+    M_L_norm_max_startcut(i,1) = max(M_L_norm_startcut);
+    M_R_norm_max_startcut(i,1) = max(M_R_norm_startcut);
+    M_axis1_norm_max_startcut(i,1) = max(M_axis1_norm_startcut);
+    M_axis1normal_norm_max_startcut(i,1) = max(M_axis1normal_norm_startcut);
+    M_axis2_norm_max_startcut(i,1) = max(M_axis2_norm_startcut);
+    M_axis2normal_norm_max_startcut(i,1) = max(M_axis2normal_norm_startcut);
+    
+    Mroll_norm_max_cutstop(i,1) = max(Mroll_norm_cutstop);
+    Mpitch_norm_max_cutstop(i,1) = max(Mpitch_norm_cutstop);
+    Myaw_norm_max_cutstop(i,1) = max(Myaw_norm_cutstop);
+    M_L_norm_max_cutstop(i,1) = max(M_L_norm_cutstop);
+    M_R_norm_max_cutstop(i,1) = max(M_R_norm_cutstop);
+    M_axis1_norm_max_cutstop(i,1) = max(M_axis1_norm_cutstop);
+    M_axis1normal_norm_max_cutstop(i,1) = max(M_axis1normal_norm_cutstop);
+    M_axis2_norm_max_cutstop(i,1) = max(M_axis2_norm_cutstop);
+    M_axis2normal_norm_max_cutstop(i,1) = max(M_axis2normal_norm_cutstop);
     
     Mroll_norm_min_startstop(i,1) = min(Mroll_norm_startstop);
     Mpitch_norm_min_startstop(i,1) = min(Mpitch_norm_startstop);
@@ -176,6 +217,26 @@ for i=1:size(rot_axis_vel_plot,2)
     M_axis2_norm_min_0stop(i,1) = min(M_axis2_norm_0stop);
     M_axis2normal_norm_min_0stop(i,1) = min(M_axis2normal_norm_0stop);
     
+    Mroll_norm_min_startcut(i,1) = min(Mroll_norm_startcut);
+    Mpitch_norm_min_startcut(i,1) = min(Mpitch_norm_startcut);
+    Myaw_norm_min_startcut(i,1) = min(Myaw_norm_startcut);
+    M_L_norm_min_startcut(i,1) = min(M_L_norm_startcut);
+    M_R_norm_min_startcut(i,1) = min(M_R_norm_startcut);
+    M_axis1_norm_min_startcut(i,1) = min(M_axis1_norm_startcut);
+    M_axis1normal_norm_min_startcut(i,1) = min(M_axis1normal_norm_startcut);
+    M_axis2_norm_min_startcut(i,1) = min(M_axis2_norm_startcut);
+    M_axis2normal_norm_min_startcut(i,1) = min(M_axis2normal_norm_startcut);
+    
+    Mroll_norm_min_cutstop(i,1) = min(Mroll_norm_cutstop);
+    Mpitch_norm_min_cutstop(i,1) = min(Mpitch_norm_cutstop);
+    Myaw_norm_min_cutstop(i,1) = min(Myaw_norm_cutstop);
+    M_L_norm_min_cutstop(i,1) = min(M_L_norm_cutstop);
+    M_R_norm_min_cutstop(i,1) = min(M_R_norm_cutstop);
+    M_axis1_norm_min_cutstop(i,1) = min(M_axis1_norm_cutstop);
+    M_axis1normal_norm_min_cutstop(i,1) = min(M_axis1normal_norm_cutstop);
+    M_axis2_norm_min_cutstop(i,1) = min(M_axis2_norm_cutstop);
+    M_axis2normal_norm_min_cutstop(i,1) = min(M_axis2normal_norm_cutstop);
+    
     Mroll_norm_mean_startstop(i,1) = nanmean(Mroll_norm_startstop);
     Mpitch_norm_mean_startstop(i,1) = nanmean(Mpitch_norm_startstop);
     Myaw_norm_mean_startstop(i,1) = nanmean(Myaw_norm_startstop);
@@ -195,6 +256,26 @@ for i=1:size(rot_axis_vel_plot,2)
     M_axis1normal_norm_mean_0stop(i,1) = nanmean(M_axis1normal_norm_0stop);
     M_axis2_norm_mean_0stop(i,1) = nanmean(M_axis2_norm_0stop);
     M_axis2normal_norm_mean_0stop(i,1) = nanmean(M_axis2normal_norm_0stop);
+    
+    Mroll_norm_mean_startcut(i,1) = nanmean(Mroll_norm_startcut);
+    Mpitch_norm_mean_startcut(i,1) = nanmean(Mpitch_norm_startcut);
+    Myaw_norm_mean_startcut(i,1) = nanmean(Myaw_norm_startcut);
+    M_L_norm_mean_startcut(i,1) = nanmean(M_L_norm_startcut);
+    M_R_norm_mean_startcut(i,1) = nanmean(M_R_norm_startcut);
+    M_axis1_norm_mean_startcut(i,1) = nanmean(M_axis1_norm_startcut);
+    M_axis1normal_norm_mean_startcut(i,1) = nanmean(M_axis1normal_norm_startcut);
+    M_axis2_norm_mean_startcut(i,1) = nanmean(M_axis2_norm_startcut);
+    M_axis2normal_norm_mean_startcut(i,1) = nanmean(M_axis2normal_norm_startcut);
+    
+    Mroll_norm_mean_cutstop(i,1) = nanmean(Mroll_norm_cutstop);
+    Mpitch_norm_mean_cutstop(i,1) = nanmean(Mpitch_norm_cutstop);
+    Myaw_norm_mean_cutstop(i,1) = nanmean(Myaw_norm_cutstop);
+    M_L_norm_mean_cutstop(i,1) = nanmean(M_L_norm_cutstop);
+    M_R_norm_mean_cutstop(i,1) = nanmean(M_R_norm_cutstop);
+    M_axis1_norm_mean_cutstop(i,1) = nanmean(M_axis1_norm_cutstop);
+    M_axis1normal_norm_mean_cutstop(i,1) = nanmean(M_axis1normal_norm_cutstop);
+    M_axis2_norm_mean_cutstop(i,1) = nanmean(M_axis2_norm_cutstop);
+    M_axis2normal_norm_mean_cutstop(i,1) = nanmean(M_axis2normal_norm_cutstop);
     
     %% TORQUES
     Mpitch_now = Mpitch(:,i);    
@@ -229,6 +310,28 @@ for i=1:size(rot_axis_vel_plot,2)
     M_axis2_0stop = M_axis2_now(t_now>0 & t_now<t_stop);
     M_axis2normal_0stop = M_axis2normal_now(t_now>0 & t_now<t_stop);
     
+    % t_start < t_cut
+    Mpitch_startcut = Mpitch_now(t_now>t_start & t_now<t_cut);
+    Mroll_startcut = Mroll_now(t_now>t_start & t_now<t_cut);
+    Myaw_startcut = Myaw_now(t_now>t_start & t_now<t_cut);
+    M_L_startcut = M_L_now(t_now>t_start & t_now<t_cut);
+    M_R_startcut = M_R_now(t_now>t_start & t_now<t_cut);
+    M_axis1_startcut = M_axis1_now(t_now>t_start & t_now<t_cut);
+    M_axis1normal_startcut = M_axis1normal_now(t_now>t_start & t_now<t_cut);
+    M_axis2_startcut = M_axis2_now(t_now>t_start & t_now<t_cut);
+    M_axis2normal_startcut = M_axis2normal_now(t_now>t_start & t_now<t_cut);
+    
+    % t_cut < t_stop
+    Mpitch_cutstop = Mpitch_now(t_now>t_cut & t_now<t_stop);
+    Mroll_cutstop = Mroll_now(t_now>t_cut & t_now<t_stop);
+    Myaw_cutstop = Myaw_now(t_now>t_cut & t_now<t_stop);
+    M_L_cutstop = M_L_now(t_now>t_cut & t_now<t_stop);
+    M_R_cutstop = M_R_now(t_now>t_cut & t_now<t_stop);
+    M_axis1_cutstop = M_axis1_now(t_now>t_cut & t_now<t_stop);
+    M_axis1normal_cutstop = M_axis1normal_now(t_now>t_cut & t_now<t_stop);
+    M_axis2_cutstop = M_axis2_now(t_now>t_cut & t_now<t_stop);
+    M_axis2normal_cutstop = M_axis2normal_now(t_now>t_cut & t_now<t_stop);
+    
     % MIN&MAX&MEAN TORQUES
     Mroll_max_startstop(i,1) = max(Mroll_startstop);
     Mpitch_max_startstop(i,1) = max(Mpitch_startstop);
@@ -239,6 +342,26 @@ for i=1:size(rot_axis_vel_plot,2)
     M_axis1normal_max_startstop(i,1) = max(M_axis1normal_startstop);
     M_axis2_max_startstop(i,1) = max(M_axis2_startstop);
     M_axis2normal_max_startstop(i,1) = max(M_axis2normal_startstop);
+    
+    Mroll_max_startcut(i,1) = max(Mroll_startcut);
+    Mpitch_max_startcut(i,1) = max(Mpitch_startcut);
+    Myaw_max_startcut(i,1) = max(Myaw_startcut);
+    M_L_max_startcut(i,1) = max(M_L_startcut);
+    M_R_max_startcut(i,1) = max(M_R_startcut);
+    M_axis1_max_startcut(i,1) = max(M_axis1_startcut);
+    M_axis1normal_max_startcut(i,1) = max(M_axis1normal_startcut);
+    M_axis2_max_startcut(i,1) = max(M_axis2_startcut);
+    M_axis2normal_max_startcut(i,1) = max(M_axis2normal_startcut);
+    
+    Mroll_max_cutstop(i,1) = max(Mroll_cutstop);
+    Mpitch_max_cutstop(i,1) = max(Mpitch_cutstop);
+    Myaw_max_cutstop(i,1) = max(Myaw_cutstop);
+    M_L_max_cutstop(i,1) = max(M_L_cutstop);
+    M_R_max_cutstop(i,1) = max(M_R_cutstop);
+    M_axis1_max_cutstop(i,1) = max(M_axis1_cutstop);
+    M_axis1normal_max_cutstop(i,1) = max(M_axis1normal_cutstop);
+    M_axis2_max_cutstop(i,1) = max(M_axis2_cutstop);
+    M_axis2normal_max_cutstop(i,1) = max(M_axis2normal_cutstop);
     
     Mroll_min_startstop(i,1) = min(Mroll_startstop);
     Mpitch_min_startstop(i,1) = min(Mpitch_startstop);
@@ -260,6 +383,26 @@ for i=1:size(rot_axis_vel_plot,2)
     M_axis2_min_0stop(i,1) = min(M_axis2_0stop);
     M_axis2normal_min_0stop(i,1) = min(M_axis2normal_0stop);
     
+    Mroll_min_startcut(i,1) = min(Mroll_startcut);
+    Mpitch_min_startcut(i,1) = min(Mpitch_startcut);
+    Myaw_min_startcut(i,1) = min(Myaw_startcut);
+    M_L_min_startcut(i,1) = min(M_L_startcut);
+    M_R_min_startcut(i,1) = min(M_R_startcut);
+    M_axis1_min_startcut(i,1) = min(M_axis1_startcut);
+    M_axis1normal_min_startcut(i,1) = min(M_axis1normal_startcut);
+    M_axis2_min_startcut(i,1) = min(M_axis2_startcut);
+    M_axis2normal_min_startcut(i,1) = min(M_axis2normal_startcut);
+    
+    Mroll_min_cutstop(i,1) = min(Mroll_cutstop);
+    Mpitch_min_cutstop(i,1) = min(Mpitch_cutstop);
+    Myaw_min_cutstop(i,1) = min(Myaw_cutstop);
+    M_L_min_cutstop(i,1) = min(M_L_cutstop);
+    M_R_min_cutstop(i,1) = min(M_R_cutstop);
+    M_axis1_min_cutstop(i,1) = min(M_axis1_cutstop);
+    M_axis1normal_min_cutstop(i,1) = min(M_axis1normal_cutstop);
+    M_axis2_min_cutstop(i,1) = min(M_axis2_cutstop);
+    M_axis2normal_min_cutstop(i,1) = min(M_axis2normal_cutstop);
+    
     Mroll_mean_startstop(i,1) = nanmean(Mroll_startstop);
     Mpitch_mean_startstop(i,1) = nanmean(Mpitch_startstop);
     Myaw_mean_startstop(i,1) = nanmean(Myaw_startstop);
@@ -279,6 +422,26 @@ for i=1:size(rot_axis_vel_plot,2)
     M_axis1normal_mean_0stop(i,1) = nanmean(M_axis1normal_0stop);
     M_axis2_mean_0stop(i,1) = nanmean(M_axis2_0stop);
     M_axis2normal_mean_0stop(i,1) = nanmean(M_axis2normal_0stop);
+    
+    Mroll_mean_startcut(i,1) = nanmean(Mroll_startcut);
+    Mpitch_mean_startcut(i,1) = nanmean(Mpitch_startcut);
+    Myaw_mean_startcut(i,1) = nanmean(Myaw_startcut);
+    M_L_mean_startcut(i,1) = nanmean(M_L_startcut);
+    M_R_mean_startcut(i,1) = nanmean(M_R_startcut);
+    M_axis1_mean_startcut(i,1) = nanmean(M_axis1_startcut);
+    M_axis1normal_mean_startcut(i,1) = nanmean(M_axis1normal_startcut);
+    M_axis2_mean_startcut(i,1) = nanmean(M_axis2_startcut);
+    M_axis2normal_mean_startcut(i,1) = nanmean(M_axis2normal_startcut);
+    
+    Mroll_mean_cutstop(i,1) = nanmean(Mroll_cutstop);
+    Mpitch_mean_cutstop(i,1) = nanmean(Mpitch_cutstop);
+    Myaw_mean_cutstop(i,1) = nanmean(Myaw_cutstop);
+    M_L_mean_cutstop(i,1) = nanmean(M_L_cutstop);
+    M_R_mean_cutstop(i,1) = nanmean(M_R_cutstop);
+    M_axis1_mean_cutstop(i,1) = nanmean(M_axis1_cutstop);
+    M_axis1normal_mean_cutstop(i,1) = nanmean(M_axis1normal_cutstop);
+    M_axis2_mean_cutstop(i,1) = nanmean(M_axis2_cutstop);
+    M_axis2normal_mean_cutstop(i,1) = nanmean(M_axis2normal_cutstop);
     
     %% TORQUE AXES
     % rot1

@@ -387,5 +387,5 @@ rot_dot_dot_R_mirror = roll_dot_dot_mirror*cosd(rot_axis_angle) + pitch_dot_dot*
 
 %% calc & save wb dataset
 % calc_wb_data_subsets_INCrotAxes_InCnorm
-calc_wb_data_subsets_INCrotAxes_InCnoNorm
+calc_wb_data_subsets_INCrotAxes1n2_InCnoNorm
 
