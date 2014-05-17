@@ -29,7 +29,7 @@ calc_WB_TorqueAxisR = 0;
 % calc_WB_PitchTorque_DOWN = 1;
 % calc_WB_PitchTorque = 1
 % calc_WB_RollTorque = 1
-% calc_WB_YawTorque = 1
+calc_WB_YawTorque = 1
 % calc_WB_TorqueAxisR = 1
 calc_WB_TorqueAxis1_UP = 1
 calc_WB_TorqueAxis2_DOWN = 1
@@ -38,7 +38,7 @@ mkdir('WBmod_figs_torque')
 
 %% settings
 % limits (*std)
-limit_mod = 1
+limit_mod = .5
 norm = 3
 
 % fourier orders
