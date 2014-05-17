@@ -29,7 +29,7 @@ calc_WB_TorqueAxisR = 0;
 % calc_WB_PitchTorque_DOWN = 1;
 % calc_WB_PitchTorque = 1
 % calc_WB_RollTorque = 1
-calc_WB_YawTorque = 1
+% calc_WB_YawTorque = 1
 % calc_WB_TorqueAxisR = 1
 calc_WB_TorqueAxis1_UP = 1
 calc_WB_TorqueAxis2_DOWN = 1
@@ -96,6 +96,10 @@ Myaw_limit_mod = limit_mod*nanstd(Myaw_mean_wb(:));
 Fenhance_limit_mod = limit_mod*nanstd(F_mean_wb(:));
 M_R_limit_mod = limit_mod*nanstd(M_R_mean_wb(:));
 M_L_limit_mod = limit_mod*nanstd(M_L_mean_wb(:));
+M_axis1_limit_mod = limit_mod*nanstd(M_axis1_mean_wb(:));
+M_axis2_limit_mod = limit_mod*nanstd(M_axis2_mean_wb(:));
+M_axis1normal_limit_mod = limit_mod*nanstd(M_axis1normal_mean_wb(:));
+M_axis2normal_limit_mod = limit_mod*nanstd(M_axis2normal_mean_wb(:));
 
 % normalization value
 Mroll_norm = norm*nanstd(Mroll_mean_wb(:));
@@ -104,6 +108,10 @@ Myaw_norm = norm*nanstd(Myaw_mean_wb(:));
 Fenhance_norm = norm*nanstd(F_mean_wb(:));
 M_R_norm = norm*nanstd(M_R_mean_wb(:));
 M_L_norm = norm*nanstd(M_L_mean_wb(:));
+M_axis1_norm = norm*nanstd(M_axis1_mean_wb(:));
+M_axis2_norm = norm*nanstd(M_axis2_mean_wb(:));
+M_axis1normal_norm = norm*nanstd(M_axis1normal_mean_wb(:));
+M_axis2normal_norm = norm*nanstd(M_axis2normal_mean_wb(:));
 
 % % TORQUE based constants
 % % limits
@@ -119,7 +127,7 @@ M_L_norm = norm*nanstd(M_L_mean_wb(:));
 % Fenhance_norm = norm*nanstd(F_mean_wb(:));
 
 %% save norm_data
-save('norm_data_torque.mat','Mroll_norm','Mpitch_norm','Myaw_norm','Fenhance_norm','M_R_norm','M_L_norm','f_wb_steady')
+save('norm_data_torque.mat','Mroll_norm','Mpitch_norm','Myaw_norm','Fenhance_norm','M_R_norm','M_L_norm','M_axis1_norm','M_axis2_norm','f_wb_steady')
 
 %% Fenhanced WB
 if calc_WB_Fenhanced == 1
@@ -660,13 +668,12 @@ xmin = -ceil(100*max(abs(M_axis1_mean_wb)))/100;
 % xmin = -1.5;
 xmax = -xmin;
 
-
 figure
 h=hist(M_axis1_mean_wb,50);
 hist(M_axis1_mean_wb,50)
 hold on
 plot([M_axis1_limit_mod M_axis1_limit_mod],[0 max(h)],'-r')
-plot([-M_axis1_limit_mod -M_axis1_limit_mod],[0 max(h)],'-r')
+% plot([-M_axis1_limit_mod -M_axis1_limit_mod],[0 max(h)],'-r')
 title('Torque axis1UP Torque')
 saveas(gca,['hist_TorqueAxis1UP',num2str(n_TorqueAxis1UP),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.fig'])
 saveas(gca,['hist_TorqueAxis1UP',num2str(n_TorqueAxis1UP),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.png'])
@@ -721,6 +728,85 @@ plot2svg(['hist_TorqueAxis1UP',num2str(n_TorqueAxis1UP),'WBs_limit',num2str(limi
     saveas(gca,['WBmod_devUSMINcoeff_TorqueAxis1UP_',num2str(n_TorqueAxis1UP),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.fig'])
     saveas(gca,['WBmod_devUSMINcoeff_TorqueAxis1UP_',num2str(n_TorqueAxis1UP),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.png'])
     plot2svg(['WBmod_devUSMINcoeff_TorqueAxis1UP_',num2str(n_TorqueAxis1UP),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.svg'])
+
+    cd ..
+    end
+end
+
+%% Torque around rotation axis2 DOWN
+if calc_WB_TorqueAxis2_DOWN == 1
+
+%     calc_accelbased_wbNORM_wingatt_rotAxisR
+    calc_Torquebased_wbNORM_wingatt_TorqueAxis2_DOWN
+
+    if plot_on ==1
+
+    cd('WBmod_figs_torque')
+    
+xmin = -ceil(100*max(abs(M_axis1_mean_wb)))/100;
+% xmin = -1.5;
+xmax = -xmin;
+
+figure
+h=hist(M_axis1_mean_wb,50);
+hist(M_axis1_mean_wb,50)
+hold on
+plot([M_axis1_limit_mod M_axis1_limit_mod],[0 max(h)],'-r')
+plot([-M_axis1_limit_mod -M_axis1_limit_mod],[0 max(h)],'-r')
+title('Torque axis2DOWN Torque')
+saveas(gca,['hist_TorqueAxis2DOWN',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.fig'])
+saveas(gca,['hist_TorqueAxis2DOWN',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.png'])
+plot2svg(['hist_TorqueAxis2DOWN',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.svg'])
+
+    plot_WBmod_heatmap_TorqueAxis2DOWN
+    saveas(gca,['WBmod_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.fig'])
+    saveas(gca,['WBmod_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.png'])
+    plot2svg(['WBmod_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.svg'])
+    
+    plot_WBmodNsteady_TorqueAxis2DOWN
+    saveas(gca,['WBmodNsteady_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.fig'])
+    saveas(gca,['WBmodNsteady_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.png'])
+    plot2svg(['WBmodNsteady_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.svg'])
+    
+    plot_WBmod_strokeMAXcoeff_TorqueAxis2DOWN
+    saveas(gca,['WBmod_strokeMAXcoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.fig'])
+    saveas(gca,['WBmod_strokeMAXcoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.png'])
+    plot2svg(['WBmod_strokeMAXcoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.svg'])
+
+    plot_WBmod_strokeMINcoeff_TorqueAxis2DOWN
+    saveas(gca,['WBmod_strokeMINcoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.fig'])
+    saveas(gca,['WBmod_strokeMINcoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.png'])
+    plot2svg(['WBmod_strokeMINcoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.svg'])
+
+    plot_WBmod_pitchMIDDScoeff_TorqueAxis2DOWN
+    saveas(gca,['WBmod_pitchMIDDScoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.fig'])
+    saveas(gca,['WBmod_pitchMIDDScoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.png'])
+    plot2svg(['WBmod_pitchMIDDScoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.svg'])
+
+    plot_WBmod_pitchMIDUScoeff_TorqueAxis2DOWN
+    saveas(gca,['WBmod_pitchMIDUScoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.fig'])
+    saveas(gca,['WBmod_pitchMIDUScoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.png'])
+    plot2svg(['WBmod_pitchMIDUScoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.svg'])
+
+    plot_WBmod_devDSMAXcoeff_TorqueAxis2DOWN
+    saveas(gca,['WBmod_devDSMAXcoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.fig'])
+    saveas(gca,['WBmod_devDSMAXcoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.png'])
+    plot2svg(['WBmod_devDSMAXcoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.svg'])
+
+    plot_WBmod_devDSMINcoeff_TorqueAxis2DOWN
+    saveas(gca,['WBmod_devDSMINcoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.fig'])
+    saveas(gca,['WBmod_devDSMINcoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.png'])
+    plot2svg(['WBmod_devDSMINcoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.svg'])
+
+    plot_WBmod_devUSMAXcoeff_TorqueAxis2DOWN
+    saveas(gca,['WBmod_devUSMAXcoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.fig'])
+    saveas(gca,['WBmod_devUSMAXcoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.png'])
+    plot2svg(['WBmod_devUSMAXcoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.svg'])
+    
+    plot_WBmod_devUSMINcoeff_TorqueAxis2DOWN
+    saveas(gca,['WBmod_devUSMINcoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.fig'])
+    saveas(gca,['WBmod_devUSMINcoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.png'])
+    plot2svg(['WBmod_devUSMINcoeff_TorqueAxis2DOWN_',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.svg'])
 
     cd ..
     end

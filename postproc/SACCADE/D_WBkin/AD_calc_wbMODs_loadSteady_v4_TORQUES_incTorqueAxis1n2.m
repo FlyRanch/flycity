@@ -98,6 +98,8 @@ M_R_limit_mod = limit_mod*nanstd(M_R_mean_wb(:));
 M_L_limit_mod = limit_mod*nanstd(M_L_mean_wb(:));
 M_axis1_limit_mod = limit_mod*nanstd(M_axis1_mean_wb(:));
 M_axis2_limit_mod = limit_mod*nanstd(M_axis2_mean_wb(:));
+M_axis1normal_limit_mod = limit_mod*nanstd(M_axis1normal_mean_wb(:));
+M_axis2normal_limit_mod = limit_mod*nanstd(M_axis2normal_mean_wb(:));
 
 % normalization value
 Mroll_norm = norm*nanstd(Mroll_mean_wb(:));
@@ -108,6 +110,8 @@ M_R_norm = norm*nanstd(M_R_mean_wb(:));
 M_L_norm = norm*nanstd(M_L_mean_wb(:));
 M_axis1_norm = norm*nanstd(M_axis1_mean_wb(:));
 M_axis2_norm = norm*nanstd(M_axis2_mean_wb(:));
+M_axis1normal_norm = norm*nanstd(M_axis1normal_mean_wb(:));
+M_axis2normal_norm = norm*nanstd(M_axis2normal_mean_wb(:));
 
 % % TORQUE based constants
 % % limits
@@ -669,7 +673,7 @@ h=hist(M_axis1_mean_wb,50);
 hist(M_axis1_mean_wb,50)
 hold on
 plot([M_axis1_limit_mod M_axis1_limit_mod],[0 max(h)],'-r')
-plot([-M_axis1_limit_mod -M_axis1_limit_mod],[0 max(h)],'-r')
+% plot([-M_axis1_limit_mod -M_axis1_limit_mod],[0 max(h)],'-r')
 title('Torque axis1UP Torque')
 saveas(gca,['hist_TorqueAxis1UP',num2str(n_TorqueAxis1UP),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.fig'])
 saveas(gca,['hist_TorqueAxis1UP',num2str(n_TorqueAxis1UP),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.png'])
@@ -747,7 +751,7 @@ figure
 h=hist(M_axis1_mean_wb,50);
 hist(M_axis1_mean_wb,50)
 hold on
-plot([M_axis1_limit_mod M_axis1_limit_mod],[0 max(h)],'-r')
+% plot([M_axis1_limit_mod M_axis1_limit_mod],[0 max(h)],'-r')
 plot([-M_axis1_limit_mod -M_axis1_limit_mod],[0 max(h)],'-r')
 title('Torque axis2DOWN Torque')
 saveas(gca,['hist_TorqueAxis2DOWN',num2str(n_TorqueAxis2DOWN),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.fig'])
@@ -812,46 +816,46 @@ end
     save('WBdataset_all_steadyNmods_TorqueNorm.mat')
 
 %% MS plots
-% load('WBdataset_all_steadyNmods_TorqueNorm.mat')
-mkdir('MSfigs_WBkin_torque')
-cd('MSfigs_WBkin_torque')
-
-MSplot_WBfunc_heatmap_steady_NOtick
-    saveas(gca,['MSplot_WBfunc_heatmap_steady_NOtick.fig'])
-    saveas(gca,['MSplot_WBfunc_heatmap_steady_NOtick.png'])
-    plot2svg(['MSplot_WBfunc_heatmap_steady_NOtick.svg'])
-
-% MSplot_WBmodsNsteady_onefig_2xNorm_INCrotAxisR
-MSplot_WBmodsNsteady_onefig_2xNorm_TORQUE_incAxisR
-    saveas(gca,['MSplot_WBmodsNsteady_onefig.fig'])
-    saveas(gca,['MSplot_WBmodsNsteady_onefig.png'])
-    plot2svg(['MSplot_WBmodsNsteady_onefig.svg'])
-
-MSplot_WBsteady2mod2xNorm_Fenhance
-    saveas(gca,['MSplot_WBsteady2mod2xNorm_Fenhance.fig'])
-    saveas(gca,['MSplot_WBsteady2mod2xNorm_Fenhance.png'])
-    plot2svg(['MSplot_WBsteady2mod2xNorm_Fenhance.svg'])
-
-MSplot_WBsteady2mod2xNorm_RollTorque
-    saveas(gca,['MSplot_WBsteady2mod2xNorm_RollTorque.fig'])
-    saveas(gca,['MSplot_WBsteady2mod2xNorm_RollTorque.png'])
-    plot2svg(['MSplot_WBsteady2mod2xNorm_RollTorque.svg'])
-
-MSplot_WBsteady2mod2xNorm_TorqueAxisR
-    saveas(gca,['MSplot_WBsteady2mod2xNorm_TorqueAxisR.fig'])
-    saveas(gca,['MSplot_WBsteady2mod2xNorm_TorqueAxisR.png'])
-    plot2svg(['MSplot_WBsteady2mod2xNorm_TorqueAxisR.svg'])
-
-MSplot_WBsteady2mod2xNorm_Torque
-    saveas(gca,['MSplot_WBsteady2mod2xNorm.fig'])
-    saveas(gca,['MSplot_WBsteady2mod2xNorm.png'])
-    plot2svg(['MSplot_WBsteady2mod2xNorm.svg'])
-
-MSplot_WBsteady2mod2xNorm_1fig_incTorqueAxisR
-    saveas(gca,['MSplot_WBsteady2mod2xNorm_1fig.fig'])
-    saveas(gca,['MSplot_WBsteady2mod2xNorm_1fig.png'])
-    plot2svg(['MSplot_WBsteady2mod2xNorm_1fig.svg'])
-
-cd ..
-
+% % load('WBdataset_all_steadyNmods_TorqueNorm.mat')
+% mkdir('MSfigs_WBkin_torque')
+% cd('MSfigs_WBkin_torque')
+% 
+% MSplot_WBfunc_heatmap_steady_NOtick
+%     saveas(gca,['MSplot_WBfunc_heatmap_steady_NOtick.fig'])
+%     saveas(gca,['MSplot_WBfunc_heatmap_steady_NOtick.png'])
+%     plot2svg(['MSplot_WBfunc_heatmap_steady_NOtick.svg'])
+% 
+% % MSplot_WBmodsNsteady_onefig_2xNorm_INCrotAxisR
+% MSplot_WBmodsNsteady_onefig_2xNorm_TORQUE_incAxisR
+%     saveas(gca,['MSplot_WBmodsNsteady_onefig.fig'])
+%     saveas(gca,['MSplot_WBmodsNsteady_onefig.png'])
+%     plot2svg(['MSplot_WBmodsNsteady_onefig.svg'])
+% 
+% MSplot_WBsteady2mod2xNorm_Fenhance
+%     saveas(gca,['MSplot_WBsteady2mod2xNorm_Fenhance.fig'])
+%     saveas(gca,['MSplot_WBsteady2mod2xNorm_Fenhance.png'])
+%     plot2svg(['MSplot_WBsteady2mod2xNorm_Fenhance.svg'])
+% 
+% MSplot_WBsteady2mod2xNorm_RollTorque
+%     saveas(gca,['MSplot_WBsteady2mod2xNorm_RollTorque.fig'])
+%     saveas(gca,['MSplot_WBsteady2mod2xNorm_RollTorque.png'])
+%     plot2svg(['MSplot_WBsteady2mod2xNorm_RollTorque.svg'])
+% 
+% MSplot_WBsteady2mod2xNorm_TorqueAxisR
+%     saveas(gca,['MSplot_WBsteady2mod2xNorm_TorqueAxisR.fig'])
+%     saveas(gca,['MSplot_WBsteady2mod2xNorm_TorqueAxisR.png'])
+%     plot2svg(['MSplot_WBsteady2mod2xNorm_TorqueAxisR.svg'])
+% 
+% MSplot_WBsteady2mod2xNorm_Torque
+%     saveas(gca,['MSplot_WBsteady2mod2xNorm.fig'])
+%     saveas(gca,['MSplot_WBsteady2mod2xNorm.png'])
+%     plot2svg(['MSplot_WBsteady2mod2xNorm.svg'])
+% 
+% MSplot_WBsteady2mod2xNorm_1fig_incTorqueAxisR
+%     saveas(gca,['MSplot_WBsteady2mod2xNorm_1fig.fig'])
+%     saveas(gca,['MSplot_WBsteady2mod2xNorm_1fig.png'])
+%     plot2svg(['MSplot_WBsteady2mod2xNorm_1fig.svg'])
+% 
+% cd ..
+% 
 
