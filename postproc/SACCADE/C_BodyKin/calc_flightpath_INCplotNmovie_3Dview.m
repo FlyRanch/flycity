@@ -67,6 +67,9 @@ pos_z_align_plot = pos_z_align.*pos_on;
 %% plot paths
 % plot data color:time NO mirror
 if plot_paths == 1
+    
+    mkdir('flightpaths')
+    cd('flightpaths')
 
 %% movie TimeColor
 
@@ -941,5 +944,7 @@ view(-135,30)
 saveas(gcf,['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
 saveas(gcf,['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
 plot2svg(['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
+
+cd ..
 
 end

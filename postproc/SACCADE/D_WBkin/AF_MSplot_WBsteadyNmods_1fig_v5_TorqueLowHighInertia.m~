@@ -31,12 +31,12 @@ load('norm_data_torque.mat')
 %     'FenhMods','RollMods','PitchMods','YawMods','RaxisMods','LaxisMods')
 
 % high inertia (escape data)
-Fenhanses = [0 .25]'
-rollTorques = [0 .055]'
-pitchTorques = [0 .035]'
-yawTorques = [0 .065]'
-RaxisTorques = [0 .06]'
-LaxisTorques = [0 .025]'
+Fenhanses = [0 .26]'
+rollTorques = [0 .034]'
+pitchTorques = [0 .018]'
+yawTorques = [0 .064]'
+RaxisTorques = [0 .036]'
+LaxisTorques = [0 .013]'
 
 FenhMods = Fenhanses/Fenhance_norm
 RollMods = rollTorques/Mroll_norm

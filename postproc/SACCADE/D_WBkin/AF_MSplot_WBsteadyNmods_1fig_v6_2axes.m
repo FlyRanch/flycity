@@ -31,12 +31,16 @@ load('norm_data_torque.mat')
 %     'FenhMods','RollMods','PitchMods','YawMods','RaxisMods','LaxisMods')
 
 % high inertia (escape data)
-Fenhanses = [0 .25]'
-rollTorques = [0 .055]'
-pitchTorques = [0 .035]'
-yawTorques = [0 .065]'
-RaxisTorques = [0 .06]'
-LaxisTorques = [0 .025]'
+Fenhanses = [0 .26]'
+rollTorques = [0 .034]'
+pitchTorques = [0 .018]'
+yawTorques = [0 .064]'
+RaxisTorques = [0 .036]'
+LaxisTorques = [0 .013]'
+axis1Torques = [0 .035]'
+axis2Torques = [0 .035]'
+axis1normalTorques = [0 .016]'
+axis2normalTorques = [0 .015]'
 
 FenhMods = Fenhanses/Fenhance_norm
 RollMods = rollTorques/Mroll_norm
@@ -44,12 +48,19 @@ PitchMods = pitchTorques/Mpitch_norm
 YawMods = yawTorques/Myaw_norm
 RaxisMods = RaxisTorques/M_R_norm
 LaxisMods = LaxisTorques/M_L_norm
+axis1Mods = axis1Torques/M_axis1_norm
+axis2Mods = axis2Torques/M_axis2_norm
+axis1normalMods = axis1normalTorques/M_axis1normal_norm
+axis2normalMods = axis2normalTorques/M_axis2normal_norm
 
 % save norm data
-save('norm_data_torque_EscapeInertia.mat','f_wb_steady',...
+save('norm_data_torque.mat','f_wb_steady',...
     'Fenhance_norm','Mroll_norm','Mpitch_norm','Myaw_norm','M_R_norm','M_L_norm',...
+    'M_axis1_norm','M_axis2_norm','M_axis1normal_norm','M_axis2normal_norm',...
     'Fenhanses','rollTorques','pitchTorques','yawTorques','RaxisTorques','LaxisTorques',...
-    'FenhMods','RollMods','PitchMods','YawMods','RaxisMods','LaxisMods')
+    'axis1Torques','axis2Torques','axis1normalTorques','axis2normalTorques',...
+    'FenhMods','RollMods','PitchMods','YawMods','RaxisMods','LaxisMods',...
+    'axis1Mods','axis2Mods','axis1normalMods','axis2normalMods')
 
 figure
 subplot(3,3,1)
@@ -71,12 +82,10 @@ hold on
 subplot(3,3,9)
 hold on
 
-
 %% steady WB
 stroke_steady = calc_val_fourier_series_4thN8th_order(binx,stroke_steady_fourier_coeffs_binmean,0);
 pitch_steady = calc_val_fourier_series_4thN8th_order(binx,pitch_steady_fourier_coeffs_binmean,0);
 dev_steady = calc_val_fourier_series_4thN8th_order(binx,dev_steady_fourier_coeffs_binmean,0);
-
 
 %% Force MOD wb
 mod_values = FenhMods;

@@ -57,7 +57,7 @@ plot_timelines = 0
 plot_timelines = 1
 
 plot_paths = 0
-% plot_paths = 1
+plot_paths = 1
 
 make_mov = 0
 % make_mov = 1
