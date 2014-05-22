@@ -23,6 +23,8 @@ calc_WB_PitchTorque = 0;
 calc_WB_RollTorque = 0;
 calc_WB_YawTorque = 0;
 calc_WB_TorqueAxisR = 0;
+calc_WB_TorqueAxis1_UP = 0
+calc_WB_TorqueAxis2_DOWN = 0
 
 % calc_WB_Fenhanced = 1
 % calc_WB_PitchTorque_UP = 1;
@@ -501,7 +503,8 @@ if calc_WB_YawTorque == 1
 
 %     calc_torquebased_wbNORM_wingatt_YawAccel
 %     calc_accelbased_wbNORM_wingatt_YawAccel
-    calc_Torquebased_wbNORM_wingatt_YawTorque
+%     calc_Torquebased_wbNORM_wingatt_YawTorque
+calc_Torquebased_wbNORM_wingatt_YawTorque_onlyPos
 
     if plot_on ==1
     cd('WBmod_figs_torque')
@@ -657,7 +660,6 @@ end
 %% Torque around rotation axis1 UP
 if calc_WB_TorqueAxis1_UP == 1
 
-%     calc_accelbased_wbNORM_wingatt_rotAxisR
     calc_Torquebased_wbNORM_wingatt_TorqueAxis1_UP
 
     if plot_on ==1

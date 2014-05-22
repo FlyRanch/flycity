@@ -31,12 +31,12 @@ load('norm_data_torque.mat')
 %     'FenhMods','RollMods','PitchMods','YawMods','RaxisMods','LaxisMods')
 
 % high inertia (escape data)
-Fenhanses = [0 .25]'
-rollTorques = [0 .055]'
-pitchTorques = [0 .035]'
-yawTorques = [0 .065]'
-RaxisTorques = [0 .06]'
-LaxisTorques = [0 .025]'
+Fenhanses = [0 .26]'
+rollTorques = [0 .034]'
+pitchTorques = [0 .018]'
+yawTorques = [0 .064]'
+RaxisTorques = [0 .035]'
+LaxisTorques = [0 .015]'
 
 FenhMods = Fenhanses/Fenhance_norm
 RollMods = rollTorques/Mroll_norm
@@ -46,7 +46,7 @@ RaxisMods = RaxisTorques/M_R_norm
 LaxisMods = LaxisTorques/M_L_norm
 
 % save norm data
-save('norm_data_torque_EscapeInertia.mat','f_wb_steady',...
+save('norm_data_torque.mat','f_wb_steady',...
     'Fenhance_norm','Mroll_norm','Mpitch_norm','Myaw_norm','M_R_norm','M_L_norm',...
     'Fenhanses','rollTorques','pitchTorques','yawTorques','RaxisTorques','LaxisTorques',...
     'FenhMods','RollMods','PitchMods','YawMods','RaxisMods','LaxisMods')

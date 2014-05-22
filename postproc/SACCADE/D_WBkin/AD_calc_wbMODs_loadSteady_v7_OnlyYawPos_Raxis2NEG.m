@@ -25,12 +25,12 @@ calc_WB_YawTorque = 0;
 calc_WB_TorqueAxisR = 0;
 
 % calc_WB_Fenhanced = 1
-% % calc_WB_PitchTorque_UP = 1;
-% % calc_WB_PitchTorque_DOWN = 1;
+% calc_WB_PitchTorque_UP = 1;
+% calc_WB_PitchTorque_DOWN = 1;
 % calc_WB_PitchTorque = 1
 % calc_WB_RollTorque = 1
-% calc_WB_YawTorque = 1
-calc_WB_TorqueAxisR = 1
+calc_WB_YawTorque = 1
+% calc_WB_TorqueAxisR = 1
 
 mkdir('WBmod_figs_torque')
 
@@ -491,7 +491,7 @@ if calc_WB_YawTorque == 1
 
 %     calc_torquebased_wbNORM_wingatt_YawAccel
 %     calc_accelbased_wbNORM_wingatt_YawAccel
-    calc_Torquebased_wbNORM_wingatt_YawTorque
+    calc_Torquebased_wbNORM_wingatt_YawTorque_onlyPos
 
     if plot_on ==1
     cd('WBmod_figs_torque')
@@ -503,7 +503,7 @@ h=hist(Myaw_mean_wb,50);
 hist(Myaw_mean_wb,50)
 hold on
 plot([Myaw_limit_mod Myaw_limit_mod],[0 max(h)],'-r')
-plot([-Myaw_limit_mod -Myaw_limit_mod],[0 max(h)],'-r')
+% plot([-Myaw_limit_mod -Myaw_limit_mod],[0 max(h)],'-r')
 title('yaw Torque')
 saveas(gca,['hist_yawTorque',num2str(n_YawTorque),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.fig'])
 saveas(gca,['hist_yawTorque',num2str(n_YawTorque),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.png'])
@@ -567,8 +567,8 @@ end
 %% Torque around right rotation axis
 if calc_WB_TorqueAxisR == 1
 
-%     calc_accelbased_wbNORM_wingatt_rotAxisR
-    calc_Torquebased_wbNORM_wingatt_TorqueAxisR
+%     calc_Torquebased_wbNORM_wingatt_TorqueAxisR
+    calc_Torquebased_wbNORM_wingatt_TorqueAxisR2NEG
 
     if plot_on ==1
 
@@ -583,7 +583,7 @@ figure
 h=hist(M_R_mean_wb,50);
 hist(M_R_mean_wb,50)
 hold on
-plot([M_R_limit_mod M_R_limit_mod],[0 max(h)],'-r')
+% plot([M_R_limit_mod M_R_limit_mod],[0 max(h)],'-r')
 plot([-M_R_limit_mod -M_R_limit_mod],[0 max(h)],'-r')
 title('Torque axis R Torque')
 saveas(gca,['hist_TorqueAxisR',num2str(n_TorqueAxisR),'WBs_limit',num2str(limit_mod),'_norm',num2str(norm),'xSTD.fig'])
