@@ -6,13 +6,16 @@ name = 'WBdataset_all_steadyNmods_TorqueNorm.mat'
 load(name)
 load('norm_data_torque.mat')
 
+plot_steady = 0
+% plot_steady = 1
+
 % correlation variables
 Dt_deg = 10
 Dt = Dt_deg/360
 Da = 10
 
-Nt = 100 % Nx2
-Na = 100 % Nx2
+Nt = 50 % Nx2
+Na = 50 % Nx2
 
 dt = Dt/Nt % norm time
 dt_deg = 360*dt
@@ -36,32 +39,35 @@ mkdir('MSplot_WBkin_LnR_correlations')
 cd('MSplot_WBkin_LnR_correlations')
 
 %% steady WBs & WBs with Dt & Da
-figure
-subplot(3,3,1)
-hold on
+if plot_steady == 1
 
-plot(360*binx,stroke_steady,'-k','linewidth',1)
-plot(360*binx,stroke_steady_dt,'-','color',[.5 .5 .5],'linewidth',1)
+    figure
+    subplot(3,3,1)
+    hold on
 
-plot(360*binx,pitch_steady-90,'-k','linewidth',1)
-plot(360*binx,pitch_steady_dadt-90,'-','color',[.5 .5 .5],'linewidth',1)
+    plot(360*binx,stroke_steady,'-k','linewidth',1)
+    plot(360*binx,stroke_steady_dt,'-','color',[.5 .5 .5],'linewidth',1)
 
-plot(360*binx,dev_steady,'-k','linewidth',1)
-plot(360*binx,dev_steady_da,'-','color',[.5 .5 .5],'linewidth',1)
+    plot(360*binx,pitch_steady-90,'-k','linewidth',1)
+    plot(360*binx,pitch_steady_dadt-90,'-','color',[.5 .5 .5],'linewidth',1)
 
-plot([180 185],[0 5],'-k')
-xlabel('t* (-)','fontsize',10) 
-ylabel('kin','fontsize',10) 
-biny_min = -90;
-biny_max = 90;
-axis equal
-axis([0 360 biny_min biny_max])
-set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8) 
-    set(gca,'XTick',0:180:360) 
+    plot(360*binx,dev_steady,'-k','linewidth',1)
+    plot(360*binx,dev_steady_da,'-','color',[.5 .5 .5],'linewidth',1)
 
-saveas(gca,['MSplot_steadyWB_Dt',num2str(da_steady),'deg_Da',num2str(da_steady),'deg.fig'])
-saveas(gca,['MSplot_steadyWB_Dt',num2str(da_steady),'deg_Da',num2str(da_steady),'deg.png'])
-plot2svg(['MSplot_steadyWB_Dt',num2str(da_steady),'deg_Da',num2str(da_steady),'deg.svg'])
+    plot([180 185],[0 5],'-k')
+    xlabel('t* (-)','fontsize',10) 
+    ylabel('kin','fontsize',10) 
+    biny_min = -90;
+    biny_max = 90;
+    axis equal
+    axis([0 360 biny_min biny_max])
+    set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8) 
+        set(gca,'XTick',0:180:360) 
+
+    saveas(gca,['MSplot_steadyWB_Dt',num2str(da_steady),'deg_Da',num2str(da_steady),'deg.fig'])
+    saveas(gca,['MSplot_steadyWB_Dt',num2str(da_steady),'deg_Da',num2str(da_steady),'deg.png'])
+    plot2svg(['MSplot_steadyWB_Dt',num2str(da_steady),'deg_Da',num2str(da_steady),'deg.svg'])
+end
 
 cd ..
 
