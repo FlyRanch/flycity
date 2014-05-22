@@ -17,7 +17,7 @@ cali_file = cali_file.name
 load(cali_file)
 
 %% borf data
-load_dir = dir('Saccade_Temporal_0*');
+load_dir = dir('FreqNorm_Temporal_0*');
 load_dir = load_dir.name
 load_name = 'F_sacc_ts';
 save_name =  load_name;

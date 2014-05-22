@@ -37,8 +37,7 @@ var_name = var_name.name;
 load(var_name);
 
 % loadname = 'flightpathDB_pos_qbodyEKF_INCroll_9clusters_1.4n-1.7n1.9_strokeplane47.5deg_startframe100.mat';
-% loadname = 'flightpathDB_pos_qbodyEKF_INCroll_strokeplane47.5deg_rotaxis27.9deg_startframe100.mat';
-loadname = 'flightpathDB_pos_qbodyEKF_INCroll_strokeplane47.5deg_rotaxis22deg_startframe100.mat';
+loadname = 'flightpathDB_pos_qbodyEKF_INCroll_strokeplane47.5deg_rotaxis8deg_startframe100.mat';
 load(loadname)
 
 savename = ['kin',loadname];

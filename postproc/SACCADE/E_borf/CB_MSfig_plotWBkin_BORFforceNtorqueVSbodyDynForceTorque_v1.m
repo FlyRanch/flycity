@@ -9,18 +9,18 @@ addpath('/home/florian/Dropbox/WORK/flytracker/flytracker/core/');
 addpath('/home/florian/Dropbox/WORK/flytracker/flytracker/results/');
 
 %% load BORF data
-cd BORF
+% cd BORF
 loadname=dir('borf_db_F_sacc_ts*')
 loadname = loadname.name;
 load(loadname)
+% cd ..
 
 %% load WB & body kin data
-cd ..
 loadname=dir('WBdataset_temporal_dynamics_*')
 loadname = loadname.name;
 load(loadname)
 
-load('FnMqs_timeseries.mat')
+% load('FnMqs_timeseries.mat')
 
 mkdir('MSfigs_timeseries_KinNqsTorque')
 cd('MSfigs_timeseries_KinNqsTorque')

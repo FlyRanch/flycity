@@ -6,8 +6,7 @@ close all
 %     loadname = 'kinflightpathDB_pos_qbodyEKF_INCroll_2clusters_Ahor2.75mps2_strokeplane47.5deg_startframe2945.mat';
 
 % % SACCADE (startframe 100, kalman filter issues at start of seq)
-% loadname='kinflightpathDB_pos_qbodyEKF_INCroll_9clusters_1.4n-1.7n1.9_strokeplane47.5deg_startframe100.mat'
-loadname = 'kinflightpathDB_pos_qbodyEKF_INCroll_strokeplane47.5deg_rotaxis22deg_startframe100.mat';
+loadname = 'kinflightpathDB_pos_qbodyEKF_INCroll_strokeplane47.5deg_rotaxis8deg_startframe100.mat';
 
 load(loadname)
 

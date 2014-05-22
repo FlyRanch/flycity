@@ -16,10 +16,10 @@ cali_file = cali_file.name
 load(cali_file)
 
 %% borf data
-load_dir = dir('FreqNorm_TurnAxis_UP*');
+load_dir = dir('FreqNorm_TurnAxis_DOWN*');
 load_dir = load_dir.name
 load_name = 'F_roll_LR';
-save_name =  'F_axis1_LR';
+save_name =  'F_axis2_LR';
 
 cd(load_dir)
 
@@ -510,7 +510,7 @@ else
 end
 
 %% postprocess
-MODmin = min([length(M_axis1_mean_allNOfreq) length(M_axis1_mean_stroke) length(M_axis1_mean_pitch) length(M_axis1_mean_dev)]);
+MODmin = min([length(M_axis2_mean_allNOfreq) length(M_axis2_mean_stroke) length(M_axis2_mean_pitch) length(M_axis2_mean_dev)]);
 
 M_R_steady = M_R_mean_allNOfreq(mod_value_allNOfreq == 0);
 M_L_steady = M_L_mean_allNOfreq(mod_value_allNOfreq == 0);
@@ -522,16 +522,16 @@ Mx_steady = Mx_mean_allNOfreq(mod_value_allNOfreq == 0);
 My_steady = My_mean_allNOfreq(mod_value_allNOfreq == 0);
 Mz_steady = Mz_mean_allNOfreq(mod_value_allNOfreq == 0);
 
-M_axis1_mean_sum = M_axis1_steady + (M_axis1_mean_stroke(1:MODmin)-M_axis1_steady) + (M_axis1_mean_pitch(1:MODmin)-M_axis1_steady) + (M_axis1_mean_dev(1:MODmin)-M_axis1_steady);
-M_axis1_mean_sum_nopitch = M_axis1_steady + (M_axis1_mean_stroke(1:MODmin)-M_axis1_steady) + (M_axis1_mean_dev(1:MODmin)-M_axis1_steady);
-M_axis1_mean_sum_steady = M_axis1_mean_sum(mod_value_allNOfreq == 0);
+M_axis2_mean_sum = M_axis2_steady + (M_axis2_mean_stroke(1:MODmin)-M_axis2_steady) + (M_axis2_mean_pitch(1:MODmin)-M_axis2_steady) + (M_axis2_mean_dev(1:MODmin)-M_axis2_steady);
+M_axis2_mean_sum_nopitch = M_axis2_steady + (M_axis2_mean_stroke(1:MODmin)-M_axis2_steady) + (M_axis2_mean_dev(1:MODmin)-M_axis2_steady);
+M_axis2_mean_sum_steady = M_axis2_mean_sum(mod_value_allNOfreq == 0);
 
 %% plot data
 cd ..
 mkdir('figs_cali')
 cd('figs_cali')
 
-plot_axis1Torque_LR_MODdata
+plot_axis2Torque_LR_MODdata
 
 % save data
 cd ..
