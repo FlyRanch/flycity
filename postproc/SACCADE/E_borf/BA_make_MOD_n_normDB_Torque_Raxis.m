@@ -50,13 +50,15 @@ if cali_on == 1
     rollDB_mean = 'borf_db_F_roll_LR_cali_means.mat'
     pitchDB_mean = 'borf_db_Mpitch_cali_means.mat'
     yawDB_mean = 'borf_db_F_yaw_LR_cali_means.mat'
-    RaxisDB_mean = 'borf_db_F_Raxis_LR_cali_means.mat'
+%     RaxisDB_mean = 'borf_db_F_Raxis_LR_cali_means.mat'
+    RaxisDB_mean = 'borf_db_F_Raxis1_LR_cali_means.mat'
 
     FDB_all = 'borf_db_Fenhance_cali_alldata.mat'
     rollDB_all = 'borf_db_F_roll_LR_cali_alldata.mat'
     pitchDB_all = 'borf_db_Mpitch_cali_alldata.mat'
     yawDB_all = 'borf_db_F_yaw_LR_cali_alldata.mat'
-    RaxisDB_all = 'borf_db_F_Raxis_LR_cali_alldata.mat'
+%     RaxisDB_all = 'borf_db_F_Raxis_LR_cali_alldata.mat'
+    RaxisDB_all = 'borf_db_F_Raxis1_LR_cali_alldata.mat'
 
     rollDB_LnRsym = 'borf_db_F_roll_LR_cali_alldata_LnRsym.mat'
     yawDB_LnRsym = 'borf_db_F_yaw_LR_cali_alldata_LnRsym.mat'

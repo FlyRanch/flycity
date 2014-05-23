@@ -24,7 +24,7 @@ val_steady = nanmean(val_now,2);
 mod_values = YawMods;
 % color_map = [0 0 0; 0 0 1; 0 .5 1];
 % mod_values = [min(YawMods) max(YawMods)];
-color_map = [.5 .5 .5; 1 .5 0];
+color_map = [.5 .5 .5; 0 0 0];
 
 F_allNOfreq = sqrt(Fx_allNOfreq.^2 + Fy_allNOfreq.^2 + Fz_allNOfreq.^2);
 M_allNOfreq = sqrt(Mx_allNOfreq.^2 + My_allNOfreq.^2 + Mz_allNOfreq.^2);
@@ -379,8 +379,8 @@ val_steady_R = nanmean(val_now(:));
 % mod plots
 mod_values = RaxisMods;
 % color_map = [0 0 0; 0 0 1; 0 .5 1];
-mod_values = [-max(RaxisMods) min(RaxisMods) max(RaxisMods)];
-color_map = [0 .5 1; .5 .5 .5; 1 .5 0];
+mod_values = [min(RaxisMods) max(RaxisMods)];
+color_map = [.5 .5 .5; 0 .5 1];
 
 F_allNOfreq = sqrt(Fx_allNOfreq.^2 + Fy_allNOfreq.^2 + Fz_allNOfreq.^2);
 M_allNOfreq = sqrt(Mx_allNOfreq.^2 + My_allNOfreq.^2 + Mz_allNOfreq.^2);
