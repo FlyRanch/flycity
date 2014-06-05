@@ -274,7 +274,7 @@ time_used = stop-start
 
 secs_per_frame = ((time_used(3)*24*60*60 + time_used(4)*60*60 + time_used(5)*60 + time_used(6)) / (endframe-startframe)*framesample);
 
-% make projection movie
+%% make projection movie
 cd(seq_sol_path);
-paste_top_projection_makemovie
+%paste_top_projection_makemovie
 A_Wing_kinematics_v2_checkFlyData

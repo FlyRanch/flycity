@@ -1,6 +1,6 @@
 %% Run variables
-date_str = '20140429'
-seq_number = 1;
+date_str = '20140401'
+seq_number = 3;
 %startframe = 193;
 BGframe = 1;
 endframe = 1365;
