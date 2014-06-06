@@ -18,21 +18,19 @@ wing_rot_L = 'eta_L'
 param_file = open('params.json','rb')
 params = json.load(param_file)
 param_file.close()
-#rootpath = params['platform_paths'][sys.platform] + params['root_dir']
 
 photron_interest_signals = ['eta_L','eta_R','phi_L','phi_R','photron_sample_times','theta_L','theta_R']
 axon_interest_signals = ['AMsysCh1','CamSync','LeftWing','Ph0','Ph1','Ph2','Photostim','RightWing','WBSync','Xpos','Ypos','axon_sample_times']
 
+#rootpath = params['platform_paths'][sys.platform] + params['root_dir']
+
+
 class Squadron(object):
     """Controller object to facilitate the groupwise analysis of the fly data"""
-    def __init__(self,fly_db):
+    def __init__(self,fly_db,fly_numbers):
         self.fly_db = fly_db
-        self.flies = [Fly(fly_db,int(flyn)) for flyn in fly_db.keys()]
-    
-    def load_kine(self,experiment_name):
-        "just load the kine data for each fly"
-        for fly in self.flies:
-            fly.load_processed_wbkin(experiment_name)
+        self.fly_numbers = [int(fln) for fln in fly_numbers]
+        self.flies = [Fly(self.fly_db,fln) for fln in self.fly_numbers]
         
 class Fly(object):
     """Controler object for fly data, Fly is initialized with a 'fly_record dictionary
@@ -52,9 +50,8 @@ class Fly(object):
     def get_experiments(self):
         experiments = dict()
         for experiment_name in self.fly_record['experiments'].keys():
-            experiments[experiment_name] = Experiment(self.fly_record,experiment_name,self.fly_path)
+            experiments[experiment_name] = exp_map[experiment_name](self.fly_record,experiment_name,self.fly_path)
         return experiments
-        
     
 class Experiment(object):
     """Controller class for an individual experiments init with the fly_record and
@@ -69,9 +66,37 @@ class Experiment(object):
         self.sequences = self.get_sequences()
     
     def get_sequences(self):
+        pass
+
+class Sequence(object):
+    def __init__(self,exp_record,seq_num,fly_path):
+        self.exp_record = exp_record
+        self.fly_path = fly_path
+        self.seq_num = seq_num
+        try:
+            self.seq_record = exp_record['sequences'][str(seq_num)]
+        except KeyError:
+            exp_record['sequences'].create_group(str(seq_num))
+            self.seq_record = exp_record['sequences'][str(seq_num)]
+#############################################################################
+#############################################################################
+#############################################################################
+#############################################################################
+#############################################################################
+#############################################################################
+#############################################################################
+photron_interest_signals = ['eta_L','eta_R','phi_L','phi_R','photron_sample_times','theta_L','theta_R']
+axon_interest_signals = ['AMsysCh1','CamSync','LeftWing','Ph0','Ph1','Ph2','Photostim','RightWing','WBSync','Xpos','Ypos','axon_sample_times']
+
+class HSVExperiment(Experiment):
+    """Controller class for an individual experiments init with the fly_record and
+    experiment name holds a reference to the experiment record in the fly_record 
+    to facilitate operations on those data"""
+    
+    def get_sequences(self):
         sequences = dict()
         for snum in self.exp_record['photron_seq_nums']:
-            sequences[snum] = Sequence(self.exp_record,snum,self.fly_path)
+            sequences[snum] = HSVSequence(self.exp_record,snum,self.fly_path)
         return sequences
         
     def import_sequence_data(self):
@@ -152,7 +177,7 @@ class Experiment(object):
     def sync_sequences(self):
         """sync the timing of ephys and high speed video data"""
         if 'axon_data' not in self.exp_record.keys():
-            self.import_axon_data(experiment_name)
+            self.import_axon_data()
         fps = pq.Quantity(np.float64(self.exp_record['photron_frame_rate_Hz']),'Hz')
         trig_idxs = idx_by_thresh(np.array(self.exp_record['axon_data']['CamTrig']))
         start_idxs = [x[0] for x in trig_idxs]
@@ -189,16 +214,9 @@ class Experiment(object):
             sequence.seq_record['axon']['axon_sample_times'] = times[frame_idxs[0]:frame_idxs[-1]]
             sequence.seq_record['expan_pol'] = sequence.lookup_trial_from_ypos()
 
-class Sequence(object):
+class HSVSequence(Sequence):
     def __init__(self,exp_record,seq_num,fly_path):
-        self.exp_record = exp_record
-        self.fly_path = fly_path
-        self.seq_num = seq_num
-        try:
-            self.seq_record = exp_record['sequences'][str(seq_num)]
-        except KeyError:
-            exp_record['sequences'].create_group(str(seq_num))
-            self.seq_record = exp_record['sequences'][str(seq_num)]
+        Sequence.__init__(self,exp_record,seq_num,fly_path)
         frmtstr = self.exp_record['solution_format_string'][0]
         self.seq_path = self.fly_path + frmtstr%(self.seq_num)
     
@@ -333,6 +351,64 @@ class Sequence(object):
         return {'photron_sample_idx':stroke_kin_idx,
                 'axon_sample_idx':stroke_phys_idx}
 
+class IMGExperiment(Experiment):
+
+    def get_sequences(self):
+        pass
+        #sequences = dict()
+        #for snum in self.exp_record['photron_seq_nums']:
+        #    sequences[snum] = IMGSequence(self.exp_record,snum,self.fly_path)
+        #return sequences
+
+    def import_axon_data(self,filenum = 0):
+        """load the axon data from an experiment into the fly_record"""
+        axon_file = self.fly_path + self.exp_record['axon_file_names'][filenum]
+        axondata = get_axon_signals(axon_file)
+        if not('axon_data' in self.exp_record.keys()):
+            self.exp_record.create_group('axon_data')
+        for key in axondata:
+            update_dset(self.exp_record['axon_data'],key,axondata[key])
+            #self.exp_record['axon_data'][key] = axondata[key]
+
+    def import_tiff_data(self,filenum = 0):
+        axon_file = self.fly_path + self.exp_record['tiff_file_names'][filenum]
+        import tifffile
+        tif = tifffile.TiffFile(tiff_file)
+        images = tif.asarray()
+        if not('tiff_data' in self.exp_record.keys()):
+            self.exp_record.create_group('tiff_data')
+        update_dset(self.exp_record['tiff_data'],'images',images)
+        #self.exp_record['tiff_data']['images'] = images
+
+    def sync_sequences(self):
+        if 'axon_data' not in self.exp_record.keys():
+            self.import_axon_data()
+        if 'tiff_data' not in self.exp_record.keys():
+            self.import_tiff_stack()
+        sigs = self.exp_record['axon_data']
+        exposures = idx_by_thresh(sigs['CamSync'],thresh = 1)
+        if 'exposures' not in self.exp_record['tiff_data'].keys():
+            self.exp_record['tiff_data'].create_group('exposures')
+        else:
+            del(self.exp_record['tiff_data']['exposures'])
+        for i,exp in enumerate(exposures):
+            self.exp_record['tiff_data']['exposures'][str(i)] = exp
+        frames = np.array([x[-1] for x in exposures])[0:-1].astype(int)
+        update_dset(self.exp_record['tiff_data'],'frame_idx',frames)
+        if 'axon_framebase' not in self.exp_record['tiff_data'].keys():
+            self.exp_record['tiff_data'].create_group('axon_framebase')
+        for key in sigs.keys():
+            sig = sigs[key]
+            downsamp = np.array([np.mean(sig[ex]) for ex in exposures])
+            update_dset(self.exp_record['tiff_data']['axon_framebase'],key,downsamp)
+
+#############################################################################
+#############################################################################
+#############################################################################
+#############################################################################
+#############################################################################
+#############################################################################
+#############################################################################
 def calc_seq_strokeplane(self,seq):
     """calculate the strokeplane from the quaternions of a sequence"""
     q_left = np.squeeze(seq[:,[9,10,11,8]])
@@ -430,7 +506,6 @@ def load_flytracks_files(sequence_path):
         pad_seq[:start_frame-1,1:] = np.NAN
         return pad_seq
         
-
 def butter_bandpass(lowcut, highcut, sampling_period, order=5):
     sampling_frequency = 1.0/sampling_period
     nyq = 0.5 * sampling_frequency
@@ -486,3 +561,5 @@ def update_dset(dset,key,value):
     else:
         del(dset[key])
         dset[key] = value
+
+exp_map = {'lr_blob_expansion':HSVExperiment,'img_starfield_t2_rep1':IMGExperiment}
