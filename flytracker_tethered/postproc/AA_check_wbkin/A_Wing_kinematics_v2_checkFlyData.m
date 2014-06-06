@@ -34,11 +34,11 @@ if exist('flytracks') == 7
 %% calc data
             
 % constants
-% strokeplane_WBkin = -55;
-% strokeplane_WBkin = -45;
+%strokeplane_WBkin = -55;
+%strokeplane_WBkin = -45;
 %strokeplane_WBkin = -47.5;
 
-%settings.strokeplane_WBkin = strokeplane_WBkin;
+%setftings.strokeplane_WBkin = strokeplane_WBkin;
 
 %%
 
@@ -559,7 +559,7 @@ if exist('pathDB1.mat')==2
     clear temp
 else
     temp = make_pathDB1_nosave(settings,pathDB);
-    strokeplane_WBkin = stroke_plane_angle(temp);
+    strokeplane_WBkin = stroke_plane_angle(temp)*-1;
     settings.strokeplane_WBkin = strokeplane_WBkin;
 %     temp = load('pathDB1.mat');
         pathDB.x = temp.x;
