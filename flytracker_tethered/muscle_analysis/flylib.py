@@ -405,30 +405,30 @@ def load_wbkin_file(kine_filename):
     return kine_data
 
 def load_flytracks_files(sequence_path):
-        """convenience function to load the sequence from fly tracks function will cat
-        the frame numbers into the first row the kine matrx, also the untracked frames
-        before the start of the sequence are padded with NaNs - tries to emulate the same 
-        format as the WBkin file"""
-        flytracks_path = sequence_path + 'flytracks/'
-        #get the list of frames
-        tracklist = filter(lambda x: x.startswith('fly'), os.listdir(flytracks_path))
-        framenums = [np.int(s.strip('fly.mat')) for s in tracklist]
-        #sort the files by frame number
-        tracklist = [x for (y,x) in sorted(zip(framenums,tracklist))]
-        tracklist = [flytracks_path + x for x in tracklist]
-        #load the data from the .mat files
-        mats = [scipy.io.loadmat(trk)['xh'].copy() for trk in tracklist]
-        mats = np.array([np.squeeze(np.pad(np.squeeze(mat),(0,15-np.shape(mat)[0]),'constant')) for mat in mats])
-        #since the frames are sorted - now sort the frame numbers
-        framenums = np.squeeze(sorted(framenums))
-        #cat the frame numbers onto the kine data
-        seq = np.concatenate((framenums[:,np.newaxis],mats),axis = 1)
-        #now pad the matrix with NaNs so that it starts at frame 0
-        start_frame = seq[0,0]
-        pad_seq = np.pad(seq,((start_frame-1,0),(0,0)),'constant')
-        pad_seq[:start_frame-1,0] = np.arange(1,start_frame)
-        pad_seq[:start_frame-1,1:] = np.NAN
-        return pad_seq
+    """convenience function to load the sequence from fly tracks function will cat
+    the frame numbers into the first row the kine matrx, also the untracked frames
+    before the start of the sequence are padded with NaNs - tries to emulate the same 
+    format as the WBkin file"""
+    flytracks_path = sequence_path + 'flytracks/'
+    #get the list of frames
+    tracklist = filter(lambda x: x.startswith('fly'), os.listdir(flytracks_path))
+    framenums = [np.int(s.strip('fly.mat')) for s in tracklist]
+    #sort the files by frame number
+    tracklist = [x for (y,x) in sorted(zip(framenums,tracklist))]
+    tracklist = [flytracks_path + x for x in tracklist]
+    #load the data from the .mat files
+    mats = [scipy.io.loadmat(trk)['xh'].copy() for trk in tracklist]
+    mats = np.array([np.squeeze(np.pad(np.squeeze(mat),(0,15-np.shape(mat)[0]),'constant')) for mat in mats])
+    #since the frames are sorted - now sort the frame numbers
+    framenums = np.squeeze(sorted(framenums))
+    #cat the frame numbers onto the kine data
+    seq = np.concatenate((framenums[:,np.newaxis],mats),axis = 1)
+    #now pad the matrix with NaNs so that it starts at frame 0
+    start_frame = seq[0,0]
+    pad_seq = np.pad(seq,((start_frame-1,0),(0,0)),'constant')
+    pad_seq[:start_frame-1,0] = np.arange(1,start_frame)
+    pad_seq[:start_frame-1,1:] = np.NAN
+    return pad_seq
         
 
 def butter_bandpass(lowcut, highcut, sampling_period, order=5):

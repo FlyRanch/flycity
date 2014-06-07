@@ -15,11 +15,11 @@ def main():
     f.close()
 
 def get_db():
-    fly_db = h5py.File('/Volumes/FlyData/FlyDB/flydb.hdf5','a')
+    fly_db = h5py.File('/Volumes/FlyDataB/FlyDB/flydb.hdf5','a')
     return fly_db
     
 def init_db():
-    fly_db = h5py.File("/Volumes/FlyData/FlyDB/flydb.hdf5", "w")
+    fly_db = h5py.File("/Volumes/FlyDataB/FlyDB/flydb.hdf5", "w")
     #############################################################################################fly_record = dict()
     flynum = str(111)
     fly_db.create_group(flynum)
