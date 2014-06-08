@@ -22,6 +22,38 @@ param_file.close()
 photron_interest_signals = ['eta_L','eta_R','phi_L','phi_R','photron_sample_times','theta_L','theta_R']
 axon_interest_signals = ['AMsysCh1','CamSync','LeftWing','Ph0','Ph1','Ph2','Photostim','RightWing','WBSync','Xpos','Ypos','axon_sample_times']
 
+
+starfield_pattern_names_6_0_2014  = ['equator_000.mat',
+                            'equator_030.mat',
+                            'equator_060.mat',
+                            'equator_090.mat',
+                            'equator_120.mat',
+                            'equator_150.mat',
+                            'equator_180.mat',
+                            'equator_210.mat',
+                            'equator_240.mat',
+                            'equator_270.mat',
+                            'equator_300.mat',
+                            'equator_330.mat',
+                            'coromeridian_030.mat',
+                            'coromeridian_060.mat',
+                            'coromeridian_090.mat',
+                            'coromeridian_120.mat',
+                            'coromeridian_150.mat',
+                            'coromeridian_210.mat',
+                            'coromeridian_240.mat',
+                            'coromeridian_270.mat',
+                            'coromeridian_300.mat',
+                            'coromeridian_330.mat',
+                            'sagimeridian_030.mat',
+                            'sagimeridian_060.mat',
+                            'sagimeridian_120.mat',
+                            'sagimeridian_150.mat',
+                            'sagimeridian_210.mat',
+                            'sagimeridian_240.mat',
+                            'sagimeridian_300.mat',
+                            'sagimeridian_330.mat']
+
 #rootpath = params['platform_paths'][sys.platform] + params['root_dir']
 
 
@@ -78,6 +110,7 @@ class Sequence(object):
         except KeyError:
             exp_record['sequences'].create_group(str(seq_num))
             self.seq_record = exp_record['sequences'][str(seq_num)]
+
 #############################################################################
 #############################################################################
 #############################################################################
@@ -85,8 +118,6 @@ class Sequence(object):
 #############################################################################
 #############################################################################
 #############################################################################
-photron_interest_signals = ['eta_L','eta_R','phi_L','phi_R','photron_sample_times','theta_L','theta_R']
-axon_interest_signals = ['AMsysCh1','CamSync','LeftWing','Ph0','Ph1','Ph2','Photostim','RightWing','WBSync','Xpos','Ypos','axon_sample_times']
 
 class HSVExperiment(Experiment):
     """Controller class for an individual experiments init with the fly_record and
@@ -351,14 +382,29 @@ class HSVSequence(Sequence):
         return {'photron_sample_idx':stroke_kin_idx,
                 'axon_sample_idx':stroke_phys_idx}
 
+#############################################################################
+#############################################################################
+#############################################################################
+#############################################################################
+#############################################################################
+#############################################################################
+#############################################################################
+
 class IMGExperiment(Experiment):
 
     def get_sequences(self):
-        pass
-        #sequences = dict()
-        #for snum in self.exp_record['photron_seq_nums']:
-        #    sequences[snum] = IMGSequence(self.exp_record,snum,self.fly_path)
-        #return sequences
+        sequences = dict()
+        if 'sequence_pattern_names' in self.exp_record.keys():
+            for snum,sname in enumerate(self.exp_record['sequence_pattern_names']):
+                sequences[snum] = IMGSequence(self.exp_record,snum,self.fly_path)
+        else:
+            self.exp_record['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+            for snum,sname in enumerate(self.exp_record['sequence_pattern_names']):
+                sequences[snum] = IMGSequence(self.exp_record,snum,self.fly_path)
+        return sequences
+
+    def get_images(self):
+        return np.array(self.exp_record['tiff_data']['images'])
 
     def import_axon_data(self,filenum = 0):
         """load the axon data from an experiment into the fly_record"""
@@ -371,7 +417,7 @@ class IMGExperiment(Experiment):
             #self.exp_record['axon_data'][key] = axondata[key]
 
     def import_tiff_data(self,filenum = 0):
-        axon_file = self.fly_path + self.exp_record['tiff_file_names'][filenum]
+        tiff_file = self.fly_path + self.exp_record['tiff_file_names'][filenum]
         import tifffile
         tif = tifffile.TiffFile(tiff_file)
         images = tif.asarray()
@@ -386,21 +432,32 @@ class IMGExperiment(Experiment):
         if 'tiff_data' not in self.exp_record.keys():
             self.import_tiff_stack()
         sigs = self.exp_record['axon_data']
-        exposures = idx_by_thresh(sigs['CamSync'],thresh = 1)
-        if 'exposures' not in self.exp_record['tiff_data'].keys():
-            self.exp_record['tiff_data'].create_group('exposures')
-        else:
-            del(self.exp_record['tiff_data']['exposures'])
-        for i,exp in enumerate(exposures):
-            self.exp_record['tiff_data']['exposures'][str(i)] = exp
+        exposures = idx_by_thresh(np.array(sigs['CamSync']),thresh = 1)
         frames = np.array([x[-1] for x in exposures])[0:-1].astype(int)
         update_dset(self.exp_record['tiff_data'],'frame_idx',frames)
         if 'axon_framebase' not in self.exp_record['tiff_data'].keys():
             self.exp_record['tiff_data'].create_group('axon_framebase')
         for key in sigs.keys():
-            sig = sigs[key]
+            sig = np.array(sigs[key])
             downsamp = np.array([np.mean(sig[ex]) for ex in exposures])
             update_dset(self.exp_record['tiff_data']['axon_framebase'],key,downsamp)
+        sigs = self.exp_record['tiff_data']['axon_framebase']
+        ypos = np.array(sigs['Ypos'])
+        epochs = idx_by_thresh(ypos*-1,-9.5)
+        new_epochs = [np.arange(ep[0],ep[0]+70*4.5).astype(int) for ep in epochs]
+        trial_ind = [int(np.around(np.mean(ypos[ep[10:30]])*3)) for ep in new_epochs]
+        sorted_epochs = sorted(zip(trial_ind,new_epochs))
+        for skey,seq_epoch in sorted_epochs:
+            sequence = self.sequences[skey-1]
+            try:
+                update_dset(sequence.seq_record,'epoch_framebase',seq_epoch)
+            except IndexError:
+                print('missing sequence #%s'%(skey))
+
+class IMGSequence(Sequence):
+    def __init__(self,exp_record,seq_num,fly_path):
+        Sequence.__init__(self,exp_record,seq_num,fly_path)
+        self.seq_pattern_name = self.exp_record['sequence_pattern_names'][seq_num]
 
 #############################################################################
 #############################################################################
