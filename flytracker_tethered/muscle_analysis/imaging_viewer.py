@@ -24,26 +24,32 @@ class ImagingViewer(object):
         self.viewb.setRange(QtCore.QRectF(0, 0, 200, 120))
         #####
 
-        self.roi_b1 = PolyMaskROI([[0.,0.], [5.,10.],[10.,5.]], closed = True, pen=(1,7))
+        self.roi_b1 = PolyMaskROI([[0.,0.], [5.,10.],[10.,5.]], closed = True, pen=(1,8))
         self.roi_b1.img = pg.ImageItem()
 
-        self.roi_b2 = PolyMaskROI([[0.,0.], [5.,10.],[10.,5.]], closed = True, pen=(2,7))
+        self.roi_b2 = PolyMaskROI([[0.,0.], [5.,10.],[10.,5.]], closed = True, pen=(2,8))
         self.roi_b2.img = pg.ImageItem()
 
-        self.roi_b3 = PolyMaskROI([[0.,0.], [5.,10.],[10.,5.]], closed = True, pen=(3,7))
+        self.roi_b3 = PolyMaskROI([[0.,0.], [5.,10.],[10.,5.]], closed = True, pen=(3,8))
         self.roi_b3.img = pg.ImageItem()
 
-        self.roi_i1 = PolyMaskROI([[0.,0.], [5.,10.],[10.,5.]], closed = True, pen=(4,7))
+        self.roi_i1 = PolyMaskROI([[0.,0.], [5.,10.],[10.,5.]], closed = True, pen=(4,8))
         self.roi_i1.img = pg.ImageItem()
 
-        self.roi_i3 = PolyMaskROI([[0.,0.], [5.,10.],[10.,5.]], closed = True, pen=(5,7))
-        self.roi_i3.img = pg.ImageItem()
+        self.roi_i2 = PolyMaskROI([[0.,0.], [5.,10.],[10.,5.]], closed = True, pen=(4,8))
+        self.roi_i2.img = pg.ImageItem()
 
-        self.roi_hg1 = PolyMaskROI([[0.,0.], [5.,10.],[10.,5.]], closed = True, pen=(6,7))
+        self.roi_iii1 = PolyMaskROI([[0.,0.], [5.,10.],[10.,5.]], closed = True, pen=(5,8))
+        self.roi_iii1.img = pg.ImageItem()
+
+        self.roi_iii234 = PolyMaskROI([[0.,0.], [5.,10.],[10.,5.]], closed = True, pen=(6,8))
+        self.roi_iii234.img = pg.ImageItem()
+
+        self.roi_hg1 = PolyMaskROI([[0.,0.], [5.,10.],[10.,5.]], closed = True, pen=(7,8))
         self.roi_hg1.img = pg.ImageItem()
 
-        self.roi_hg3 = PolyMaskROI([[0.,0.], [5.,10.],[10.,5.]], closed = True, pen=(7,7))
-        self.roi_hg3.img = pg.ImageItem()
+        self.roi_hg234 = PolyMaskROI([[0.,0.], [5.,10.],[10.,5.]], closed = True, pen=(8,8))
+        self.roi_hg234.img = pg.ImageItem()
             
         self.main_layout.addWidget(self.viewb,0,0,7,2)
         self.main_layout.addWidget(self.sldr,8,0,1,3)
@@ -55,31 +61,37 @@ class ImagingViewer(object):
         self.view_b2 = pg.PlotWidget()
         self.view_b3 = pg.PlotWidget()
         self.view_i1 = pg.PlotWidget()
-        self.view_i3 = pg.PlotWidget()
+        self.view_i2 = pg.PlotWidget()
+        self.view_iii1 = pg.PlotWidget()
+        self.view_iii234 = pg.PlotWidget()
         self.view_hg1 = pg.PlotWidget()
-        self.view_hg3 = pg.PlotWidget()
+        self.view_hg234 = pg.PlotWidget()
         self.roi_curves = pg.PlotWidget()
 
         self.roi_list = [self.roi_b1,
                         self.roi_b2, 
                         self.roi_b3,
-                        self.roi_i1, 
-                        self.roi_i3, 
+                        self.roi_i1,
+                        self.roi_i2, 
+                        self.roi_iii1, 
+                        self.roi_iii234, 
                         self.roi_hg1, 
-                        self.roi_hg3]
+                        self.roi_hg234]
 
         self.view_list = [self.view_b1,
                         self.view_b2,
                         self.view_b3,
                         self.view_i1,
-                        self.view_i3,
+                        self.view_i2,
+                        self.view_iii1,
+                        self.view_iii234,
                         self.view_hg1,
-                        self.view_hg3,]
+                        self.view_hg234,]
 
         for i,r,r_view,name in zip(range(len(self.roi_list)),
                                    self.roi_list,
                                    self.view_list,
-                                   ['b1','b2','b3','i1','i3','hg1','hg3']):
+                                   ['b1','b2','b3','i1','i2','iii1','iii234','hg1','hg234']):
             self.viewb.addItem(r)
             r_view.addItem(r.img)
             r_view.invertY(True)
@@ -91,7 +103,7 @@ class ImagingViewer(object):
             r.muscle_name = name
 
         self.muscle_data = dict()
-        self.roi_layout.addWidget(self.roi_curves,8,1,1,1)
+        self.roi_layout.addWidget(self.roi_curves,10,1,1,1)
         self.main_layout.addLayout(self.roi_layout,0,3,7,1)
 
     def run(self):
@@ -116,7 +128,7 @@ class ImagingViewer(object):
         if data is not None:
             idx = np.squeeze(data[1].astype(int))
             trace = np.sum(np.sum(data[0].astype(float)*idx[:,:,np.newaxis],axis = 0)/(np.sum(idx)),axis=0)
-            trace /= np.mean(trace)
+            #trace /= np.mean(trace)
             roi.img.updateImage(data[0][:,:,self.frameNum]*idx[:,:])
             roi.curve.setData(trace)
             self.muscle_data[roi.muscle_name] = trace

@@ -406,6 +406,12 @@ class IMGExperiment(Experiment):
     def get_images(self):
         return np.array(self.exp_record['tiff_data']['images'])
 
+    def set_roi_data(self,roi_dict):
+        if 'roi_data' not in self.exp_record.keys():
+            self.exp_record.create_group('roi_data')
+        for key in roi_dict:
+            update_dset(self.exp_record['roi_data'],key,roi_dict[key])
+
     def import_axon_data(self,filenum = 0):
         """load the axon data from an experiment into the fly_record"""
         axon_file = self.fly_path + self.exp_record['axon_file_names'][filenum]
