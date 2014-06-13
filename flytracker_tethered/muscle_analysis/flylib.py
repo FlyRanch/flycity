@@ -625,4 +625,4 @@ def update_dset(dset,key,value):
         del(dset[key])
         dset[key] = value
 
-exp_map = {'lr_blob_expansion':HSVExperiment,'img_starfield_t2_rep1':IMGExperiment}
+exp_map = {'lr_blob_expansion':HSVExperiment,'img_starfield_t2_rep1':IMGExperiment,'img_nsf_pilot_t2_rep1':IMGExperiment}
