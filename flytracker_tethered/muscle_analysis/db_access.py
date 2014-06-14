@@ -15,7 +15,7 @@ def main():
     f.close()
 
 def get_db():
-    fly_db = h5py.File('/Volumes/FlyDataB/FlyDB/flydb.hdf5','a')
+    fly_db = h5py.File('/media/FlyDataB/FlyDB/flydb.hdf5','a')
     return fly_db
 
 starfield_pattern_names_6_0_2014  = ['equator_000.mat',

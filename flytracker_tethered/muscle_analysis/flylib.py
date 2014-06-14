@@ -432,7 +432,7 @@ class IMGExperiment(Experiment):
         update_dset(self.exp_record['tiff_data'],'images',images)
         #self.exp_record['tiff_data']['images'] = images
 
-    def sync_sequences(self):
+    def calc_framebase(self):
         if 'axon_data' not in self.exp_record.keys():
             self.import_axon_data()
         if 'tiff_data' not in self.exp_record.keys():
@@ -447,6 +447,14 @@ class IMGExperiment(Experiment):
             sig = np.array(sigs[key])
             downsamp = np.array([np.mean(sig[ex]) for ex in exposures])
             update_dset(self.exp_record['tiff_data']['axon_framebase'],key,downsamp)
+        
+    def sync_sequences(self):
+        if 'axon_data' not in self.exp_record.keys():
+            self.import_axon_data()
+        if 'tiff_data' not in self.exp_record.keys():
+            self.import_tiff_stack()
+        if 'axon_framebase' not in self.exp_record['tiff_data'].keys():
+            self.calc_framebase()
         sigs = self.exp_record['tiff_data']['axon_framebase']
         ypos = np.array(sigs['Ypos'])
         epochs = idx_by_thresh(ypos*-1,-9.5)
