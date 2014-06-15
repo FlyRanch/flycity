@@ -589,6 +589,20 @@ def butter_bandpass_filter(data, lowcut, highcut, sampling_period, order=5):
     b, a = butter_bandpass(lowcut, highcut, sampling_period, order=order)
     y = scipy.signal.filtfilt(b, a, data)
     return y
+
+def butter_lowpass(lowcut, sampling_period, order=5):
+    import scipy.signal
+    sampling_frequency = 1.0/sampling_period
+    nyq = 0.5 * sampling_frequency
+    low = lowcut / nyq
+    b, a = scipy.signal.butter( order, low, btype='low')
+    return b, a
+
+def butter_lowpass_filter(data, lowcut, sampling_period, order=5):
+    import scipy.signal
+    b, a = butter_lowpass(lowcut, sampling_period, order=order)
+    y = scipy.signal.filtfilt(b, a, data)
+    return y
     
 def fit_fourier(strk_mtrx,p_init):
     num_strokes = np.shape(strk_mtrx)[0]
