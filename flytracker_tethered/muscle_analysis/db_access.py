@@ -260,6 +260,29 @@ def init_db():
     #############################################################################################
     #############################################################################################
 
+    flynum = str(130)
+    fly_db.create_group(flynum)
+    fly_record =fly_db[flynum]
+    fly_record['flynum'] = flynum
+    fly_record.create_group('experiments')
+    fly_record['experiments'].create_group('lr_blob_expansion')
+    #fly_record['experiments'].create_group('b1_azm_expansion_tuning')
+    fly_record['experiments']['lr_blob_expansion']['photron_seq_nums'] = [1,2,3,4,5,6]
+    fly_record['experiments']['lr_blob_expansion']['axon_file_names'] = ['fly02_lr_blob_expansion_14429004.abf']
+    fly_record['experiments']['lr_blob_expansion']['photron_date_string'] = ['20140429']
+    fly_record['experiments']['lr_blob_expansion']['kine_filename'] = ['WBkin.mat']
+    fly_record['experiments']['lr_blob_expansion']['solution_format_string'] = ['20140429_S%04d/']
+    fly_record['experiments']['lr_blob_expansion']['photron_frame_rate_Hz'] = 6000
+    fly_record['experiments']['lr_blob_expansion']['Ypos_trial_volts'] = np.linspace(1,10,12)
+    fly_record['experiments']['lr_blob_expansion']['Ypos_trial_vals'] = np.concatenate(([np.nan],np.arange(0,12)*30))
+    fly_record['experiments']['lr_blob_expansion']['AMsysCh1_ID'] = 'i1'
+    fly_record['experiments']['lr_blob_expansion']['AMsysCh1_side'] = 'r'
+    fly_record['experiments']['lr_blob_expansion'].create_group('sequences')
+
+    #############################################################################################
+    #############################################################################################
+
+
     flynum = str(151)
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
