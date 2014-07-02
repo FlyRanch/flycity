@@ -54,6 +54,23 @@ starfield_pattern_names_6_0_2014  = ['equator_000.mat',
                             'sagimeridian_300.mat',
                             'sagimeridian_330.mat']
 
+starfield_pattern_names_6_29_2014  = ['translate_forward.mat',
+                            'translate_backward.mat',
+                            'translate_up.mat',
+                            'translate_down.mat',
+                            'spin_equator_000.mat',
+                            'spin_equator_030.mat',
+                            'spin_equator_060.mat',
+                            'spin_equator_090.mat',
+                            'spin_equator_120.mat',
+                            'spin_equator_150.mat',
+                            'spin_equator_180.mat',
+                            'spin_equator_210.mat',
+                            'spin_equator_240.mat',
+                            'spin_equator_270.mat',
+                            'spin_equator_300.mat',
+                            'spin_equator_330.mat']
+
 #rootpath = params['platform_paths'][sys.platform] + params['root_dir']
 
 
@@ -71,7 +88,7 @@ class Fly(object):
     can still exist"""
     def __init__(self,fly_db,fly_num):
         self.fly_num = fly_num
-        self.fly_record = fly_db[str(fly_num)]
+        self.fly_record = fly_db[fly_num]
         self.param_file = open('params.json','rb')
         self.params = json.load(self.param_file)
         self.param_file.close()
@@ -449,6 +466,8 @@ class IMGExperiment(Experiment):
             update_dset(self.exp_record['tiff_data']['axon_framebase'],key,downsamp)
         
     def sync_sequences(self):
+        frame_rate = 70
+        ep_duration = 4.5
         if 'axon_data' not in self.exp_record.keys():
             self.import_axon_data()
         if 'tiff_data' not in self.exp_record.keys():
@@ -458,6 +477,8 @@ class IMGExperiment(Experiment):
         sigs = self.exp_record['tiff_data']['axon_framebase']
         ypos = np.array(sigs['Ypos'])
         epochs = idx_by_thresh(ypos*-1,-9.5)
+        #need to fix this to collect epochs with different durations and frame
+        #rates
         new_epochs = [np.arange(ep[0],ep[0]+70*4.5).astype(int) for ep in epochs]
         trial_ind = [int(np.around(np.mean(ypos[ep[10:30]])*3)) for ep in new_epochs]
         sorted_epochs = sorted(zip(trial_ind,new_epochs))
