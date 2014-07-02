@@ -7,6 +7,24 @@ import os
 import numpy as np
 import h5py
 
+root_dir = '/Volumes/FlyDataB/FlyDB/'
+
+class FlyDB(dict):
+    def __init__(self,root_dir):
+        dict.__init__(self)
+        self.root_dir = root_dir
+
+    def create_group(self,flynum):
+        self[flynum] = h5py.File(self.root_dir+'Fly%04d'%(int(flynum))+'/fly_record.hdf5','w')
+
+    def close(self):
+        for key in self.keys():
+            self[key].close()
+
+    def flush(self):
+        for key in self.keys():
+            self[key].flush()
+
 def main():
     import cPickle
     fn = 'fly_db_init.cpkl'
@@ -15,7 +33,13 @@ def main():
     f.close()
 
 def get_db():
-    fly_db = h5py.File('/Volumes/FlyDataB/FlyDB/flydb.hdf5','a')
+    #fly_db = h5py.File('/Volumes/FlyDataB/FlyDB/flydb.hdf5','a')
+    flydirs = filter(lambda s:'Fly' in s,os.listdir(root_dir))
+    initialized_flies = filter(lambda s:'fly_record.hdf5' in os.listdir(root_dir+'/'+s),flydirs)
+    fly_db = FlyDB(root_dir)
+    for fly in initialized_flies:
+        flynum = int(fly.split('Fly')[1])
+        fly_db[flynum] = h5py.File(root_dir+fly+'/fly_record.hdf5','a')
     return fly_db
 
 starfield_pattern_names_6_0_2014  = ['equator_000.mat',
@@ -48,11 +72,29 @@ starfield_pattern_names_6_0_2014  = ['equator_000.mat',
                             'sagimeridian_240.mat',
                             'sagimeridian_300.mat',
                             'sagimeridian_330.mat']
+
+starfield_pattern_names_6_29_2014  = ['translate_forward.mat',
+                            'translate_backward.mat',
+                            'translate_up.mat',
+                            'translate_down.mat',
+                            'spin_equator_000.mat',
+                            'spin_equator_030.mat',
+                            'spin_equator_060.mat',
+                            'spin_equator_090.mat',
+                            'spin_equator_120.mat',
+                            'spin_equator_150.mat',
+                            'spin_equator_180.mat',
+                            'spin_equator_210.mat',
+                            'spin_equator_240.mat',
+                            'spin_equator_270.mat',
+                            'spin_equator_300.mat',
+                            'spin_equator_330.mat']
     
 def init_db():
-    fly_db = h5py.File("/Volumes/FlyDataB/FlyDB/flydb.hdf5", "w")
+    #fly_db = h5py.File("/Volumes/FlyDataB/FlyDB/flydb.hdf5", "w")
+    fly_db = FlyDB(root_dir)
     #############################################################################################fly_record = dict()
-    flynum = str(111)
+    flynum = 111
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -70,7 +112,7 @@ def init_db():
     fly_record['experiments']['lr_blob_expansion']['AMsysCh1_side'] = 'l'
     fly_record['experiments']['lr_blob_expansion'].create_group('sequences')
     #############################################################################################
-    flynum = str(112)
+    flynum = 112
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -88,7 +130,7 @@ def init_db():
     fly_record['experiments']['lr_blob_expansion']['AMsysCh1_side'] = 'l'
     fly_record['experiments']['lr_blob_expansion'].create_group('sequences')
     #############################################################################################
-    flynum = str(114)
+    flynum = 114
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -106,7 +148,7 @@ def init_db():
     fly_record['experiments']['lr_blob_expansion']['AMsysCh1_side'] = 'l'
     fly_record['experiments']['lr_blob_expansion'].create_group('sequences')
     #############################################################################################
-    flynum = str(115)
+    flynum = 115
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -124,7 +166,7 @@ def init_db():
     fly_record['experiments']['lr_blob_expansion']['AMsysCh1_side'] = 'l'
     fly_record['experiments']['lr_blob_expansion'].create_group('sequences')
     #############################################################################################
-    flynum = str(116)
+    flynum = 116
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -142,7 +184,7 @@ def init_db():
     fly_record['experiments']['lr_blob_expansion']['AMsysCh1_side'] = 'l'
     fly_record['experiments']['lr_blob_expansion'].create_group('sequences')
     #############################################################################################
-    flynum = str(117)
+    flynum = 117
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -161,7 +203,7 @@ def init_db():
     fly_record['experiments']['lr_blob_expansion']['AMsysCh1_side'] = 'l'
     fly_record['experiments']['lr_blob_expansion'].create_group('sequences')
     #############################################################################################
-    flynum = str(118)
+    flynum = 118
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -180,7 +222,7 @@ def init_db():
     fly_record['experiments']['lr_blob_expansion']['AMsysCh1_side'] = 'l'
     fly_record['experiments']['lr_blob_expansion'].create_group('sequences')
     #############################################################################################
-    flynum = str(122)
+    flynum = 122
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -199,7 +241,7 @@ def init_db():
     fly_record['experiments']['lr_blob_expansion']['AMsysCh1_side'] = 'r'
     fly_record['experiments']['lr_blob_expansion'].create_group('sequences')
     #############################################################################################
-    flynum = str(123)
+    flynum = 123
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -218,7 +260,7 @@ def init_db():
     fly_record['experiments']['lr_blob_expansion']['AMsysCh1_side'] = 'r'
     fly_record['experiments']['lr_blob_expansion'].create_group('sequences')
     #############################################################################################
-    flynum = str(124)
+    flynum = 124
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -237,7 +279,7 @@ def init_db():
     fly_record['experiments']['lr_blob_expansion']['AMsysCh1_side'] = 'r'
     fly_record['experiments']['lr_blob_expansion'].create_group('sequences')
     #############################################################################################
-    flynum = str(125)
+    flynum = 125
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -260,7 +302,7 @@ def init_db():
     #############################################################################################
     #############################################################################################
 
-    flynum = str(130)
+    flynum = 130
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -283,7 +325,7 @@ def init_db():
     #############################################################################################
 
 
-    flynum = str(151)
+    flynum = 151
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -295,7 +337,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
-    flynum = str(153)
+    flynum = 153
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -307,7 +349,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
-    flynum = str(154)
+    flynum = 154
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -320,7 +362,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
 
-    flynum = str(155)
+    flynum = 155
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -333,7 +375,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
 
-    flynum = str(156)
+    flynum = 156
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -345,7 +387,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
-    flynum = str(157)
+    flynum = 157
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -357,7 +399,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
-    flynum = str(158)
+    flynum = 158
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -369,7 +411,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
-    flynum = str(159)
+    flynum = 159
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -381,7 +423,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
-    flynum = str(160)
+    flynum = 160
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -393,7 +435,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
-    flynum = str(161)
+    flynum = 161
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -405,7 +447,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
-    flynum = str(162)
+    flynum = 162
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -417,7 +459,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
-    flynum = str(163)
+    flynum = 163
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -429,7 +471,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
-    flynum = str(164)
+    flynum = 164
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -441,7 +483,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
-    flynum = str(165)
+    flynum = 165
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -453,7 +495,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
-    flynum = str(166)
+    flynum = 166
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -465,7 +507,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
-    flynum = str(167)
+    flynum = 167
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -477,7 +519,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
-    flynum = str(168)
+    flynum = 168
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -489,7 +531,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
-    flynum = str(169)
+    flynum = 169
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -504,7 +546,7 @@ def init_db():
     #######
     #######
     #######
-    flynum = str(170)
+    flynum = 170
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -516,7 +558,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
-    flynum = str(171)
+    flynum = 171
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -528,7 +570,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
-    flynum = str(172)
+    flynum = 172
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -540,7 +582,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
-    flynum = str(173)
+    flynum = 173
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -552,7 +594,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
-    flynum = str(174)
+    flynum = 174
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -564,7 +606,7 @@ def init_db():
     fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
-    flynum = str(175)
+    flynum = 175
     fly_db.create_group(flynum)
     fly_record =fly_db[flynum]
     fly_record['flynum'] = flynum
@@ -572,6 +614,54 @@ def init_db():
     fly_record['experiments'].create_group('img_starfield_t2_rep1')
     #fly_record['experiments'].create_group('b1_azm_expansion_tuning')
     fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0175_rotating_starfield_imaging_T2_trial_1_14605004.abf']
+    fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
+    fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+    fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
+
+    flynum = 176
+    fly_db.create_group(flynum)
+    fly_record =fly_db[flynum]
+    fly_record['flynum'] = flynum
+    fly_record.create_group('experiments')
+    fly_record['experiments'].create_group('img_starfields2_t2_rep1')
+    #fly_record['experiments'].create_group('b1_azm_expansion_tuning')
+    fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['T2_trial1_14630005.abf']
+    fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
+    fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+    fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
+
+    flynum = 177
+    fly_db.create_group(flynum)
+    fly_record =fly_db[flynum]
+    fly_record['flynum'] = flynum
+    fly_record.create_group('experiments')
+    fly_record['experiments'].create_group('img_starfields2_t2_rep1')
+    #fly_record['experiments'].create_group('b1_azm_expansion_tuning')
+    fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['T2_trial1_14630009.abf']
+    fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
+    fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+    fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
+
+    flynum = 178
+    fly_db.create_group(flynum)
+    fly_record =fly_db[flynum]
+    fly_record['flynum'] = flynum
+    fly_record.create_group('experiments')
+    fly_record['experiments'].create_group('img_starfields2_t2_rep1')
+    #fly_record['experiments'].create_group('b1_azm_expansion_tuning')
+    fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['T2_trial1_14630014.abf']
+    fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
+    fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+    fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
+
+    flynum = 179
+    fly_db.create_group(flynum)
+    fly_record =fly_db[flynum]
+    fly_record['flynum'] = flynum
+    fly_record.create_group('experiments')
+    fly_record['experiments'].create_group('img_starfields2_t2_rep1')
+    #fly_record['experiments'].create_group('b1_azm_expansion_tuning')
+    fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['T2_trial1_14630014.abf']
     fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
     fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
     fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
