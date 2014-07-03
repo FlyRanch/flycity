@@ -70,7 +70,8 @@ starfield_pattern_names_6_29_2014  = ['translate_forward.mat',
                             'spin_equator_270.mat',
                             'spin_equator_300.mat',
                             'spin_equator_330.mat']
-
+l = [[x,x,x] for x in starfield_pattern_names_6_29_2014]
+starfield_pattern_names_6_29_2014 = [item for sublist in l for item in sublist]
 #rootpath = params['platform_paths'][sys.platform] + params['root_dir']
 
 
@@ -424,10 +425,15 @@ class IMGExperiment(Experiment):
         return np.array(self.exp_record['tiff_data']['images'])
 
     def set_roi_data(self,roi_dict):
-        if 'roi_data' not in self.exp_record.keys():
-            self.exp_record.create_group('roi_data')
-        for key in roi_dict:
-            update_dset(self.exp_record['roi_data'],key,roi_dict[key])
+        ename = self.experiment_name 
+        f = open(self.fly_path + ename + '_roi.cpkl','wb')
+        import cPickle
+        cPickle.dump(roi_dict,f)
+        f.close()
+        #if 'roi_data' not in self.exp_record.keys():
+        #    self.exp_record.create_group('roi_data')
+        #for key in roi_dict:
+        #    update_dset(self.exp_record['roi_data'],key,roi_dict[key])
 
     def import_axon_data(self,filenum = 0):
         """load the axon data from an experiment into the fly_record"""
@@ -466,8 +472,8 @@ class IMGExperiment(Experiment):
             update_dset(self.exp_record['tiff_data']['axon_framebase'],key,downsamp)
         
     def sync_sequences(self):
-        frame_rate = 70
-        ep_duration = 4.5
+        frame_rate = self.exp_record['imaging_frame_rate_guess'].value
+        ep_duration = self.exp_record['ol_epoch_duration'].value
         if 'axon_data' not in self.exp_record.keys():
             self.import_axon_data()
         if 'tiff_data' not in self.exp_record.keys():
@@ -475,17 +481,19 @@ class IMGExperiment(Experiment):
         if 'axon_framebase' not in self.exp_record['tiff_data'].keys():
             self.calc_framebase()
         sigs = self.exp_record['tiff_data']['axon_framebase']
-        ypos = np.array(sigs['Ypos'])
+        ypos = np.array(self.exp_record['axon_data']['Ypos'])
+        ax_time = np.array(self.exp_record['axon_data']['times'])
+        frame_times = np.array(sigs['times'])
         epochs = idx_by_thresh(ypos*-1,-9.5)
-        #need to fix this to collect epochs with different durations and frame
-        #rates
-        new_epochs = [np.arange(ep[0],ep[0]+70*4.5).astype(int) for ep in epochs]
-        trial_ind = [int(np.around(np.mean(ypos[ep[10:30]])*3)) for ep in new_epochs]
-        sorted_epochs = sorted(zip(trial_ind,new_epochs))
-        for skey,seq_epoch in sorted_epochs:
-            sequence = self.sequences[skey-1]
+        ttups = [(ax_time[ep[0]],ax_time[ep[0]]+ep_duration) for ep in epochs]
+        new_epochs = [np.squeeze(np.argwhere((frame_times>ttup[0]) & (frame_times<ttup[1]))) for ttup in ttups] 
+        #new_epochs = [np.arange(ep[0],ep[0]+frame_rate*ep_duration).astype(int) for ep in epochs]
+        trial_ind = [int(np.around(np.mean(ypos[ep[10:30]])*10)) for ep in new_epochs]
+        sorted_epochs = sorted(zip(trial_ind,new_epochs),key = lambda x:x[0])
+        for skey,seq_epoch in enumerate(sorted_epochs):
+            sequence = self.sequences[skey]
             try:
-                update_dset(sequence.seq_record,'epoch_framebase',seq_epoch)
+                update_dset(sequence.seq_record,'epoch_framebase',seq_epoch[1])
             except IndexError:
                 print('missing sequence #%s'%(skey))
 
@@ -668,4 +676,7 @@ def update_dset(dset,key,value):
         del(dset[key])
         dset[key] = value
 
-exp_map = {'lr_blob_expansion':HSVExperiment,'img_starfield_t2_rep1':IMGExperiment,'img_nsf_pilot_t2_rep1':IMGExperiment}
+exp_map = {'lr_blob_expansion':HSVExperiment,
+           'img_starfield_t2_rep1':IMGExperiment,
+           'img_nsf_pilot_t2_rep1':IMGExperiment,
+           'img_starfields2_t2_rep1':IMGExperiment}
