@@ -488,7 +488,8 @@ class IMGExperiment(Experiment):
         ttups = [(ax_time[ep[0]],ax_time[ep[0]]+ep_duration) for ep in epochs]
         new_epochs = [np.squeeze(np.argwhere((frame_times>ttup[0]) & (frame_times<ttup[1]))) for ttup in ttups] 
         #new_epochs = [np.arange(ep[0],ep[0]+frame_rate*ep_duration).astype(int) for ep in epochs]
-        trial_ind = [int(np.around(np.mean(ypos[ep[10:30]])*10)) for ep in new_epochs]
+        ypos_frames = np.array(self.exp_record['tiff_data']['axon_framebase']['Ypos'])
+        trial_ind = [int(np.around(np.mean(ypos_frames[ep[10:30]])*10)) for ep in new_epochs]
         sorted_epochs = sorted(zip(trial_ind,new_epochs),key = lambda x:x[0])
         for skey,seq_epoch in enumerate(sorted_epochs):
             sequence = self.sequences[skey]
@@ -679,4 +680,5 @@ def update_dset(dset,key,value):
 exp_map = {'lr_blob_expansion':HSVExperiment,
            'img_starfield_t2_rep1':IMGExperiment,
            'img_nsf_pilot_t2_rep1':IMGExperiment,
-           'img_starfields2_t2_rep1':IMGExperiment}
+           'img_starfields2_t2_rep1':IMGExperiment,
+           'img_starfields2_t2_rep2':IMGExperiment}
