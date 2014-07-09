@@ -129,7 +129,7 @@ class ImagingViewer(object):
         if data is not None:
             idx = np.squeeze(data[1].astype(int))
             trace = np.sum(np.sum(data[0].astype(float)*idx[:,:,np.newaxis],axis = 0)/(np.sum(idx)),axis=0)
-            trace /= np.mean(trace)
+            #trace /= np.mean(trace)
             roi.img.updateImage(data[0][:,:,self.frameNum]*idx[:,:])
             roi.curve.setData(trace)
             self.muscle_data[roi.muscle_name] = trace
