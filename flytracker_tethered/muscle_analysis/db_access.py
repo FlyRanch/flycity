@@ -40,6 +40,7 @@ def get_db():
     fly_db = FlyDB(root_dir)
     for fly in initialized_flies:
         flynum = int(fly.split('Fly')[1])
+        #print flynum
         fly_db[flynum] = h5py.File(root_dir+fly+'/fly_record.hdf5','a')
     return fly_db
 
@@ -333,10 +334,10 @@ class InitDB(FlySwitch):
         fly_record['experiments'].create_group('lr_blob_expansion')
         #fly_record['experiments'].create_group('b1_azm_expansion_tuning')
         fly_record['experiments']['lr_blob_expansion']['photron_seq_nums'] = [1,2,3,4,5,6]
-        fly_record['experiments']['lr_blob_expansion']['axon_file_names'] = ['fly02_lr_blob_expansion_14429004.abf']
-        fly_record['experiments']['lr_blob_expansion']['photron_date_string'] = ['20140429']
+        fly_record['experiments']['lr_blob_expansion']['axon_file_names'] = ['fly01_lr_blob_expansion_14506005.abf']
+        fly_record['experiments']['lr_blob_expansion']['photron_date_string'] = ['20140506']
         fly_record['experiments']['lr_blob_expansion']['kine_filename'] = ['WBkin.mat']
-        fly_record['experiments']['lr_blob_expansion']['solution_format_string'] = ['20140429_S%04d/']
+        fly_record['experiments']['lr_blob_expansion']['solution_format_string'] = ['20140506_S%04d/']
         fly_record['experiments']['lr_blob_expansion']['photron_frame_rate_Hz'] = 6000
         fly_record['experiments']['lr_blob_expansion']['Ypos_trial_volts'] = np.linspace(1,10,12)
         fly_record['experiments']['lr_blob_expansion']['Ypos_trial_vals'] = np.concatenate(([np.nan],np.arange(0,12)*30))
