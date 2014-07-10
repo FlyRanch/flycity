@@ -7,7 +7,7 @@ import os
 import numpy as np
 import h5py
 
-root_dir = '/media/FlyDataB/FlyDB/'
+root_dir = '/Volumes/FlyDataB/FlyDB/'
 
 class FlyDB(dict):
     def __init__(self,root_dir):
@@ -20,6 +20,7 @@ class FlyDB(dict):
     def close(self):
         for key in self.keys():
             self[key].close()
+            print self[key]
 
     def flush(self):
         for key in self.keys():
@@ -39,6 +40,7 @@ def get_db():
     fly_db = FlyDB(root_dir)
     for fly in initialized_flies:
         flynum = int(fly.split('Fly')[1])
+        #print flynum
         fly_db[flynum] = h5py.File(root_dir+fly+'/fly_record.hdf5','a')
     return fly_db
 
@@ -89,6 +91,8 @@ starfield_pattern_names_6_29_2014  = ['translate_forward.mat',
                             'spin_equator_270.mat',
                             'spin_equator_300.mat',
                             'spin_equator_330.mat']
+l = [[x,x,x] for x in starfield_pattern_names_6_29_2014]
+starfield_pattern_names_6_29_2014 = [item for sublist in l for item in sublist]
 
 class FlySwitch(dict):
     def __getitem__(self,flynum):
@@ -330,10 +334,10 @@ class InitDB(FlySwitch):
         fly_record['experiments'].create_group('lr_blob_expansion')
         #fly_record['experiments'].create_group('b1_azm_expansion_tuning')
         fly_record['experiments']['lr_blob_expansion']['photron_seq_nums'] = [1,2,3,4,5,6]
-        fly_record['experiments']['lr_blob_expansion']['axon_file_names'] = ['fly02_lr_blob_expansion_14429004.abf']
-        fly_record['experiments']['lr_blob_expansion']['photron_date_string'] = ['20140429']
+        fly_record['experiments']['lr_blob_expansion']['axon_file_names'] = ['fly01_lr_blob_expansion_14506005.abf']
+        fly_record['experiments']['lr_blob_expansion']['photron_date_string'] = ['20140506']
         fly_record['experiments']['lr_blob_expansion']['kine_filename'] = ['WBkin.mat']
-        fly_record['experiments']['lr_blob_expansion']['solution_format_string'] = ['20140429_S%04d/']
+        fly_record['experiments']['lr_blob_expansion']['solution_format_string'] = ['20140506_S%04d/']
         fly_record['experiments']['lr_blob_expansion']['photron_frame_rate_Hz'] = 6000
         fly_record['experiments']['lr_blob_expansion']['Ypos_trial_volts'] = np.linspace(1,10,12)
         fly_record['experiments']['lr_blob_expansion']['Ypos_trial_vals'] = np.concatenate(([np.nan],np.arange(0,12)*30))
@@ -352,6 +356,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0151_rotating_starfield_imaging_T2_trial_1_14529002.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/trial1/trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     def initfly_153(self,flynum):
@@ -365,6 +371,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0153_rotating_starfield_imaging_T2_trial_1_14530005.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     def initfly_154(self,flynum):
@@ -378,6 +386,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0154_rotating_starfield_imaging_T2_trial_1_14530007.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
 
@@ -392,6 +402,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0155_rotating_starfield_imaging_T2_trial_1_14530009.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
 
@@ -406,6 +418,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0156_rotating_starfield_imaging_T2_trial_1_14530011.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     def initfly_157(self,flynum):
@@ -419,6 +433,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0157_rotating_starfield_imaging_T2_trial_1_14602000.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     def initfly_158(self,flynum):
@@ -432,6 +448,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0158_rotating_starfield_imaging_T2_trial_1_14602002.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     def initfly_159(self,flynum):
@@ -445,6 +463,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0159_rotating_starfield_imaging_T2_trial_1_14602004.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     def initfly_160(self,flynum):
@@ -458,6 +478,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0160_rotating_starfield_imaging_T2_trial_1_14602007.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     def initfly_161(self,flynum):
@@ -471,6 +493,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0161_rotating_starfield_imaging_T2_trial_1_14603000.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     def initfly_162(self,flynum):
@@ -484,6 +508,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0162_rotating_starfield_imaging_T2_trial_1_14603003.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     def initfly_163(self,flynum):
@@ -497,6 +523,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0163_rotating_starfield_imaging_T2_trial_1_14603009.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     def initfly_164(self,flynum):
@@ -510,6 +538,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0164_rotating_starfield_imaging_T2_trial_1_14603012.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     def initfly_165(self,flynum):
@@ -523,6 +553,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0165_rotating_starfield_imaging_T2_trial_1_14603017.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     def initfly_166(self,flynum):
@@ -536,6 +568,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0166_rotating_starfield_imaging_T2_trial_1_14605000.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     def initfly_167(self,flynum):
@@ -549,6 +583,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0167_rotating_starfield_imaging_T2_trial_1_14605001.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     def initfly_168(self,flynum):
@@ -562,6 +598,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0168_rotating_starfield_imaging_T2_trial_1_14605002.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     def initfly_169(self,flynum):
@@ -575,6 +613,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0169_rotating_starfield_imaging_T2_trial_1_14605004.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     #######
@@ -591,6 +631,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0170_rotating_starfield_imaging_T2_trial_1_14605004.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     def initfly_171(self,flynum):
@@ -604,6 +646,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0171_rotating_starfield_imaging_T2_trial_1_14605004.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     def initfly_172(self,flynum):
@@ -617,6 +661,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0172_rotating_starfield_imaging_T2_trial_1_14605004.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     def initfly_173(self,flynum):
@@ -630,6 +676,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0173_rotating_starfield_imaging_T2_trial_1_14605004.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     def initfly_174(self,flynum):
@@ -643,6 +691,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0174_rotating_starfield_imaging_T2_trial_1_14605004.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     def initfly_175(self,flynum):
@@ -656,6 +706,8 @@ class InitDB(FlySwitch):
         fly_record['experiments']['img_starfield_t2_rep1']['axon_file_names'] = ['fly0175_rotating_starfield_imaging_T2_trial_1_14605004.abf']
         fly_record['experiments']['img_starfield_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
         fly_record['experiments']['img_starfield_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfield_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfield_t2_rep1']['ol_epoch_duration'] = 4.5
         fly_record['experiments']['img_starfield_t2_rep1'].create_group('sequences')
 
     def initfly_176(self,flynum):
@@ -665,11 +717,19 @@ class InitDB(FlySwitch):
         fly_record['flynum'] = flynum
         fly_record.create_group('experiments')
         fly_record['experiments'].create_group('img_starfields2_t2_rep1')
-        #fly_record['experiments'].create_group('b1_azm_expansion_tuning')
         fly_record['experiments']['img_starfields2_t2_rep1']['axon_file_names'] = ['T2_trial1_14630005.abf']
         fly_record['experiments']['img_starfields2_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
-        fly_record['experiments']['img_starfields2_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfields2_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_29_2014
+        fly_record['experiments']['img_starfields2_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfields2_t2_rep1']['ol_epoch_duration'] = 3.5
         fly_record['experiments']['img_starfields2_t2_rep1'].create_group('sequences')
+        fly_record['experiments'].create_group('img_starfields2_t2_rep2')
+        fly_record['experiments']['img_starfields2_t2_rep2']['axon_file_names'] = ['T2_trial2_14630008.abf']
+        fly_record['experiments']['img_starfields2_t2_rep2']['tiff_file_names'] = ['/T2_trial2/T2_trial2_MMStack.ome.tif']
+        fly_record['experiments']['img_starfields2_t2_rep2']['sequence_pattern_names'] = starfield_pattern_names_6_29_2014
+        fly_record['experiments']['img_starfields2_t2_rep2']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfields2_t2_rep2']['ol_epoch_duration'] = 3.5
+        fly_record['experiments']['img_starfields2_t2_rep2'].create_group('sequences')
 
     def initfly_177(self,flynum):
         fly_db = self.fly_db
@@ -681,8 +741,18 @@ class InitDB(FlySwitch):
         #fly_record['experiments'].create_group('b1_azm_expansion_tuning')
         fly_record['experiments']['img_starfields2_t2_rep1']['axon_file_names'] = ['T2_trial1_14630009.abf']
         fly_record['experiments']['img_starfields2_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
-        fly_record['experiments']['img_starfields2_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfields2_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_29_2014
+        fly_record['experiments']['img_starfields2_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfields2_t2_rep1']['ol_epoch_duration'] = 3.5
         fly_record['experiments']['img_starfields2_t2_rep1'].create_group('sequences')
+        fly_record['experiments'].create_group('img_starfields2_t2_rep2')
+        fly_record['experiments']['img_starfields2_t2_rep2']['axon_file_names'] = ['T2_trial2_14630010.abf']
+        fly_record['experiments']['img_starfields2_t2_rep2']['tiff_file_names'] = ['/T2_trial2/T2_trial2_MMStack.ome.tif']
+        fly_record['experiments']['img_starfields2_t2_rep2']['sequence_pattern_names'] = starfield_pattern_names_6_29_2014
+        fly_record['experiments']['img_starfields2_t2_rep2']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfields2_t2_rep2']['ol_epoch_duration'] = 3.5
+        fly_record['experiments']['img_starfields2_t2_rep2'].create_group('sequences')
+
 
     def initfly_178(self,flynum):
         fly_db = self.fly_db
@@ -694,8 +764,17 @@ class InitDB(FlySwitch):
         #fly_record['experiments'].create_group('b1_azm_expansion_tuning')
         fly_record['experiments']['img_starfields2_t2_rep1']['axon_file_names'] = ['T2_trial1_14630014.abf']
         fly_record['experiments']['img_starfields2_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
-        fly_record['experiments']['img_starfields2_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfields2_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_29_2014
+        fly_record['experiments']['img_starfields2_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfields2_t2_rep1']['ol_epoch_duration'] = 3.5
         fly_record['experiments']['img_starfields2_t2_rep1'].create_group('sequences')
+        fly_record['experiments'].create_group('img_starfields2_t2_rep2')
+        fly_record['experiments']['img_starfields2_t2_rep2']['axon_file_names'] = ['T2_trial2_14630016.abf']
+        fly_record['experiments']['img_starfields2_t2_rep2']['tiff_file_names'] = ['/T2_trial2/T2_trial2_MMStack.ome.tif']
+        fly_record['experiments']['img_starfields2_t2_rep2']['sequence_pattern_names'] = starfield_pattern_names_6_29_2014
+        fly_record['experiments']['img_starfields2_t2_rep2']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfields2_t2_rep2']['ol_epoch_duration'] = 3.5
+        fly_record['experiments']['img_starfields2_t2_rep2'].create_group('sequences')
 
     def initfly_179(self,flynum):
         fly_db = self.fly_db
@@ -705,8 +784,61 @@ class InitDB(FlySwitch):
         fly_record.create_group('experiments')
         fly_record['experiments'].create_group('img_starfields2_t2_rep1')
         #fly_record['experiments'].create_group('b1_azm_expansion_tuning')
-        fly_record['experiments']['img_starfields2_t2_rep1']['axon_file_names'] = ['T2_trial1_14630014.abf']
+        fly_record['experiments']['img_starfields2_t2_rep1']['axon_file_names'] = ['T2_trial1_14701000.abf']
         fly_record['experiments']['img_starfields2_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
-        fly_record['experiments']['img_starfields2_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_0_2014
+        fly_record['experiments']['img_starfields2_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_29_2014
+        fly_record['experiments']['img_starfields2_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfields2_t2_rep1']['ol_epoch_duration'] = 3.5
         fly_record['experiments']['img_starfields2_t2_rep1'].create_group('sequences')
+        fly_record['experiments'].create_group('img_starfields2_t2_rep2')
+        fly_record['experiments']['img_starfields2_t2_rep2']['axon_file_names'] = ['T2_trial2_14701001.abf']
+        fly_record['experiments']['img_starfields2_t2_rep2']['tiff_file_names'] = ['/T2_trial2/T2_trial2_MMStack.ome.tif']
+        fly_record['experiments']['img_starfields2_t2_rep2']['sequence_pattern_names'] = starfield_pattern_names_6_29_2014
+        fly_record['experiments']['img_starfields2_t2_rep2']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfields2_t2_rep2']['ol_epoch_duration'] = 3.5
+        fly_record['experiments']['img_starfields2_t2_rep2'].create_group('sequences')
+
+    def initfly_180(self,flynum):
+        fly_db = self.fly_db
+        fly_db.create_group(flynum)
+        fly_record =fly_db[flynum]
+        fly_record['flynum'] = flynum
+        fly_record.create_group('experiments')
+        fly_record['experiments'].create_group('img_starfields2_t2_rep1')
+        fly_record['experiments']['img_starfields2_t2_rep1']['axon_file_names'] = ['T2_trial1_14701006.abf']
+        fly_record['experiments']['img_starfields2_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
+        fly_record['experiments']['img_starfields2_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_29_2014
+        fly_record['experiments']['img_starfields2_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfields2_t2_rep1']['ol_epoch_duration'] = 3.5
+        fly_record['experiments']['img_starfields2_t2_rep1'].create_group('sequences')
+        fly_record['experiments'].create_group('img_starfields2_t2_rep2')
+        fly_record['experiments']['img_starfields2_t2_rep2']['axon_file_names'] = ['T2_trial2_14701008.abf']
+        fly_record['experiments']['img_starfields2_t2_rep2']['tiff_file_names'] = ['/T2_trial2/T2_trial2_MMStack.ome.tif']
+        fly_record['experiments']['img_starfields2_t2_rep2']['sequence_pattern_names'] = starfield_pattern_names_6_29_2014
+        fly_record['experiments']['img_starfields2_t2_rep2']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfields2_t2_rep2']['ol_epoch_duration'] = 3.5
+        fly_record['experiments']['img_starfields2_t2_rep2'].create_group('sequences')
+    
+    def initfly_181(self,flynum):
+        fly_db = self.fly_db
+        fly_db.create_group(flynum)
+        fly_record =fly_db[flynum]
+        fly_record['flynum'] = flynum
+        fly_record.create_group('experiments')
+        fly_record['experiments'].create_group('img_starfields2_t2_rep1')
+        #fly_record['experiments'].create_group('b1_azm_expansion_tuning')
+        fly_record['experiments']['img_starfields2_t2_rep1']['axon_file_names'] = ['T2_trial1_14701009.abf']
+        fly_record['experiments']['img_starfields2_t2_rep1']['tiff_file_names'] = ['/T2_trial1/T2_trial1_MMStack.ome.tif']
+        fly_record['experiments']['img_starfields2_t2_rep1']['sequence_pattern_names'] = starfield_pattern_names_6_29_2014
+        fly_record['experiments']['img_starfields2_t2_rep1']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfields2_t2_rep1']['ol_epoch_duration'] = 3.5
+        fly_record['experiments']['img_starfields2_t2_rep1'].create_group('sequences')
+        fly_record['experiments'].create_group('img_starfields2_t2_rep2')
+        fly_record['experiments']['img_starfields2_t2_rep2']['axon_file_names'] = ['T2_trial2_14701010.abf']
+        fly_record['experiments']['img_starfields2_t2_rep2']['tiff_file_names'] = ['/T2_trial2/T2_trial2_MMStack.ome.tif']
+        fly_record['experiments']['img_starfields2_t2_rep2']['sequence_pattern_names'] = starfield_pattern_names_6_29_2014
+        fly_record['experiments']['img_starfields2_t2_rep2']['imaging_frame_rate_guess'] = 70
+        fly_record['experiments']['img_starfields2_t2_rep2']['ol_epoch_duration'] = 3.5
+        fly_record['experiments']['img_starfields2_t2_rep2'].create_group('sequences')
+
 

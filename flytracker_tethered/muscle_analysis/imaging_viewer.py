@@ -123,6 +123,7 @@ class ImagingViewer(object):
         self.updateRoiPlot(roi, sliced_data)
     
     def updateRoiPlot(self,roi, data=None):
+        pass
         if data is None:
             data = roi.getArrayRegion(self.images, img=self.img)
         if data is not None:
