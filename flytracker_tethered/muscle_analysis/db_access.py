@@ -7,7 +7,11 @@ import os
 import numpy as np
 import h5py
 
-root_dir = '/Volumes/FlyDataB/FlyDB/'
+import json
+param_file = open('params.json','rb')
+params = json.load(param_file)
+root_dir = params['platform_paths'][sys.platform] + params['root_dir']
+#root_dir = '/Volumes/FlyDataB/FlyDB/'
 
 class FlyDB(dict):
     def __init__(self,root_dir):
