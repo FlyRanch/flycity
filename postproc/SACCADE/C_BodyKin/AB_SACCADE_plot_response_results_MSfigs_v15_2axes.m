@@ -28,7 +28,8 @@ t_cut = .0125;
 
 % loadname = 'flightpathDB_pos_qbodyEKF_INCroll_strokeplane47.5deg_rotaxis27.9deg_startframe100.mat';
 % loadname = 'flightpathDB_pos_qbodyEKF_INCroll_9clusters_1.4n-1.7n1.9_strokeplane47.5deg_startframe100.mat';
-loadname = 'flightpathDB_pos_qbodyEKF_INCroll_strokeplane47.5deg_rotaxis22deg_startframe100.mat';
+% loadname = 'flightpathDB_pos_qbodyEKF_INCroll_strokeplane47.5deg_rotaxis22deg_startframe100.mat';
+loadname = 'flightpathDB_pos_qbodyEKF_INCroll_strokeplane47.5deg_rotaxis36deg_startframe100.mat';
 load(loadname)
 % 
 % % loadname=dir('kinflightpathDB_pos_qbodyEKF_INCroll_9clusters*')
@@ -60,7 +61,7 @@ plot_paths = 0
 plot_paths = 1
 
 make_mov = 0
-% make_mov = 1
+make_mov = 1
 
 cluster_on = 0
 % cluster_on = 1

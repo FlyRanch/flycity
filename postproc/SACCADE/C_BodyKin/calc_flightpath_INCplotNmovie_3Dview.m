@@ -87,72 +87,136 @@ saveas(gcf,['colorbar_Time.tif']);
 plot2svg(['colorbar_Time.svg']);
 
 close all
-figure(1)
-hold on
-axis equal
-axis([-10 10 -10 10])
-axis off
-
-figure(2)
-hold on
-axis equal
-axis([-10 10 -5 5])
-axis off
-
-figure(3)
-hold on
-axis equal
-axis([-10 10 -5 5])
-axis off
-
-figure(4)
-hold on
-axis equal
-axis([-10 10 -10 10 -5 5])
-axis off
+% figure(1)
+% hold on
+% axis equal
+% axis([-10 10 -10 10])
+% % axis off
+% 
+% figure(2)
+% hold on
+% axis equal
+% axis([-10 10 -5 5])
+% % axis off
+% 
+% figure(3)
+% hold on
+% axis equal
+% axis([-10 10 -5 5])
+% % axis off
+% 
+% figure(4)
+% hold on
+% axis equal
+% axis([-10 10 -10 10 -5 5])
+% % axis off
 
 figure(5)
 hold on
 axis equal
-axis([-1 10 -10 10])
-axis off
+axis([-10 10 -1 10])
+% axis off
 
 figure(6)
 hold on
 axis equal
 axis([-1 10 -5 5])
-axis off
+% axis off
 
 figure(7)
 hold on
 axis equal
 axis([-10 10 -5 5])
-axis off
+% axis off
 
 figure(8)
 hold on
 axis equal
 axis([-1 10 -10 10 -5 5])
-axis off
+% axis off
+
+%% axes
+% figure(1)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% xlabel('x [mm]','fontsize',20)
+% ylabel('y [mm]','fontsize',20)
+% 
+% figure(2)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20)
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% xlabel('x [mm]','fontsize',20)
+% ylabel('z [mm]','fontsize',20)
+% 
+% figure(3)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% xlabel('y [mm]','fontsize',20)
+% ylabel('z [mm]','fontsize',20)
+% 
+% figure(4)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% set(gca,'ZTick',-10:5:10,'fontsize',20)
+% xlabel('x [mm]','fontsize',20)
+% ylabel('y [mm]','fontsize',20)
+% zlabel('z [mm]','fontsize',20)
+
+
+figure(5)
+axis on
+set(gca,'XTick',-10:5:10,'fontsize',20) 
+set(gca,'YTick',-10:5:10,'fontsize',20)
+xlabel('x [mm]','fontsize',20)
+ylabel('y [mm]','fontsize',20)
+
+figure(6)
+axis on
+set(gca,'XTick',-10:5:10,'fontsize',20)
+set(gca,'YTick',-10:5:10,'fontsize',20)
+xlabel('x [mm]','fontsize',20)
+ylabel('z [mm]','fontsize',20)
+
+figure(7)
+axis on
+set(gca,'XTick',-10:5:10,'fontsize',20) 
+set(gca,'YTick',-10:5:10,'fontsize',20)
+xlabel('y [mm]','fontsize',20)
+ylabel('z [mm]','fontsize',20)
+
+figure(8)
+axis on
+set(gca,'XTick',-10:5:10,'fontsize',20) 
+set(gca,'YTick',-10:5:10,'fontsize',20)
+set(gca,'ZTick',-10:5:10,'fontsize',20)
+xlabel('x [mm]','fontsize',20)
+ylabel('y [mm]','fontsize',20)
+zlabel('z [mm]','fontsize',20)
+
+%% make movie
 
 if make_mov == 1
     mkdir('saccades_TimeColor')
     cd('saccades_TimeColor')
 
-    figure(1)
-    saveas(gcf,['saccades_topview_TimeColor',num2str(0),'.tif']);
-
-    figure(2)
-    saveas(gcf,['saccades_frontview_TimeColor',num2str(0),'.tif']);
-
-    figure(3)
-    saveas(gcf,['saccades_sideview_TimeColor',num2str(0),'.tif']);
-
-    figure(4)
-    view(-225,30)
-    saveas(gcf,['saccades_perspview1_TimeColor',num2str(0),'.tif']);
-    view(-135,30)
-    saveas(gcf,['saccades_perspview2_TimeColor',num2str(0),'.tif']);
+%     figure(1)
+%     saveas(gcf,['saccades_topview_TimeColor',num2str(0),'.tif']);
+% 
+%     figure(2)
+%     saveas(gcf,['saccades_frontview_TimeColor',num2str(0),'.tif']);
+% 
+%     figure(3)
+%     saveas(gcf,['saccades_sideview_TimeColor',num2str(0),'.tif']);
+% 
+%     figure(4)
+%     view(-225,30)
+%     saveas(gcf,['saccades_perspview1_TimeColor',num2str(0),'.tif']);
+%     view(-135,30)
+%     saveas(gcf,['saccades_perspview2_TimeColor',num2str(0),'.tif']);
 
     figure(5)
     saveas(gcf,['saccades_topview_TimeColor_mirror',num2str(0),'.tif']);
@@ -186,30 +250,30 @@ for i=mov_start:dn_mov:mov_stop
     for j=1:length(n_now)
         if isnan(col(n_now(j),m_now(j)))==0 && isnan(col(n_now(j)+dn_mov,m_now(j)))==0
             
-            figure(1)
-            plot([pos_x_align_plot(n_now(j),m_now(j))*1000 pos_x_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
-            
-            figure(2)
-            plot([pos_x_align_plot(n_now(j),m_now(j))*1000 pos_x_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
-            
-            figure(3)
-            plot([pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
-            
-            figure(4)
-            plot3([pos_x_align_plot(n_now(j),m_now(j))*1000 pos_x_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
+%             figure(1)
+%             plot([pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_x_align_plot(n_now(j),m_now(j))*1000 pos_x_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
+%             
+%             figure(2)
+%             plot([pos_x_align_plot(n_now(j),m_now(j))*1000 pos_x_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
+%             
+%             figure(3)
+%             plot([pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
+%             
+%             figure(4)
+%             plot3([pos_x_align_plot(n_now(j),m_now(j))*1000 pos_x_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
             
             figure(5)
-            plot([pos_x_align_mirror_plot(n_now(j),m_now(j))*1000 pos_x_align_mirror_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+            plot([pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+                [pos_x_align_mirror_plot(n_now(j),m_now(j))*1000 pos_x_align_mirror_plot(n_now(j)+dn_mov,m_now(j))*1000],...
                 '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
             
             figure(6)
@@ -232,20 +296,20 @@ for i=mov_start:dn_mov:mov_stop
     
     if make_mov == 1
 
-        figure(1)
-        saveas(gcf,['saccades_topview_TimeColor',num2str(i-mov_start+1),'.tif']);
-
-        figure(2)
-        saveas(gcf,['saccades_frontview_TimeColor',num2str(i-mov_start+1),'.tif']);
-
-        figure(3)
-        saveas(gcf,['saccades_sideview_TimeColor',num2str(i-mov_start+1),'.tif']);
-
-        figure(4)
-        view(-225,30)
-        saveas(gcf,['saccades_perspview1_TimeColor',num2str(i-mov_start+1),'.tif']);
-        view(-135,30)
-        saveas(gcf,['saccades_perspview2_TimeColor',num2str(i-mov_start+1),'.tif']);
+%         figure(1)
+%         saveas(gcf,['saccades_topview_TimeColor',num2str(i-mov_start+1),'.tif']);
+% 
+%         figure(2)
+%         saveas(gcf,['saccades_frontview_TimeColor',num2str(i-mov_start+1),'.tif']);
+% 
+%         figure(3)
+%         saveas(gcf,['saccades_sideview_TimeColor',num2str(i-mov_start+1),'.tif']);
+% 
+%         figure(4)
+%         view(-225,30)
+%         saveas(gcf,['saccades_perspview1_TimeColor',num2str(i-mov_start+1),'.tif']);
+%         view(-135,30)
+%         saveas(gcf,['saccades_perspview2_TimeColor',num2str(i-mov_start+1),'.tif']);
 
         figure(5)
         saveas(gcf,['saccades_topview_TimeColor_mirror',num2str(i-mov_start+1),'.tif']);
@@ -268,92 +332,92 @@ if make_mov == 1
     cd ..
 end
 
-figure(1)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-xlabel('x [mm]','fontsize',20)
-ylabel('y [mm]','fontsize',20)
-saveas(gcf,['saccades_topview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
-saveas(gcf,['saccades_topview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
-plot2svg(['saccades_topview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
-
-figure(2)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20)
-set(gca,'YTick',-10:5:10,'fontsize',20)
-xlabel('x [mm]','fontsize',20)
-ylabel('z [mm]','fontsize',20)
-saveas(gcf,['saccades_frontview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
-saveas(gcf,['saccades_frontview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
-plot2svg(['saccades_frontview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
-
-figure(3)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-xlabel('y [mm]','fontsize',20)
-ylabel('z [mm]','fontsize',20)
-saveas(gcf,['saccades_sideview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
-saveas(gcf,['saccades_sideview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
-plot2svg(['saccades_sideview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
-
-figure(4)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-set(gca,'ZTick',-10:5:10,'fontsize',20)
-xlabel('x [mm]','fontsize',20)
-ylabel('y [mm]','fontsize',20)
-zlabel('z [mm]','fontsize',20)
-view(-225,30)
-saveas(gcf,['saccades_perspview1_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
-saveas(gcf,['saccades_perspview1_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
-plot2svg(['saccades_perspview1_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
-view(-135,30)
-saveas(gcf,['saccades_perspview2_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
-saveas(gcf,['saccades_perspview2_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
-plot2svg(['saccades_perspview2_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
+% figure(1)
+% % axis on
+% % set(gca,'XTick',-10:5:10,'fontsize',20) 
+% % set(gca,'YTick',-10:5:10,'fontsize',20)
+% % xlabel('x [mm]','fontsize',20)
+% % ylabel('y [mm]','fontsize',20)
+% saveas(gcf,['saccades_topview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
+% saveas(gcf,['saccades_topview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
+% plot2svg(['saccades_topview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
+% 
+% figure(2)
+% % axis on
+% % set(gca,'XTick',-10:5:10,'fontsize',20)
+% % set(gca,'YTick',-10:5:10,'fontsize',20)
+% % xlabel('x [mm]','fontsize',20)
+% % ylabel('z [mm]','fontsize',20)
+% saveas(gcf,['saccades_frontview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
+% saveas(gcf,['saccades_frontview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
+% plot2svg(['saccades_frontview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
+% 
+% figure(3)
+% % axis on
+% % set(gca,'XTick',-10:5:10,'fontsize',20) 
+% % set(gca,'YTick',-10:5:10,'fontsize',20)
+% % xlabel('y [mm]','fontsize',20)
+% % ylabel('z [mm]','fontsize',20)
+% saveas(gcf,['saccades_sideview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
+% saveas(gcf,['saccades_sideview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
+% plot2svg(['saccades_sideview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
+% 
+% figure(4)
+% % axis on
+% % set(gca,'XTick',-10:5:10,'fontsize',20) 
+% % set(gca,'YTick',-10:5:10,'fontsize',20)
+% % set(gca,'ZTick',-10:5:10,'fontsize',20)
+% % xlabel('x [mm]','fontsize',20)
+% % ylabel('y [mm]','fontsize',20)
+% % zlabel('z [mm]','fontsize',20)
+% view(-225,30)
+% saveas(gcf,['saccades_perspview1_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
+% saveas(gcf,['saccades_perspview1_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
+% plot2svg(['saccades_perspview1_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
+% view(-135,30)
+% saveas(gcf,['saccades_perspview2_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
+% saveas(gcf,['saccades_perspview2_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
+% plot2svg(['saccades_perspview2_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
 
 
 figure(5)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-xlabel('x [mm]','fontsize',20)
-ylabel('y [mm]','fontsize',20)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% xlabel('x [mm]','fontsize',20)
+% ylabel('y [mm]','fontsize',20)
 saveas(gcf,['saccades_topview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
 saveas(gcf,['saccades_topview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
 plot2svg(['saccades_topview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
 
 figure(6)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20)
-set(gca,'YTick',-10:5:10,'fontsize',20)
-xlabel('x [mm]','fontsize',20)
-ylabel('z [mm]','fontsize',20)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20)
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% xlabel('x [mm]','fontsize',20)
+% ylabel('z [mm]','fontsize',20)
 saveas(gcf,['saccades_frontview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
 saveas(gcf,['saccades_frontview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
 plot2svg(['saccades_frontview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
 
 figure(7)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-xlabel('y [mm]','fontsize',20)
-ylabel('z [mm]','fontsize',20)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% xlabel('y [mm]','fontsize',20)
+% ylabel('z [mm]','fontsize',20)
 saveas(gcf,['saccades_sideview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
 saveas(gcf,['saccades_sideview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
 plot2svg(['saccades_sideview_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
 
 figure(8)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-set(gca,'ZTick',-10:5:10,'fontsize',20)
-xlabel('x [mm]','fontsize',20)
-ylabel('y [mm]','fontsize',20)
-zlabel('z [mm]','fontsize',20)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% set(gca,'ZTick',-10:5:10,'fontsize',20)
+% xlabel('x [mm]','fontsize',20)
+% ylabel('y [mm]','fontsize',20)
+% zlabel('z [mm]','fontsize',20)
 view(-225,30)
 saveas(gcf,['saccades_perspview1_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
 saveas(gcf,['saccades_perspview1_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
@@ -364,586 +428,586 @@ saveas(gcf,['saccades_perspview2_TimeColor_time',num2str(t_start),'to',num2str(t
 plot2svg(['saccades_perspview2_TimeColor_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
 
 %% movie accelColor
-Amax = 10;
-% Amax = max(abs(A(:)));
-
-cmap_mov=jet(cmap_steps);
-col = round(A./Amax*cmap_steps).*pos_on;
-col(col>cmap_steps)=cmap_steps;
-
-figure
-colormap(cmap_mov)
-colorbar
-saveas(gcf,['colorbar_Accel.fig']);
-saveas(gcf,['colorbar_Accel.tif']);
-plot2svg(['colorbar_Accel.svg']);
-
-close all
-figure(1)
-hold on
-axis equal
-axis([-10 10 -10 10])
-axis off
-
-figure(2)
-hold on
-axis equal
-axis([-10 10 -5 5])
-axis off
-
-figure(3)
-hold on
-axis equal
-axis([-10 10 -5 5])
-axis off
-
-figure(4)
-hold on
-axis equal
-axis([-10 10 -10 10 -5 5])
-axis off
-
-figure(5)
-hold on
-axis equal
-axis([-1 10 -10 10])
-axis off
-
-figure(6)
-hold on
-axis equal
-axis([-1 10 -5 5])
-axis off
-
-figure(7)
-hold on
-axis equal
-axis([-10 10 -5 5])
-axis off
-
-figure(8)
-hold on
-axis equal
-axis([-1 10 -10 10 -5 5])
-axis off
-
-if make_mov == 1
-    mkdir('saccades_accelColor')
-    cd('saccades_accelColor')
-
-    figure(1)
-    saveas(gcf,['saccades_topview_accelColor_Amax',num2str(Amax),'mps2_',num2str(0),'.tif']);
-
-    figure(2)
-    saveas(gcf,['saccades_frontview_accelColor_Amax',num2str(Amax),'mps2_',num2str(0),'.tif']);
-
-    figure(3)
-    saveas(gcf,['saccades_sideview_accelColor_Amax',num2str(Amax),'mps2_',num2str(0),'.tif']);
-
-    figure(4)
-    view(-225,30)
-    saveas(gcf,['saccades_perspview1_accelColor_Amax',num2str(Amax),'mps2_',num2str(0),'.tif']);
-    view(-135,30)
-    saveas(gcf,['saccades_perspview2_accelColor_Amax',num2str(Amax),'mps2_',num2str(0),'.tif']);
-
-    figure(5)
-    saveas(gcf,['saccades_topview_accelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(0),'.tif']);
-
-    figure(6)
-    saveas(gcf,['saccades_frontview_accelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(0),'.tif']);
-
-    figure(7)
-    saveas(gcf,['saccades_sideview_accelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(0),'.tif']);
-
-    figure(8)
-    view(-225,30)
-    saveas(gcf,['saccades_perspview1_accelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(0),'.tif']);
-    view(-135,30)
-    saveas(gcf,['saccades_perspview2_accelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(0),'.tif']);
-end
-
-
-if make_mov == 1
-    dn_mov = 3;
-else
-    dn_mov = 40;
-end
-mov_start = min(n_pos_plot(:));
-mov_stop = max(n_pos_plot(:));
-
-for i=mov_start:dn_mov:mov_stop
-    
-    [n_now,m_now] = find(n_pos_plot==i);
-
-    for j=1:length(n_now)
-        if isnan(col(n_now(j),m_now(j)))==0 && isnan(col(n_now(j)+dn_mov,m_now(j)))==0
-            
-            figure(1)
-            plot([pos_x_align_plot(n_now(j),m_now(j))*1000 pos_x_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
-            
-            figure(2)
-            plot([pos_x_align_plot(n_now(j),m_now(j))*1000 pos_x_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
-            
-            figure(3)
-            plot([pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
-            
-            figure(4)
-            plot3([pos_x_align_plot(n_now(j),m_now(j))*1000 pos_x_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
-            
-            figure(5)
-            plot([pos_x_align_mirror_plot(n_now(j),m_now(j))*1000 pos_x_align_mirror_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
-            
-            figure(6)
-            plot([pos_x_align_mirror_plot(n_now(j),m_now(j))*1000 pos_x_align_mirror_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
-            
-            figure(7)
-            plot([pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
-            
-            figure(8)
-            plot3([pos_x_align_mirror_plot(n_now(j),m_now(j))*1000 pos_x_align_mirror_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
-        end
-    end
-    
-    if make_mov == 1
-
-        figure(1)
-        saveas(gcf,['saccades_topview_accelColor_Amax',num2str(Amax),'mps2_',num2str(i-mov_start+1),'.tif']);
-
-        figure(2)
-        saveas(gcf,['saccades_frontview_accelColor_Amax',num2str(Amax),'mps2_',num2str(i-mov_start+1),'.tif']);
-
-        figure(3)
-        saveas(gcf,['saccades_sideview_accelColor_Amax',num2str(Amax),'mps2_',num2str(i-mov_start+1),'.tif']);
-
-        figure(4)
-        view(-225,30)
-        saveas(gcf,['saccades_perspview1_accelColor_Amax',num2str(Amax),'mps2_',num2str(i-mov_start+1),'.tif']);
-        view(-135,30)
-        saveas(gcf,['saccades_perspview2_accelColor_Amax',num2str(Amax),'mps2_',num2str(i-mov_start+1),'.tif']);
-
-        figure(5)
-        saveas(gcf,['saccades_topview_accelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(i-mov_start+1),'.tif']);
-
-        figure(6)
-        saveas(gcf,['saccades_frontview_accelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(i-mov_start+1),'.tif']);
-
-        figure(7)
-        saveas(gcf,['saccades_sideview_accelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(i-mov_start+1),'.tif']);
-
-        figure(8)
-        view(-225,30)
-        saveas(gcf,['saccades_perspview1_accelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(i-mov_start+1),'.tif']);
-        view(-135,30)
-        saveas(gcf,['saccades_perspview2_accelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(i-mov_start+1),'.tif']);
-    end
-end
-
-if make_mov == 1
-    cd ..
-end
-
-figure(1)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-xlabel('x [mm]','fontsize',20)
-ylabel('y [mm]','fontsize',20)
-saveas(gcf,['saccades_topview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
-saveas(gcf,['saccades_topview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
-plot2svg(['saccades_topview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
-
-figure(2)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-xlabel('x [mm]','fontsize',20)
-ylabel('z [mm]','fontsize',20)
-saveas(gcf,['saccades_frontview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
-saveas(gcf,['saccades_frontview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
-plot2svg(['saccades_frontview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
-
-figure(3)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-xlabel('y [mm]','fontsize',20)
-ylabel('z [mm]','fontsize',20)
-saveas(gcf,['saccades_sideview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
-saveas(gcf,['saccades_sideview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
-plot2svg(['saccades_sideview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
-
-figure(4)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-set(gca,'ZTick',-10:5:10,'fontsize',20)
-xlabel('x [mm]','fontsize',20)
-ylabel('y [mm]','fontsize',20)
-zlabel('z [mm]','fontsize',20)
-view(-225,30)
-saveas(gcf,['saccades_perspview1_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
-saveas(gcf,['saccades_perspview1_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
-plot2svg(['saccades_perspview1_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
-view(-135,30)
-saveas(gcf,['saccades_perspview2_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
-saveas(gcf,['saccades_perspview2_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
-plot2svg(['saccades_perspview2_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
-
-
-figure(5)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-xlabel('x [mm]','fontsize',20)
-ylabel('y [mm]','fontsize',20)
-saveas(gcf,['saccades_topview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
-saveas(gcf,['saccades_topview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
-plot2svg(['saccades_topview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
-
-figure(6)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-xlabel('x [mm]','fontsize',20)
-ylabel('z [mm]','fontsize',20)
-saveas(gcf,['saccades_frontview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
-saveas(gcf,['saccades_frontview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
-plot2svg(['saccades_frontview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
-
-figure(7)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-xlabel('y [mm]','fontsize',20)
-ylabel('z [mm]','fontsize',20)
-saveas(gcf,['saccades_sideview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
-saveas(gcf,['saccades_sideview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
-plot2svg(['saccades_sideview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
-
-figure(8)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-set(gca,'ZTick',-10:5:10,'fontsize',20)
-xlabel('x [mm]','fontsize',20)
-ylabel('y [mm]','fontsize',20)
-zlabel('z [mm]','fontsize',20)
-view(-225,30)
-saveas(gcf,['saccades_perspview1_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
-saveas(gcf,['saccades_perspview1_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
-plot2svg(['saccades_perspview1_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
-view(-135,30)
-saveas(gcf,['saccades_perspview2_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
-saveas(gcf,['saccades_perspview2_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
-plot2svg(['saccades_perspview2_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
-
-%% movie VelColor
-Vmax = 0.3;
-
-cmap_mov=jet(cmap_steps);
-col = round(V./Vmax*cmap_steps).*pos_on;
-col(col>cmap_steps)=cmap_steps;
-    
-figure
-colormap(cmap_mov)
-colorbar
-saveas(gcf,['colorbar_Vel.tif']);
-saveas(gcf,['colorbar_Vel.fig']);
-plot2svg(['colorbar_Vel.svg']);
-
-close all
-figure(1)
-hold on
-axis equal
-axis([-10 10 -10 10])
-axis off
-
-figure(2)
-hold on
-axis equal
-axis([-10 10 -5 5])
-axis off
-
-figure(3)
-hold on
-axis equal
-axis([-10 10 -5 5])
-axis off
-
-figure(4)
-hold on
-axis equal
-axis([-10 10 -10 10 -5 5])
-axis off
-
-figure(5)
-hold on
-axis equal
-axis([-1 10 -10 10])
-axis off
-
-figure(6)
-hold on
-axis equal
-axis([-1 10 -5 5])
-axis off
-
-figure(7)
-hold on
-axis equal
-axis([-10 10 -5 5])
-axis off
-
-figure(8)
-hold on
-axis equal
-axis([-1 10 -10 10 -5 5])
-axis off
-
-if make_mov == 1
-    mkdir('saccades_VelColor')
-    cd('saccades_VelColor')
-
-    figure(1)
-    saveas(gcf,['saccades_topview_VelColor_Amax',num2str(Amax),'mps2_',num2str(0),'.tif']);
-
-    figure(2)
-    saveas(gcf,['saccades_frontview_VelColor_Amax',num2str(Amax),'mps2_',num2str(0),'.tif']);
-
-    figure(3)
-    saveas(gcf,['saccades_sideview_VelColor_Amax',num2str(Amax),'mps2_',num2str(0),'.tif']);
-
-    figure(4)
-    view(-225,30)
-    saveas(gcf,['saccades_perspview1_VelColor_Amax',num2str(Amax),'mps2_',num2str(0),'.tif']);
-    view(-135,30)
-    saveas(gcf,['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_',num2str(0),'.tif']);
-
-    figure(5)
-    saveas(gcf,['saccades_topview_VelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(0),'.tif']);
-
-    figure(6)
-    saveas(gcf,['saccades_frontview_VelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(0),'.tif']);
-
-    figure(7)
-    saveas(gcf,['saccades_sideview_VelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(0),'.tif']);
-
-    figure(8)
-    view(-225,30)
-    saveas(gcf,['saccades_perspview1_VelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(0),'.tif']);
-    view(-135,30)
-    saveas(gcf,['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(0),'.tif']);
-end
-
-if make_mov == 1
-    dn_mov = 3;
-else
-    dn_mov = 40;
-end
-mov_start = min(n_pos_plot(:));
-mov_stop = max(n_pos_plot(:));
-
-for i=mov_start:dn_mov:mov_stop
-    
-    [n_now,m_now] = find(n_pos_plot==i);
-
-    for j=1:length(n_now)
-        if isnan(col(n_now(j),m_now(j)))==0 && isnan(col(n_now(j)+dn_mov,m_now(j)))==0
-            
-            figure(1)
-            plot([pos_x_align_plot(n_now(j),m_now(j))*1000 pos_x_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
-            
-            figure(2)
-            plot([pos_x_align_plot(n_now(j),m_now(j))*1000 pos_x_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
-            
-            figure(3)
-            plot([pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
-            
-            figure(4)
-            plot3([pos_x_align_plot(n_now(j),m_now(j))*1000 pos_x_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
-            
-            figure(5)
-            plot([pos_x_align_mirror_plot(n_now(j),m_now(j))*1000 pos_x_align_mirror_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
-            
-            figure(6)
-            plot([pos_x_align_mirror_plot(n_now(j),m_now(j))*1000 pos_x_align_mirror_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
-            
-            figure(7)
-            plot([pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
-            
-            figure(8)
-            plot3([pos_x_align_mirror_plot(n_now(j),m_now(j))*1000 pos_x_align_mirror_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
-                '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
-        end
-    end
-    
-    if make_mov == 1
-
-        figure(1)
-        saveas(gcf,['saccades_topview_VelColor_Amax',num2str(Amax),'mps2_',num2str(i-mov_start+1),'.tif']);
-
-        figure(2)
-        saveas(gcf,['saccades_frontview_VelColor_Amax',num2str(Amax),'mps2_',num2str(i-mov_start+1),'.tif']);
-
-        figure(3)
-        saveas(gcf,['saccades_sideview_VelColor_Amax',num2str(Amax),'mps2_',num2str(i-mov_start+1),'.tif']);
-
-        figure(4)
-        view(-225,30)
-        saveas(gcf,['saccades_perspview1_VelColor_Amax',num2str(Amax),'mps2_',num2str(i-mov_start+1),'.tif']);
-        view(-135,30)
-        saveas(gcf,['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_',num2str(i-mov_start+1),'.tif']);
-
-        figure(5)
-        saveas(gcf,['saccades_topview_VelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(i-mov_start+1),'.tif']);
-
-        figure(6)
-        saveas(gcf,['saccades_frontview_VelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(i-mov_start+1),'.tif']);
-
-        figure(7)
-        saveas(gcf,['saccades_sideview_VelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(i-mov_start+1),'.tif']);
-
-        figure(8)
-        view(-225,30)
-        saveas(gcf,['saccades_perspview1_VelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(i-mov_start+1),'.tif']);
-        view(-135,30)
-        saveas(gcf,['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(i-mov_start+1),'.tif']);
-    end
-end
-
-if make_mov == 1
-    cd ..
-end
-
-figure(1)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-xlabel('x [mm]','fontsize',20)
-ylabel('y [mm]','fontsize',20)
-saveas(gcf,['saccades_topview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
-saveas(gcf,['saccades_topview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
-plot2svg(['saccades_topview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
-
-figure(2)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-xlabel('x [mm]','fontsize',20)
-ylabel('z [mm]','fontsize',20)
-saveas(gcf,['saccades_frontview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
-saveas(gcf,['saccades_frontview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
-plot2svg(['saccades_frontview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
-
-figure(3)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-xlabel('y [mm]','fontsize',20)
-ylabel('z [mm]','fontsize',20)
-saveas(gcf,['saccades_sideview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
-saveas(gcf,['saccades_sideview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
-plot2svg(['saccades_sideview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
-
-figure(4)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-set(gca,'ZTick',-10:5:10,'fontsize',20)
-xlabel('x [mm]','fontsize',20)
-ylabel('y [mm]','fontsize',20)
-zlabel('z [mm]','fontsize',20)
-view(-225,30)
-saveas(gcf,['saccades_perspview1_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
-saveas(gcf,['saccades_perspview1_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
-plot2svg(['saccades_perspview1_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
-view(-135,30)
-saveas(gcf,['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
-saveas(gcf,['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
-plot2svg(['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
-
-
-figure(5)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-xlabel('x [mm]','fontsize',20)
-ylabel('y [mm]','fontsize',20)
-saveas(gcf,['saccades_topview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
-saveas(gcf,['saccades_topview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
-plot2svg(['saccades_topview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
-
-figure(6)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-xlabel('x [mm]','fontsize',20)
-ylabel('z [mm]','fontsize',20)
-saveas(gcf,['saccades_frontview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
-saveas(gcf,['saccades_frontview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
-plot2svg(['saccades_frontview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
-
-figure(7)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-xlabel('y [mm]','fontsize',20)
-ylabel('z [mm]','fontsize',20)
-saveas(gcf,['saccades_sideview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
-saveas(gcf,['saccades_sideview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
-plot2svg(['saccades_sideview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
-
-figure(8)
-axis on
-set(gca,'XTick',-10:5:10,'fontsize',20) 
-set(gca,'YTick',-10:5:10,'fontsize',20)
-set(gca,'ZTick',-10:5:10,'fontsize',20)
-xlabel('x [mm]','fontsize',20)
-ylabel('y [mm]','fontsize',20)
-zlabel('z [mm]','fontsize',20)
-view(-225,30)
-saveas(gcf,['saccades_perspview1_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
-saveas(gcf,['saccades_perspview1_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
-plot2svg(['saccades_perspview1_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
-view(-135,30)
-saveas(gcf,['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
-saveas(gcf,['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
-plot2svg(['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
+% Amax = 10;
+% % Amax = max(abs(A(:)));
+% 
+% cmap_mov=jet(cmap_steps);
+% col = round(A./Amax*cmap_steps).*pos_on;
+% col(col>cmap_steps)=cmap_steps;
+% 
+% figure
+% colormap(cmap_mov)
+% colorbar
+% saveas(gcf,['colorbar_Accel.fig']);
+% saveas(gcf,['colorbar_Accel.tif']);
+% plot2svg(['colorbar_Accel.svg']);
+% 
+% close all
+% figure(1)
+% hold on
+% axis equal
+% axis([-10 10 -10 10])
+% axis off
+% 
+% figure(2)
+% hold on
+% axis equal
+% axis([-10 10 -5 5])
+% axis off
+% 
+% figure(3)
+% hold on
+% axis equal
+% axis([-10 10 -5 5])
+% axis off
+% 
+% figure(4)
+% hold on
+% axis equal
+% axis([-10 10 -10 10 -5 5])
+% axis off
+% 
+% figure(5)
+% hold on
+% axis equal
+% axis([-1 10 -10 10])
+% axis off
+% 
+% figure(6)
+% hold on
+% axis equal
+% axis([-1 10 -5 5])
+% axis off
+% 
+% figure(7)
+% hold on
+% axis equal
+% axis([-10 10 -5 5])
+% axis off
+% 
+% figure(8)
+% hold on
+% axis equal
+% axis([-1 10 -10 10 -5 5])
+% axis off
+% 
+% if make_mov == 1
+%     mkdir('saccades_accelColor')
+%     cd('saccades_accelColor')
+% 
+%     figure(1)
+%     saveas(gcf,['saccades_topview_accelColor_Amax',num2str(Amax),'mps2_',num2str(0),'.tif']);
+% 
+%     figure(2)
+%     saveas(gcf,['saccades_frontview_accelColor_Amax',num2str(Amax),'mps2_',num2str(0),'.tif']);
+% 
+%     figure(3)
+%     saveas(gcf,['saccades_sideview_accelColor_Amax',num2str(Amax),'mps2_',num2str(0),'.tif']);
+% 
+%     figure(4)
+%     view(-225,30)
+%     saveas(gcf,['saccades_perspview1_accelColor_Amax',num2str(Amax),'mps2_',num2str(0),'.tif']);
+%     view(-135,30)
+%     saveas(gcf,['saccades_perspview2_accelColor_Amax',num2str(Amax),'mps2_',num2str(0),'.tif']);
+% 
+%     figure(5)
+%     saveas(gcf,['saccades_topview_accelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(0),'.tif']);
+% 
+%     figure(6)
+%     saveas(gcf,['saccades_frontview_accelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(0),'.tif']);
+% 
+%     figure(7)
+%     saveas(gcf,['saccades_sideview_accelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(0),'.tif']);
+% 
+%     figure(8)
+%     view(-225,30)
+%     saveas(gcf,['saccades_perspview1_accelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(0),'.tif']);
+%     view(-135,30)
+%     saveas(gcf,['saccades_perspview2_accelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(0),'.tif']);
+% end
+% 
+% 
+% if make_mov == 1
+%     dn_mov = 3;
+% else
+%     dn_mov = 40;
+% end
+% mov_start = min(n_pos_plot(:));
+% mov_stop = max(n_pos_plot(:));
+% 
+% for i=mov_start:dn_mov:mov_stop
+%     
+%     [n_now,m_now] = find(n_pos_plot==i);
+% 
+%     for j=1:length(n_now)
+%         if isnan(col(n_now(j),m_now(j)))==0 && isnan(col(n_now(j)+dn_mov,m_now(j)))==0
+%             
+%             figure(1)
+%             plot([pos_x_align_plot(n_now(j),m_now(j))*1000 pos_x_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
+%             
+%             figure(2)
+%             plot([pos_x_align_plot(n_now(j),m_now(j))*1000 pos_x_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
+%             
+%             figure(3)
+%             plot([pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
+%             
+%             figure(4)
+%             plot3([pos_x_align_plot(n_now(j),m_now(j))*1000 pos_x_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
+%             
+%             figure(5)
+%             plot([pos_x_align_mirror_plot(n_now(j),m_now(j))*1000 pos_x_align_mirror_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
+%             
+%             figure(6)
+%             plot([pos_x_align_mirror_plot(n_now(j),m_now(j))*1000 pos_x_align_mirror_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
+%             
+%             figure(7)
+%             plot([pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
+%             
+%             figure(8)
+%             plot3([pos_x_align_mirror_plot(n_now(j),m_now(j))*1000 pos_x_align_mirror_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
+%         end
+%     end
+%     
+%     if make_mov == 1
+% 
+%         figure(1)
+%         saveas(gcf,['saccades_topview_accelColor_Amax',num2str(Amax),'mps2_',num2str(i-mov_start+1),'.tif']);
+% 
+%         figure(2)
+%         saveas(gcf,['saccades_frontview_accelColor_Amax',num2str(Amax),'mps2_',num2str(i-mov_start+1),'.tif']);
+% 
+%         figure(3)
+%         saveas(gcf,['saccades_sideview_accelColor_Amax',num2str(Amax),'mps2_',num2str(i-mov_start+1),'.tif']);
+% 
+%         figure(4)
+%         view(-225,30)
+%         saveas(gcf,['saccades_perspview1_accelColor_Amax',num2str(Amax),'mps2_',num2str(i-mov_start+1),'.tif']);
+%         view(-135,30)
+%         saveas(gcf,['saccades_perspview2_accelColor_Amax',num2str(Amax),'mps2_',num2str(i-mov_start+1),'.tif']);
+% 
+%         figure(5)
+%         saveas(gcf,['saccades_topview_accelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(i-mov_start+1),'.tif']);
+% 
+%         figure(6)
+%         saveas(gcf,['saccades_frontview_accelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(i-mov_start+1),'.tif']);
+% 
+%         figure(7)
+%         saveas(gcf,['saccades_sideview_accelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(i-mov_start+1),'.tif']);
+% 
+%         figure(8)
+%         view(-225,30)
+%         saveas(gcf,['saccades_perspview1_accelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(i-mov_start+1),'.tif']);
+%         view(-135,30)
+%         saveas(gcf,['saccades_perspview2_accelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(i-mov_start+1),'.tif']);
+%     end
+% end
+% 
+% if make_mov == 1
+%     cd ..
+% end
+% 
+% figure(1)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% xlabel('x [mm]','fontsize',20)
+% ylabel('y [mm]','fontsize',20)
+% saveas(gcf,['saccades_topview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
+% saveas(gcf,['saccades_topview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
+% plot2svg(['saccades_topview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
+% 
+% figure(2)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% xlabel('x [mm]','fontsize',20)
+% ylabel('z [mm]','fontsize',20)
+% saveas(gcf,['saccades_frontview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
+% saveas(gcf,['saccades_frontview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
+% plot2svg(['saccades_frontview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
+% 
+% figure(3)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% xlabel('y [mm]','fontsize',20)
+% ylabel('z [mm]','fontsize',20)
+% saveas(gcf,['saccades_sideview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
+% saveas(gcf,['saccades_sideview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
+% plot2svg(['saccades_sideview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
+% 
+% figure(4)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% set(gca,'ZTick',-10:5:10,'fontsize',20)
+% xlabel('x [mm]','fontsize',20)
+% ylabel('y [mm]','fontsize',20)
+% zlabel('z [mm]','fontsize',20)
+% view(-225,30)
+% saveas(gcf,['saccades_perspview1_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
+% saveas(gcf,['saccades_perspview1_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
+% plot2svg(['saccades_perspview1_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
+% view(-135,30)
+% saveas(gcf,['saccades_perspview2_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
+% saveas(gcf,['saccades_perspview2_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
+% plot2svg(['saccades_perspview2_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
+% 
+% 
+% figure(5)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% xlabel('x [mm]','fontsize',20)
+% ylabel('y [mm]','fontsize',20)
+% saveas(gcf,['saccades_topview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
+% saveas(gcf,['saccades_topview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
+% plot2svg(['saccades_topview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
+% 
+% figure(6)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% xlabel('x [mm]','fontsize',20)
+% ylabel('z [mm]','fontsize',20)
+% saveas(gcf,['saccades_frontview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
+% saveas(gcf,['saccades_frontview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
+% plot2svg(['saccades_frontview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
+% 
+% figure(7)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% xlabel('y [mm]','fontsize',20)
+% ylabel('z [mm]','fontsize',20)
+% saveas(gcf,['saccades_sideview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
+% saveas(gcf,['saccades_sideview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
+% plot2svg(['saccades_sideview_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
+% 
+% figure(8)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% set(gca,'ZTick',-10:5:10,'fontsize',20)
+% xlabel('x [mm]','fontsize',20)
+% ylabel('y [mm]','fontsize',20)
+% zlabel('z [mm]','fontsize',20)
+% view(-225,30)
+% saveas(gcf,['saccades_perspview1_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
+% saveas(gcf,['saccades_perspview1_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
+% plot2svg(['saccades_perspview1_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
+% view(-135,30)
+% saveas(gcf,['saccades_perspview2_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
+% saveas(gcf,['saccades_perspview2_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
+% plot2svg(['saccades_perspview2_accelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
+% 
+% %% movie VelColor
+% Vmax = 0.3;
+% 
+% cmap_mov=jet(cmap_steps);
+% col = round(V./Vmax*cmap_steps).*pos_on;
+% col(col>cmap_steps)=cmap_steps;
+%     
+% figure
+% colormap(cmap_mov)
+% colorbar
+% saveas(gcf,['colorbar_Vel.tif']);
+% saveas(gcf,['colorbar_Vel.fig']);
+% plot2svg(['colorbar_Vel.svg']);
+% 
+% close all
+% figure(1)
+% hold on
+% axis equal
+% axis([-10 10 -10 10])
+% axis off
+% 
+% figure(2)
+% hold on
+% axis equal
+% axis([-10 10 -5 5])
+% axis off
+% 
+% figure(3)
+% hold on
+% axis equal
+% axis([-10 10 -5 5])
+% axis off
+% 
+% figure(4)
+% hold on
+% axis equal
+% axis([-10 10 -10 10 -5 5])
+% axis off
+% 
+% figure(5)
+% hold on
+% axis equal
+% axis([-1 10 -10 10])
+% axis off
+% 
+% figure(6)
+% hold on
+% axis equal
+% axis([-1 10 -5 5])
+% axis off
+% 
+% figure(7)
+% hold on
+% axis equal
+% axis([-10 10 -5 5])
+% axis off
+% 
+% figure(8)
+% hold on
+% axis equal
+% axis([-1 10 -10 10 -5 5])
+% axis off
+% 
+% if make_mov == 1
+%     mkdir('saccades_VelColor')
+%     cd('saccades_VelColor')
+% 
+%     figure(1)
+%     saveas(gcf,['saccades_topview_VelColor_Amax',num2str(Amax),'mps2_',num2str(0),'.tif']);
+% 
+%     figure(2)
+%     saveas(gcf,['saccades_frontview_VelColor_Amax',num2str(Amax),'mps2_',num2str(0),'.tif']);
+% 
+%     figure(3)
+%     saveas(gcf,['saccades_sideview_VelColor_Amax',num2str(Amax),'mps2_',num2str(0),'.tif']);
+% 
+%     figure(4)
+%     view(-225,30)
+%     saveas(gcf,['saccades_perspview1_VelColor_Amax',num2str(Amax),'mps2_',num2str(0),'.tif']);
+%     view(-135,30)
+%     saveas(gcf,['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_',num2str(0),'.tif']);
+% 
+%     figure(5)
+%     saveas(gcf,['saccades_topview_VelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(0),'.tif']);
+% 
+%     figure(6)
+%     saveas(gcf,['saccades_frontview_VelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(0),'.tif']);
+% 
+%     figure(7)
+%     saveas(gcf,['saccades_sideview_VelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(0),'.tif']);
+% 
+%     figure(8)
+%     view(-225,30)
+%     saveas(gcf,['saccades_perspview1_VelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(0),'.tif']);
+%     view(-135,30)
+%     saveas(gcf,['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(0),'.tif']);
+% end
+% 
+% if make_mov == 1
+%     dn_mov = 3;
+% else
+%     dn_mov = 40;
+% end
+% mov_start = min(n_pos_plot(:));
+% mov_stop = max(n_pos_plot(:));
+% 
+% for i=mov_start:dn_mov:mov_stop
+%     
+%     [n_now,m_now] = find(n_pos_plot==i);
+% 
+%     for j=1:length(n_now)
+%         if isnan(col(n_now(j),m_now(j)))==0 && isnan(col(n_now(j)+dn_mov,m_now(j)))==0
+%             
+%             figure(1)
+%             plot([pos_x_align_plot(n_now(j),m_now(j))*1000 pos_x_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
+%             
+%             figure(2)
+%             plot([pos_x_align_plot(n_now(j),m_now(j))*1000 pos_x_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
+%             
+%             figure(3)
+%             plot([pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
+%             
+%             figure(4)
+%             plot3([pos_x_align_plot(n_now(j),m_now(j))*1000 pos_x_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
+%             
+%             figure(5)
+%             plot([pos_x_align_mirror_plot(n_now(j),m_now(j))*1000 pos_x_align_mirror_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
+%             
+%             figure(6)
+%             plot([pos_x_align_mirror_plot(n_now(j),m_now(j))*1000 pos_x_align_mirror_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
+%             
+%             figure(7)
+%             plot([pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
+%             
+%             figure(8)
+%             plot3([pos_x_align_mirror_plot(n_now(j),m_now(j))*1000 pos_x_align_mirror_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_y_align_plot(n_now(j),m_now(j))*1000 pos_y_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 [pos_z_align_plot(n_now(j),m_now(j))*1000 pos_z_align_plot(n_now(j)+dn_mov,m_now(j))*1000],...
+%                 '-','color',cmap_mov(col(n_now(j),m_now(j)),:),'linew',2)
+%         end
+%     end
+%     
+%     if make_mov == 1
+% 
+%         figure(1)
+%         saveas(gcf,['saccades_topview_VelColor_Amax',num2str(Amax),'mps2_',num2str(i-mov_start+1),'.tif']);
+% 
+%         figure(2)
+%         saveas(gcf,['saccades_frontview_VelColor_Amax',num2str(Amax),'mps2_',num2str(i-mov_start+1),'.tif']);
+% 
+%         figure(3)
+%         saveas(gcf,['saccades_sideview_VelColor_Amax',num2str(Amax),'mps2_',num2str(i-mov_start+1),'.tif']);
+% 
+%         figure(4)
+%         view(-225,30)
+%         saveas(gcf,['saccades_perspview1_VelColor_Amax',num2str(Amax),'mps2_',num2str(i-mov_start+1),'.tif']);
+%         view(-135,30)
+%         saveas(gcf,['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_',num2str(i-mov_start+1),'.tif']);
+% 
+%         figure(5)
+%         saveas(gcf,['saccades_topview_VelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(i-mov_start+1),'.tif']);
+% 
+%         figure(6)
+%         saveas(gcf,['saccades_frontview_VelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(i-mov_start+1),'.tif']);
+% 
+%         figure(7)
+%         saveas(gcf,['saccades_sideview_VelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(i-mov_start+1),'.tif']);
+% 
+%         figure(8)
+%         view(-225,30)
+%         saveas(gcf,['saccades_perspview1_VelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(i-mov_start+1),'.tif']);
+%         view(-135,30)
+%         saveas(gcf,['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_mirror_',num2str(i-mov_start+1),'.tif']);
+%     end
+% end
+% 
+% if make_mov == 1
+%     cd ..
+% end
+% 
+% figure(1)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% xlabel('x [mm]','fontsize',20)
+% ylabel('y [mm]','fontsize',20)
+% saveas(gcf,['saccades_topview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
+% saveas(gcf,['saccades_topview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
+% plot2svg(['saccades_topview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
+% 
+% figure(2)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% xlabel('x [mm]','fontsize',20)
+% ylabel('z [mm]','fontsize',20)
+% saveas(gcf,['saccades_frontview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
+% saveas(gcf,['saccades_frontview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
+% plot2svg(['saccades_frontview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
+% 
+% figure(3)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% xlabel('y [mm]','fontsize',20)
+% ylabel('z [mm]','fontsize',20)
+% saveas(gcf,['saccades_sideview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
+% saveas(gcf,['saccades_sideview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
+% plot2svg(['saccades_sideview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
+% 
+% figure(4)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% set(gca,'ZTick',-10:5:10,'fontsize',20)
+% xlabel('x [mm]','fontsize',20)
+% ylabel('y [mm]','fontsize',20)
+% zlabel('z [mm]','fontsize',20)
+% view(-225,30)
+% saveas(gcf,['saccades_perspview1_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
+% saveas(gcf,['saccades_perspview1_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
+% plot2svg(['saccades_perspview1_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
+% view(-135,30)
+% saveas(gcf,['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.fig']);
+% saveas(gcf,['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.tif']);
+% plot2svg(['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec.svg']);
+% 
+% 
+% figure(5)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% xlabel('x [mm]','fontsize',20)
+% ylabel('y [mm]','fontsize',20)
+% saveas(gcf,['saccades_topview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
+% saveas(gcf,['saccades_topview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
+% plot2svg(['saccades_topview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
+% 
+% figure(6)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% xlabel('x [mm]','fontsize',20)
+% ylabel('z [mm]','fontsize',20)
+% saveas(gcf,['saccades_frontview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
+% saveas(gcf,['saccades_frontview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
+% plot2svg(['saccades_frontview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
+% 
+% figure(7)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% xlabel('y [mm]','fontsize',20)
+% ylabel('z [mm]','fontsize',20)
+% saveas(gcf,['saccades_sideview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
+% saveas(gcf,['saccades_sideview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
+% plot2svg(['saccades_sideview_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
+% 
+% figure(8)
+% axis on
+% set(gca,'XTick',-10:5:10,'fontsize',20) 
+% set(gca,'YTick',-10:5:10,'fontsize',20)
+% set(gca,'ZTick',-10:5:10,'fontsize',20)
+% xlabel('x [mm]','fontsize',20)
+% ylabel('y [mm]','fontsize',20)
+% zlabel('z [mm]','fontsize',20)
+% view(-225,30)
+% saveas(gcf,['saccades_perspview1_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
+% saveas(gcf,['saccades_perspview1_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
+% plot2svg(['saccades_perspview1_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
+% view(-135,30)
+% saveas(gcf,['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.fig']);
+% saveas(gcf,['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.tif']);
+% plot2svg(['saccades_perspview2_VelColor_Amax',num2str(Amax),'mps2_time',num2str(t_start),'to',num2str(t_stop),'sec_mirror.svg']);
 
 cd ..
 
