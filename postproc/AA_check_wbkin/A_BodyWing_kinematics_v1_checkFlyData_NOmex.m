@@ -709,40 +709,59 @@ if exist('pathDB3.mat')==2
       
     'loaded'
     clear temp
+% else
+%     temp = pathDB3_nosave(settings,pathDB);
+% %     temp = pathDB3_nosave_temp(settings,pathDB);
+% %     temp = load('pathDB3.mat');
+% 
+%     pathDB.qL1_filt1 = temp.qL1_filt1;
+%     pathDB.qL2_filt1 = temp.qL2_filt1;
+%     pathDB.qL3_filt1 = temp.qL3_filt1;
+%     pathDB.qL4_filt1 = temp.qL4_filt1;
+% 
+%     pathDB.qR1_filt1 = temp.qR1_filt1;
+%     pathDB.qR2_filt1 = temp.qR2_filt1;
+%     pathDB.qR3_filt1 = temp.qR3_filt1;
+%     pathDB.qR4_filt1 = temp.qR4_filt1;
+%     
+%     pathDB.b_alfa = temp.alfa_body;
+%     pathDB.b_beta = temp.beta_body;
+%     
+%     pathDB.b_roll = temp.roll_body;
+%     pathDB.b_pitch = temp.pitch_body;
+%     pathDB.b_yaw = temp.yaw_body;
+%     
+%     pathDB.u_body = temp.u_body;
+%     pathDB.v_body = temp.v_body;
+%     pathDB.w_body = temp.w_body;
+%     
+%     pathDB.ax_body = temp.ax_body;
+%     pathDB.ay_body = temp.ay_body;
+%     pathDB.az_body = temp.az_body;
+%     
+%     pathDB.body_l = temp.body_length;
+%     pathDB.wing_l = temp.wing_length;
+%     pathDB.joint_pos_L = temp.joint_pos_L;
+%     pathDB.joint_pos_R = temp.joint_pos_R;
+%     
+% %     'created + loaded'
+%     clear temp
+% end
+
 else
-    temp = pathDB3_nosave(settings,pathDB);
+%     temp = pathDB3_nosave(settings,pathDB);
 %     temp = pathDB3_nosave_temp(settings,pathDB);
 %     temp = load('pathDB3.mat');
 
-    pathDB.qL1_filt1 = temp.qL1_filt1;
-    pathDB.qL2_filt1 = temp.qL2_filt1;
-    pathDB.qL3_filt1 = temp.qL3_filt1;
-    pathDB.qL4_filt1 = temp.qL4_filt1;
+    pathDB.qL1_filt1 = pathDB.qL1;
+    pathDB.qL2_filt1 = pathDB.qL2;
+    pathDB.qL3_filt1 = pathDB.qL3;
+    pathDB.qL4_filt1 = pathDB.qL4;
 
-    pathDB.qR1_filt1 = temp.qR1_filt1;
-    pathDB.qR2_filt1 = temp.qR2_filt1;
-    pathDB.qR3_filt1 = temp.qR3_filt1;
-    pathDB.qR4_filt1 = temp.qR4_filt1;
-    
-    pathDB.b_alfa = temp.alfa_body;
-    pathDB.b_beta = temp.beta_body;
-    
-    pathDB.b_roll = temp.roll_body;
-    pathDB.b_pitch = temp.pitch_body;
-    pathDB.b_yaw = temp.yaw_body;
-    
-    pathDB.u_body = temp.u_body;
-    pathDB.v_body = temp.v_body;
-    pathDB.w_body = temp.w_body;
-    
-    pathDB.ax_body = temp.ax_body;
-    pathDB.ay_body = temp.ay_body;
-    pathDB.az_body = temp.az_body;
-    
-    pathDB.body_l = temp.body_length;
-    pathDB.wing_l = temp.wing_length;
-    pathDB.joint_pos_L = temp.joint_pos_L;
-    pathDB.joint_pos_R = temp.joint_pos_R;
+    pathDB.qR1_filt1 = pathDB.qR1;
+    pathDB.qR2_filt1 = pathDB.qR2;
+    pathDB.qR3_filt1 = pathDB.qR3;
+    pathDB.qR4_filt1 = pathDB.qR4;
     
 %     'created + loaded'
     clear temp
