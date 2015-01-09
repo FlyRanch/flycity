@@ -1,0 +1,526 @@
+% make borf dataset Fenhance
+
+clear
+clc
+close all
+warning off
+
+
+%% fly variables
+var_file = dir('flyVar*')
+load(var_file.name)
+
+%% cali data
+% cali_file = dir('cali_matrix*');
+cali_file = dir('interp_cali_matrix*');
+cali_file = cali_file.name
+load(cali_file)
+
+%% borf data
+load_dir = dir('FreqNorm_Yaw_*');
+load_dir = load_dir.name
+load_name = 'F_yaw_LR';
+save_name =  load_name;
+
+cd(load_dir)
+
+%% settings
+butter_cut = 10;
+butter_n = 5;
+
+seq_length_max = 15000;
+Nwb_total = 7;
+Nwb = 4;
+wb_start = 4;
+wb_stop = wb_start + Nwb-1;
+
+% robo data
+Lrobo = .23;
+crobo = .065;
+ARrobo = Lrobo/crobo;
+
+% fluid data
+v_air = 1.568e-5; %kinematic viscocity in m^2/s
+v_oil = 115.0*1e-6; %kinematic viscocity in m^2/s
+% rho_air = 1.22521; %kg/m^3
+rho_oil = 880.0; %kg/m^3
+
+%% FTM scale
+% cwing = Lwing/ARrobo;
+% f_robo2fly = (v_air/v_oil) * (Lrobo/Lwing)^2;
+% F_robo2fly = (rho_air/rho_oil) * (v_air/v_oil)^2;
+% M_robo2fly = F_robo2fly * (Lwing/Lrobo);
+
+%% Elzinga scaling
+% l_scale_up = crobo/c_fly;
+c_fly = Lwing/ARwing_fly; %mean chord of actual fly in m
+f_robo2fly = (v_air*crobo*Lrobo)/(c_fly*Lwing*v_oil);
+F_robo2fly = (rho_air/rho_oil)*((c_fly/crobo)^4)*((f_robo2fly)^2);
+M_robo2fly = (rho_air/rho_oil)*((c_fly/crobo)^5)*((f_robo2fly)^2);
+
+%% colormap
+% imax = 21;
+% 
+% % black2blue
+% colormap_black2blue(1:imax,1) = 0;
+% colormap_black2blue(1:imax,2) = [0:.5/(imax-1):.5];
+% colormap_black2blue(1:imax,3) = [0:1/(imax-1):1];
+
+%% make db Fenhance
+
+%% mirrored FIRST
+mirror_nr = 1;
+
+% file_name = [save_name,'_all_mirror',num2str(mirror_nr),'_'];
+% makeDB_allMODs_cali_interp
+
+file_name = [save_name,'_all_const_freq_mirror',num2str(mirror_nr),'_'];
+makeDB_allNOfreqMODs_cali_interp
+
+% file_name = [save_name,'_freq_mirror',num2str(mirror_nr),'_'];
+% makeDB_freqMODs_cali_interp
+
+file_name = [save_name,'_stroke_mirror',num2str(mirror_nr),'_'];
+makeDB_strokeMODs_cali_interp
+
+file_name = [save_name,'_rot_mirror',num2str(mirror_nr),'_'];
+makeDB_pitchMODs_cali_interp
+
+file_name = [save_name,'_dev_mirror',num2str(mirror_nr),'_'];
+makeDB_devMODs_cali_interp
+
+
+%% store data
+
+% allNOfreq
+Fx_mean_allNOfreq_mirror1 = Fx_mean_allNOfreq;
+Fy_mean_allNOfreq_mirror1 = Fy_mean_allNOfreq;
+Fz_mean_allNOfreq_mirror1 = Fz_mean_allNOfreq;
+Mx_mean_allNOfreq_mirror1 = Mx_mean_allNOfreq;
+My_mean_allNOfreq_mirror1 = My_mean_allNOfreq;
+Mz_mean_allNOfreq_mirror1 = Mz_mean_allNOfreq;
+
+Fx_allNOfreq_mirror1 = Fx_allNOfreq;
+Fy_allNOfreq_mirror1 = Fy_allNOfreq;
+Fz_allNOfreq_mirror1 = Fz_allNOfreq;
+Mx_allNOfreq_mirror1 = Mx_allNOfreq;
+My_allNOfreq_mirror1 = My_allNOfreq;
+Mz_allNOfreq_mirror1 = Mz_allNOfreq;
+
+t_allNOfreq_mirror1 = t_allNOfreq;
+mod_value_allNOfreq_mirror1 = mod_value_allNOfreq;
+
+stroke_L_allNOfreq_mirror1 = stroke_L_allNOfreq;
+pitch_L_allNOfreq_mirror1 = pitch_L_allNOfreq;
+dev_L_allNOfreq_mirror1 = dev_L_allNOfreq;
+
+stroke_R_allNOfreq_mirror1 = stroke_R_allNOfreq;
+pitch_R_allNOfreq_mirror1 = pitch_R_allNOfreq;
+dev_R_allNOfreq_mirror1 = dev_R_allNOfreq;
+
+% stroke
+Fx_mean_stroke_mirror1 = Fx_mean_stroke;
+Fy_mean_stroke_mirror1 = Fy_mean_stroke;
+Fz_mean_stroke_mirror1 = Fz_mean_stroke;
+Mx_mean_stroke_mirror1 = Mx_mean_stroke;
+My_mean_stroke_mirror1 = My_mean_stroke;
+Mz_mean_stroke_mirror1 = Mz_mean_stroke;
+
+Fx_stroke_mirror1 = Fx_stroke;
+Fy_stroke_mirror1 = Fy_stroke;
+Fz_stroke_mirror1 = Fz_stroke;
+Mx_stroke_mirror1 = Mx_stroke;
+My_stroke_mirror1 = My_stroke;
+Mz_stroke_mirror1 = Mz_stroke;
+
+t_stroke_mirror1 = t_stroke;
+mod_value_stroke_mirror1 = mod_value_stroke;
+
+stroke_L_stroke_mirror1 = stroke_L_stroke;
+pitch_L_stroke_mirror1 = pitch_L_stroke;
+dev_L_stroke_mirror1 = dev_L_stroke;
+
+stroke_R_stroke_mirror1 = stroke_R_stroke;
+pitch_R_stroke_mirror1 = pitch_R_stroke;
+dev_R_stroke_mirror1 = dev_R_stroke;
+
+% pitch
+Fx_mean_pitch_mirror1 = Fx_mean_pitch;
+Fy_mean_pitch_mirror1 = Fy_mean_pitch;
+Fz_mean_pitch_mirror1 = Fz_mean_pitch;
+Mx_mean_pitch_mirror1 = Mx_mean_pitch;
+My_mean_pitch_mirror1 = My_mean_pitch;
+Mz_mean_pitch_mirror1 = Mz_mean_pitch;
+
+Fx_pitch_mirror1 = Fx_pitch;
+Fy_pitch_mirror1 = Fy_pitch;
+Fz_pitch_mirror1 = Fz_pitch;
+Mx_pitch_mirror1 = Mx_pitch;
+My_pitch_mirror1 = My_pitch;
+Mz_pitch_mirror1 = Mz_pitch;
+
+t_pitch_mirror1 = t_pitch;
+mod_value_pitch_mirror1 = mod_value_pitch;
+
+stroke_L_pitch_mirror1 = stroke_L_pitch;
+pitch_L_pitch_mirror1 = pitch_L_pitch;
+dev_L_pitch_mirror1 = dev_L_pitch;
+
+stroke_R_pitch_mirror1 = stroke_R_pitch;
+pitch_R_pitch_mirror1 = pitch_R_pitch;
+dev_R_pitch_mirror1 = dev_R_pitch;
+
+% dev
+Fx_mean_dev_mirror1 = Fx_mean_dev;
+Fy_mean_dev_mirror1 = Fy_mean_dev;
+Fz_mean_dev_mirror1 = Fz_mean_dev;
+Mx_mean_dev_mirror1 = Mx_mean_dev;
+My_mean_dev_mirror1 = My_mean_dev;
+Mz_mean_dev_mirror1 = Mz_mean_dev;
+
+Fx_dev_mirror1 = Fx_dev;
+Fy_dev_mirror1 = Fy_dev;
+Fz_dev_mirror1 = Fz_dev;
+Mx_dev_mirror1 = Mx_dev;
+My_dev_mirror1 = My_dev;
+Mz_dev_mirror1 = Mz_dev;
+
+t_dev_mirror1 = t_dev;
+mod_value_dev_mirror1 = mod_value_dev;
+
+stroke_L_dev_mirror1 = stroke_L_dev;
+pitch_L_dev_mirror1 = pitch_L_dev;
+dev_L_dev_mirror1 = dev_L_dev;
+
+stroke_R_dev_mirror1 = stroke_R_dev;
+pitch_R_dev_mirror1 = pitch_R_dev;
+dev_R_dev_mirror1 = dev_R_dev;
+
+%% NO mirror
+mirror_nr = 0;
+
+% file_name = [save_name,'_all_mirror',num2str(mirror_nr),'_'];
+% makeDB_allMODs_cali_interp
+
+file_name = [save_name,'_all_const_freq_mirror',num2str(mirror_nr),'_'];
+makeDB_allNOfreqMODs_cali_interp
+
+% file_name = [save_name,'_freq_mirror',num2str(mirror_nr),'_'];
+% makeDB_freqMODs_cali_interp
+
+file_name = [save_name,'_stroke_mirror',num2str(mirror_nr),'_'];
+makeDB_strokeMODs_cali_interp
+
+file_name = [save_name,'_rot_mirror',num2str(mirror_nr),'_'];
+makeDB_pitchMODs_cali_interp
+
+file_name = [save_name,'_dev_mirror',num2str(mirror_nr),'_'];
+makeDB_devMODs_cali_interp
+
+%% store data
+
+% allNOfreq
+Fx_mean_allNOfreq_mirror0 = Fx_mean_allNOfreq;
+Fy_mean_allNOfreq_mirror0 = Fy_mean_allNOfreq;
+Fz_mean_allNOfreq_mirror0 = Fz_mean_allNOfreq;
+Mx_mean_allNOfreq_mirror0 = Mx_mean_allNOfreq;
+My_mean_allNOfreq_mirror0 = My_mean_allNOfreq;
+Mz_mean_allNOfreq_mirror0 = Mz_mean_allNOfreq;
+
+Fx_allNOfreq_mirror0 = Fx_allNOfreq;
+Fy_allNOfreq_mirror0 = Fy_allNOfreq;
+Fz_allNOfreq_mirror0 = Fz_allNOfreq;
+Mx_allNOfreq_mirror0 = Mx_allNOfreq;
+My_allNOfreq_mirror0 = My_allNOfreq;
+Mz_allNOfreq_mirror0 = Mz_allNOfreq;
+
+t_allNOfreq_mirror0 = t_allNOfreq;
+mod_value_allNOfreq_mirror0 = mod_value_allNOfreq;
+
+stroke_L_allNOfreq_mirror0 = stroke_L_allNOfreq;
+pitch_L_allNOfreq_mirror0 = pitch_L_allNOfreq;
+dev_L_allNOfreq_mirror0 = dev_L_allNOfreq;
+
+stroke_R_allNOfreq_mirror0 = stroke_R_allNOfreq;
+pitch_R_allNOfreq_mirror0 = pitch_R_allNOfreq;
+dev_R_allNOfreq_mirror0 = dev_R_allNOfreq;
+
+% stroke
+Fx_mean_stroke_mirror0 = Fx_mean_stroke;
+Fy_mean_stroke_mirror0 = Fy_mean_stroke;
+Fz_mean_stroke_mirror0 = Fz_mean_stroke;
+Mx_mean_stroke_mirror0 = Mx_mean_stroke;
+My_mean_stroke_mirror0 = My_mean_stroke;
+Mz_mean_stroke_mirror0 = Mz_mean_stroke;
+
+Fx_stroke_mirror0 = Fx_stroke;
+Fy_stroke_mirror0 = Fy_stroke;
+Fz_stroke_mirror0 = Fz_stroke;
+Mx_stroke_mirror0 = Mx_stroke;
+My_stroke_mirror0 = My_stroke;
+Mz_stroke_mirror0 = Mz_stroke;
+
+t_stroke_mirror0 = t_stroke;
+mod_value_stroke_mirror0 = mod_value_stroke;
+
+stroke_L_stroke_mirror0 = stroke_L_stroke;
+pitch_L_stroke_mirror0 = pitch_L_stroke;
+dev_L_stroke_mirror0 = dev_L_stroke;
+
+stroke_R_stroke_mirror0 = stroke_R_stroke;
+pitch_R_stroke_mirror0 = pitch_R_stroke;
+dev_R_stroke_mirror0 = dev_R_stroke;
+
+% pitch
+Fx_mean_pitch_mirror0 = Fx_mean_pitch;
+Fy_mean_pitch_mirror0 = Fy_mean_pitch;
+Fz_mean_pitch_mirror0 = Fz_mean_pitch;
+Mx_mean_pitch_mirror0 = Mx_mean_pitch;
+My_mean_pitch_mirror0 = My_mean_pitch;
+Mz_mean_pitch_mirror0 = Mz_mean_pitch;
+
+Fx_pitch_mirror0 = Fx_pitch;
+Fy_pitch_mirror0 = Fy_pitch;
+Fz_pitch_mirror0 = Fz_pitch;
+Mx_pitch_mirror0 = Mx_pitch;
+My_pitch_mirror0 = My_pitch;
+Mz_pitch_mirror0 = Mz_pitch;
+
+t_pitch_mirror0 = t_pitch;
+mod_value_pitch_mirror0 = mod_value_pitch;
+
+stroke_L_pitch_mirror0 = stroke_L_pitch;
+pitch_L_pitch_mirror0 = pitch_L_pitch;
+dev_L_pitch_mirror0 = dev_L_pitch;
+
+stroke_R_pitch_mirror0 = stroke_R_pitch;
+pitch_R_pitch_mirror0 = pitch_R_pitch;
+dev_R_pitch_mirror0 = dev_R_pitch;
+
+% dev
+Fx_mean_dev_mirror0 = Fx_mean_dev;
+Fy_mean_dev_mirror0 = Fy_mean_dev;
+Fz_mean_dev_mirror0 = Fz_mean_dev;
+Mx_mean_dev_mirror0 = Mx_mean_dev;
+My_mean_dev_mirror0 = My_mean_dev;
+Mz_mean_dev_mirror0 = Mz_mean_dev;
+
+Fx_dev_mirror0 = Fx_dev;
+Fy_dev_mirror0 = Fy_dev;
+Fz_dev_mirror0 = Fz_dev;
+Mx_dev_mirror0 = Mx_dev;
+My_dev_mirror0 = My_dev;
+Mz_dev_mirror0 = Mz_dev;
+
+t_dev_mirror0 = t_dev;
+mod_value_dev_mirror0 = mod_value_dev;
+
+stroke_L_dev_mirror0 = stroke_L_dev;
+pitch_L_dev_mirror0 = pitch_L_dev;
+dev_L_dev_mirror0 = dev_L_dev;
+
+stroke_R_dev_mirror0 = stroke_R_dev;
+pitch_R_dev_mirror0 = pitch_R_dev;
+dev_R_dev_mirror0 = dev_R_dev;
+
+%% merge data
+
+% allNOfreq
+diff = abs(stroke_L_allNOfreq_mirror0 - stroke_R_allNOfreq_mirror1);
+if nanmax(diff(:)) == 0
+    
+    Fx_mean_allNOfreq = (Fx_mean_allNOfreq_mirror0 + Fx_mean_allNOfreq_mirror1)/2;
+    Fy_mean_allNOfreq = (Fy_mean_allNOfreq_mirror0 - Fy_mean_allNOfreq_mirror1)/2;
+    Fz_mean_allNOfreq = (Fz_mean_allNOfreq_mirror0 + Fz_mean_allNOfreq_mirror1)/2;
+
+    Mx_mean_allNOfreq = (Mx_mean_allNOfreq_mirror0 - Mx_mean_allNOfreq_mirror1)/2;
+    My_mean_allNOfreq = (My_mean_allNOfreq_mirror0 + My_mean_allNOfreq_mirror1)/2;
+    Mz_mean_allNOfreq = (Mz_mean_allNOfreq_mirror0 - Mz_mean_allNOfreq_mirror1)/2;
+    
+    M_R_mean_allNOfreq = Mx_mean_allNOfreq * cosd(rot_axis_angle) + My_mean_allNOfreq * sind(rot_axis_angle);
+    M_L_mean_allNOfreq = Mx_mean_allNOfreq * sind(rot_axis_angle) - My_mean_allNOfreq * cosd(rot_axis_angle);
+    
+    Fx_allNOfreq = (Fx_allNOfreq_mirror0 + Fx_allNOfreq_mirror1)/2;
+    Fy_allNOfreq = (Fy_allNOfreq_mirror0 - Fy_allNOfreq_mirror1)/2;
+    Fz_allNOfreq = (Fz_allNOfreq_mirror0 + Fz_allNOfreq_mirror1)/2;
+
+    Mx_allNOfreq = (Mx_allNOfreq_mirror0 - Mx_allNOfreq_mirror1)/2;
+    My_allNOfreq = (My_allNOfreq_mirror0 + My_allNOfreq_mirror1)/2;
+    Mz_allNOfreq = (Mz_allNOfreq_mirror0 - Mz_allNOfreq_mirror1)/2;
+    
+    M_R_allNOfreq = Mx_allNOfreq * cosd(rot_axis_angle) + My_allNOfreq * sind(rot_axis_angle);
+    M_L_allNOfreq = Mx_allNOfreq * sind(rot_axis_angle) - My_allNOfreq * cosd(rot_axis_angle);
+else
+    error = 'allNOfreq'
+    pause
+end
+
+% stroke
+diff = abs(stroke_L_stroke_mirror0 - stroke_R_stroke_mirror1);
+if nanmax(diff(:)) == 0
+    
+    Fx_mean_stroke = (Fx_mean_stroke_mirror0 + Fx_mean_stroke_mirror1)/2;
+    Fy_mean_stroke = (Fy_mean_stroke_mirror0 - Fy_mean_stroke_mirror1)/2;
+    Fz_mean_stroke = (Fz_mean_stroke_mirror0 + Fz_mean_stroke_mirror1)/2;
+
+    Mx_mean_stroke = (Mx_mean_stroke_mirror0 - Mx_mean_stroke_mirror1)/2;
+    My_mean_stroke = (My_mean_stroke_mirror0 + My_mean_stroke_mirror1)/2;
+    Mz_mean_stroke = (Mz_mean_stroke_mirror0 - Mz_mean_stroke_mirror1)/2;
+    
+    M_R_mean_stroke = Mx_mean_stroke * cosd(rot_axis_angle) + My_mean_stroke * sind(rot_axis_angle);
+    M_L_mean_stroke = Mx_mean_stroke * sind(rot_axis_angle) - My_mean_stroke * cosd(rot_axis_angle);
+    
+    Fx_stroke = (Fx_stroke_mirror0 + Fx_stroke_mirror1)/2;
+    Fy_stroke = (Fy_stroke_mirror0 - Fy_stroke_mirror1)/2;
+    Fz_stroke = (Fz_stroke_mirror0 + Fz_stroke_mirror1)/2;
+
+    Mx_stroke = (Mx_stroke_mirror0 - Mx_stroke_mirror1)/2;
+    My_stroke = (My_stroke_mirror0 + My_stroke_mirror1)/2;
+    Mz_stroke = (Mz_stroke_mirror0 - Mz_stroke_mirror1)/2;
+    
+    M_R_stroke = Mx_stroke * cosd(rot_axis_angle) + My_stroke * sind(rot_axis_angle);
+    M_L_stroke = Mx_stroke * sind(rot_axis_angle) - My_stroke * cosd(rot_axis_angle);
+else
+    error = 'stroke'
+    pause
+end
+
+% pitch
+diff = abs(pitch_L_pitch_mirror0 - pitch_R_pitch_mirror1);
+if nanmax(diff(:)) == 0
+    
+    Fx_mean_pitch = (Fx_mean_pitch_mirror0 + Fx_mean_pitch_mirror1)/2;
+    Fy_mean_pitch = (Fy_mean_pitch_mirror0 - Fy_mean_pitch_mirror1)/2;
+    Fz_mean_pitch = (Fz_mean_pitch_mirror0 + Fz_mean_pitch_mirror1)/2;
+
+    Mx_mean_pitch = (Mx_mean_pitch_mirror0 - Mx_mean_pitch_mirror1)/2;
+    My_mean_pitch = (My_mean_pitch_mirror0 + My_mean_pitch_mirror1)/2;
+    Mz_mean_pitch = (Mz_mean_pitch_mirror0 - Mz_mean_pitch_mirror1)/2;
+    
+    M_R_mean_pitch = Mx_mean_pitch * cosd(rot_axis_angle) + My_mean_pitch * sind(rot_axis_angle);
+    M_L_mean_pitch = Mx_mean_pitch * sind(rot_axis_angle) - My_mean_pitch * cosd(rot_axis_angle);
+    
+    Fx_pitch = (Fx_pitch_mirror0 + Fx_pitch_mirror1)/2;
+    Fy_pitch = (Fy_pitch_mirror0 - Fy_pitch_mirror1)/2;
+    Fz_pitch = (Fz_pitch_mirror0 + Fz_pitch_mirror1)/2;
+
+    Mx_pitch = (Mx_pitch_mirror0 - Mx_pitch_mirror1)/2;
+    My_pitch = (My_pitch_mirror0 + My_pitch_mirror1)/2;
+    Mz_pitch = (Mz_pitch_mirror0 - Mz_pitch_mirror1)/2;
+    
+    M_R_pitch = Mx_pitch * cosd(rot_axis_angle) + My_pitch * sind(rot_axis_angle);
+    M_L_pitch = Mx_pitch * sind(rot_axis_angle) - My_pitch * cosd(rot_axis_angle);
+else
+    error = 'pitch'
+    pause
+end
+
+% dev
+diff = abs(dev_L_dev_mirror0 - dev_R_dev_mirror1);
+if nanmax(diff(:)) == 0
+    
+    Fx_mean_dev = (Fx_mean_dev_mirror0 + Fx_mean_dev_mirror1)/2;
+    Fy_mean_dev = (Fy_mean_dev_mirror0 - Fy_mean_dev_mirror1)/2;
+    Fz_mean_dev = (Fz_mean_dev_mirror0 + Fz_mean_dev_mirror1)/2;
+
+    Mx_mean_dev = (Mx_mean_dev_mirror0 - Mx_mean_dev_mirror1)/2;
+    My_mean_dev = (My_mean_dev_mirror0 + My_mean_dev_mirror1)/2;
+    Mz_mean_dev = (Mz_mean_dev_mirror0 - Mz_mean_dev_mirror1)/2;
+    
+    M_R_mean_dev = Mx_mean_dev * cosd(rot_axis_angle) + My_mean_dev * sind(rot_axis_angle);
+    M_L_mean_dev = Mx_mean_dev * sind(rot_axis_angle) - My_mean_dev * cosd(rot_axis_angle);
+    
+    Fx_dev = (Fx_dev_mirror0 + Fx_dev_mirror1)/2;
+    Fy_dev = (Fy_dev_mirror0 - Fy_dev_mirror1)/2;
+    Fz_dev = (Fz_dev_mirror0 + Fz_dev_mirror1)/2;
+
+    Mx_dev = (Mx_dev_mirror0 - Mx_dev_mirror1)/2;
+    My_dev = (My_dev_mirror0 + My_dev_mirror1)/2;
+    Mz_dev = (Mz_dev_mirror0 - Mz_dev_mirror1)/2;
+    
+    M_R_dev = Mx_dev * cosd(rot_axis_angle) + My_dev * sind(rot_axis_angle);
+    M_L_dev = Mx_dev * sind(rot_axis_angle) - My_dev * cosd(rot_axis_angle);
+else
+    error = 'dev'
+    pause
+end
+
+%% postprocess
+MODmin = min([length(Mz_mean_allNOfreq) length(Mz_mean_stroke) length(Mz_mean_pitch) length(Mz_mean_dev)]);
+
+M_R_steady = M_R_mean_allNOfreq(mod_value_allNOfreq == 0);
+M_L_steady = M_L_mean_allNOfreq(mod_value_allNOfreq == 0);
+Mx_steady = Mx_mean_allNOfreq(mod_value_allNOfreq == 0);
+My_steady = My_mean_allNOfreq(mod_value_allNOfreq == 0);
+Mz_steady = Mz_mean_allNOfreq(mod_value_allNOfreq == 0);
+
+Mz_steady = Mz_mean_allNOfreq(mod_value_allNOfreq == 0);
+Mz_mean_sum = Mz_steady + (Mz_mean_stroke(1:MODmin)-Mz_steady) + (Mz_mean_pitch(1:MODmin)-Mz_steady) + (Mz_mean_dev(1:MODmin)-Mz_steady);
+Mz_mean_sum_nopitch = Mz_steady + (Mz_mean_stroke(1:MODmin)-Mz_steady) + (Mz_mean_dev(1:MODmin)-Mz_steady);
+Mz_mean_sum_steady = Mz_mean_sum(mod_value_allNOfreq == 0);
+
+%% plot data
+cd ..
+mkdir('figs_cali')
+cd('figs_cali')
+
+plot_YawTorque_LR_MODdata
+
+% save data
+cd ..
+clear exp_type ft kine mod_val t list i...
+    t_now Fx_now Fy_now Fz_now Mx_now My_now Mz_now...
+          Fx_robo Fy_robo Fz_robo Mx_robo My_robo Mz_robo...
+          Fx_fly Fy_fly Fz_fly Mx_fly My_fly Mz_fly...
+          Fx_cali_L Fy_cali_L Fz_cali_L Mx_cali_L My_cali_L Mz_cali_L...
+          Fx_cali_R Fy_cali_R Fz_cali_R Mx_cali_R My_cali_R Mz_cali_R...
+          Fx_cali_L_array Fy_cali_L_array Fz_cali_L_array Mx_cali_L_array My_cali_L_array Mz_cali_L_array...
+          Fx_cali_R_array Fy_cali_R_array Fz_cali_R_array Mx_cali_R_array My_cali_R_array Mz_cali_R_array...
+    stroke_L_now pitch_L_now dev_L_now stroke_R_now pitch_R_now dev_R_now...
+    N_wb_now n_start n_stop frobo_now f_now
+
+save(['borf_db_',save_name,'_cali_alldata.mat'])
+% save(['borf_db_',save_name,'_cali_alldata_mirror',num2str(mirror_nr),'.mat'])
+
+clear Fx_all Fy_all Fz_all Mx_all My_all Mz_all...
+    Fx_allNOfreq Fy_allNOfreq Fz_allNOfreq Mx_allNOfreq My_allNOfreq Mz_allNOfreq...
+    Fx_freq Fy_freq Fz_freq Mx_freq My_freq Mz_freq...
+    Fx_stroke Fy_stroke Fz_stroke Mx_stroke My_stroke Mz_stroke...
+    Fx_pitch Fy_pitch Fz_pitch Mx_pitch My_pitch Mz_pitch...
+    Fx_dev Fy_dev Fz_dev Mx_dev My_dev Mz_dev...
+    stroke_L_all stroke_R_all pitch_L_all pitch_R_all dev_L_all dev_R_all...
+    stroke_L_allNOfreq stroke_R_allNOfreq pitch_L_allNOfreq pitch_R_allNOfreq dev_L_allNOfreq dev_R_allNOfreq...
+    stroke_L_freq stroke_R_freq pitch_L_freq pitch_R_freq dev_L_freq dev_R_freq...
+    stroke_L_stroke stroke_R_stroke pitch_L_stroke pitch_R_stroke dev_L_stroke dev_R_stroke...
+    stroke_L_pitch stroke_R_pitch pitch_L_pitch pitch_R_pitch dev_L_pitch dev_R_pitch...
+    stroke_L_dev stroke_R_dev pitch_L_dev pitch_R_dev dev_L_dev dev_R_dev...
+    t_all t_allNOfreq t_stroke t_pitch t_dev t_freq...
+    Fx_all_mirror0 Fy_all_mirror0 Fz_all_mirror0 Mx_all_mirror0 My_all_mirror0 Mz_all_mirror0...
+    Fx_allNOfreq_mirror0 Fy_allNOfreq_mirror0 Fz_allNOfreq_mirror0 Mx_allNOfreq_mirror0 My_allNOfreq_mirror0 Mz_allNOfreq_mirror0...
+    Fx_freq_mirror0 Fy_freq_mirror0 Fz_freq_mirror0 Mx_freq_mirror0 My_freq_mirror0 Mz_freq_mirror0...
+    Fx_stroke_mirror0 Fy_stroke_mirror0 Fz_stroke_mirror0 Mx_stroke_mirror0 My_stroke_mirror0 Mz_stroke_mirror0...
+    Fx_pitch_mirror0 Fy_pitch_mirror0 Fz_pitch_mirror0 Mx_pitch_mirror0 My_pitch_mirror0 Mz_pitch_mirror0...
+    Fx_dev_mirror0 Fy_dev_mirror0 Fz_dev_mirror0 Mx_dev_mirror0 My_dev_mirror0 Mz_dev_mirror0...
+    stroke_L_all_mirror0 stroke_R_all_mirror0 pitch_L_all_mirror0 pitch_R_all_mirror0 dev_L_all_mirror0 dev_R_all_mirror0...
+    stroke_L_allNOfreq_mirror0 stroke_R_allNOfreq_mirror0 pitch_L_allNOfreq_mirror0 pitch_R_allNOfreq_mirror0 dev_L_allNOfreq_mirror0 dev_R_allNOfreq_mirror0...
+    stroke_L_freq_mirror0 stroke_R_freq_mirror0 pitch_L_freq_mirror0 pitch_R_freq_mirror0 dev_L_freq_mirror0 dev_R_freq_mirror0...
+    stroke_L_stroke_mirror0 stroke_R_stroke_mirror0 pitch_L_stroke_mirror0 pitch_R_stroke_mirror0 dev_L_stroke_mirror0 dev_R_stroke_mirror0...
+    stroke_L_pitch_mirror0 stroke_R_pitch_mirror0 pitch_L_pitch_mirror0 pitch_R_pitch_mirror0 dev_L_pitch_mirror0 dev_R_pitch_mirror0...
+    stroke_L_dev_mirror0 stroke_R_dev_mirror0 pitch_L_dev_mirror0 pitch_R_dev_mirror0 dev_L_dev_mirror0 dev_R_dev_mirror0...
+    t_all_mirror0 t_allNOfreq_mirror0 t_stroke_mirror0 t_pitch_mirror0 t_dev_mirror0 t_freq_mirror0...
+    Fx_all_mirror1 Fy_all_mirror1 Fz_all_mirror1 Mx_all_mirror1 My_all_mirror1 Mz_all_mirror1...
+    Fx_allNOfreq_mirror1 Fy_allNOfreq_mirror1 Fz_allNOfreq_mirror1 Mx_allNOfreq_mirror1 My_allNOfreq_mirror1 Mz_allNOfreq_mirror1...
+    Fx_freq_mirror1 Fy_freq_mirror1 Fz_freq_mirror1 Mx_freq_mirror1 My_freq_mirror1 Mz_freq_mirror1...
+    Fx_stroke_mirror1 Fy_stroke_mirror1 Fz_stroke_mirror1 Mx_stroke_mirror1 My_stroke_mirror1 Mz_stroke_mirror1...
+    Fx_pitch_mirror1 Fy_pitch_mirror1 Fz_pitch_mirror1 Mx_pitch_mirror1 My_pitch_mirror1 Mz_pitch_mirror1...
+    Fx_dev_mirror1 Fy_dev_mirror1 Fz_dev_mirror1 Mx_dev_mirror1 My_dev_mirror1 Mz_dev_mirror1...
+    stroke_L_all_mirror1 stroke_R_all_mirror1 pitch_L_all_mirror1 pitch_R_all_mirror1 dev_L_all_mirror1 dev_R_all_mirror1...
+    stroke_L_allNOfreq_mirror1 stroke_R_allNOfreq_mirror1 pitch_L_allNOfreq_mirror1 pitch_R_allNOfreq_mirror1 dev_L_allNOfreq_mirror1 dev_R_allNOfreq_mirror1...
+    stroke_L_freq_mirror1 stroke_R_freq_mirror1 pitch_L_freq_mirror1 pitch_R_freq_mirror1 dev_L_freq_mirror1 dev_R_freq_mirror1...
+    stroke_L_stroke_mirror1 stroke_R_stroke_mirror1 pitch_L_stroke_mirror1 pitch_R_stroke_mirror1 dev_L_stroke_mirror1 dev_R_stroke_mirror1...
+    stroke_L_pitch_mirror1 stroke_R_pitch_mirror1 pitch_L_pitch_mirror1 pitch_R_pitch_mirror1 dev_L_pitch_mirror1 dev_R_pitch_mirror1...
+    stroke_L_dev_mirror1 stroke_R_dev_mirror1 pitch_L_dev_mirror1 pitch_R_dev_mirror1 dev_L_dev_mirror1 dev_R_dev_mirror1...
+    t_all_mirror1 t_allNOfreq_mirror1 t_stroke_mirror1 t_pitch_mirror1 t_dev_mirror1 t_freq_mirror1
+
+save(['borf_db_',save_name,'_cali_means.mat'])
+% save(['borf_db_',save_name,'_cali_means_mirror',num2str(mirror_nr),'.mat'])
