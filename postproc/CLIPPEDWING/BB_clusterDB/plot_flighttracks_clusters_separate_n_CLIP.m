@@ -5,8 +5,8 @@
 %     plot(t,teta,'-k')
     hold on
     axis([min(t(isnan(V)==0)) max(t(isnan(V)==0)) 0 180])
-    set(gca,'XTick',0:.05:.5)
-    set(gca,'YTick',0:90:180)
+    % set(gca,'XTick',min(t(isnan(V)==0)):max(t(isnan(V)==0)))
+    set(gca,'YTick',0:45:180)
     xlabel('time')
     ylabel('optical angle')
     grid on
@@ -15,8 +15,8 @@
     plot(t,stim_angle_vel,'-k')
     hold on
     axis([min(t(isnan(V)==0)) max(t(isnan(V)==0)) -180 180])
-    set(gca,'XTick',0:.05:.5)
-    set(gca,'YTick',-180:180:180)
+    % set(gca,'XTick',min(t(isnan(V)==0)):max(t(isnan(V)==0)))
+    set(gca,'YTick',-180:90:180)
     xlabel('time')
     ylabel('heading angle')
     grid on
@@ -25,8 +25,8 @@
     plot(t,stim_angle_accel,'-k')
     hold on
     axis([min(t(isnan(V)==0)) max(t(isnan(V)==0)) -180 180])
-    set(gca,'XTick',0:.05:.5)
-    set(gca,'YTick',-180:180:180)
+    % set(gca,'XTick',min(t(isnan(V)==0)):max(t(isnan(V)==0)))
+    set(gca,'YTick',-180:90:180)
     xlabel('time')
     ylabel('A dir')
     grid on
@@ -35,9 +35,9 @@
     hold off
     plot(t,roll,'-k')
     hold on
-    axis([min(t(isnan(V)==0)) max(t(isnan(V)==0)) -180 180])
-    set(gca,'XTick',0:.05:.5)
-    set(gca,'YTick',-180:180:180)
+    axis([min(t(isnan(V)==0)) max(t(isnan(V)==0)) -90 90])
+    % set(gca,'XTick',min(t(isnan(V)==0)):max(t(isnan(V)==0)))
+    set(gca,'YTick',-180:45:180)
     xlabel('time')
     ylabel('roll')
     grid on
@@ -46,8 +46,8 @@
     plot(t,slip,'-k')
     hold on
     axis([min(t(isnan(V)==0)) max(t(isnan(V)==0)) -90 90])
-    set(gca,'XTick',0:.05:.5)
-    set(gca,'YTick',-180:90:180)
+    % set(gca,'XTick',min(t(isnan(V)==0)):max(t(isnan(V)==0)))
+    set(gca,'YTick',-180:45:180)
     xlabel('time')
     ylabel('yaw')
     grid on
@@ -55,9 +55,9 @@
     hold off
     plot(t,pitch,'-k')
     hold on
-    axis([min(t(isnan(V)==0)) max(t(isnan(V)==0)) -45 90])
-    set(gca,'XTick',0:.05:.5)
-    set(gca,'YTick',-180:45:180)
+    axis([min(t(isnan(V)==0)) max(t(isnan(V)==0)) 0 90])
+    % set(gca,'XTick',min(t(isnan(V)==0)):max(t(isnan(V)==0)))
+    set(gca,'YTick',-180:30:180)
     xlabel('time')
     ylabel('pitch')
     grid on
@@ -66,9 +66,9 @@
     hold off
     plot(t,V,'-k')
     hold on
-    axis([min(t(isnan(V)==0)) max(t(isnan(V)==0)) 0 .8])
-    set(gca,'XTick',0:.05:.5)
-    set(gca,'YTick',0:.4:.8)
+    axis([min(t(isnan(V)==0)) max(t(isnan(V)==0)) 0 .6])
+    % set(gca,'XTick',min(t(isnan(V)==0)):max(t(isnan(V)==0)))
+    set(gca,'YTick',0:.2:6)
     xlabel('time')
     ylabel('V')
     grid on
@@ -76,9 +76,9 @@
     hold off
     plot(t,An_hor,'-k')
     hold on
-    axis([min(t(isnan(V)==0)) max(t(isnan(V)==0)) -20 20])
-    set(gca,'XTick',0:.05:.5)
-    set(gca,'YTick',-20:10:20)
+    axis([min(t(isnan(V)==0)) max(t(isnan(V)==0)) -6 6])
+    % set(gca,'XTick',min(t(isnan(V)==0)):max(t(isnan(V)==0)))
+    set(gca,'YTick',-10:2:10)
     xlabel('time')
     ylabel('An')
     grid on
@@ -86,9 +86,9 @@
     hold off
     plot(t,At_hor,'-k')
     hold on
-    axis([min(t(isnan(V)==0)) max(t(isnan(V)==0)) -15 20])
-    set(gca,'XTick',0:.05:.5)
-    set(gca,'YTick',[-15;0;20])
+    axis([min(t(isnan(V)==0)) max(t(isnan(V)==0)) -6 6])
+    % set(gca,'XTick',min(t(isnan(V)==0)):max(t(isnan(V)==0)))
+    set(gca,'YTick',[-10:2:10])
     xlabel('time')
     ylabel('At')
     grid on
