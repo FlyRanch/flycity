@@ -156,6 +156,7 @@ for seqp = 1:length(kinDB.wing_length)
     end
         
     % clip type & side info
+    settings.clip_info = clip_typeNside.info;
     seqTnS = find(clip_typeNside.date == date_now & clip_typeNside.seq == seq_now);
     if isempty(seqTnS)==0
         settings.seq_clipTypeNside(seqp,:) = [clip_typeNside.date(seqTnS) clip_typeNside.seq(seqTnS)];
@@ -207,5 +208,4 @@ for seqp = 1:length(kinDB.wing_length)
     end
 end
 
-
-save(savename,'kinDB','pathDB','clipDB','responseDB','settings');
+save(savename,'kinDB','pathDB','clipDB','settings');

@@ -7,6 +7,8 @@ close all
 
 % % SACCADE (startframe 100, kalman filter issues at start of seq)
 % loadname='kinflightpathDB_pos_qbodyEKF_INCroll_9clusters_1.4n-1.7n1.9_strokeplane47.5deg_startframe100.mat'
+
+% CLIP
 loadname = 'kinflightpathDB_pos_qbodyEKF_INCroll_strokeplane47.5deg_rotaxis0deg_startframe1.mat';
 
 load(loadname)
@@ -23,6 +25,24 @@ fps = settings.fps;
 cmap_180 = jet(180);
 
 %% data import
+steady_frames = pathDB.steady_frames;
+
+%% clip data
+clip_side = clipDB.clip_side;
+clip_type = clipDB.clip_type;
+
+SecondMomentClipped = clipDB.SecondMomentCC;
+SecondMomentIntact = clipDB.SecondMomentCI;
+SecondMomentRatio = clipDB.SecondMomentRatioCentroid;
+
+AreaClipped = clipDB.WingAreaC;
+AreaIntact = clipDB.WingAreaI;
+AreaRatio = clipDB.WingAreaRatio;
+
+LengthClipped = clipDB.WingLengthC;
+LengthIntact = clipDB.WingLengthI;
+LengthRatio = clipDB.WingLengthRatio;
+
 %% wingkin data
 n_down_start_L = kinDB.n_down_start_L;
 n_up_start_L = kinDB.n_up_start_L;
@@ -48,39 +68,36 @@ U_R(:,:) = kinDB.Uwing_R(:,3,:);
 aoa_L(:,:) = kinDB.aoa_L(:,3,:);
 aoa_R(:,:) = kinDB.aoa_R(:,3,:);
 
-%% reverse wingkin data with reverse pattern
-% stroke_L_temp = stroke_L;
-% stroke_R_temp = stroke_R;
-% pitch_L_temp = pitch_L;
-% pitch_R_temp = pitch_R;
-% dev_L_temp = dev_L;
-% dev_R_temp = dev_R;
-% U_L_temp = U_L;
-% U_R_temp = U_R;
-% aoa_L_temp = aoa_L;
-% aoa_R_temp = aoa_R;
-% 
-% for i = 1:size(stroke_L,2)
-%     if settings.expansion.HorPos(i) == 180
-%         stroke_L(:,i) = stroke_R_temp(:,i);
-%         stroke_R(:,i) = stroke_L_temp(:,i);
-%         pitch_L(:,i) = pitch_R_temp(:,i);
-%         pitch_R(:,i) = pitch_L_temp(:,i);
-%         dev_L(:,i) = dev_R_temp(:,i);
-%         dev_R(:,i) = dev_L_temp(:,i);
-%         U_L(:,i) = U_R_temp(:,i);
-%         U_R(:,i) = U_L_temp(:,i);
-%         aoa_L(:,i) = aoa_R_temp(:,i);
-%         aoa_R(:,i) = aoa_L_temp(:,i);
-%     end
-% end
+%% reverse wingkin data with left wing clipped: LEFT WING = INTACT; RIGHT WING = CLIPPED
+stroke_L_temp = stroke_L;
+stroke_R_temp = stroke_R;
+pitch_L_temp = pitch_L;
+pitch_R_temp = pitch_R;
+dev_L_temp = dev_L;
+dev_R_temp = dev_R;
+U_L_temp = U_L;
+U_R_temp = U_R;
+aoa_L_temp = aoa_L;
+aoa_R_temp = aoa_R;
+
+for i = 1:length(clip_side)
+    if clip_side(i) == 1
+        stroke_L(:,i) = stroke_R_temp(:,i);
+        stroke_R(:,i) = stroke_L_temp(:,i);
+        pitch_L(:,i) = pitch_R_temp(:,i);
+        pitch_R(:,i) = pitch_L_temp(:,i);
+        dev_L(:,i) = dev_R_temp(:,i);
+        dev_R(:,i) = dev_L_temp(:,i);
+        U_L(:,i) = U_R_temp(:,i);
+        U_R(:,i) = U_L_temp(:,i);
+        aoa_L(:,i) = aoa_R_temp(:,i);
+        aoa_R(:,i) = aoa_L_temp(:,i);
+    end
+end
 
 %% BODY KIN DATA
-% rot_axis_angle = settings.rot_axis_angle;
-% strokeplane_angle = settings.strokeplane_angle;
 strokeplane_angle = strokeplane_WBkin;
 
-IDX = pathDB.IDX;
 cmap_k = settings.cmap_k;
 cmap_360 = settings.cmap_360;
 
@@ -89,7 +106,7 @@ V = pathDB.V;
 
 dt = t(2)-t(1);
 t_all = t;
-for i=1:size(IDX,2)-1
+for i=1:size(steady_frames,2)-1
     t_all = [t_all t];
 end
 
@@ -161,25 +178,6 @@ Fsp_roll = pathDB.Fsp_roll;
 
 Fb_pitch = pathDB.Fb_pitch;
 Fb_roll = pathDB.Fb_roll;
-
-teta = patternDB.teta;
-
-n_first = responseDB.n_first;
-n_resp = responseDB.n_resp;
-n_resp_end = responseDB.n_resp_end;
-n_steady_end = responseDB.n_steady_end;
-
-n_turn_start = responseDB.n_turn_start;
-n_turn_stop = responseDB.n_turn_stop;
-n_turn_max = responseDB.n_turn_max;
-
-n_accel_start = responseDB.n_accel_start;
-n_accel_stop = responseDB.n_accel_stop;
-n_accel_max = responseDB.n_accel_max; 
-
-n_decel_start = responseDB.n_decel_start;
-n_decel_stop = responseDB.n_decel_stop;
-n_decel_min = responseDB.n_decel_min;
 
 % angular accels
 yaw_dot_dot = nan(size(yaw_dot));
