@@ -1,6 +1,12 @@
 clear
 clc
 
+clip_typeNside.info.type{1,1}='distal_tip';
+clip_typeNside.info.type{2,1}='trailing_edge';
+
+clip_typeNside.info.side{1,1}='left';
+clip_typeNside.info.side{2,1}='right';
+
 T=readtable('clip_typeNside.csv','ReadVariableNames',false)
 
 for i=1:size(T,1)

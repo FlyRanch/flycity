@@ -102,42 +102,42 @@ AXISCI = null(HCI)';
 AXISTC = null(HTC)';
 AXISTI = null(HTI)';
 
-%% Plot Centroids onto Wing Area, compare axis % TEMPORARILY SUPPRESSED
-figure(1)
-imagesc(DistC);figure(gcf);
-hold on
-axis equal
-axis tight
-axis([HingeC(2)-WingLengthC HingeC(2)+WingLengthC HingeC(1)-WingLengthC HingeC(1)+WingLengthC])
-% colormap gray
-
-plot(HingeC(2),HingeC(1), '.r')
-plot(CentroidC(2),CentroidC(1),'.r')
-quiver(HingeC(2),HingeC(1),1*HCC(2),1*HCC(1),0,'r') %Plot Hinge point + AxisC
-quiver(HingeC(2),HingeC(1),norm(HCC)*AXISCC(2),norm(HCC)*AXISCC(1),0,'r') %Plot Hinge point + AxisC
-
-plot(HingeC(2),HingeC(1), 'og')
-plot(WingTipC(2),WingTipC(1),'og')
-quiver(HingeC(2),HingeC(1),1*HTC(2),1*HTC(1),0,'g') %Plot Hinge point + AxisC
-quiver(HingeC(2),HingeC(1),norm(HTC)*AXISTC(2),norm(HTC)*AXISTC(1),0,'g') %Plot Hinge point + AxisC
-
-figure(2)
-imagesc(DistI);figure(gcf);
-hold on
-axis equal
-axis tight
-axis([HingeI(2)-WingLengthI HingeI(2)+WingLengthI HingeI(1)-WingLengthI HingeI(1)+WingLengthI])
-% colormap gray
-
-plot(HingeI(2),HingeI(1), '.r')
-plot(CentroidI(2),CentroidI(1),'.r')
-quiver(HingeI(2),HingeI(1),1*HCI(2),1*HCI(1),0,'r') %Plot Hinge point + AxisI
-quiver(HingeI(2),HingeI(1),norm(HCI)*AXISCI(2),norm(HCI)*AXISCI(1),0,'r') %Plot Hinge point + AxisI
-
-plot(HingeI(2),HingeI(1), 'og')
-plot(WingTipI(2),WingTipI(1),'og')
-quiver(HingeI(2),HingeI(1),1*HTI(2),1*HTI(1),0,'g') %Plot Hinge point + AxisI
-quiver(HingeI(2),HingeI(1),norm(HTI)*AXISTI(2),norm(HTI)*AXISTI(1),0,'g') %Plot Hinge point + AxisI
+% %% Plot Centroids onto Wing Area, compare axis % TEMPORARILY SUPPRESSED
+% figure(1)
+% imagesc(DistC);figure(gcf);
+% hold on
+% axis equal
+% axis tight
+% axis([HingeC(2)-WingLengthC HingeC(2)+WingLengthC HingeC(1)-WingLengthC HingeC(1)+WingLengthC])
+% % colormap gray
+% 
+% plot(HingeC(2),HingeC(1), '.r')
+% plot(CentroidC(2),CentroidC(1),'.r')
+% quiver(HingeC(2),HingeC(1),1*HCC(2),1*HCC(1),0,'r') %Plot Hinge point + AxisC
+% quiver(HingeC(2),HingeC(1),norm(HCC)*AXISCC(2),norm(HCC)*AXISCC(1),0,'r') %Plot Hinge point + AxisC
+% 
+% plot(HingeC(2),HingeC(1), 'og')
+% plot(WingTipC(2),WingTipC(1),'og')
+% quiver(HingeC(2),HingeC(1),1*HTC(2),1*HTC(1),0,'g') %Plot Hinge point + AxisC
+% quiver(HingeC(2),HingeC(1),norm(HTC)*AXISTC(2),norm(HTC)*AXISTC(1),0,'g') %Plot Hinge point + AxisC
+% 
+% figure(2)
+% imagesc(DistI);figure(gcf);
+% hold on
+% axis equal
+% axis tight
+% axis([HingeI(2)-WingLengthI HingeI(2)+WingLengthI HingeI(1)-WingLengthI HingeI(1)+WingLengthI])
+% % colormap gray
+% 
+% plot(HingeI(2),HingeI(1), '.r')
+% plot(CentroidI(2),CentroidI(1),'.r')
+% quiver(HingeI(2),HingeI(1),1*HCI(2),1*HCI(1),0,'r') %Plot Hinge point + AxisI
+% quiver(HingeI(2),HingeI(1),norm(HCI)*AXISCI(2),norm(HCI)*AXISCI(1),0,'r') %Plot Hinge point + AxisI
+% 
+% plot(HingeI(2),HingeI(1), 'og')
+% plot(WingTipI(2),WingTipI(1),'og')
+% quiver(HingeI(2),HingeI(1),1*HTI(2),1*HTI(1),0,'g') %Plot Hinge point + AxisI
+% quiver(HingeI(2),HingeI(1),norm(HTI)*AXISTI(2),norm(HTI)*AXISTI(1),0,'g') %Plot Hinge point + AxisI
 
 
 %% Integral - Point-axis distance
@@ -188,80 +188,80 @@ SecondMomentTI_norm = SecondMomentTI/WingAreaI/WingLengthI^2;
 SecondMomentRatioCentroid = SecondMomentCC/SecondMomentCI;
 SecondMomentRatioTip = SecondMomentTC/SecondMomentTI;
 
-%% Centroid second moment    %%ALL PLOTS SUPPRESSED TEMPORARILY (to end)
-figure(3)
-imagesc(rhoCC);figure(gcf);
-hold on
-axis equal
-axis tight
-axis([HingeC(2)-WingLengthC HingeC(2)+WingLengthC HingeC(1)-WingLengthC HingeC(1)+WingLengthC])
-% colormap gray
-
-plot(HingeC(2),HingeC(1), '.r')
-plot(CentroidC(2),CentroidC(1),'.r')
-quiver(HingeC(2),HingeC(1),1*HCC(2),1*HCC(1),0,'r') %Plot Hinge point + AxisC
-quiver(HingeC(2),HingeC(1),norm(HCC)*AXISCC(2),norm(HCC)*AXISCC(1),0,'r') %Plot Hinge point + AxisC
-
-plot(HingeC(2),HingeC(1), 'og')
-plot(WingTipC(2),WingTipC(1),'og')
-quiver(HingeC(2),HingeC(1),1*HTC(2),1*HTC(1),0,'g') %Plot Hinge point + AxisC
-quiver(HingeC(2),HingeC(1),norm(HTC)*AXISTC(2),norm(HTC)*AXISTC(1),0,'g') %Plot Hinge point + AxisC
-
-figure(4)
-imagesc(rhoCI);figure(gcf);
-hold on
-axis equal
-axis tight
-axis([HingeI(2)-WingLengthI HingeI(2)+WingLengthI HingeI(1)-WingLengthI HingeI(1)+WingLengthI])
-% colormap gray
-
-plot(HingeI(2),HingeI(1), '.r')
-plot(CentroidI(2),CentroidI(1),'.r')
-quiver(HingeI(2),HingeI(1),1*HCI(2),1*HCI(1),0,'r') %Plot Hinge point + AxisI
-quiver(HingeI(2),HingeI(1),norm(HCI)*AXISCI(2),norm(HCI)*AXISCI(1),0,'r') %Plot Hinge point + AxisI
-
-plot(HingeI(2),HingeI(1), 'og')
-plot(WingTipI(2),WingTipI(1),'og')
-quiver(HingeI(2),HingeI(1),1*HTI(2),1*HTI(1),0,'g') %Plot Hinge point + AxisI
-quiver(HingeI(2),HingeI(1),norm(HTI)*AXISTI(2),norm(HTI)*AXISTI(1),0,'g') %Plot Hinge point + AxisI
-
-%% Tip second moment
-figure(5)
-imagesc(rhoTC);figure(gcf);
-hold on
-axis equal
-axis tight
-axis([HingeC(2)-WingLengthC HingeC(2)+WingLengthC HingeC(1)-WingLengthC HingeC(1)+WingLengthC])
-% colormap gray
-
-plot(HingeC(2),HingeC(1), '.r')
-plot(CentroidC(2),CentroidC(1),'.r')
-quiver(HingeC(2),HingeC(1),1*HCC(2),1*HCC(1),0,'r') %Plot Hinge point + AxisC
-quiver(HingeC(2),HingeC(1),norm(HCC)*AXISCC(2),norm(HCC)*AXISCC(1),0,'r') %Plot Hinge point + AxisC
-
-plot(HingeC(2),HingeC(1), 'og')
-plot(WingTipC(2),WingTipC(1),'og')
-quiver(HingeC(2),HingeC(1),1*HTC(2),1*HTC(1),0,'g') %Plot Hinge point + AxisC
-quiver(HingeC(2),HingeC(1),norm(HTC)*AXISTC(2),norm(HTC)*AXISTC(1),0,'g') %Plot Hinge point + AxisC
-
-figure(6)
-imagesc(rhoTI);figure(gcf);
-hold on
-axis equal
-axis tight
-axis([HingeI(2)-WingLengthI HingeI(2)+WingLengthI HingeI(1)-WingLengthI HingeI(1)+WingLengthI])
-% colormap gray
-
-plot(HingeI(2),HingeI(1), '.r')
-plot(CentroidI(2),CentroidI(1),'.r')
-quiver(HingeI(2),HingeI(1),1*HCI(2),1*HCI(1),0,'r') %Plot Hinge point + AxisI
-quiver(HingeI(2),HingeI(1),norm(HCI)*AXISCI(2),norm(HCI)*AXISCI(1),0,'r') %Plot Hinge point + AxisI
-
-plot(HingeI(2),HingeI(1), 'og')
-plot(WingTipI(2),WingTipI(1),'og')
-quiver(HingeI(2),HingeI(1),1*HTI(2),1*HTI(1),0,'g') %Plot Hinge point + AxisI
-quiver(HingeI(2),HingeI(1),norm(HTI)*AXISTI(2),norm(HTI)*AXISTI(1),0,'g') %Plot Hinge point + AxisI
-
+% %% Centroid second moment    %%ALL PLOTS SUPPRESSED TEMPORARILY (to end)
+% figure(3)
+% imagesc(rhoCC);figure(gcf);
+% hold on
+% axis equal
+% axis tight
+% axis([HingeC(2)-WingLengthC HingeC(2)+WingLengthC HingeC(1)-WingLengthC HingeC(1)+WingLengthC])
+% % colormap gray
+% 
+% plot(HingeC(2),HingeC(1), '.r')
+% plot(CentroidC(2),CentroidC(1),'.r')
+% quiver(HingeC(2),HingeC(1),1*HCC(2),1*HCC(1),0,'r') %Plot Hinge point + AxisC
+% quiver(HingeC(2),HingeC(1),norm(HCC)*AXISCC(2),norm(HCC)*AXISCC(1),0,'r') %Plot Hinge point + AxisC
+% 
+% plot(HingeC(2),HingeC(1), 'og')
+% plot(WingTipC(2),WingTipC(1),'og')
+% quiver(HingeC(2),HingeC(1),1*HTC(2),1*HTC(1),0,'g') %Plot Hinge point + AxisC
+% quiver(HingeC(2),HingeC(1),norm(HTC)*AXISTC(2),norm(HTC)*AXISTC(1),0,'g') %Plot Hinge point + AxisC
+% 
+% figure(4)
+% imagesc(rhoCI);figure(gcf);
+% hold on
+% axis equal
+% axis tight
+% axis([HingeI(2)-WingLengthI HingeI(2)+WingLengthI HingeI(1)-WingLengthI HingeI(1)+WingLengthI])
+% % colormap gray
+% 
+% plot(HingeI(2),HingeI(1), '.r')
+% plot(CentroidI(2),CentroidI(1),'.r')
+% quiver(HingeI(2),HingeI(1),1*HCI(2),1*HCI(1),0,'r') %Plot Hinge point + AxisI
+% quiver(HingeI(2),HingeI(1),norm(HCI)*AXISCI(2),norm(HCI)*AXISCI(1),0,'r') %Plot Hinge point + AxisI
+% 
+% plot(HingeI(2),HingeI(1), 'og')
+% plot(WingTipI(2),WingTipI(1),'og')
+% quiver(HingeI(2),HingeI(1),1*HTI(2),1*HTI(1),0,'g') %Plot Hinge point + AxisI
+% quiver(HingeI(2),HingeI(1),norm(HTI)*AXISTI(2),norm(HTI)*AXISTI(1),0,'g') %Plot Hinge point + AxisI
+% 
+% %% Tip second moment
+% figure(5)
+% imagesc(rhoTC);figure(gcf);
+% hold on
+% axis equal
+% axis tight
+% axis([HingeC(2)-WingLengthC HingeC(2)+WingLengthC HingeC(1)-WingLengthC HingeC(1)+WingLengthC])
+% % colormap gray
+% 
+% plot(HingeC(2),HingeC(1), '.r')
+% plot(CentroidC(2),CentroidC(1),'.r')
+% quiver(HingeC(2),HingeC(1),1*HCC(2),1*HCC(1),0,'r') %Plot Hinge point + AxisC
+% quiver(HingeC(2),HingeC(1),norm(HCC)*AXISCC(2),norm(HCC)*AXISCC(1),0,'r') %Plot Hinge point + AxisC
+% 
+% plot(HingeC(2),HingeC(1), 'og')
+% plot(WingTipC(2),WingTipC(1),'og')
+% quiver(HingeC(2),HingeC(1),1*HTC(2),1*HTC(1),0,'g') %Plot Hinge point + AxisC
+% quiver(HingeC(2),HingeC(1),norm(HTC)*AXISTC(2),norm(HTC)*AXISTC(1),0,'g') %Plot Hinge point + AxisC
+% 
+% figure(6)
+% imagesc(rhoTI);figure(gcf);
+% hold on
+% axis equal
+% axis tight
+% axis([HingeI(2)-WingLengthI HingeI(2)+WingLengthI HingeI(1)-WingLengthI HingeI(1)+WingLengthI])
+% % colormap gray
+% 
+% plot(HingeI(2),HingeI(1), '.r')
+% plot(CentroidI(2),CentroidI(1),'.r')
+% quiver(HingeI(2),HingeI(1),1*HCI(2),1*HCI(1),0,'r') %Plot Hinge point + AxisI
+% quiver(HingeI(2),HingeI(1),norm(HCI)*AXISCI(2),norm(HCI)*AXISCI(1),0,'r') %Plot Hinge point + AxisI
+% 
+% plot(HingeI(2),HingeI(1), 'og')
+% plot(WingTipI(2),WingTipI(1),'og')
+% quiver(HingeI(2),HingeI(1),1*HTI(2),1*HTI(1),0,'g') %Plot Hinge point + AxisI
+% quiver(HingeI(2),HingeI(1),norm(HTI)*AXISTI(2),norm(HTI)*AXISTI(1),0,'g') %Plot Hinge point + AxisI
+% 
 %% Output Control
 WingAreaRatio
 SecondMomentRatioCentroid
@@ -283,9 +283,3 @@ SecondMomentCI
 SecondMomentTC;
 SecondMomentTI;
 SecondMomentRatioTip;
-
-
-% save data
-save([cd,'_wingmorph.mat'],'WingAreaRatio','SecondMomentRatioCentroid','WingAreaC','WingAreaI',...
-'WingLengthC','WingLengthI','WingLengthRatio','SecondMomentCC','SecondMomentCI',...
-'SecondMomentTC','SecondMomentTI','SecondMomentRatioTip')
