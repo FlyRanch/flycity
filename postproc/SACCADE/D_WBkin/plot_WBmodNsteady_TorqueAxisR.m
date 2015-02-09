@@ -129,7 +129,7 @@ plot(binx,dev_steady,'--k','linewidth',2)
 %% fourier series
 
 subplot(3,3,1)
-strokeMOD_R = calc_val_fourier_series_4thN8th_order(binx,strokeMOD_L_TorqueAxisR_fourier_coeffs_binmean,0);
+strokeMOD_R = calc_val_fourier_series_4thN8th_order(binx,strokeMOD_R_TorqueAxisR_fourier_coeffs_binmean,0);
 plot(binx,stroke_steady+strokeMOD_R,'-r','linewidth',2)
 
 legend off
@@ -142,7 +142,7 @@ set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8)
     set(gca,'XTick',0:.5:1,'XTickLabel',[]) 
 
 subplot(3,3,2)
-pitchMOD_R = calc_val_fourier_series_4thN8th_order(binx,pitchMOD_L_TorqueAxisR_fourier_coeffs_binmean,0);
+pitchMOD_R = calc_val_fourier_series_4thN8th_order(binx,pitchMOD_R_TorqueAxisR_fourier_coeffs_binmean,0);
 plot(binx,pitch_steady+pitchMOD_R,'-r','linewidth',2)
 
 legend off
@@ -155,7 +155,7 @@ set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8)
     set(gca,'XTick',0:.5:1,'XTickLabel',[]) 
 
 subplot(3,3,3)
-devMOD_R = calc_val_fourier_series_4thN8th_order(binx,devMOD_L_TorqueAxisR_fourier_coeffs_binmean,0);
+devMOD_R = calc_val_fourier_series_4thN8th_order(binx,devMOD_R_TorqueAxisR_fourier_coeffs_binmean,0);
 plot(binx,dev_steady+devMOD_R,'-r','linewidth',2)
 
 legend off
@@ -168,7 +168,7 @@ set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8)
     set(gca,'XTick',0:.5:1,'XTickLabel',[]) 
 
 subplot(3,3,4)
-strokeMOD_L = calc_val_fourier_series_4thN8th_order(binx,strokeMOD_R_TorqueAxisR_fourier_coeffs_binmean,0);
+strokeMOD_L = calc_val_fourier_series_4thN8th_order(binx,strokeMOD_L_TorqueAxisR_fourier_coeffs_binmean,0);
 plot(binx,stroke_steady+strokeMOD_L,'-r','linewidth',2)
 
 legend off
@@ -181,7 +181,7 @@ set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8)
     set(gca,'XTick',0:.5:1,'XTickLabel',[]) 
 
 subplot(3,3,5)
-pitchMOD_L = calc_val_fourier_series_4thN8th_order(binx,pitchMOD_R_TorqueAxisR_fourier_coeffs_binmean,0);
+pitchMOD_L = calc_val_fourier_series_4thN8th_order(binx,pitchMOD_L_TorqueAxisR_fourier_coeffs_binmean,0);
 plot(binx,pitch_steady+pitchMOD_L,'-r','linewidth',2)
 
 legend off
@@ -194,7 +194,7 @@ set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8)
     set(gca,'XTick',0:.5:1,'XTickLabel',[]) 
 
 subplot(3,3,6)
-devMOD_L = calc_val_fourier_series_4thN8th_order(binx,devMOD_R_TorqueAxisR_fourier_coeffs_binmean,0);
+devMOD_L = calc_val_fourier_series_4thN8th_order(binx,devMOD_L_TorqueAxisR_fourier_coeffs_binmean,0);
 plot(binx,dev_steady+devMOD_L,'-r','linewidth',2)
 
 legend off
