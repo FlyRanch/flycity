@@ -49,8 +49,8 @@ AeroCenterFuncRatio_steady = 1./FirstMomentRatio_steady;
 
 % cut-offs
 % FirstMomentRatio_cut = 0.9;
-FirstMomentRatio_cut = 1-nanstd(FirstMomentRatio);
-% FirstMomentRatio_cut = 1-2*nanstd(FirstMomentRatio);
+std_factor = 1.5;
+FirstMomentRatio_cut = 1-std_factor*nanstd(FirstMomentRatio);
 AeroCenterFuncClipped_cut = 1./(FirstMomentRatio_cut+1);
 AeroCenterFuncIntact_cut = FirstMomentRatio_cut./(FirstMomentRatio_cut+1);
 AeroCenterFuncRatio_cut = 1./FirstMomentRatio_cut;
@@ -323,7 +323,7 @@ end
 
 %% save all
 if save_on == 1
-    save('WBdataset_steadyNclipMods.mat')
+    save('WBdataset_steadyNclipMods_AeroCenterFuncs.mat')
 end
 
 
