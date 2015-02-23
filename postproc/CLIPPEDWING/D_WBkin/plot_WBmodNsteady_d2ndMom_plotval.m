@@ -129,8 +129,8 @@ plot(binx,dev_steady,'--k','linewidth',2)
 %% fourier series
 
 subplot(3,3,1)
-strokeMOD_R = calc_val_fourier_series_4thN8th_order(binx,strokeMOD_L_d2ndMom_fourier_coeffs_binmean,0);
-plot(binx,stroke_steady+SecondMomentRatio_plot*strokeMOD_R,'-r','linewidth',2)
+strokeMOD_L = calc_val_fourier_series_4thN8th_order(binx,strokeMOD_L_d2ndMom_fourier_coeffs_binmean,0);
+plot(binx,stroke_steady+(SecondMomentRatio_plot-1)*strokeMOD_L,'-r','linewidth',2)
 
 legend off
 xlabel([],'fontsize',10) 
@@ -142,8 +142,8 @@ set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8)
     set(gca,'XTick',0:.5:1,'XTickLabel',[]) 
 
 subplot(3,3,2)
-pitchMOD_R = calc_val_fourier_series_4thN8th_order(binx,pitchMOD_L_d2ndMom_fourier_coeffs_binmean,0);
-plot(binx,pitch_steady+SecondMomentRatio_plot*pitchMOD_R,'-r','linewidth',2)
+pitchMOD_L = calc_val_fourier_series_4thN8th_order(binx,pitchMOD_L_d2ndMom_fourier_coeffs_binmean,0);
+plot(binx,pitch_steady+(SecondMomentRatio_plot-1)*pitchMOD_L,'-r','linewidth',2)
 
 legend off
 xlabel([],'fontsize',10) 
@@ -155,8 +155,8 @@ set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8)
     set(gca,'XTick',0:.5:1,'XTickLabel',[]) 
 
 subplot(3,3,3)
-devMOD_R = calc_val_fourier_series_4thN8th_order(binx,devMOD_L_d2ndMom_fourier_coeffs_binmean,0);
-plot(binx,dev_steady+SecondMomentRatio_plot*devMOD_R,'-r','linewidth',2)
+devMOD_L = calc_val_fourier_series_4thN8th_order(binx,devMOD_L_d2ndMom_fourier_coeffs_binmean,0);
+plot(binx,dev_steady+(SecondMomentRatio_plot-1)*devMOD_L,'-r','linewidth',2)
 
 legend off
 xlabel([],'fontsize',10) 
@@ -168,8 +168,8 @@ set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8)
     set(gca,'XTick',0:.5:1,'XTickLabel',[]) 
 
 subplot(3,3,4)
-strokeMOD_L = calc_val_fourier_series_4thN8th_order(binx,strokeMOD_R_d2ndMom_fourier_coeffs_binmean,0);
-plot(binx,stroke_steady+SecondMomentRatio_plot*strokeMOD_L,'-r','linewidth',2)
+strokeMOD_R = calc_val_fourier_series_4thN8th_order(binx,strokeMOD_R_d2ndMom_fourier_coeffs_binmean,0);
+plot(binx,stroke_steady+(SecondMomentRatio_plot-1)*strokeMOD_R,'-r','linewidth',2)
 
 legend off
 xlabel([],'fontsize',10) 
@@ -181,8 +181,8 @@ set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8)
     set(gca,'XTick',0:.5:1,'XTickLabel',[]) 
 
 subplot(3,3,5)
-pitchMOD_L = calc_val_fourier_series_4thN8th_order(binx,pitchMOD_R_d2ndMom_fourier_coeffs_binmean,0);
-plot(binx,pitch_steady+SecondMomentRatio_plot*pitchMOD_L,'-r','linewidth',2)
+pitchMOD_R = calc_val_fourier_series_4thN8th_order(binx,pitchMOD_R_d2ndMom_fourier_coeffs_binmean,0);
+plot(binx,pitch_steady+(SecondMomentRatio_plot-1)*pitchMOD_R,'-r','linewidth',2)
 
 legend off
 xlabel([],'fontsize',10) 
@@ -194,8 +194,8 @@ set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8)
     set(gca,'XTick',0:.5:1,'XTickLabel',[]) 
 
 subplot(3,3,6)
-devMOD_L = calc_val_fourier_series_4thN8th_order(binx,devMOD_R_d2ndMom_fourier_coeffs_binmean,0);
-plot(binx,dev_steady+SecondMomentRatio_plot*devMOD_L,'-r','linewidth',2)
+devMOD_R = calc_val_fourier_series_4thN8th_order(binx,devMOD_R_d2ndMom_fourier_coeffs_binmean,0);
+plot(binx,dev_steady+(SecondMomentRatio_plot-1)*devMOD_R,'-r','linewidth',2)
 
 legend off
 xlabel([],'fontsize',10) 
@@ -208,7 +208,7 @@ set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8)
 
 subplot(3,3,7)
 DstrokeMOD = calc_val_fourier_series_4thN8th_order(binx,DstrokeMOD_d2ndMom_fourier_coeffs_binmean,0);
-plot(binx,stroke_steady+SecondMomentRatio_plot*DstrokeMOD,'-r','linewidth',2)
+plot(binx,stroke_steady+(SecondMomentRatio_plot-1)*DstrokeMOD,'-r','linewidth',2)
 
 legend off
 xlabel('time','fontsize',10) 
@@ -221,7 +221,7 @@ set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8)
 
 subplot(3,3,8)
 DpitchMOD = calc_val_fourier_series_4thN8th_order(binx,DpitchMOD_d2ndMom_fourier_coeffs_binmean,0);
-plot(binx,pitch_steady+SecondMomentRatio_plot*DpitchMOD,'-r','linewidth',2)
+plot(binx,pitch_steady+(SecondMomentRatio_plot-1)*DpitchMOD,'-r','linewidth',2)
 
 legend off
 xlabel('time','fontsize',10) 
@@ -234,7 +234,7 @@ set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8)
 
 subplot(3,3,9)
 DdevMOD = calc_val_fourier_series_4thN8th_order(binx,DdevMOD_d2ndMom_fourier_coeffs_binmean,0);
-plot(binx,dev_steady+SecondMomentRatio_plot*DdevMOD,'-r','linewidth',2)
+plot(binx,dev_steady+(SecondMomentRatio_plot-1)*DdevMOD,'-r','linewidth',2)
 
 legend off
 xlabel('time','fontsize',10) 

@@ -62,6 +62,10 @@ SecondMomentClipped_d2ndMom = [];
 SecondMomentIntact_d2ndMom = [];
 SecondMomentRatio_d2ndMom = [];
 
+ThirdMomentClipped_d2ndMom = [];
+ThirdMomentIntact_d2ndMom = [];
+ThirdMomentRatio_d2ndMom = [];
+
 AreaClipped_d2ndMom = [];
 AreaIntact_d2ndMom = [];
 AreaRatio_d2ndMom = [];
@@ -208,6 +212,10 @@ for wb = 1:size(wb_nr,1)
             SecondMomentClipped_now = SecondMomentClipped(wb);
             SecondMomentIntact_now = SecondMomentIntact(wb);
             SecondMomentRatio_now = SecondMomentRatio(wb);
+
+            ThirdMomentClipped_now = ThirdMomentClipped(wb);
+            ThirdMomentIntact_now = ThirdMomentIntact(wb);
+            ThirdMomentRatio_now = ThirdMomentRatio(wb);
 
             AreaClipped_now = AreaClipped(wb);
             AreaIntact_now = AreaIntact(wb);
@@ -378,7 +386,6 @@ for wb = 1:size(wb_nr,1)
             DdevMOD_ds_now = Ddev_ds_interp / (SecondMomentRatio_now-1);
             DdevMOD_us_now = Ddev_us_interp / (SecondMomentRatio_now-1);
             
-
             %% store data
             n_now=n_now+1;
 
@@ -392,6 +399,10 @@ for wb = 1:size(wb_nr,1)
             SecondMomentClipped_d2ndMom(n_now,1) = SecondMomentClipped_now;
             SecondMomentIntact_d2ndMom(n_now,1) = SecondMomentIntact_now;
             SecondMomentRatio_d2ndMom(n_now,1) = SecondMomentRatio_now;
+
+            ThirdMomentClipped_d2ndMom(n_now,1) = ThirdMomentClipped_now;
+            ThirdMomentIntact_d2ndMom(n_now,1) = ThirdMomentIntact_now;
+            ThirdMomentRatio_d2ndMom(n_now,1) = ThirdMomentRatio_now;
 
             AreaClipped_d2ndMom(n_now,1) = AreaClipped_now;
             AreaIntact_d2ndMom(n_now,1) = AreaIntact_now;
@@ -711,6 +722,10 @@ if save_on == 1
 'SecondMomentClipped_d2ndMom',...
 'SecondMomentIntact_d2ndMom',...
 'SecondMomentRatio_d2ndMom',...
+...
+'ThirdMomentClipped_d2ndMom',...
+'ThirdMomentIntact_d2ndMom',...
+'ThirdMomentRatio_d2ndMom',...
 ...
 'AreaClipped_d2ndMom',...
 'AreaIntact_d2ndMom',...

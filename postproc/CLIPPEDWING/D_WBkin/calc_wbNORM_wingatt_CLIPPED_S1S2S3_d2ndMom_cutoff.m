@@ -58,16 +58,24 @@ wb_nr_d2ndMom = [];
 clip_side_d2ndMom = [];
 clip_type_d2ndMom = [];
 
-SecondMomentClipped_d2ndMom = [];
-SecondMomentIntact_d2ndMom = [];
+FirstMomentNormClipped_d2ndMom = [];
+FirstMomentNormIntact_d2ndMom = [];
+FirstMomentRatio_d2ndMom = [];
+
+SecondMomentNormClipped_d2ndMom = [];
+SecondMomentNormIntact_d2ndMom = [];
 SecondMomentRatio_d2ndMom = [];
 
-AreaClipped_d2ndMom = [];
-AreaIntact_d2ndMom = [];
+ThirdMomentNormClipped_d2ndMom = [];
+ThirdMomentNormIntact_d2ndMom = [];
+ThirdMomentRatio_d2ndMom = [];
+
+AreaNormClipped_d2ndMom = [];
+AreaNormIntact_d2ndMom = [];
 AreaRatio_d2ndMom = [];
 
-LengthClipped_d2ndMom = [];
-LengthIntact_d2ndMom = [];
+LengthClipped_pixels_d2ndMom = [];
+LengthIntact_pixels_d2ndMom = [];
 LengthRatio_d2ndMom = [];
 
 % body kin
@@ -205,16 +213,24 @@ for wb = 1:size(wb_nr,1)
             clip_side_now = clip_side(wb);
             clip_type_now = clip_type(wb);
 
-            SecondMomentClipped_now = SecondMomentClipped(wb);
-            SecondMomentIntact_now = SecondMomentIntact(wb);
+            FirstMomentNormClipped_now = FirstMomentNormClipped(wb);
+            FirstMomentNormIntact_now = FirstMomentNormIntact(wb);
+            FirstMomentRatio_now = FirstMomentRatio(wb);
+
+            SecondMomentNormClipped_now = SecondMomentNormClipped(wb);
+            SecondMomentNormIntact_now = SecondMomentNormIntact(wb);
             SecondMomentRatio_now = SecondMomentRatio(wb);
 
-            AreaClipped_now = AreaClipped(wb);
-            AreaIntact_now = AreaIntact(wb);
+            ThirdMomentNormClipped_now = ThirdMomentNormClipped(wb);
+            ThirdMomentNormIntact_now = ThirdMomentNormIntact(wb);
+            ThirdMomentRatio_now = ThirdMomentRatio(wb);
+
+            AreaNormClipped_now = AreaNormClipped(wb);
+            AreaNormIntact_now = AreaNormIntact(wb);
             AreaRatio_now = AreaRatio(wb);
 
-            LengthClipped_now = LengthClipped(wb);
-            LengthIntact_now = LengthIntact(wb);
+            LengthClipped_pixels_now = LengthClipped_pixels(wb);
+            LengthIntact_pixels_now = LengthIntact_pixels(wb);
             LengthRatio_now = LengthRatio(wb);
 
             % body kin
@@ -378,7 +394,6 @@ for wb = 1:size(wb_nr,1)
             DdevMOD_ds_now = Ddev_ds_interp / (SecondMomentRatio_now-1);
             DdevMOD_us_now = Ddev_us_interp / (SecondMomentRatio_now-1);
             
-
             %% store data
             n_now=n_now+1;
 
@@ -389,16 +404,24 @@ for wb = 1:size(wb_nr,1)
             clip_side_d2ndMom(n_now,1) = clip_side_now;
             clip_type_d2ndMom(n_now,1) = clip_type_now;
 
-            SecondMomentClipped_d2ndMom(n_now,1) = SecondMomentClipped_now;
-            SecondMomentIntact_d2ndMom(n_now,1) = SecondMomentIntact_now;
+            FirstMomentNormClipped_d2ndMom(n_now,1) = FirstMomentNormClipped_now;
+            FirstMomentNormIntact_d2ndMom(n_now,1) = FirstMomentNormIntact_now;
+            FirstMomentRatio_d2ndMom(n_now,1) = FirstMomentRatio_now;
+
+            SecondMomentNormClipped_d2ndMom(n_now,1) = SecondMomentNormClipped_now;
+            SecondMomentNormIntact_d2ndMom(n_now,1) = SecondMomentNormIntact_now;
             SecondMomentRatio_d2ndMom(n_now,1) = SecondMomentRatio_now;
 
-            AreaClipped_d2ndMom(n_now,1) = AreaClipped_now;
-            AreaIntact_d2ndMom(n_now,1) = AreaIntact_now;
+            ThirdMomentNormClipped_d2ndMom(n_now,1) = ThirdMomentNormClipped_now;
+            ThirdMomentNormIntact_d2ndMom(n_now,1) = ThirdMomentNormIntact_now;
+            ThirdMomentRatio_d2ndMom(n_now,1) = ThirdMomentRatio_now;
+
+            AreaNormClipped_d2ndMom(n_now,1) = AreaNormClipped_now;
+            AreaNormIntact_d2ndMom(n_now,1) = AreaNormIntact_now;
             AreaRatio_d2ndMom(n_now,1) = AreaRatio_now;
 
-            LengthClipped_d2ndMom(n_now,1) = LengthClipped_now;
-            LengthIntact_d2ndMom(n_now,1) = LengthIntact_now;
+            LengthClipped_pixels_d2ndMom(n_now,1) = LengthClipped_pixels_now;
+            LengthIntact_pixels_d2ndMom(n_now,1) = LengthIntact_pixels_now;
             LengthRatio_d2ndMom(n_now,1) = LengthRatio_now;
 
             % body kin
@@ -708,16 +731,24 @@ if save_on == 1
 'clip_side_d2ndMom',...
 'clip_type_d2ndMom',...
 ...
-'SecondMomentClipped_d2ndMom',...
-'SecondMomentIntact_d2ndMom',...
+'FirstMomentNormClipped_d2ndMom',...
+'FirstMomentNormIntact_d2ndMom',...
+'FirstMomentRatio_d2ndMom',...
+...
+'SecondMomentNormClipped_d2ndMom',...
+'SecondMomentNormIntact_d2ndMom',...
 'SecondMomentRatio_d2ndMom',...
 ...
-'AreaClipped_d2ndMom',...
-'AreaIntact_d2ndMom',...
+'ThirdMomentNormClipped_d2ndMom',...
+'ThirdMomentNormIntact_d2ndMom',...
+'ThirdMomentRatio_d2ndMom',...
+...
+'AreaNormClipped_d2ndMom',...
+'AreaNormIntact_d2ndMom',...
 'AreaRatio_d2ndMom',...
 ...
-'LengthClipped_d2ndMom',...
-'LengthIntact_d2ndMom',...
+'LengthClipped_pixels_d2ndMom',...
+'LengthIntact_pixels_d2ndMom',...
 'LengthRatio_d2ndMom',...
 ...
 'stroke_R_d2ndMom_fit_binmean_periodic',...

@@ -126,15 +126,15 @@ plot(binx,dev_steady,'--k','linewidth',2)
 
 %% MOD wb
 
-%% fourier series
+%% Left wing = intact wing: AeroCenterFuncIntact fourier series
 
 subplot(3,3,1)
-strokeMOD_R = calc_val_fourier_series_4thN8th_order(binx,strokeMOD_L_dArea_fourier_coeffs_binmean,0);
-plot(binx,stroke_steady+(AreaRatio_plot-1)*strokeMOD_R,'-r','linewidth',2)
+strokeMOD_L = calc_val_fourier_series_4thN8th_order(binx,strokeMOD_L_AeroCenterFuncs_fourier_coeffs_binmean,0);
+plot(binx,stroke_steady+(AeroCenterFuncIntact_plot-AeroCenterFuncIntact_steady)*strokeMOD_L,'-r','linewidth',2)
 
 legend off
 xlabel([],'fontsize',10) 
-ylabel('L wing','fontsize',10) 
+ylabel('Intact wing','fontsize',10) 
 biny_min = -90;
 biny_max = 90;
 axis([0 1 biny_min biny_max])
@@ -142,8 +142,8 @@ set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8)
     set(gca,'XTick',0:.5:1,'XTickLabel',[]) 
 
 subplot(3,3,2)
-pitchMOD_R = calc_val_fourier_series_4thN8th_order(binx,pitchMOD_L_dArea_fourier_coeffs_binmean,0);
-plot(binx,pitch_steady+(AreaRatio_plot-1)*pitchMOD_R,'-r','linewidth',2)
+pitchMOD_L = calc_val_fourier_series_4thN8th_order(binx,pitchMOD_L_AeroCenterFuncs_fourier_coeffs_binmean,0);
+plot(binx,pitch_steady+(AeroCenterFuncIntact_plot-AeroCenterFuncIntact_steady)*pitchMOD_L,'-r','linewidth',2)
 
 legend off
 xlabel([],'fontsize',10) 
@@ -155,8 +155,8 @@ set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8)
     set(gca,'XTick',0:.5:1,'XTickLabel',[]) 
 
 subplot(3,3,3)
-devMOD_R = calc_val_fourier_series_4thN8th_order(binx,devMOD_L_dArea_fourier_coeffs_binmean,0);
-plot(binx,dev_steady+(AreaRatio_plot-1)*devMOD_R,'-r','linewidth',2)
+devMOD_L = calc_val_fourier_series_4thN8th_order(binx,devMOD_L_AeroCenterFuncs_fourier_coeffs_binmean,0);
+plot(binx,dev_steady+(AeroCenterFuncIntact_plot-AeroCenterFuncIntact_steady)*devMOD_L,'-r','linewidth',2)
 
 legend off
 xlabel([],'fontsize',10) 
@@ -165,15 +165,17 @@ biny_min = -45;
 biny_max = 45;
 axis([0 1 biny_min biny_max])
 set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8) 
-    set(gca,'XTick',0:.5:1,'XTickLabel',[]) 
+set(gca,'XTick',0:.5:1,'XTickLabel',[]) 
+
+    %% Right wing = clipped wing: AeroCenterFuncClipped fourier series
 
 subplot(3,3,4)
-strokeMOD_L = calc_val_fourier_series_4thN8th_order(binx,strokeMOD_R_dArea_fourier_coeffs_binmean,0);
-plot(binx,stroke_steady+(AreaRatio_plot-1)*strokeMOD_L,'-r','linewidth',2)
+strokeMOD_R = calc_val_fourier_series_4thN8th_order(binx,strokeMOD_R_AeroCenterFuncs_fourier_coeffs_binmean,0);
+plot(binx,stroke_steady+(AeroCenterFuncClipped_plot-AeroCenterFuncClipped_steady)*strokeMOD_R,'-r','linewidth',2)
 
 legend off
 xlabel([],'fontsize',10) 
-ylabel('R wing','fontsize',10) 
+ylabel('Clipped wing','fontsize',10) 
 biny_min = -90;
 biny_max = 90;
 axis([0 1 biny_min biny_max])
@@ -181,8 +183,8 @@ set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8)
     set(gca,'XTick',0:.5:1,'XTickLabel',[]) 
 
 subplot(3,3,5)
-pitchMOD_L = calc_val_fourier_series_4thN8th_order(binx,pitchMOD_R_dArea_fourier_coeffs_binmean,0);
-plot(binx,pitch_steady+(AreaRatio_plot-1)*pitchMOD_L,'-r','linewidth',2)
+pitchMOD_R = calc_val_fourier_series_4thN8th_order(binx,pitchMOD_R_AeroCenterFuncs_fourier_coeffs_binmean,0);
+plot(binx,pitch_steady+(AeroCenterFuncClipped_plot-AeroCenterFuncClipped_steady)*pitchMOD_R,'-r','linewidth',2)
 
 legend off
 xlabel([],'fontsize',10) 
@@ -194,8 +196,8 @@ set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8)
     set(gca,'XTick',0:.5:1,'XTickLabel',[]) 
 
 subplot(3,3,6)
-devMOD_L = calc_val_fourier_series_4thN8th_order(binx,devMOD_R_dArea_fourier_coeffs_binmean,0);
-plot(binx,dev_steady+(AreaRatio_plot-1)*devMOD_L,'-r','linewidth',2)
+devMOD_R = calc_val_fourier_series_4thN8th_order(binx,devMOD_R_AeroCenterFuncs_fourier_coeffs_binmean,0);
+plot(binx,dev_steady+(AeroCenterFuncClipped_plot-AeroCenterFuncClipped_steady)*devMOD_R,'-r','linewidth',2)
 
 legend off
 xlabel([],'fontsize',10) 
@@ -206,13 +208,16 @@ axis([0 1 biny_min biny_max])
 set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8) 
     set(gca,'XTick',0:.5:1,'XTickLabel',[]) 
 
+
+%% Left - Right wingbeat kin:  AeroCenterFuncRatio
+
 subplot(3,3,7)
-DstrokeMOD = calc_val_fourier_series_4thN8th_order(binx,DstrokeMOD_dArea_fourier_coeffs_binmean,0);
-plot(binx,stroke_steady+(AreaRatio_plot-1)*DstrokeMOD,'-r','linewidth',2)
+DstrokeMOD = calc_val_fourier_series_4thN8th_order(binx,DstrokeMOD_AeroCenterFuncs_fourier_coeffs_binmean,0);
+plot(binx,stroke_steady+(AeroCenterFuncRatio_plot-AeroCenterFuncRatio_steady)*DstrokeMOD,'-r','linewidth',2)
 
 legend off
 xlabel('time','fontsize',10) 
-ylabel('L - R','fontsize',10) 
+ylabel('Intact - Clipped','fontsize',10) 
 biny_min = -90;
 biny_max = 90;
 axis([0 1 biny_min biny_max])
@@ -220,8 +225,8 @@ set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8)
     set(gca,'XTick',0:.5:1) 
 
 subplot(3,3,8)
-DpitchMOD = calc_val_fourier_series_4thN8th_order(binx,DpitchMOD_dArea_fourier_coeffs_binmean,0);
-plot(binx,pitch_steady+(AreaRatio_plot-1)*DpitchMOD,'-r','linewidth',2)
+DpitchMOD = calc_val_fourier_series_4thN8th_order(binx,DpitchMOD_AeroCenterFuncs_fourier_coeffs_binmean,0);
+plot(binx,pitch_steady+(AeroCenterFuncRatio_plot-AeroCenterFuncRatio_steady)*DpitchMOD,'-r','linewidth',2)
 
 legend off
 xlabel('time','fontsize',10) 
@@ -233,8 +238,8 @@ set(gca,'YTick',[biny_min:(biny_max-biny_min)/2:biny_max],'fontsize',8)
     set(gca,'XTick',0:.5:1) 
 
 subplot(3,3,9)
-DdevMOD = calc_val_fourier_series_4thN8th_order(binx,DdevMOD_dArea_fourier_coeffs_binmean,0);
-plot(binx,dev_steady+(AreaRatio_plot-1)*DdevMOD,'-r','linewidth',2)
+DdevMOD = calc_val_fourier_series_4thN8th_order(binx,DdevMOD_AeroCenterFuncs_fourier_coeffs_binmean,0);
+plot(binx,dev_steady+(AeroCenterFuncRatio_plot-AeroCenterFuncRatio_steady)*DdevMOD,'-r','linewidth',2)
 
 legend off
 xlabel('time','fontsize',10) 

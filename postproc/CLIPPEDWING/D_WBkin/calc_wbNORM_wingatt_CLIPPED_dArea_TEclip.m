@@ -195,7 +195,7 @@ DU_us_dArea_bins = [];
 for wb = 1:size(wb_nr,1)
     counter = size(wb_nr,1) -wb
         
-        if steady_nr_mean_wb(wb) == 1 && AreaRatio(wb) < AreaRatio_cut
+        if steady_nr_mean_wb(wb) == 1 && AreaRatio(wb) < AreaRatio_cut && clip_type(wb) == 2
             
             % current wb
             seq_nr_now = seq_nr(wb);
