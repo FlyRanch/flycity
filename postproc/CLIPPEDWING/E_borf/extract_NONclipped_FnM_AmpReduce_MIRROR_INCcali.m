@@ -1,16 +1,19 @@
 
-        %% cali data
-        stroke_intact = round(radtodeg(kine(:,5)));
-        stroke_cut = round(radtodeg(kine(:,6)));
+        %% WB data: !!!  mirror symmetric axis data: switch left & right !!!
+        stroke_cut = (radtodeg(kine(:,6)));
+        stroke_intact = (radtodeg(kine(:,5)));
         
-        if stroke_intact == stroke_cut
-        else
-            ERROR = 1
-%             return
-        end
+        AmpStroke_intact(m,1) = max(stroke_intact) - min(stroke_intact);
+        AmpStroke_cut(m,1) = max(stroke_cut) - min(stroke_cut);
         
-        for n = 1:length(stroke_intact)
-            n_L = find(stroke_intact(n) == cali_L.stroke_interp);
+        Amp_ratio(m,1) = AmpStroke_cut(m,1)/AmpStroke_intact(m,1);
+        
+        %% cali data:  !!! NO switch left & right !!!
+        stroke_cut_round = round(radtodeg(kine(:,5)));      % right wing
+        stroke_intact_round = round(radtodeg(kine(:,6)));   % left wing
+        
+        for n = 1:length(stroke_intact_round)
+            n_L = find(stroke_intact_round(n) == cali_L.stroke_interp);
             
             fx_cali_L(n,1) = cali_L.Fx_interp(n_L);
             fy_cali_L(n,1) = cali_L.Fy_interp(n_L);
@@ -20,7 +23,7 @@
             my_cali_L(n,1) = cali_L.My_interp(n_L);
             mz_cali_L(n,1) = cali_L.Mz_interp(n_L);
         
-            n_R = find(stroke_intact(n) == cali_R.stroke_interp);
+            n_R = find(stroke_cut_round(n) == cali_R.stroke_interp);
             
             fx_cali_R(n,1) = cali_R.Fx_interp(n_R);
             fy_cali_R(n,1) = cali_R.Fy_interp(n_R);
@@ -86,3 +89,11 @@
         Mx_norm(m,1) = mean(mx_norm(:,m));
         My_norm(m,1) = mean(my_norm(:,m));
         Mz_norm(m,1) = mean(mz_norm(:,m));
+        
+        My_norm_CoG(m,1) = My_norm(m,1) - d_norm_steady*Fz_norm(m,1);
+        
+        %% !!! mirror symmetric axis data !!!
+        Fy_norm(m,1) = -Fy_norm(m,1);
+        Mx_norm(m,1) = -Mx_norm(m,1);
+        Mz_norm(m,1) = -Mz_norm(m,1);
+        

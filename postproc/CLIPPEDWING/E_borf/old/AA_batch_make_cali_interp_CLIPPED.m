@@ -12,6 +12,8 @@ settings.start=start;
 settings.stop=stop;
 settings.step_interp=step_interp;
 
+mkdir('cali_figs')
+
 dirs = dir('L_Full_R*');
 
 for d = 1:length(dirs)
@@ -79,25 +81,24 @@ cali_L.Mx_interp = interp1(cali_L.stroke,cali_L.Mx,cali_L.stroke_interp,'spline'
 cali_L.My_interp = interp1(cali_L.stroke,cali_L.My,cali_L.stroke_interp,'spline');
 cali_L.Mz_interp = interp1(cali_L.stroke,cali_L.Mz,cali_L.stroke_interp,'spline');
 
-figure
-hold on
-plot(cali_L.stroke,cali_L.Fx,'ob')
-plot(cali_L.stroke,cali_L.Fy,'or')
-plot(cali_L.stroke,cali_L.Fz,'og')
-plot(cali_L.stroke,cali_L.Mx,'oc')
-plot(cali_L.stroke,cali_L.My,'om')
-plot(cali_L.stroke,cali_L.Mz,'ok')
-
-legend Fx Fy Fz Mx My Mz
-title([name,'_L'])
-
-plot(cali_L.stroke_interp,cali_L.Fx_interp,'-b')
-plot(cali_L.stroke_interp,cali_L.Fy_interp,'-r')
-plot(cali_L.stroke_interp,cali_L.Fz_interp,'-g')
-plot(cali_L.stroke_interp,cali_L.Mx_interp,'-c')
-plot(cali_L.stroke_interp,cali_L.My_interp,'-m')
-plot(cali_L.stroke_interp,cali_L.Mz_interp,'-k')
-
+% figure
+% hold on
+% plot(cali_L.stroke,cali_L.Fx,'ob')
+% plot(cali_L.stroke,cali_L.Fy,'or')
+% plot(cali_L.stroke,cali_L.Fz,'og')
+% plot(cali_L.stroke,cali_L.Mx,'oc')
+% plot(cali_L.stroke,cali_L.My,'om')
+% plot(cali_L.stroke,cali_L.Mz,'ok')
+% 
+% legend Fx Fy Fz Mx My Mz
+% title([name,'_L'])
+% 
+% plot(cali_L.stroke_interp,cali_L.Fx_interp,'-b')
+% plot(cali_L.stroke_interp,cali_L.Fy_interp,'-r')
+% plot(cali_L.stroke_interp,cali_L.Fz_interp,'-g')
+% plot(cali_L.stroke_interp,cali_L.Mx_interp,'-c')
+% plot(cali_L.stroke_interp,cali_L.My_interp,'-m')
+% plot(cali_L.stroke_interp,cali_L.Mz_interp,'-k')
 
 clear loc i stroke rotation deviation kine ft t str_run str_now str_loc str_loc_start str_loc_stop
 
@@ -161,29 +162,129 @@ cali_R.Mx_interp = interp1(cali_R.stroke,cali_R.Mx,cali_R.stroke_interp,'spline'
 cali_R.My_interp = interp1(cali_R.stroke,cali_R.My,cali_R.stroke_interp,'spline');
 cali_R.Mz_interp = interp1(cali_R.stroke,cali_R.Mz,cali_R.stroke_interp,'spline');
 
+%% plot data
+% % left wing
+% figure
+% hold on
+% plot(cali_L.stroke,cali_L.Fx,'ob')
+% plot(cali_L.stroke,cali_L.Fy,'or')
+% plot(cali_L.stroke,cali_L.Fz,'og')
+% plot(cali_L.stroke,cali_L.Mx,'oc')
+% plot(cali_L.stroke,cali_L.My,'om')
+% plot(cali_L.stroke,cali_L.Mz,'ok')
+% 
+% legend Fx Fy Fz Mx My Mz
+% title([name,'_L'])
+% 
+% plot(cali_L.stroke_interp,cali_L.Fx_interp,'-b')
+% plot(cali_L.stroke_interp,cali_L.Fy_interp,'-r')
+% plot(cali_L.stroke_interp,cali_L.Fz_interp,'-g')
+% plot(cali_L.stroke_interp,cali_L.Mx_interp,'-c')
+% plot(cali_L.stroke_interp,cali_L.My_interp,'-m')
+% plot(cali_L.stroke_interp,cali_L.Mz_interp,'-k')
+% 
+% % right wing
+% figure
+% hold on
+% plot(cali_R.stroke,cali_R.Fx,'ob')
+% plot(cali_R.stroke,cali_R.Fy,'or')
+% plot(cali_R.stroke,cali_R.Fz,'og')
+% plot(cali_R.stroke,cali_R.Mx,'oc')
+% plot(cali_R.stroke,cali_R.My,'om')
+% plot(cali_R.stroke,cali_R.Mz,'ok')
+% 
+% legend Fx Fy Fz Mx My Mz
+% title([name,'_R'])
+% 
+% plot(cali_R.stroke_interp,cali_R.Fx_interp,'-b')
+% plot(cali_R.stroke_interp,cali_R.Fy_interp,'-r')
+% plot(cali_R.stroke_interp,cali_R.Fz_interp,'-g')
+% plot(cali_R.stroke_interp,cali_R.Mx_interp,'-c')
+% plot(cali_R.stroke_interp,cali_R.My_interp,'-m')
+% plot(cali_R.stroke_interp,cali_R.Mz_interp,'-k')
+% 
+% % L+R
+% figure
+% hold on
+% plot(cali_R.stroke,cali_R.Fx+cali_L.Fx,'ob')
+% plot(cali_R.stroke,cali_R.Fy+cali_L.Fy,'or')
+% plot(cali_R.stroke,cali_R.Fz+cali_L.Fz,'og')
+% plot(cali_R.stroke,cali_R.Mx+cali_L.Mx,'oc')
+% plot(cali_R.stroke,cali_R.My+cali_L.My,'om')
+% plot(cali_R.stroke,cali_R.Mz+cali_L.Mz,'ok')
+% 
+% legend Fx Fy Fz Mx My Mz
+% title([name,'_L+R'])
+% 
+% plot(cali_R.stroke_interp,cali_R.Fx_interp+cali_L.Fx_interp,'-b')
+% plot(cali_R.stroke_interp,cali_R.Fy_interp+cali_L.Fy_interp,'-r')
+% plot(cali_R.stroke_interp,cali_R.Fz_interp+cali_L.Fz_interp,'-g')
+% plot(cali_R.stroke_interp,cali_R.Mx_interp+cali_L.Mx_interp,'-c')
+% plot(cali_R.stroke_interp,cali_R.My_interp+cali_L.My_interp,'-m')
+% plot(cali_R.stroke_interp,cali_R.Mz_interp+cali_L.Mz_interp,'-k')
 
+% all
 figure
+subplot(3,2,1)
 hold on
-plot(cali_R.stroke,cali_R.Fx,'ob')
-plot(cali_R.stroke,cali_R.Fy,'or')
-plot(cali_R.stroke,cali_R.Fz,'og')
-plot(cali_R.stroke,cali_R.Mx,'oc')
-plot(cali_R.stroke,cali_R.My,'om')
-plot(cali_R.stroke,cali_R.Mz,'ok')
+plot(cali_L.stroke_interp,cali_L.Fx_interp,'-b')
+plot(cali_R.stroke_interp,cali_R.Fx_interp,'-g')
+plot(cali_R.stroke_interp,cali_R.Fx_interp+cali_L.Fx_interp,'-r')
+ylabel('Fx')
+title([name,' L+R'])
+axis([-90,90,-.05,.05])
 
-legend Fx Fy Fz Mx My Mz
-title([name,'_R'])
+subplot(3,2,3)
+hold on
+plot(cali_L.stroke_interp,cali_L.Fy_interp,'-b')
+plot(cali_R.stroke_interp,cali_R.Fy_interp,'-g')
+plot(cali_R.stroke_interp,cali_R.Fy_interp+cali_L.Fy_interp,'-r')
+ylabel('Fy')
+axis([-90,90,-.05,.05])
 
-plot(cali_R.stroke_interp,cali_R.Fx_interp,'-b')
-plot(cali_R.stroke_interp,cali_R.Fy_interp,'-r')
+subplot(3,2,5)
+hold on
+plot(cali_L.stroke_interp,cali_L.Fz_interp,'-b')
 plot(cali_R.stroke_interp,cali_R.Fz_interp,'-g')
-plot(cali_R.stroke_interp,cali_R.Mx_interp,'-c')
-plot(cali_R.stroke_interp,cali_R.My_interp,'-m')
-plot(cali_R.stroke_interp,cali_R.Mz_interp,'-k')
+plot(cali_R.stroke_interp,cali_R.Fz_interp+cali_L.Fz_interp,'-r')
+xlabel('stroke angle')
+ylabel('Fz')
+axis([-90,90,-.05,.05])
+
+subplot(3,2,2)
+hold on
+plot(cali_L.stroke_interp,cali_L.Mx_interp,'-b')
+plot(cali_R.stroke_interp,cali_R.Mx_interp,'-g')
+plot(cali_R.stroke_interp,cali_R.Mx_interp+cali_L.Mx_interp,'-r')
+ylabel('Mx')
+axis([-90,90,-.05,.05])
+
+subplot(3,2,4)
+hold on
+plot(cali_L.stroke_interp,cali_L.My_interp,'-b')
+plot(cali_R.stroke_interp,cali_R.My_interp,'-g')
+plot(cali_R.stroke_interp,cali_R.My_interp+cali_L.My_interp,'-r')
+ylabel('My')
+axis([-90,90,-.05,.05])
+
+subplot(3,2,6)
+hold on
+plot(cali_L.stroke_interp,cali_L.Mz_interp,'-b')
+plot(cali_R.stroke_interp,cali_R.Mz_interp,'-g')
+plot(cali_R.stroke_interp,cali_R.Mz_interp+cali_L.Mz_interp,'-r')
+xlabel('stroke angle')
+ylabel('Mz')
+axis([-90,90,-.05,.05])
+legend('left','right','L+R')
+
+% pause
 
 clear loc i stroke rotation deviation kine ft t str_run str_now str_loc str_loc_start str_loc_stop
-
 save(name,'cali_L','cali_R','settings')
+
+cd ..
+cd('cali_figs')
+saveas(gcf,[name,'.png'])
 cd ..
     end
 end
