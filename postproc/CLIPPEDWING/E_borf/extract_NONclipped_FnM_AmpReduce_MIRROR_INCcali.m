@@ -90,7 +90,7 @@
         My_norm(m,1) = mean(my_norm(:,m));
         Mz_norm(m,1) = mean(mz_norm(:,m));
         
-        My_norm_CoG(m,1) = My_norm(m,1) - d_norm_steady*Fz_norm(m,1);
+        My_CoM_norm(m,1) = My_norm(m,1) - d_norm_steady*Fz_norm(m,1);
         
         %% !!! mirror symmetric axis data !!!
         Fy_norm(m,1) = -Fy_norm(m,1);
