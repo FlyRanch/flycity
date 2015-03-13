@@ -1,5 +1,5 @@
-Amp_min = 1;
-Amp_max = 1.25;
+Amp2_min = 1;
+Amp2_max = 1.6;
 
 S_min = 0;
 S_max = 1;
@@ -23,7 +23,7 @@ figure(1)
 hold off
 
 subplot(1,3,1)
-plot(Fx_Amp_S2_SurfFit,'XLim',[Amp_min Amp_max],'YLim',[S_min S_max])
+plot(Fx_Amp2_S2_SurfFit,'XLim',[Amp2_min Amp2_max],'YLim',[S_min S_max])
 view(2)
 hold on
 shading interp
@@ -32,15 +32,15 @@ caxis([Fx_min Fx_max])
 colormap(cmap_surf)
 h = colorbar('location','northoutside');
 title(h,'Fx/mg')
-xlabel('Stroke Amplitude ratio')
+xlabel('Stroke Amplitude Squared Ratio')
 ylabel('S2 ratio')
-axis([Amp_min Amp_max S_min S_max])
-set(gca,'xtick',Amp_min:(Amp_max-Amp_min):Amp_max)
+axis([Amp2_min Amp2_max S_min S_max])
+set(gca,'xtick',Amp2_min:(Amp2_max-Amp2_min):Amp2_max)
 set(gca,'ytick',S_min:(S_max-S_min):S_max)
 legend off
 
 subplot(1,3,2)
-plot(Fy_Amp_S2_SurfFit,'XLim',[Amp_min Amp_max],'YLim',[S_min S_max])
+plot(Fy_Amp2_S2_SurfFit,'XLim',[Amp2_min Amp2_max],'YLim',[S_min S_max])
 view(2)
 hold on
 shading interp
@@ -49,15 +49,15 @@ caxis([Fy_min Fy_max])
 colormap(cmap_surf)
 h = colorbar('location','northoutside');
 title(h,'Fy/mg')
-xlabel('Stroke Amplitude ratio')
+xlabel('Stroke Amplitude Squared Ratio')
 ylabel('S2 ratio')
-axis([Amp_min Amp_max S_min S_max])
-set(gca,'xtick',Amp_min:(Amp_max-Amp_min):Amp_max)
+axis([Amp2_min Amp2_max S_min S_max])
+set(gca,'xtick',Amp2_min:(Amp2_max-Amp2_min):Amp2_max)
 set(gca,'ytick',S_min:(S_max-S_min):S_max)
 legend off
 
 subplot(1,3,3)
-plot(Fz_Amp_S2_SurfFit,'XLim',[Amp_min Amp_max],'YLim',[S_min S_max])
+plot(Fz_Amp2_S2_SurfFit,'XLim',[Amp2_min Amp2_max],'YLim',[S_min S_max])
 view(2)
 hold on
 shading interp
@@ -66,10 +66,10 @@ caxis([Fz_min Fz_max])
 colormap(cmap_surf)
 h = colorbar('location','northoutside');
 title(h,'Fz/mg')
-xlabel('Stroke Amplitude ratio')
+xlabel('Stroke Amplitude Squared Ratio')
 ylabel('S2 ratio')
-axis([Amp_min Amp_max S_min S_max])
-set(gca,'xtick',Amp_min:(Amp_max-Amp_min):Amp_max)
+axis([Amp2_min Amp2_max S_min S_max])
+set(gca,'xtick',Amp2_min:(Amp2_max-Amp2_min):Amp2_max)
 set(gca,'ytick',S_min:(S_max-S_min):S_max)
 legend off
 
@@ -78,7 +78,7 @@ figure(2)
 hold off
 
 subplot(1,3,1)
-plot(Mx_MinSteady_Amp_S3_SurfFit,'XLim',[Amp_min Amp_max],'YLim',[S_min S_max])
+plot(Mx_MinSteady_Amp2_S3_SurfFit,'XLim',[Amp2_min Amp2_max],'YLim',[S_min S_max])
 view(2)
 hold on
 shading interp
@@ -87,15 +87,15 @@ caxis([Mx_min Mx_max])
 colormap(cmap_surf)
 h = colorbar('location','northoutside');
 title(h,'Mx/mgl')
-xlabel('Stroke Amplitude ratio')
+xlabel('Stroke Amplitude Squared Ratio')
 ylabel('S3 ratio')
-axis([Amp_min Amp_max S_min S_max])
-set(gca,'xtick',Amp_min:(Amp_max-Amp_min):Amp_max)
+axis([Amp2_min Amp2_max S_min S_max])
+set(gca,'xtick',Amp2_min:(Amp2_max-Amp2_min):Amp2_max)
 set(gca,'ytick',S_min:(S_max-S_min):S_max)
 legend off
 
 subplot(1,3,2)
-plot(My_CoM_Amp_S3_SurfFit,'XLim',[Amp_min Amp_max],'YLim',[S_min S_max])
+plot(My_CoM_Amp2_S3_SurfFit,'XLim',[Amp2_min Amp2_max],'YLim',[S_min S_max])
 view(2)
 hold on
 shading interp
@@ -104,15 +104,15 @@ caxis([My_min My_max])
 colormap(cmap_surf)
 h = colorbar('location','northoutside');
 title(h,'My/mgl')
-xlabel('Stroke Amplitude ratio')
+xlabel('Stroke Amplitude Squared Ratio')
 ylabel('S3 ratio')
-axis([Amp_min Amp_max S_min S_max])
-set(gca,'xtick',Amp_min:(Amp_max-Amp_min):Amp_max)
+axis([Amp2_min Amp2_max S_min S_max])
+set(gca,'xtick',Amp2_min:(Amp2_max-Amp2_min):Amp2_max)
 set(gca,'ytick',S_min:(S_max-S_min):S_max)
 legend off
 
 subplot(1,3,3)
-plot(Mz_MinSteady_Amp_S3_SurfFit,'XLim',[Amp_min Amp_max],'YLim',[S_min S_max])
+plot(Mz_MinSteady_Amp2_S3_SurfFit,'XLim',[Amp2_min Amp2_max],'YLim',[S_min S_max])
 view(2)
 hold on
 shading interp
@@ -121,10 +121,10 @@ caxis([Mz_min Mz_max])
 colormap(cmap_surf)
 h = colorbar('location','northoutside');
 title(h,'Mz/mgl')
-xlabel('Stroke Amplitude ratio')
+xlabel('Stroke Amplitude Squared Ratio')
 ylabel('S3 ratio')
-axis([Amp_min Amp_max S_min S_max])
-set(gca,'xtick',Amp_min:(Amp_max-Amp_min):Amp_max)
+axis([Amp2_min Amp2_max S_min S_max])
+set(gca,'xtick',Amp2_min:(Amp2_max-Amp2_min):Amp2_max)
 set(gca,'ytick',S_min:(S_max-S_min):S_max)
 legend off
 
@@ -132,7 +132,7 @@ legend off
 figure(3)
 
 subplot(1,2,1)
-plot(Fz_Amp_S2_SurfFit,'XLim',[Amp_min Amp_max],'YLim',[S_min S_max])
+plot(Fz_Amp2_S2_SurfFit,'XLim',[Amp2_min Amp2_max],'YLim',[S_min S_max])
 view(2)
 hold on
 shading interp
@@ -141,15 +141,15 @@ caxis([Fz_min Fz_max])
 colormap(cmap_surf)
 h = colorbar('location','northoutside');
 title(h,'Fz/mg')
-xlabel('Stroke Amplitude ratio')
+xlabel('Stroke Amplitude Squared Ratio')
 ylabel('S2 ratio')
-axis([Amp_min Amp_max S_min S_max])
-set(gca,'xtick',Amp_min:(Amp_max-Amp_min):Amp_max)
+axis([Amp2_min Amp2_max S_min S_max])
+set(gca,'xtick',Amp2_min:(Amp2_max-Amp2_min):Amp2_max)
 set(gca,'ytick',S_min:(S_max-S_min):S_max)
 legend off
 
 subplot(1,2,2)
-plot(Mx_MinSteady_Amp_S3_SurfFit,'XLim',[Amp_min Amp_max],'YLim',[S_min S_max])
+plot(Mx_MinSteady_Amp2_S3_SurfFit,'XLim',[Amp2_min Amp2_max],'YLim',[S_min S_max])
 view(2)
 hold on
 shading interp
@@ -158,10 +158,10 @@ caxis([Mx_min Mx_max])
 colormap(cmap_surf)
 h = colorbar('location','northoutside');
 title(h,'Mx/mgl')
-xlabel('Stroke Amplitude ratio')
+xlabel('Stroke Amplitude Squared Ratio')
 ylabel('S3 ratio')
-axis([Amp_min Amp_max S_min S_max])
-set(gca,'xtick',Amp_min:(Amp_max-Amp_min):Amp_max)
+axis([Amp2_min Amp2_max S_min S_max])
+set(gca,'xtick',Amp2_min:(Amp2_max-Amp2_min):Amp2_max)
 set(gca,'ytick',S_min:(S_max-S_min):S_max)
 legend off
 
@@ -176,7 +176,7 @@ for i = 1:length(Fx_norm)
     My_norm_CoM_now = My_norm_CoM(i);
     Mz_norm_MinSteady_now = Mz_norm_MinSteady(i);
     
-    Amp_ratio_now = Amp_ratio(i);
+    Amp2_ratio_now = Amp_ratio(i).^2;
     S2_ratio_now = S2_ratio(i);
     S3_ratio_now = S3_ratio(i);
     cut_type_now = cut_type(i);
@@ -195,17 +195,17 @@ for i = 1:length(Fx_norm)
     subplot(1,3,1)
     color_val = (Fx_norm_now - Fx_min) / (Fx_max - Fx_min) * (length(cmap_surf)-1) +1;
     color_now = cmap_surf(round(color_val),:);
-    plot3(Amp_ratio_now,S2_ratio_now,Fx_max+.1,symbol_now,'markeredgecolor','k','markerfacecolor',color_now,'markersize',10,'linewidth',2)
+    plot3(Amp2_ratio_now,S2_ratio_now,Fx_max+.1,symbol_now,'markeredgecolor','k','markerfacecolor',color_now,'markersize',10,'linewidth',2)
     
     subplot(1,3,2)
     color_val = (Fy_norm_now - Fy_min) / (Fy_max - Fy_min) * (length(cmap_surf)-1) +1;
     color_now = cmap_surf(round(color_val),:);
-    plot3(Amp_ratio_now,S2_ratio_now,Fy_max+.1,symbol_now,'markeredgecolor','k','markerfacecolor',color_now,'markersize',10,'linewidth',2)
+    plot3(Amp2_ratio_now,S2_ratio_now,Fy_max+.1,symbol_now,'markeredgecolor','k','markerfacecolor',color_now,'markersize',10,'linewidth',2)
     
     subplot(1,3,3)
     color_val = (Fz_norm_now - Fz_min) / (Fz_max - Fz_min) * (length(cmap_surf)-1) +1;
     color_now = cmap_surf(round(color_val),:);
-    plot3(Amp_ratio_now,S2_ratio_now,Fz_max+.1,symbol_now,'markeredgecolor','k','markerfacecolor',color_now,'markersize',10,'linewidth',2)
+    plot3(Amp2_ratio_now,S2_ratio_now,Fz_max+.1,symbol_now,'markeredgecolor','k','markerfacecolor',color_now,'markersize',10,'linewidth',2)
     
     % torques
     figure(2)
@@ -213,17 +213,17 @@ for i = 1:length(Fx_norm)
     subplot(1,3,1)
     color_val = (Mx_norm_MinSteady_now - Mx_min) / (Mx_max - Mx_min) * (length(cmap_surf)-1) +1;
     color_now = cmap_surf(round(color_val),:);
-    plot3(Amp_ratio_now,S3_ratio_now,Mx_max+.1,symbol_now,'markeredgecolor','k','markerfacecolor',color_now,'markersize',10,'linewidth',2)
+    plot3(Amp2_ratio_now,S3_ratio_now,Mx_max+.1,symbol_now,'markeredgecolor','k','markerfacecolor',color_now,'markersize',10,'linewidth',2)
     
     subplot(1,3,2)
     color_val = (My_norm_CoM_now - My_min) / (My_max - My_min) * (length(cmap_surf)-1) +1;
     color_now = cmap_surf(round(color_val),:);
-    plot3(Amp_ratio_now,S3_ratio_now,My_max+.1,symbol_now,'markeredgecolor','k','markerfacecolor',color_now,'markersize',10,'linewidth',2)
+    plot3(Amp2_ratio_now,S3_ratio_now,My_max+.1,symbol_now,'markeredgecolor','k','markerfacecolor',color_now,'markersize',10,'linewidth',2)
     
     subplot(1,3,3)
     color_val = (Mz_norm_MinSteady_now - Mz_min) / (Mz_max - Mz_min) * (length(cmap_surf)-1) +1;
     color_now = cmap_surf(round(color_val),:);
-    plot3(Amp_ratio_now,S3_ratio_now,Mz_max+.1,symbol_now,'markeredgecolor','k','markerfacecolor',color_now,'markersize',10,'linewidth',2)
+    plot3(Amp2_ratio_now,S3_ratio_now,Mz_max+.1,symbol_now,'markeredgecolor','k','markerfacecolor',color_now,'markersize',10,'linewidth',2)
     
     % Fz & Mx
     figure(3)
@@ -231,12 +231,12 @@ for i = 1:length(Fx_norm)
     subplot(1,2,1)
     color_val = (Fz_norm_now - Fz_min) / (Fz_max - Fz_min) * (length(cmap_surf)-1) +1;
     color_now = cmap_surf(round(color_val),:);
-    plot3(Amp_ratio_now,S2_ratio_now,Fz_max+.1,symbol_now,'markeredgecolor','k','markerfacecolor',color_now,'markersize',10,'linewidth',2)
+    plot3(Amp2_ratio_now,S2_ratio_now,Fz_max+.1,symbol_now,'markeredgecolor','k','markerfacecolor',color_now,'markersize',10,'linewidth',2)
     
     subplot(1,2,2)
     color_val = (Mx_norm_MinSteady_now - Mx_min) / (Mx_max - Mx_min) * (length(cmap_surf)-1) +1;
     color_now = cmap_surf(round(color_val),:);
-    plot3(Amp_ratio_now,S3_ratio_now,Mx_max+.1,symbol_now,'markeredgecolor','k','markerfacecolor',color_now,'markersize',10,'linewidth',2)
+    plot3(Amp2_ratio_now,S3_ratio_now,Mx_max+.1,symbol_now,'markeredgecolor','k','markerfacecolor',color_now,'markersize',10,'linewidth',2)
 end
 
 
