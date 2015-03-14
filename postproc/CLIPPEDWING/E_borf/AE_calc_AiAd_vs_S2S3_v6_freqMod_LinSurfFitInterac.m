@@ -164,16 +164,19 @@ cd('figures_cutWing_robofly')
 figure(1)
 saveas(gcf,'AinAd_vs_S2nS3_CutnIntactWing_clippedFlyWBfreq_n_steadyWBfreq_LinSurfFitInterac.fig')
 saveas(gcf,'AinAd_vs_S2nS3_CutnIntactWing_clippedFlyWBfreq_n_steadyWBfreq_LinSurfFitInterac.png')
+saveas(gcf,'AinAd_vs_S2nS3_CutnIntactWing_clippedFlyWBfreq_n_steadyWBfreq_LinSurfFitInterac.svg')
 % plot2svg('AinAd_vs_S2nS3_CutnIntactWing_clippedFlyWBfreq_n_steadyWBfreq_LinSurfFitInterac.svg')
 
 figure(2)
 saveas(gcf,'FnMtotal_vs_S2nS3_steadyWBfreq_LinSurfFitInterac.fig')
 saveas(gcf,'FnMtotal_vs_S2nS3_steadyWBfreq_LinSurfFitInterac.png')
+saveas(gcf,'FnMtotal_vs_S2nS3_steadyWBfreq_LinSurfFitInterac.svg')
 % plot2svg('FnMtotal_vs_S2nS3_steadyWBfreq_LinSurfFitInterac.svg')
 
 figure(3)
 saveas(gcf,'FnMtotal_vs_S2nS3_clippedFlyWBfreq_LinSurfFitInterac.fig')
 saveas(gcf,'FnMtotal_vs_S2nS3_clippedFlyWBfreq_LinSurfFitInterac.png')
+saveas(gcf,'FnMtotal_vs_S2nS3_clippedFlyWBfreq_LinSurfFitInterac.svg')
 % plot2svg('FnMtotal_vs_S2nS3_clippedFlyWBfreq_LinSurfFitInterac.svg')
 
 cd ..

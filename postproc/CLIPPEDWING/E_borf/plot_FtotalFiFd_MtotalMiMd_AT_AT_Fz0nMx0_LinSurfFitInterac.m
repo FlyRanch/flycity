@@ -7,8 +7,8 @@ set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
 set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
 caxis([F_min F_max])
 colormap(cmap_surf)
-% h = colorbar('location','northoutside');
-title('Fz total')
+h = colorbar('location','northoutside');
+title(h,'Fz total')
 axis equal
 axis tight
 axis([S2_min S2_max S3_min S3_max F_min F_max])
@@ -26,8 +26,8 @@ set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
 set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
 caxis([F_min F_max])
 colormap(cmap_surf)
-% h = colorbar('location','northoutside');
-title('Fz of damaged wing')
+h = colorbar('location','northoutside');
+title(h,'Fz of damaged wing')
 grid off
 
 subplot(2,3,3)
@@ -41,8 +41,8 @@ set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
 set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
 caxis([F_min F_max])
 colormap(cmap_surf)
-% h = colorbar('location','northoutside');
-title('Fz of intact wing')
+h = colorbar('location','northoutside');
+title(h,'Fz of intact wing')
 grid off
 
 subplot(2,3,4)
@@ -54,8 +54,8 @@ set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
 set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
 caxis([M_min M_max])
 colormap(cmap_surf)
-% h = colorbar('location','northoutside');
-title('Mx total')
+h = colorbar('location','northoutside');
+title(h,'Mx total')
 axis equal
 axis tight
 axis([S2_min S2_max S3_min S3_max M_min M_max])
@@ -73,8 +73,8 @@ set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
 set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
 caxis([M_min M_max])
 colormap(cmap_surf)
-% h = colorbar('location','northoutside');
-title('Mx damaged wing - Mx steady')
+h = colorbar('location','northoutside');
+title(h,'Mx damaged wing - Mx steady')
 grid off
 
 subplot(2,3,6)
@@ -88,6 +88,6 @@ set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
 set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
 caxis([M_min M_max])
 colormap(cmap_surf)
-% h = colorbar('location','northoutside');
-title('Mx intact wing - Mx steady')
+h = colorbar('location','northoutside');
+title(h,'Mx intact wing - Mx steady')
 grid off

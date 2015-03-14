@@ -75,7 +75,8 @@ axis([0.4 1.2 150 250])
 
 saveas(gcf,['wingbeat_frequency_of_clipped_flies_nSteadyMeanSte_vs_S2S3.fig'])
 saveas(gcf,['wingbeat_frequency_of_clipped_flies_nSteadyMeanSte_vs_S2S3.png'])
-plot2svg(['wingbeat_frequency_of_clipped_flies_nSteadyMeanSte_vs_S2S3.svg'])
+saveas(gcf,['wingbeat_frequency_of_clipped_flies_nSteadyMeanSte_vs_S2S3.svg'])
+% plot2svg(['wingbeat_frequency_of_clipped_flies_nSteadyMeanSte_vs_S2S3.svg'])
 
 cd ..
 

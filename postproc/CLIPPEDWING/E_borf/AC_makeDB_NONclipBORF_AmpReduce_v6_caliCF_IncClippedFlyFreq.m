@@ -244,7 +244,8 @@ cd('figures_cutWing_robofly')
 
 saveas(gcf,['FnMvsAmpStrokeRatio_MyAtCoM_robofly_NONcutWing_INCcali_REDUCE_LinFit.fig'])
 saveas(gcf,['FnMvsAmpStrokeRatio_MyAtCoM_robofly_NONcutWing_INCcali_REDUCE_LinFit.png'])
-plot2svg(['FnMvsAmpStrokeRatio_MyAtCoM_robofly_NONcutWing_INCcali_REDUCE_LinFit.svg'])
+saveas(gcf,['FnMvsAmpStrokeRatio_MyAtCoM_robofly_NONcutWing_INCcali_REDUCE_LinFit.svg'])
+% plot2svg(['FnMvsAmpStrokeRatio_MyAtCoM_robofly_NONcutWing_INCcali_REDUCE_LinFit.svg'])
 
 cd ..
 

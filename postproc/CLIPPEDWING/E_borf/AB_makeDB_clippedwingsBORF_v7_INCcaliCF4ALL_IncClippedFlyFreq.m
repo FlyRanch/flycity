@@ -2,6 +2,7 @@
 clear
 clc
 close all
+warning off
 
 %% const
 % fly data
@@ -259,7 +260,8 @@ plot_FvsS2nMvsS3_FreqSteady_n_FreqModClippedFly
 
 saveas(gcf,['FvsS2_MvsS3_robofly_CutWing_steadyWB_INCcali_MyAtCoM_freqSteadyNclippedFly.fig'])
 saveas(gcf,['FvsS2_MvsS3_robofly_CutWing_steadyWB_INCcali_MyAtCoM_freqSteadyNclippedFly.png'])
-plot2svg(['FvsS2_MvsS3_robofly_CutWing_steadyWB_INCcali_MyAtCoM_freqSteadyNclippedFly.svg'])
+saveas(gcf,['FvsS2_MvsS3_robofly_CutWing_steadyWB_INCcali_MyAtCoM_freqSteadyNclippedFly.svg'])
+% plot2svg(['FvsS2_MvsS3_robofly_CutWing_steadyWB_INCcali_MyAtCoM_freqSteadyNclippedFly.svg'])
 
 cd ..
 
