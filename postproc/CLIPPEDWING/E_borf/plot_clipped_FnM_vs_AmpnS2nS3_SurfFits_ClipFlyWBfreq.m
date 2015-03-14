@@ -30,8 +30,8 @@ shading interp
 axis auto
 caxis([Fx_min Fx_max])
 colormap(cmap_surf)
-h = colorbar('location','northoutside');
-title(h,'Fx/mg')
+% h = colorbar('location','northoutside');
+title('Fx/mg')
 xlabel('Stroke Amplitude ratio')
 ylabel('S2 ratio')
 axis([Amp_min Amp_max S_min S_max])
@@ -47,8 +47,8 @@ shading interp
 axis auto
 caxis([Fy_min Fy_max])
 colormap(cmap_surf)
-h = colorbar('location','northoutside');
-title(h,'Fy/mg')
+% h = colorbar('location','northoutside');
+title('Fy/mg')
 xlabel('Stroke Amplitude ratio')
 ylabel('S2 ratio')
 axis([Amp_min Amp_max S_min S_max])
@@ -64,8 +64,8 @@ shading interp
 axis auto
 caxis([Fz_min Fz_max])
 colormap(cmap_surf)
-h = colorbar('location','northoutside');
-title(h,'Fz/mg')
+% h = colorbar('location','northoutside');
+title('Fz/mg')
 xlabel('Stroke Amplitude ratio')
 ylabel('S2 ratio')
 axis([Amp_min Amp_max S_min S_max])
@@ -85,8 +85,8 @@ shading interp
 axis auto
 caxis([Mx_min Mx_max])
 colormap(cmap_surf)
-h = colorbar('location','northoutside');
-title(h,'Mx/mgl')
+% h = colorbar('location','northoutside');
+title('Mx/mgl')
 xlabel('Stroke Amplitude ratio')
 ylabel('S3 ratio')
 axis([Amp_min Amp_max S_min S_max])
@@ -102,8 +102,8 @@ shading interp
 axis auto
 caxis([My_min My_max])
 colormap(cmap_surf)
-h = colorbar('location','northoutside');
-title(h,'My/mgl')
+% h = colorbar('location','northoutside');
+title('My/mgl')
 xlabel('Stroke Amplitude ratio')
 ylabel('S3 ratio')
 axis([Amp_min Amp_max S_min S_max])
@@ -119,8 +119,8 @@ shading interp
 axis auto
 caxis([Mz_min Mz_max])
 colormap(cmap_surf)
-h = colorbar('location','northoutside');
-title(h,'Mz/mgl')
+% h = colorbar('location','northoutside');
+title('Mz/mgl')
 xlabel('Stroke Amplitude ratio')
 ylabel('S3 ratio')
 axis([Amp_min Amp_max S_min S_max])
@@ -139,8 +139,8 @@ shading interp
 axis auto
 caxis([Fz_min Fz_max])
 colormap(cmap_surf)
-h = colorbar('location','northoutside');
-title(h,'Fz/mg')
+% h = colorbar('location','northoutside');
+title('Fz/mg')
 xlabel('Stroke Amplitude ratio')
 ylabel('S2 ratio')
 axis([Amp_min Amp_max S_min S_max])
@@ -156,8 +156,8 @@ shading interp
 axis auto
 caxis([Mx_min Mx_max])
 colormap(cmap_surf)
-h = colorbar('location','northoutside');
-title(h,'Mx/mgl')
+% h = colorbar('location','northoutside');
+title('Mx/mgl')
 xlabel('Stroke Amplitude ratio')
 ylabel('S3 ratio')
 axis([Amp_min Amp_max S_min S_max])

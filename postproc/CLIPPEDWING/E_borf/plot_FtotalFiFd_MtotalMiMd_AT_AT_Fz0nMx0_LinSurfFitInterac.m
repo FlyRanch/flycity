@@ -1,33 +1,22 @@
 subplot(2,3,1)
-ezsurf(solAd(sol_nr_d),[S2_min,S2_max,S3_min,S3_max])
+ezsurf(solFtot,[S2_min,S2_max,S3_min,S3_max])
 view(2)
 shading interp
-axis equal
-axis tight
 title([])
 set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
 set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
-caxis([A_min A_max])
+caxis([F_min F_max])
 colormap(cmap_surf)
-% h = colorbar('location','northoutside'); 
-% % title(h,'damaged wing amplitude ratio')
-
-subplot(2,3,4)
-ezsurf(solAi(sol_nr_i),[S2_min,S2_max,S3_min,S3_max])
-view(2)
-shading interp
+% h = colorbar('location','northoutside');
+title('Fz total')
 axis equal
 axis tight
-title([])
-set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
-set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
-caxis([A_min A_max])
-colormap(cmap_surf)
-% h = colorbar('location','northoutside'); 
-% % title(h,'damaged wing amplitude ratio') 
+axis([S2_min S2_max S3_min S3_max F_min F_max])
+view(2)
+grid off
 
 subplot(2,3,2)
-ezsurf(solFdA,[S2_min,S2_max,S3_min,S3_max])
+ezsurf(solFd,[S2_min,S2_max,S3_min,S3_max])
 view(2)
 shading interp
 axis equal
@@ -37,25 +26,44 @@ set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
 set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
 caxis([F_min F_max])
 colormap(cmap_surf)
-% h = colorbar('location','northoutside'); 
-% % title(h,'damaged wing amplitude ratio') 
-
-subplot(2,3,5)
-ezsurf(solFiA,[S2_min,S2_max,S3_min,S3_max])
-view(2)
-shading interp
-axis equal
-axis tight
-title([])
-set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
-set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
-caxis([F_min F_max])
-colormap(cmap_surf)
-% h = colorbar('location','northoutside'); 
-% title(h,'Fz of intact wing')
+% h = colorbar('location','northoutside');
+title('Fz of damaged wing')
+grid off
 
 subplot(2,3,3)
-ezsurf(solMdA,[S2_min,S2_max,S3_min,S3_max])
+ezsurf(solFi,[S2_min,S2_max,S3_min,S3_max])
+view(2)
+shading interp
+axis equal
+axis tight
+title([])
+set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
+set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
+caxis([F_min F_max])
+colormap(cmap_surf)
+% h = colorbar('location','northoutside');
+title('Fz of intact wing')
+grid off
+
+subplot(2,3,4)
+ezsurf(solMtot,[S2_min,S2_max,S3_min,S3_max])
+title([])
+view(2)
+shading interp
+set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
+set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
+caxis([M_min M_max])
+colormap(cmap_surf)
+% h = colorbar('location','northoutside');
+title('Mx total')
+axis equal
+axis tight
+axis([S2_min S2_max S3_min S3_max M_min M_max])
+view(2)
+grid off
+
+subplot(2,3,5)
+ezsurf(solMd,[S2_min,S2_max,S3_min,S3_max])
 view(2)
 shading interp
 axis equal
@@ -65,11 +73,12 @@ set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
 set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
 caxis([M_min M_max])
 colormap(cmap_surf)
-% h = colorbar('location','northoutside'); 
-% title(h,'Mx damaged wing - Mx steady')
+% h = colorbar('location','northoutside');
+title('Mx damaged wing - Mx steady')
+grid off
 
 subplot(2,3,6)
-ezsurf(solMiA,[S2_min,S2_max,S3_min,S3_max])
+ezsurf(solMi,[S2_min,S2_max,S3_min,S3_max])
 view(2)
 shading interp
 axis equal
@@ -79,5 +88,6 @@ set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
 set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
 caxis([M_min M_max])
 colormap(cmap_surf)
-% h = colorbar('location','northoutside'); 
-% title(h,'Mx intact wing - Mx steady')
+% h = colorbar('location','northoutside');
+title('Mx intact wing - Mx steady')
+grid off

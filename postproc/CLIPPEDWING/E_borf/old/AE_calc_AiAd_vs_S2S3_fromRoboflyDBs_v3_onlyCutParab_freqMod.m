@@ -51,8 +51,8 @@ pFi1 = Fz_Amp_fit(1);
 pFi0 = Fz_Amp_fit(2);
 
 % intact wing roll torque vs Amp (linear fit)
-pMi1 = Mx_Amp_fit(1);
-pMi0 = Mx_Amp_fit(2);
+pMi1 = MxMinSteady_Amp_fit(1);
+pMi0 = MxMinSteady_Amp_fit(2);
 
 % cut wing vertical force vs Amp (parabolic fit) & S2 (linear fit)
 Fz_Amp_S2_SurfFit_coeffs = coeffvalues(Fz_Amp_S2_SurfFit);
@@ -64,7 +64,7 @@ pFd11 = Fz_Amp_S2_SurfFit_coeffs(4);
 pFd02 = Fz_Amp_S2_SurfFit_coeffs(5);
 
 % cut wing roll torque vs Amp (parabolic fit) & S3 (linear fit)
-Mx_Amp_S3_SurfFit_coeffs = coeffvalues(Mx_Amp_S3_SurfFit);
+Mx_Amp_S3_SurfFit_coeffs = coeffvalues(Mx_MinSteady_Amp_S3_SurfFit);
 
 pMd00 = Mx_Amp_S3_SurfFit_coeffs(1);
 pMd10 = Mx_Amp_S3_SurfFit_coeffs(2);
@@ -162,8 +162,8 @@ pFi1 = Fz_Amp_fit_freqMod(1);
 pFi0 = Fz_Amp_fit_freqMod(2);
 
 % intact wing roll torque vs Amp (linear fit)
-pMi1 = Mx_Amp_fit_freqMod(1);
-pMi0 = Mx_Amp_fit_freqMod(2);
+pMi1 = MxMinSteady_Amp_fit_freqMod(1);
+pMi0 = MxMinSteady_Amp_fit_freqMod(2);
 
 % cut wing vertical force vs Amp (parabolic fit) & S2 (linear fit)
 Fz_Amp_S2_SurfFit_coeffs = coeffvalues(Fz_Amp_S2_SurfFit_freqMod);
@@ -175,7 +175,7 @@ pFd11 = Fz_Amp_S2_SurfFit_coeffs(4);
 pFd02 = Fz_Amp_S2_SurfFit_coeffs(5);
 
 % cut wing roll torque vs Amp (parabolic fit) & S3 (linear fit)
-Mx_Amp_S3_SurfFit_coeffs = coeffvalues(Mx_Amp_S3_SurfFit_freqMod);
+Mx_Amp_S3_SurfFit_coeffs = coeffvalues(Mx_MinSteady_Amp_S3_SurfFit_freqMod);
 
 pMd00 = Mx_Amp_S3_SurfFit_coeffs(1);
 pMd10 = Mx_Amp_S3_SurfFit_coeffs(2);

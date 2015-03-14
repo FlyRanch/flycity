@@ -2,10 +2,9 @@
 clear
 clc
 close all
+warning off
 
 %% const
-fit_type = 'poly12';
-
 % colormap: blue to white to red
 cmap_surf=cbrewer('div','RdBu',100);
 cmap_surf = flipud(cmap_surf);
@@ -183,43 +182,43 @@ Fy_norm_cut_MinSteady_freqMod = Fy_norm_cut_MinSteady*Fnorm_clip_steady;
 % F&M vs Amp: parabola & F&M vs S2&S3: linear
 
 % F-Aratio-S2ratio SurfFit
-[Fx_Amp_S2_SurfFit, Fx_Amp_S2_SurfFit_error] = createSurfaceFit(Amp_ratio, S2_ratio ,Fx_norm ,fit_type ,plot_fit);
-[Fy_Amp_S2_SurfFit, Fy_Amp_S2_SurfFit_error] = createSurfaceFit(Amp_ratio, S2_ratio ,Fy_norm ,fit_type ,plot_fit);
-[Fz_Amp_S2_SurfFit, Fz_Amp_S2_SurfFit_error] = createSurfaceFit(Amp_ratio, S2_ratio ,Fz_norm ,fit_type ,plot_fit);
+[Fx_Amp_S2_SurfFit, Fx_Amp_S2_SurfFit_error] = createLinSurfFit_incInteraction(Amp_ratio, S2_ratio ,Fx_norm ,plot_fit);
+[Fy_Amp_S2_SurfFit, Fy_Amp_S2_SurfFit_error] = createLinSurfFit_incInteraction(Amp_ratio, S2_ratio ,Fy_norm ,plot_fit);
+[Fz_Amp_S2_SurfFit, Fz_Amp_S2_SurfFit_error] = createLinSurfFit_incInteraction(Amp_ratio, S2_ratio ,Fz_norm ,plot_fit);
 
-[Fy_MinSteady_Amp_S2_SurfFit, Fy_MinSteady_Amp_S2_SurfFit_error] = createSurfaceFit(Amp_ratio, S2_ratio ,Fy_norm_MinSteady ,fit_type ,plot_fit);
+[Fy_MinSteady_Amp_S2_SurfFit, Fy_MinSteady_Amp_S2_SurfFit_error] = createLinSurfFit_incInteraction(Amp_ratio, S2_ratio ,Fy_norm_MinSteady ,plot_fit);
 
 % M-Aratio-S3ratio SurfFit
-[Mx_Amp_S3_SurfFit, Mx_Amp_S3_SurfFit_error] = createSurfaceFit(Amp_ratio, S3_ratio ,Mx_norm ,fit_type ,plot_fit);
-[My_Amp_S3_SurfFit, My_Amp_S3_SurfFit_error] = createSurfaceFit(Amp_ratio, S3_ratio ,My_norm ,fit_type ,plot_fit);
-[Mz_Amp_S3_SurfFit, Mz_Amp_S3_SurfFit_error] = createSurfaceFit(Amp_ratio, S3_ratio ,Mz_norm ,fit_type ,plot_fit);
+[Mx_Amp_S3_SurfFit, Mx_Amp_S3_SurfFit_error] = createLinSurfFit_incInteraction(Amp_ratio, S3_ratio ,Mx_norm ,plot_fit);
+[My_Amp_S3_SurfFit, My_Amp_S3_SurfFit_error] = createLinSurfFit_incInteraction(Amp_ratio, S3_ratio ,My_norm ,plot_fit);
+[Mz_Amp_S3_SurfFit, Mz_Amp_S3_SurfFit_error] = createLinSurfFit_incInteraction(Amp_ratio, S3_ratio ,Mz_norm ,plot_fit);
 
-[Mx_MinSteady_Amp_S3_SurfFit, Mx_MinSteady_Amp_S3_SurfFit_error] = createSurfaceFit(Amp_ratio, S3_ratio ,Mx_norm_MinSteady ,fit_type ,plot_fit);
-[My_MinSteady_Amp_S3_SurfFit, My_MinSteady_Amp_S3_SurfFit_error] = createSurfaceFit(Amp_ratio, S3_ratio ,My_norm_MinSteady ,fit_type ,plot_fit);
-[Mz_MinSteady_Amp_S3_SurfFit, Mz_MinSteady_Amp_S3_SurfFit_error] = createSurfaceFit(Amp_ratio, S3_ratio ,Mz_norm_MinSteady ,fit_type ,plot_fit);
+[Mx_MinSteady_Amp_S3_SurfFit, Mx_MinSteady_Amp_S3_SurfFit_error] = createLinSurfFit_incInteraction(Amp_ratio, S3_ratio ,Mx_norm_MinSteady ,plot_fit);
+[My_MinSteady_Amp_S3_SurfFit, My_MinSteady_Amp_S3_SurfFit_error] = createLinSurfFit_incInteraction(Amp_ratio, S3_ratio ,My_norm_MinSteady ,plot_fit);
+[Mz_MinSteady_Amp_S3_SurfFit, Mz_MinSteady_Amp_S3_SurfFit_error] = createLinSurfFit_incInteraction(Amp_ratio, S3_ratio ,Mz_norm_MinSteady ,plot_fit);
 
-[My_CoM_Amp_S3_SurfFit, My_CoM_Amp_S3_SurfFit_error] = createSurfaceFit(Amp_ratio, S3_ratio ,My_norm_CoM ,fit_type ,plot_fit);
+[My_CoM_Amp_S3_SurfFit, My_CoM_Amp_S3_SurfFit_error] = createLinSurfFit_incInteraction(Amp_ratio, S3_ratio ,My_norm_CoM ,plot_fit);
 
 %% calc surface fits F&Ms vs Amp vs S2nS3 @ clipped fly wb frequency
 % F&M vs Amp: parabola & F&M vs S2&S3: linear
 
 % F-Aratio-S2ratio SurfFit
-[Fx_Amp_S2_SurfFit_freqMod, Fx_Amp_S2_SurfFit_error_freqMod] = createSurfaceFit(Amp_ratio, S2_ratio ,Fx_norm_freqMod ,fit_type ,plot_fit);
-[Fy_Amp_S2_SurfFit_freqMod, Fy_Amp_S2_SurfFit_error_freqMod] = createSurfaceFit(Amp_ratio, S2_ratio ,Fy_norm_freqMod ,fit_type ,plot_fit);
-[Fz_Amp_S2_SurfFit_freqMod, Fz_Amp_S2_SurfFit_error_freqMod] = createSurfaceFit(Amp_ratio, S2_ratio ,Fz_norm_freqMod ,fit_type ,plot_fit);
+[Fx_Amp_S2_SurfFit_freqMod, Fx_Amp_S2_SurfFit_error_freqMod] = createLinSurfFit_incInteraction(Amp_ratio, S2_ratio ,Fx_norm_freqMod ,plot_fit);
+[Fy_Amp_S2_SurfFit_freqMod, Fy_Amp_S2_SurfFit_error_freqMod] = createLinSurfFit_incInteraction(Amp_ratio, S2_ratio ,Fy_norm_freqMod ,plot_fit);
+[Fz_Amp_S2_SurfFit_freqMod, Fz_Amp_S2_SurfFit_error_freqMod] = createLinSurfFit_incInteraction(Amp_ratio, S2_ratio ,Fz_norm_freqMod ,plot_fit);
 
-[Fy_MinSteady_Amp_S2_SurfFit_freqMod, Fy_MinSteady_Amp_S2_SurfFit_error_freqMod] = createSurfaceFit(Amp_ratio, S2_ratio ,Fy_norm_MinSteady_freqMod ,fit_type ,plot_fit);
+[Fy_MinSteady_Amp_S2_SurfFit_freqMod, Fy_MinSteady_Amp_S2_SurfFit_error_freqMod] = createLinSurfFit_incInteraction(Amp_ratio, S2_ratio ,Fy_norm_MinSteady_freqMod ,plot_fit);
 
 % M-Aratio-S3ratio SurfFit
-[Mx_Amp_S3_SurfFit_freqMod, Mx_Amp_S3_SurfFit_error_freqMod] = createSurfaceFit(Amp_ratio, S3_ratio ,Mx_norm_freqMod ,fit_type ,plot_fit);
-[My_Amp_S3_SurfFit_freqMod, My_Amp_S3_SurfFit_error_freqMod] = createSurfaceFit(Amp_ratio, S3_ratio ,My_norm_freqMod ,fit_type ,plot_fit);
-[Mz_Amp_S3_SurfFit_freqMod, Mz_Amp_S3_SurfFit_error_freqMod] = createSurfaceFit(Amp_ratio, S3_ratio ,Mz_norm_freqMod ,fit_type ,plot_fit);
+[Mx_Amp_S3_SurfFit_freqMod, Mx_Amp_S3_SurfFit_error_freqMod] = createLinSurfFit_incInteraction(Amp_ratio, S3_ratio ,Mx_norm_freqMod ,plot_fit);
+[My_Amp_S3_SurfFit_freqMod, My_Amp_S3_SurfFit_error_freqMod] = createLinSurfFit_incInteraction(Amp_ratio, S3_ratio ,My_norm_freqMod ,plot_fit);
+[Mz_Amp_S3_SurfFit_freqMod, Mz_Amp_S3_SurfFit_error_freqMod] = createLinSurfFit_incInteraction(Amp_ratio, S3_ratio ,Mz_norm_freqMod ,plot_fit);
 
-[Mx_MinSteady_Amp_S3_SurfFit_freqMod, Mx_MinSteady_Amp_S3_SurfFit_error_freqMod] = createSurfaceFit(Amp_ratio, S3_ratio ,Mx_norm_MinSteady_freqMod ,fit_type ,plot_fit);
-[My_MinSteady_Amp_S3_SurfFit_freqMod, My_MinSteady_Amp_S3_SurfFit_error_freqMod] = createSurfaceFit(Amp_ratio, S3_ratio ,My_norm_MinSteady_freqMod ,fit_type ,plot_fit);
-[Mz_MinSteady_Amp_S3_SurfFit_freqMod, Mz_MinSteady_Amp_S3_SurfFit_error_freqMod] = createSurfaceFit(Amp_ratio, S3_ratio ,Mz_norm_MinSteady_freqMod ,fit_type ,plot_fit);
+[Mx_MinSteady_Amp_S3_SurfFit_freqMod, Mx_MinSteady_Amp_S3_SurfFit_error_freqMod] = createLinSurfFit_incInteraction(Amp_ratio, S3_ratio ,Mx_norm_MinSteady_freqMod ,plot_fit);
+[My_MinSteady_Amp_S3_SurfFit_freqMod, My_MinSteady_Amp_S3_SurfFit_error_freqMod] = createLinSurfFit_incInteraction(Amp_ratio, S3_ratio ,My_norm_MinSteady_freqMod ,plot_fit);
+[Mz_MinSteady_Amp_S3_SurfFit_freqMod, Mz_MinSteady_Amp_S3_SurfFit_error_freqMod] = createLinSurfFit_incInteraction(Amp_ratio, S3_ratio ,Mz_norm_MinSteady_freqMod ,plot_fit);
 
-[My_CoM_Amp_S3_SurfFit_freqMod, My_CoM_Amp_S3_SurfFit_error_freqMod] = createSurfaceFit(Amp_ratio, S3_ratio ,My_norm_CoM_freqMod ,fit_type ,plot_fit);
+[My_CoM_Amp_S3_SurfFit_freqMod, My_CoM_Amp_S3_SurfFit_error_freqMod] = createLinSurfFit_incInteraction(Amp_ratio, S3_ratio ,My_norm_CoM_freqMod ,plot_fit);
 
 
 %% plot surface fits F&Ms vs Amp vs S2nS3
@@ -233,38 +232,38 @@ if plot_on == 1
     plot_clipped_FnM_vs_StrokeAmp_vs_S2nS3_SurfFits
 
     figure(1)
-    saveas(gcf,'ForcesVsStrokeAmpVsS2_SurfFits_freqSteadyWB.fig')
-    saveas(gcf,'ForcesVsStrokeAmpVsS2_SurfFits_freqSteadyWB.png')
-    plot2svg('ForcesVsStrokeAmpVsS2_SurfFits_freqSteadyWB.svg')
+    saveas(gcf,'ForcesVsStrokeAmpVsS2_LinSurfFitInterac_freqSteadyWB.fig')
+    saveas(gcf,'ForcesVsStrokeAmpVsS2_LinSurfFitInterac_freqSteadyWB.png')
+    plot2svg('ForcesVsStrokeAmpVsS2_LinSurfFitInterac_freqSteadyWB.svg')
 
     figure(2)
-    saveas(gcf,'TorqueVsStrokeAmpVsS3_SurfFits_minSteady_MyAtCoM_freqSteadyWB.fig')
-    saveas(gcf,'TorqueVsStrokeAmpVsS3_SurfFits_minSteady_MyAtCoM_freqSteadyWB.png')
-    plot2svg('TorqueVsStrokeAmpVsS3_SurfFits_minSteady_MyAtCoM_freqSteadyWB.svg')
+    saveas(gcf,'TorqueVsStrokeAmpVsS3_LinSurfFitInterac_minSteady_MyAtCoM_freqSteadyWB.fig')
+    saveas(gcf,'TorqueVsStrokeAmpVsS3_LinSurfFitInterac_minSteady_MyAtCoM_freqSteadyWB.png')
+    plot2svg('TorqueVsStrokeAmpVsS3_LinSurfFitInterac_minSteady_MyAtCoM_freqSteadyWB.svg')
 
     figure(3)
-    saveas(gcf,'FzMx_vs_StrokeAmp_vs_S2S3_SurfFits_MxminSteady_freqSteadyWB.fig')
-    saveas(gcf,'FzMx_vs_StrokeAmp_vs_S2S3_SurfFits_MxminSteady_freqSteadyWB.png')
-    plot2svg('FzMx_vs_StrokeAmp_vs_S2S3_SurfFits_MxminSteady_freqSteadyWB.svg')
+    saveas(gcf,'FzMx_vs_StrokeAmp_vs_S2S3_LinSurfFitInterac_MxminSteady_freqSteadyWB.fig')
+    saveas(gcf,'FzMx_vs_StrokeAmp_vs_S2S3_LinSurfFitInterac_MxminSteady_freqSteadyWB.png')
+    plot2svg('FzMx_vs_StrokeAmp_vs_S2S3_LinSurfFitInterac_MxminSteady_freqSteadyWB.svg')
     
     % @ clipped fly wb frequency
     close all
     plot_clipped_FnM_vs_AmpnS2nS3_SurfFits_ClipFlyWBfreq
     
     figure(1)
-    saveas(gcf,'ForcesVsStrokeAmpVsS2_SurfFits_ClipFlyWBfreq.fig')
-    saveas(gcf,'ForcesVsStrokeAmpVsS2_SurfFits_ClipFlyWBfreq.png')
-    plot2svg('ForcesVsStrokeAmpVsS2_SurfFits_ClipFlyWBfreq.svg')
+    saveas(gcf,'ForcesVsStrokeAmpVsS2_LinSurfFitInterac_ClipFlyWBfreq.fig')
+    saveas(gcf,'ForcesVsStrokeAmpVsS2_LinSurfFitInterac_ClipFlyWBfreq.png')
+    plot2svg('ForcesVsStrokeAmpVsS2_LinSurfFitInterac_ClipFlyWBfreq.svg')
 
     figure(2)
-    saveas(gcf,'TorqueVsStrokeAmpVsS3_SurfFits_minSteady_MyAtCoM_ClipFlyWBfreq.fig')
-    saveas(gcf,'TorqueVsStrokeAmpVsS3_SurfFits_minSteady_MyAtCoM_ClipFlyWBfreq.png')
-    plot2svg('TorqueVsStrokeAmpVsS3_SurfFits_minSteady_MyAtCoM_ClipFlyWBfreq.svg')
+    saveas(gcf,'TorqueVsStrokeAmpVsS3_LinSurfFitInterac_minSteady_MyAtCoM_ClipFlyWBfreq.fig')
+    saveas(gcf,'TorqueVsStrokeAmpVsS3_LinSurfFitInterac_minSteady_MyAtCoM_ClipFlyWBfreq.png')
+    plot2svg('TorqueVsStrokeAmpVsS3_LinSurfFitInterac_minSteady_MyAtCoM_ClipFlyWBfreq.svg')
 
     figure(3)
-    saveas(gcf,'FzMx_vs_StrokeAmp_vs_S2S3_SurfFits_MxminSteady_ClipFlyWBfreq.fig')
-    saveas(gcf,'FzMx_vs_StrokeAmp_vs_S2S3_SurfFits_MxminSteady_ClipFlyWBfreq.png')
-    plot2svg('FzMx_vs_StrokeAmp_vs_S2S3_SurfFits_MxminSteady_ClipFlyWBfreq.svg')
+    saveas(gcf,'FzMx_vs_StrokeAmp_vs_S2S3_LinSurfFitInterac_MxminSteady_ClipFlyWBfreq.fig')
+    saveas(gcf,'FzMx_vs_StrokeAmp_vs_S2S3_LinSurfFitInterac_MxminSteady_ClipFlyWBfreq.png')
+    plot2svg('FzMx_vs_StrokeAmp_vs_S2S3_LinSurfFitInterac_MxminSteady_ClipFlyWBfreq.svg')
 
     cd ..
 end
@@ -272,9 +271,7 @@ end
 
 
 %% save data
-save('roboflyDB_CutWing_FnM_vs_StrokeAmplitude_vs_S2nS3_INCcaliCF',...
-    'fit_type',...
-    ...
+save('roboflyDB_CutWing_FnM_vs_StrokeAmplitude_vs_S2nS3_INCcaliCF_LinSurfFitInterac',...
     'Fx_Amp_S2_SurfFit' ,'Fx_Amp_S2_SurfFit_error',...
     'Fy_Amp_S2_SurfFit' ,'Fy_Amp_S2_SurfFit_error',...
     'Fz_Amp_S2_SurfFit' ,'Fz_Amp_S2_SurfFit_error',...
