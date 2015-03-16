@@ -176,7 +176,7 @@ for i = 1:length(Astroke_ratio_clip_mean)
     if color_nr<1
         color_nr=1
     end
-    plot3(S2_ratio_mean(i),S3_ratio_mean(i),2,'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',15)
+    plot3(S2_ratio_mean(i),S3_ratio_mean(i),2,'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
 end
 
 subplot(2,3,2)
@@ -186,7 +186,7 @@ for i = 1:length(Astroke_ratio_intact_mean)
     if color_nr<1
         color_nr=1
     end
-    plot3(S2_ratio_mean(i),S3_ratio_mean(i),2,'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',10)
+    plot3(S2_ratio_mean(i),S3_ratio_mean(i),2,'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
 end
 
 subplot(2,3,3)
@@ -196,7 +196,7 @@ for i = 1:length(Astroke_ratio_intact_clip_mean)
     if color_nr<1
         color_nr=1
     end
-    plot3(S2_ratio_mean(i),S3_ratio_mean(i),2,'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',10)
+    plot3(S2_ratio_mean(i),S3_ratio_mean(i),2,'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
 end
 
 subplot(2,3,4)
@@ -206,7 +206,7 @@ for i = 1:length(Astroke_ratio_clip_mean)
     if color_nr<1
         color_nr=1
     end
-    plot3(S2_ratio_mean(i),S3_ratio_mean(i),2,'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',8)
+    plot3(S2_ratio_mean(i),S3_ratio_mean(i),2,'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
 end
 
 subplot(2,3,5)
@@ -216,7 +216,7 @@ for i = 1:length(Astroke_ratio_intact_mean)
     if color_nr<1
         color_nr=1
     end
-    plot3(S2_ratio_mean(i),S3_ratio_mean(i),2,'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',8)
+    plot3(S2_ratio_mean(i),S3_ratio_mean(i),2,'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
 end
 
 subplot(2,3,6)
@@ -226,7 +226,7 @@ for i = 1:length(Astroke_ratio_intact_clip_mean)
     if color_nr<1
         color_nr=1
     end
-    plot3(S2_ratio_mean(i),S3_ratio_mean(i),2,'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',8)
+    plot3(S2_ratio_mean(i),S3_ratio_mean(i),2,'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
 end
 
 %% save plots
@@ -236,19 +236,19 @@ cd('figures_cutWing_robofly')
 figure(1)
 saveas(gcf,'AinAd_vs_S2nS3_CutnIntactWing_clippedFlyWBfreq_n_steadyWBfreq_LinSurfFitInterac.fig')
 saveas(gcf,'AinAd_vs_S2nS3_CutnIntactWing_clippedFlyWBfreq_n_steadyWBfreq_LinSurfFitInterac.png')
-saveas(gcf,'AinAd_vs_S2nS3_CutnIntactWing_clippedFlyWBfreq_n_steadyWBfreq_LinSurfFitInterac.svg')
+% saveas(gcf,'AinAd_vs_S2nS3_CutnIntactWing_clippedFlyWBfreq_n_steadyWBfreq_LinSurfFitInterac.svg')
 % plot2svg('AinAd_vs_S2nS3_CutnIntactWing_clippedFlyWBfreq_n_steadyWBfreq_LinSurfFitInterac.svg')
 
 figure(2)
 saveas(gcf,'FnMtotal_vs_S2nS3_steadyWBfreq_LinSurfFitInterac.fig')
 saveas(gcf,'FnMtotal_vs_S2nS3_steadyWBfreq_LinSurfFitInterac.png')
-saveas(gcf,'FnMtotal_vs_S2nS3_steadyWBfreq_LinSurfFitInterac.svg')
+% saveas(gcf,'FnMtotal_vs_S2nS3_steadyWBfreq_LinSurfFitInterac.svg')
 % plot2svg('FnMtotal_vs_S2nS3_steadyWBfreq_LinSurfFitInterac.svg')
 
 figure(3)
 saveas(gcf,'FnMtotal_vs_S2nS3_clippedFlyWBfreq_LinSurfFitInterac.fig')
 saveas(gcf,'FnMtotal_vs_S2nS3_clippedFlyWBfreq_LinSurfFitInterac.png')
-saveas(gcf,'FnMtotal_vs_S2nS3_clippedFlyWBfreq_LinSurfFitInterac.svg')
+% saveas(gcf,'FnMtotal_vs_S2nS3_clippedFlyWBfreq_LinSurfFitInterac.svg')
 % plot2svg('FnMtotal_vs_S2nS3_clippedFlyWBfreq_LinSurfFitInterac.svg')
 
 cd ..

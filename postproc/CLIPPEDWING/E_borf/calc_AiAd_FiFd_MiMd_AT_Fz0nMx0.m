@@ -30,6 +30,8 @@ eqnMA = - pMd10*Ad - pMd11*Ad*S3 - pMd01*S3 - pMd00...
 % solve Amp as function of S2 & S3 
 [solAi, solAd] = solve(eqnFA,eqnMA,Ai,Ad);
 
+solAiAdRatio = solAi/solAd;
+
 %% Fz & Mx of intact and damaged wing @ weight support & zero roll torque
 % vertical force balace
 solFtot = pFd10*solAd + pFd11*solAd*S2 + pFd01*S2 + pFd00...
