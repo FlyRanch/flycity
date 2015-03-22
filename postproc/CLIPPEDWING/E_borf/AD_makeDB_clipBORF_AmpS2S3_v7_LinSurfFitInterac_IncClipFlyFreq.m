@@ -234,20 +234,20 @@ if plot_on == 1
     figure(1)
     saveas(gcf,'ForcesVsStrokeAmpVsS2_LinSurfFitInterac_freqSteadyWB.fig')
     saveas(gcf,'ForcesVsStrokeAmpVsS2_LinSurfFitInterac_freqSteadyWB.png')
-    saveas(gcf,'ForcesVsStrokeAmpVsS2_LinSurfFitInterac_freqSteadyWB.svg')
-%     plot2svg('ForcesVsStrokeAmpVsS2_LinSurfFitInterac_freqSteadyWB.svg')
+%     saveas(gcf,'ForcesVsStrokeAmpVsS2_LinSurfFitInterac_freqSteadyWB.svg')
+    plot2svg('ForcesVsStrokeAmpVsS2_LinSurfFitInterac_freqSteadyWB.svg')
 
     figure(2)
     saveas(gcf,'TorqueVsStrokeAmpVsS3_LinSurfFitInterac_minSteady_MyAtCoM_freqSteadyWB.fig')
     saveas(gcf,'TorqueVsStrokeAmpVsS3_LinSurfFitInterac_minSteady_MyAtCoM_freqSteadyWB.png')
-    saveas(gcf,'TorqueVsStrokeAmpVsS3_LinSurfFitInterac_minSteady_MyAtCoM_freqSteadyWB.svg')
-%     plot2svg('TorqueVsStrokeAmpVsS3_LinSurfFitInterac_minSteady_MyAtCoM_freqSteadyWB.svg')
+%     saveas(gcf,'TorqueVsStrokeAmpVsS3_LinSurfFitInterac_minSteady_MyAtCoM_freqSteadyWB.svg')
+    plot2svg('TorqueVsStrokeAmpVsS3_LinSurfFitInterac_minSteady_MyAtCoM_freqSteadyWB.svg')
 
     figure(3)
     saveas(gcf,'FzMx_vs_StrokeAmp_vs_S2S3_LinSurfFitInterac_MxminSteady_freqSteadyWB.fig')
     saveas(gcf,'FzMx_vs_StrokeAmp_vs_S2S3_LinSurfFitInterac_MxminSteady_freqSteadyWB.png')
-    saveas(gcf,'FzMx_vs_StrokeAmp_vs_S2S3_LinSurfFitInterac_MxminSteady_freqSteadyWB.svg')
-%     plot2svg('FzMx_vs_StrokeAmp_vs_S2S3_LinSurfFitInterac_MxminSteady_freqSteadyWB.svg')
+%     saveas(gcf,'FzMx_vs_StrokeAmp_vs_S2S3_LinSurfFitInterac_MxminSteady_freqSteadyWB.svg')
+    plot2svg('FzMx_vs_StrokeAmp_vs_S2S3_LinSurfFitInterac_MxminSteady_freqSteadyWB.svg')
     
     % @ clipped fly wb frequency
     close all
@@ -256,20 +256,20 @@ if plot_on == 1
     figure(1)
     saveas(gcf,'ForcesVsStrokeAmpVsS2_LinSurfFitInterac_ClipFlyWBfreq.fig')
     saveas(gcf,'ForcesVsStrokeAmpVsS2_LinSurfFitInterac_ClipFlyWBfreq.png')
-    saveas(gcf,'ForcesVsStrokeAmpVsS2_LinSurfFitInterac_ClipFlyWBfreq.svg')
-%     plot2svg('ForcesVsStrokeAmpVsS2_LinSurfFitInterac_ClipFlyWBfreq.svg')
+%     saveas(gcf,'ForcesVsStrokeAmpVsS2_LinSurfFitInterac_ClipFlyWBfreq.svg')
+    plot2svg('ForcesVsStrokeAmpVsS2_LinSurfFitInterac_ClipFlyWBfreq.svg')
 
     figure(2)
     saveas(gcf,'TorqueVsStrokeAmpVsS3_LinSurfFitInterac_minSteady_MyAtCoM_ClipFlyWBfreq.fig')
     saveas(gcf,'TorqueVsStrokeAmpVsS3_LinSurfFitInterac_minSteady_MyAtCoM_ClipFlyWBfreq.png')
-    saveas(gcf,'TorqueVsStrokeAmpVsS3_LinSurfFitInterac_minSteady_MyAtCoM_ClipFlyWBfreq.svg')
-%     plot2svg('TorqueVsStrokeAmpVsS3_LinSurfFitInterac_minSteady_MyAtCoM_ClipFlyWBfreq.svg')
+%     saveas(gcf,'TorqueVsStrokeAmpVsS3_LinSurfFitInterac_minSteady_MyAtCoM_ClipFlyWBfreq.svg')
+    plot2svg('TorqueVsStrokeAmpVsS3_LinSurfFitInterac_minSteady_MyAtCoM_ClipFlyWBfreq.svg')
 
     figure(3)
     saveas(gcf,'FzMx_vs_StrokeAmp_vs_S2S3_LinSurfFitInterac_MxminSteady_ClipFlyWBfreq.fig')
     saveas(gcf,'FzMx_vs_StrokeAmp_vs_S2S3_LinSurfFitInterac_MxminSteady_ClipFlyWBfreq.png')
-    saveas(gcf,'FzMx_vs_StrokeAmp_vs_S2S3_LinSurfFitInterac_MxminSteady_ClipFlyWBfreq.svg')
-%     plot2svg('FzMx_vs_StrokeAmp_vs_S2S3_LinSurfFitInterac_MxminSteady_ClipFlyWBfreq.svg')
+%     saveas(gcf,'FzMx_vs_StrokeAmp_vs_S2S3_LinSurfFitInterac_MxminSteady_ClipFlyWBfreq.svg')
+    plot2svg('FzMx_vs_StrokeAmp_vs_S2S3_LinSurfFitInterac_MxminSteady_ClipFlyWBfreq.svg')
 
     cd ..
 end
@@ -346,5 +346,23 @@ save('roboflyDB_CutWing_FnM_vs_StrokeAmplitude_vs_S2nS3_INCcaliCF_LinSurfFitInte
     'Fx_norm_cut',...
     'Fy_norm_cut',...
     'Fz_norm_cut',...
-    'Fy_norm_cut_MinSteady');
+    'Fy_norm_cut_MinSteady',...
+    ...
+    'Fx_norm_freqMod',...
+    'Fy_norm_freqMod',...
+    'Fz_norm_freqMod',...
+    'Mx_norm_freqMod',...
+    'My_norm_freqMod',...
+    'Mz_norm_freqMod',...
+    ...
+    'Fy_norm_MinSteady_freqMod',...
+    'Mx_norm_MinSteady_freqMod',...
+    'My_norm_MinSteady_freqMod',...
+    'Mz_norm_MinSteady_freqMod',...
+    'My_norm_CoM_freqMod',...
+    ...
+    'Fx_norm_cut_freqMod',...
+    'Fy_norm_cut_freqMod',...
+    'Fz_norm_cut_freqMod',...
+    'Fy_norm_cut_MinSteady_freqMod');
 

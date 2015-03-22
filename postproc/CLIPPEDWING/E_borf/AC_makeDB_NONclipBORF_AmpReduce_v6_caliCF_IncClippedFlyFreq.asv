@@ -2,6 +2,7 @@
 clear
 clc
 close all
+warning off
 
 %% const
 % fly data
@@ -64,7 +65,7 @@ if dir_now.isdir == 1
 
     for i = 1:length(file_names)
     
-        file_now = file_names(i).name
+        file_now = file_names(i).name;
         load(file_now)
         
         m=m+1;
@@ -143,7 +144,7 @@ My_CoM_norm_freqMod = My_CoM_norm*Fnorm_clip_steady;
 
 [FyMinSteady_Amp_fit, FyMinSteady_Amp_fit_error] = polyfit(Amp_ratio,FyMinSteady_norm,1);
 
-% M-S
+% M-Aratio
 [Mx_Amp_fit, Mx_Amp_fit_error] = polyfit(Amp_ratio,Mx_norm,1);
 [My_Amp_fit, My_Amp_fit_error] = polyfit(Amp_ratio,My_norm,1);
 [Mz_Amp_fit, Mz_Amp_fit_error] = polyfit(Amp_ratio,Mz_norm,1);
@@ -162,7 +163,7 @@ My_CoM_norm_freqMod = My_CoM_norm*Fnorm_clip_steady;
 
 [FyMinSteady_Amp_fit_freqMod, FyMinSteady_Amp_fit_error_freqMod] = polyfit(Amp_ratio,FyMinSteady_norm_freqMod,1);
 
-% M-S
+% M-Aratio
 [Mx_Amp_fit_freqMod, Mx_Amp_fit_error_freqMod] = polyfit(Amp_ratio,Mx_norm_freqMod,1);
 [My_Amp_fit_freqMod, My_Amp_fit_error_freqMod] = polyfit(Amp_ratio,My_norm_freqMod,1);
 [Mz_Amp_fit_freqMod, Mz_Amp_fit_error_freqMod] = polyfit(Amp_ratio,Mz_norm_freqMod,1);
@@ -176,18 +177,18 @@ My_CoM_norm_freqMod = My_CoM_norm*Fnorm_clip_steady;
 %% plot F-Amp & M-Amp (My@"CoM")
 
 % F-Amp
-figure(1)
+figure
 subplot(1,2,1)
 hold on
-plot(Amp_ratio,Fx_norm,'ok','markerfacecolor','b')
-% plot(Amp_ratio,Fy_norm,'ok','markerfacecolor','r')
-plot(Amp_ratio,FyMinSteady_norm,'ok','markerfacecolor','r')
-plot(Amp_ratio,Fz_norm,'ok','markerfacecolor','g')
+plot(Amp_ratio,Fx_norm,'ok','markersize',10,'markerfacecolor','b')
+% plot(Amp_ratio,Fy_norm,'ok','markersize',10,'markerfacecolor','r')
+plot(Amp_ratio,FyMinSteady_norm,'ok','markersize',10,'markerfacecolor','r')
+plot(Amp_ratio,Fz_norm,'ok','markersize',10,'markerfacecolor','g')
 
-plot(Amp_ratio,Fx_norm_freqMod,'ok','markerfacecolor','c')
-% plot(Amp_ratio,Fy_norm_freqMod,'ok','markerfacecolor','m')
-plot(Amp_ratio,FyMinSteady_norm_freqMod,'ok','markerfacecolor','m')
-plot(Amp_ratio,Fz_norm_freqMod,'ok','markerfacecolor','y')
+plot(Amp_ratio,Fx_norm_freqMod,'ok','markersize',10,'markerfacecolor','c')
+% plot(Amp_ratio,Fy_norm_freqMod,'ok','markersize',10,'markerfacecolor','m')
+plot(Amp_ratio,FyMinSteady_norm_freqMod,'ok','markersize',10,'markerfacecolor','m')
+plot(Amp_ratio,Fz_norm_freqMod,'ok','markersize',10,'markerfacecolor','y')
 
 % linear fits
 plot([min(Amp_ratio) max(Amp_ratio)],polyval(Fx_Amp_fit,[min(Amp_ratio) max(Amp_ratio)]),'k')
@@ -211,15 +212,15 @@ set(gca,'ytick',-1.5:.25:1.5)
 subplot(1,2,2)
 hold on
 
-plot(Amp_ratio,MxMinSteady_norm,'ok','markerfacecolor','b')
-% plot(Amp_ratio,MyMinSteady_norm,'ok','markerfacecolor','r')
-plot(Amp_ratio,My_CoM_norm,'dk','markerfacecolor','r')
-plot(Amp_ratio,MzMinSteady_norm,'ok','markerfacecolor','g')
+plot(Amp_ratio,MxMinSteady_norm,'ok','markersize',10,'markerfacecolor','b')
+% plot(Amp_ratio,MyMinSteady_norm,'ok','markersize',10,'markerfacecolor','r')
+plot(Amp_ratio,My_CoM_norm,'ok','markersize',10,'markerfacecolor','r')
+plot(Amp_ratio,MzMinSteady_norm,'ok','markersize',10,'markerfacecolor','g')
 
-plot(Amp_ratio,MxMinSteady_norm_freqMod,'ok','markerfacecolor','c')
-% plot(Amp_ratio,MyMinSteady_norm_freqMod,'ok','markerfacecolor','m')
-plot(Amp_ratio,My_CoM_norm_freqMod,'dk','markerfacecolor','m')
-plot(Amp_ratio,MzMinSteady_norm_freqMod,'ok','markerfacecolor','y')
+plot(Amp_ratio,MxMinSteady_norm_freqMod,'ok','markersize',10,'markerfacecolor','c')
+% plot(Amp_ratio,MyMinSteady_norm_freqMod,'ok','markersize',10,'markerfacecolor','m')
+plot(Amp_ratio,My_CoM_norm_freqMod,'ok','markersize',10,'markerfacecolor','m')
+plot(Amp_ratio,MzMinSteady_norm_freqMod,'ok','markersize',10,'markerfacecolor','y')
 
 plot([min(Amp_ratio) max(Amp_ratio)],polyval(MxMinSteady_Amp_fit,[min(Amp_ratio) max(Amp_ratio)]),'k')
 % plot([min(Amp_ratio) max(Amp_ratio)],polyval(MyMinSteady_Amp_fit,[min(Amp_ratio) max(Amp_ratio)]),'k')
@@ -243,6 +244,7 @@ cd('figures_cutWing_robofly')
 
 saveas(gcf,['FnMvsAmpStrokeRatio_MyAtCoM_robofly_NONcutWing_INCcali_REDUCE_LinFit.fig'])
 saveas(gcf,['FnMvsAmpStrokeRatio_MyAtCoM_robofly_NONcutWing_INCcali_REDUCE_LinFit.png'])
+% saveas(gcf,['FnMvsAmpStrokeRatio_MyAtCoM_robofly_NONcutWing_INCcali_REDUCE_LinFit.svg'])
 plot2svg(['FnMvsAmpStrokeRatio_MyAtCoM_robofly_NONcutWing_INCcali_REDUCE_LinFit.svg'])
 
 cd ..
@@ -250,6 +252,7 @@ cd ..
 %% save data
 save('roboflyDB_NONcutWing_FnM_vs_ReducedAmpStrokeRatio_INCcaliCF_INCclippedWingFreq',...
     'Amp_ratio',...
+    ...
     'Fx_norm',...
     'Fy_norm',...
     'Fz_norm',...
@@ -261,6 +264,18 @@ save('roboflyDB_NONcutWing_FnM_vs_ReducedAmpStrokeRatio_INCcaliCF_INCclippedWing
     'MxMinSteady_norm',...
     'MyMinSteady_norm',...
     'MzMinSteady_norm',...
+    ...
+    'Fx_norm_freqMod',...
+    'Fy_norm_freqMod',...
+    'Fz_norm_freqMod',...
+    'Mx_norm_freqMod',...
+    'My_norm_freqMod',...
+    'Mz_norm_freqMod',...
+    'FyMinSteady_norm_freqMod',...
+    'My_CoM_norm_freqMod',...
+    'MxMinSteady_norm_freqMod',...
+    'MyMinSteady_norm_freqMod',...
+    'MzMinSteady_norm_freqMod',...
     ...
     'Fx_Amp_fit',...
     'Fx_Amp_fit_error',...

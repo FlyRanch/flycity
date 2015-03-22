@@ -82,7 +82,7 @@ save('roboflyDB_CutAndIntactWing_EqSolved_AnFnM_vs_S2nS3_steadyWBfreq.mat')
 %% add real fly data
 load('WBdataset_ClipNintact_wingbeat_kin.mat')
 figure(1)
-subplot(2,3,1)
+subplot(2,3,4)
 hold on
 for i = 1:length(Astroke_ratio_clip_mean)
     color_nr = round(99/(A_max-A_min)*(Astroke_ratio_clip_mean(i)-A_min)+1);
@@ -92,7 +92,7 @@ for i = 1:length(Astroke_ratio_clip_mean)
     plot3(S2_ratio_mean(i),S3_ratio_mean(i),2,'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
 end
 
-subplot(2,3,2)
+subplot(2,3,5)
 hold on
 for i = 1:length(Astroke_ratio_intact_mean)
     color_nr = round(99/(A_max-A_min)*(Astroke_ratio_intact_mean(i)-A_min)+1);
@@ -102,7 +102,7 @@ for i = 1:length(Astroke_ratio_intact_mean)
     plot3(S2_ratio_mean(i),S3_ratio_mean(i),2,'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
 end
 
-subplot(2,3,3)
+subplot(2,3,6)
 hold on
 for i = 1:length(Astroke_ratio_intact_clip_mean)
     color_nr = round(98*(Astroke_ratio_intact_clip_mean(i)-A_min)+1);
@@ -137,8 +137,6 @@ A_ratio_max = 180/stroke_amp_steady;
 A_ratio0 = .72;
 
 % const
-A_min = A_ratio0 - 0.5;
-A_max = A_ratio0 + 0.5;
 AiAdRatio_min = 0.5;
 AiAdRatio_max = 1.5;
 
@@ -155,13 +153,6 @@ M_max = .5;
 % colormap: blue to white to red
 cmap_surf=cbrewer('div','RdBu',100);
 cmap_surf = flipud(cmap_surf);
-
-% black at Amp > 180deg
-cmap_Aratio = cmap_surf;
-n_Amax = round(99/(A_max-A_min)*(A_ratio_max-A_min)+1);
-if n_Amax < length(cmap_Aratio)
-    cmap_Aratio(n_Amax:end,:)=0;
-end
 
 % black at edges of cmap
 cmap_edge = cmap_surf;
@@ -194,11 +185,22 @@ MxMinSteady_Amp_fit_coeffs = MxMinSteady_Amp_fit_freqMod;
 %% calc Amp's from vertical force and roll torque balance
 calc_AiAd_FiFd_MiMd_AT_Fz0nMx0
 
+% colorbar centered at uncut equilibrium
+A_min = 0;
+A_max = 2*Aratio_intact;
+
+% cmap_Aratio: centered at uncut equilibrium & black at Amp > 180deg
+cmap_Aratio = cmap_surf;
+n_Amax = round(99/(A_max-A_min)*(A_ratio_max-A_min)+1);
+if n_Amax < length(cmap_Aratio)
+    cmap_Aratio(n_Amax:end,:)=0;
+end
+
 %% plot Ai&Ad Fi&Fd Mi&Md @ weight support & zero roll torque
-figure(1)
+figure(3)
 plot_AiAd_AT_Fz0nMx0_LinSurfFitInterac_clippedFlyWBfreq
 
-figure(3)
+figure(4)
 plot_FtotalFiFd_MtotalMiMd_AT_AT_Fz0nMx0_LinSurfFitInterac
 
 %% save data
@@ -206,7 +208,7 @@ save('roboflyDB_CutAndIntactWing_EqSolved_AnFnM_vs_S2nS3_clippedFlyWBfreq.mat')
 
 %% add real fly data
 load('WBdataset_ClipNintact_wingbeat_kin.mat')
-figure(1)
+figure(3)
 
 subplot(2,3,4)
 hold on
@@ -232,7 +234,7 @@ end
 subplot(2,3,6)
 hold on
 for i = 1:length(Astroke_ratio_intact_clip_mean)
-    color_nr = round(99/(A_max-A_min)*(Astroke_ratio_intact_clip_mean(i)-A_min)+1);
+    color_nr = round(99/(AiAdRatio_max-AiAdRatio_min)*(Astroke_ratio_intact_clip_mean(i)-AiAdRatio_min)+1);
     if color_nr<1
         color_nr=1
     end
@@ -243,23 +245,31 @@ end
 mkdir('figures_cutWing_robofly')
 cd('figures_cutWing_robofly')
 
+% steadyWBfreq
 figure(1)
-saveas(gcf,'AinAd_vs_S2nS3_CutnIntactWing_clippedFlyWBfreq_n_steadyWBfreq_LinSurfFitInterac.fig')
-saveas(gcf,'AinAd_vs_S2nS3_CutnIntactWing_clippedFlyWBfreq_n_steadyWBfreq_LinSurfFitInterac.png')
-% saveas(gcf,'AinAd_vs_S2nS3_CutnIntactWing_clippedFlyWBfreq_n_steadyWBfreq_LinSurfFitInterac.svg')
-plot2svg('AinAd_vs_S2nS3_CutnIntactWing_clippedFlyWBfreq_n_steadyWBfreq_LinSurfFitInterac.svg')
+saveas(gcf,'AinAd_vs_S2nS3_CutnIntactWing_steadyWBfreq_LinSurfFitInterac.fig')
+saveas(gcf,'AinAd_vs_S2nS3_CutnIntactWing_steadyWBfreq_LinSurfFitInterac.png')
+% % saveas(gcf,'AinAd_vs_S2nS3_CutnIntactWing_steadyWBfreq_LinSurfFitInterac.svg')
+% plot2svg('AinAd_vs_S2nS3_CutnIntactWing_steadyWBfreq_LinSurfFitInterac.svg')
 
 figure(2)
 saveas(gcf,'FnMtotal_vs_S2nS3_steadyWBfreq_LinSurfFitInterac.fig')
 saveas(gcf,'FnMtotal_vs_S2nS3_steadyWBfreq_LinSurfFitInterac.png')
-% saveas(gcf,'FnMtotal_vs_S2nS3_steadyWBfreq_LinSurfFitInterac.svg')
-plot2svg('FnMtotal_vs_S2nS3_steadyWBfreq_LinSurfFitInterac.svg')
+% % saveas(gcf,'FnMtotal_vs_S2nS3_steadyWBfreq_LinSurfFitInterac.svg')
+% plot2svg('FnMtotal_vs_S2nS3_steadyWBfreq_LinSurfFitInterac.svg')
 
+% clippedFlyWBfreq
 figure(3)
+saveas(gcf,'AinAd_vs_S2nS3_CutnIntactWing_clippedFlyWBfreq_LinSurfFitInterac.fig')
+saveas(gcf,'AinAd_vs_S2nS3_CutnIntactWing_clippedFlyWBfreq_LinSurfFitInterac.png')
+% % saveas(gcf,'AinAd_vs_S2nS3_CutnIntactWing_clippedFlyWBfreq_LinSurfFitInterac.svg')
+% plot2svg('AinAd_vs_S2nS3_CutnIntactWing_clippedFlyWBfreq_LinSurfFitInterac.svg')
+
+figure(4)
 saveas(gcf,'FnMtotal_vs_S2nS3_clippedFlyWBfreq_LinSurfFitInterac.fig')
 saveas(gcf,'FnMtotal_vs_S2nS3_clippedFlyWBfreq_LinSurfFitInterac.png')
-% saveas(gcf,'FnMtotal_vs_S2nS3_clippedFlyWBfreq_LinSurfFitInterac.svg')
-plot2svg('FnMtotal_vs_S2nS3_clippedFlyWBfreq_LinSurfFitInterac.svg')
+% % saveas(gcf,'FnMtotal_vs_S2nS3_clippedFlyWBfreq_LinSurfFitInterac.svg')
+% plot2svg('FnMtotal_vs_S2nS3_clippedFlyWBfreq_LinSurfFitInterac.svg')
 
 cd ..
 

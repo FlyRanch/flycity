@@ -32,6 +32,16 @@ eqnMA = - pMd10*Ad - pMd11*Ad*S3 - pMd01*S3 - pMd00...
 
 solAiAdRatio = solAi/solAd;
 
+solAi_intact = subs(solAi,S2,1);
+solAi_intact = subs(solAi_intact,S3,1);
+solAi_intact = eval(solAi_intact);
+
+solAd_intact = subs(solAd,S2,1);
+solAd_intact = subs(solAd_intact,S3,1);
+solAd_intact = eval(solAd_intact);
+
+Aratio_intact = mean([solAi_intact solAd_intact]);
+
 %% Fz & Mx of intact and damaged wing @ weight support & zero roll torque
 % vertical force balace
 solFtot = pFd10*solAd + pFd11*solAd*S2 + pFd01*S2 + pFd00...

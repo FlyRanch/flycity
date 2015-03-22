@@ -1,3 +1,10 @@
+
+
+subplot(2,3,2)
+title('stroke amplitude ratios @ clipped fly wingbeat freq')
+axis off
+
+
 subplot(2,3,4)
 ezsurf(solAd,[S2_min,S2_max,S3_min,S3_max])
 view(2)
@@ -10,7 +17,8 @@ set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
 caxis([A_min A_max])
 colormap(cmap_Aratio)
 h = colorbar('location','northoutside'); 
-title(h,'Aratio damaged wing @ clipped fly freq')
+title(h,'Aratio damaged wing')
+set(h,'xtick',A_min:(A_max-A_min)/2:A_max)
 
 subplot(2,3,5)
 ezsurf(solAi,[S2_min,S2_max,S3_min,S3_max])
@@ -24,7 +32,8 @@ set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
 caxis([A_min A_max])
 colormap(cmap_Aratio)
 h = colorbar('location','northoutside'); 
-title(h,'Aratio intact wing @ clipped fly freq') 
+title(h,'Aratio intact wing') 
+set(h,'xtick',A_min:(A_max-A_min)/2:A_max)
 
 subplot(2,3,6)
 ezsurf(solAiAdRatio,[S2_min,S2_max,S3_min,S3_max])
@@ -38,5 +47,6 @@ set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
 caxis([AiAdRatio_min AiAdRatio_max])
 colormap(cmap_Aratio)
 h = colorbar('location','northoutside'); 
-title(h,'Adamaged/Aintact @ clipped fly freq') 
+title(h,'Adamaged/Aintact') 
+set(h,'xtick',AiAdRatio_min:(AiAdRatio_max-AiAdRatio_min)/2:AiAdRatio_max)
 
