@@ -22,17 +22,17 @@ SecondMomentRatio_list = unique(SecondMomentRatio);
 
 %% clipped fly WBs
 % make nan DB arrays
-S2_ratio_all = nan(100,length(SecondMomentRatio_list));
-S3_ratio_all = nan(100,length(SecondMomentRatio_list));
+S2_ratio_all = nan(150,length(SecondMomentRatio_list));
+S3_ratio_all = nan(150,length(SecondMomentRatio_list));
 
-freq_all = nan(100,length(SecondMomentRatio_list));
+freq_all = nan(150,length(SecondMomentRatio_list));
 
-Astroke_clip_all = nan(100,length(SecondMomentRatio_list));
-Astroke_intact_all = nan(100,length(SecondMomentRatio_list));
+Astroke_clip_all = nan(150,length(SecondMomentRatio_list));
+Astroke_intact_all = nan(150,length(SecondMomentRatio_list));
 
-Astroke_ratio_clip_all = nan(100,length(SecondMomentRatio_list));
-Astroke_ratio_intact_all = nan(100,length(SecondMomentRatio_list));
-Astroke_ratio_intact_clip_all = nan(100,length(SecondMomentRatio_list));
+Astroke_ratio_clip_all = nan(150,length(SecondMomentRatio_list));
+Astroke_ratio_intact_all = nan(150,length(SecondMomentRatio_list));
+Astroke_ratio_intact_clip_all = nan(150,length(SecondMomentRatio_list));
 
 
 for seq_now = 1:length(SecondMomentRatio_list)
@@ -136,7 +136,7 @@ for seq_now = 1:length(SecondMomentRatio_list)
             seq_now
             mean(Astroke_ratio_intact_clip_now)
             S2_now
-            pause
+%             pause
 end
 
 S2_ratio_mean = nanmean(S2_ratio_all)';
@@ -160,10 +160,10 @@ Astroke_ratio_intact_clip_mean = nanmean(Astroke_ratio_intact_clip_all)';
 % end
 
 
-subplot(1,2,1)
+subplot(2,1,1)
 plot(S2_ratio_mean,Astroke_ratio_intact_clip_mean,'ob')
 
-subplot(1,2,2)
+subplot(2,1,2)
 plot(S3_ratio_mean,Astroke_ratio_intact_clip_mean,'or')
 
 save('WBdataset_ClipNintact_wingbeat_kin.mat','S2_ratio_mean','S3_ratio_mean','freq_mean',...
