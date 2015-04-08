@@ -7,10 +7,10 @@ axis tight
 title([])
 set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
 set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
-caxis([Ftot_min Ftot_max])
+caxis([-2 0])
 colormap(cmap_surf)
 h = colorbar('location','northoutside');
-set(h,'xtick',Ftot_min:(Ftot_max-Ftot_min)/2:Ftot_max)
+set(h,'xtick',-2:1:0)
 title(h,'Fz total')
 grid off
 
@@ -23,10 +23,10 @@ axis tight
 title([])
 set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
 set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
-caxis([Fd_min Fd_max])
+caxis([F_min F_max])
 colormap(cmap_surf)
 h = colorbar('location','northoutside');
-set(h,'xtick',Fd_min:(Fd_max-Fd_min)/2:Fd_max)
+set(h,'xtick',F_min:(F_max-F_min)/2:F_max)
 title(h,'Fz of damaged wing')
 grid off
 
@@ -39,10 +39,10 @@ axis tight
 title([])
 set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
 set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
-caxis([Fi_min Fi_max])
+caxis([F_min F_max])
 colormap(cmap_surf)
 h = colorbar('location','northoutside');
-set(h,'xtick',Fi_min:(Fi_max-Fi_min)/2:Fi_max)
+set(h,'xtick',F_min:(F_max-F_min)/2:F_max)
 title(h,'Fz of intact wing')
 grid off
 
@@ -53,14 +53,14 @@ view(2)
 shading interp
 set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
 set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
-caxis([Mtot_min Mtot_max])
+caxis([M_min M_max])
 colormap(cmap_surf)
 h = colorbar('location','northoutside');
-set(h,'xtick',Mtot_min:(Mtot_max-Mtot_min)/2:Mtot_max)
+set(h,'xtick',M_min:(M_max-M_min)/2:M_max)
 title(h,'Mx total')
 axis equal
 axis tight
-axis([S2_min S2_max S3_min S3_max Mtot_min Mtot_max])
+axis([S2_min S2_max S3_min S3_max M_min M_max])
 view(2)
 grid off
 
@@ -73,10 +73,10 @@ axis tight
 title([])
 set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
 set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
-caxis([Md_min Md_max])
+caxis([M_min M_max])
 colormap(cmap_surf)
 h = colorbar('location','northoutside');
-set(h,'xtick',Md_min:(Md_max-Md_min)/2:Md_max)
+set(h,'xtick',M_min:(M_max-M_min)/2:M_max)
 title(h,'Mx damaged wing')
 grid off
 
@@ -89,8 +89,8 @@ axis tight
 title([])
 set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
 set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
-caxis([Mi_min Mi_max])
-set(h,'xtick',Mi_min:(Mi_max-Mi_min)/2:Mi_max)
+caxis([M_min M_max])
+set(h,'xtick',M_min:(M_max-M_min)/2:M_max)
 colormap(cmap_surf)
 h = colorbar('location','northoutside');
 title(h,'Mx intact wing')

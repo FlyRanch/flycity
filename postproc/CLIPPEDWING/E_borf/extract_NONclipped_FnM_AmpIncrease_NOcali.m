@@ -41,12 +41,20 @@
         
         %% read temporal dynamics INC cali
         fx_series =   ft(:,1) + fx_cali_L + fx_cali_R;  % thrust, fwd pos
-        fy_series =   ft(:,3) + fy_cali_L + fy_cali_R;  % sideways
-        fz_series =  -ft(:,2) + fz_cali_L + fz_cali_R; % lift, down pos
+%         fy_series =   ft(:,3) + fy_cali_L + fy_cali_R;  % sideways
+%         fz_series =  -ft(:,2) + fz_cali_L + fz_cali_R; % lift, down pos
+% 
+%         mx_series =   ft(:,4) + mx_cali_L + mx_cali_R;  % roll
+%         my_series =   ft(:,6) + my_cali_L + my_cali_R;  % pitch, up pos
+%         mz_series =  -ft(:,5) + mz_cali_L + mz_cali_R;  % yaw
+        
+        fx_series =   ft(:,1);  % thrust, fwd pos
+        fy_series =   ft(:,3);  % sideways
+        fz_series =  -ft(:,2); % lift, down pos
 
-        mx_series =   ft(:,4) + mx_cali_L + mx_cali_R;  % roll
-        my_series =   ft(:,6) + my_cali_L + my_cali_R;  % pitch, up pos
-        mz_series =  -ft(:,5) + mz_cali_L + mz_cali_R;  % yaw
+        mx_series =   ft(:,4);  % roll
+        my_series =   ft(:,6);  % pitch, up pos
+        mz_series =  -ft(:,5);  % yaw
         
         for wb = wb_start:wb_stop-1
             fx_wb(:,wb-wb_start+1) = fx_series((wb-1)*n_wb+1:wb*n_wb);

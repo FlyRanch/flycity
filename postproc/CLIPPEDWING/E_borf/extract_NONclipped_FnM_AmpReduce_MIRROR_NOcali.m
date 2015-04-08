@@ -1,14 +1,14 @@
 
-        %% WB data
-        stroke_cut = (radtodeg(kine(:,5)));
-        stroke_intact = (radtodeg(kine(:,6)));
+        %% WB data: !!!  mirror symmetric axis data: switch left & right !!!
+        stroke_cut = (radtodeg(kine(:,6)));
+        stroke_intact = (radtodeg(kine(:,5)));
         
         AmpStroke_intact(m,1) = max(stroke_intact) - min(stroke_intact);
         AmpStroke_cut(m,1) = max(stroke_cut) - min(stroke_cut);
         
         Amp_ratio(m,1) = AmpStroke_cut(m,1)/AmpStroke_intact(m,1);
         
-        %% cali data
+        %% cali data:  !!! NO switch left & right !!!
         stroke_cut_round = round(radtodeg(kine(:,5)));      % right wing
         stroke_intact_round = round(radtodeg(kine(:,6)));   % left wing
         
@@ -40,13 +40,21 @@
         time_norm(:,m) = [0:1/(n_wb-1):1]';
         
         %% read temporal dynamics INC cali
-        fx_series =   ft(:,1) + fx_cali_L + fx_cali_R;  % thrust, fwd pos
-        fy_series =   ft(:,3) + fy_cali_L + fy_cali_R;  % sideways
-        fz_series =  -ft(:,2) + fz_cali_L + fz_cali_R; % lift, down pos
+%         fx_series =   ft(:,1) + fx_cali_L + fx_cali_R;  % thrust, fwd pos
+%         fy_series =   ft(:,3) + fy_cali_L + fy_cali_R;  % sideways
+%         fz_series =  -ft(:,2) + fz_cali_L + fz_cali_R; % lift, down pos
+% 
+%         mx_series =   ft(:,4) + mx_cali_L + mx_cali_R;  % roll
+%         my_series =   ft(:,6) + my_cali_L + my_cali_R;  % pitch, up pos
+%         mz_series =  -ft(:,5) + mz_cali_L + mz_cali_R;  % yaw
+        
+        fx_series =   ft(:,1);  % thrust, fwd pos
+        fy_series =   ft(:,3);  % sideways
+        fz_series =  -ft(:,2); % lift, down pos
 
-        mx_series =   ft(:,4) + mx_cali_L + mx_cali_R;  % roll
-        my_series =   ft(:,6) + my_cali_L + my_cali_R;  % pitch, up pos
-        mz_series =  -ft(:,5) + mz_cali_L + mz_cali_R;  % yaw
+        mx_series =   ft(:,4);  % roll
+        my_series =   ft(:,6);  % pitch, up pos
+        mz_series =  -ft(:,5);  % yaw
         
         for wb = wb_start:wb_stop-1
             fx_wb(:,wb-wb_start+1) = fx_series((wb-1)*n_wb+1:wb*n_wb);
@@ -91,3 +99,9 @@
         Mz_norm(m,1) = mean(mz_norm(:,m));
         
         My_CoM_norm(m,1) = My_norm(m,1) - d_norm_steady*Fz_norm(m,1);
+        
+        %% !!! mirror symmetric axis data !!!
+        Fy_norm(m,1) = -Fy_norm(m,1);
+        Mx_norm(m,1) = -Mx_norm(m,1);
+        Mz_norm(m,1) = -Mz_norm(m,1);
+        
