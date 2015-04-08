@@ -5,6 +5,8 @@ warning off
 
 plot_on = 0;
 seq_nr = 0;
+
+cd('TEcut')
 cd('FlatWingFrames')
 
 list = dir;
@@ -19,7 +21,12 @@ for ls = 3:length(list)
         dir_now = list(ls).name
         cd(dir_now)
         
-        [data_now] = MomentofAreafromFlatWingFrames_4batch_txtNxlsNimages_S1S2S3(plot_on);
+%         [data_now] = MomentofAreafromFlatWingFrames_4batch_txtNxlsNimages_S1S2S3(plot_on);
+        [data_now] = MomentofAreafromFlatWingFrames_4batch_txtNxlsNimages_CORRECTED(plot_on);
+        
+        %% correct wings with different lengths
+        
+        
         
         %% save data
         WingClipData.date(seq_nr,1) = str2num(dir_now(1:8));
@@ -56,28 +63,32 @@ for ls = 3:length(list)
         WingClipData.ThirdMomentCC_norm(seq_nr,1) = data_now.ThirdMomentCC_norm;
         WingClipData.ThirdMomentCI_norm(seq_nr,1) = data_now.ThirdMomentCI_norm;
 
-        % S1&S2&S3: Hinge->Tip method
-        WingClipData.FirstMomentRatioTip(seq_nr,1) = data_now.FirstMomentRatioTip;
-        WingClipData.FirstMomentTC_pixels(seq_nr,1) = data_now.FirstMomentTC;
-        WingClipData.FirstMomentTI_pixels(seq_nr,1) = data_now.FirstMomentTI;
-        WingClipData.FirstMomentTC_norm(seq_nr,1) = data_now.FirstMomentTC_norm;
-        WingClipData.FirstMomentTI_norm(seq_nr,1) = data_now.FirstMomentTI_norm;
-
-        WingClipData.SecondMomentRatioTip(seq_nr,1) = data_now.SecondMomentRatioTip;
-        WingClipData.SecondMomentTC_pixels(seq_nr,1) = data_now.SecondMomentTC;
-        WingClipData.SecondMomentTI_pixels(seq_nr,1) = data_now.SecondMomentTI;
-        WingClipData.SecondMomentTC_norm(seq_nr,1) = data_now.SecondMomentTC_norm;
-        WingClipData.SecondMomentTI_norm(seq_nr,1) = data_now.SecondMomentTI_norm;
-
-        WingClipData.ThirdMomentRatioTip(seq_nr,1) = data_now.ThirdMomentRatioTip;
-        WingClipData.ThirdMomentTC_pixels(seq_nr,1) = data_now.ThirdMomentTC;
-        WingClipData.ThirdMomentTI_pixels(seq_nr,1) = data_now.ThirdMomentTI;
-        WingClipData.ThirdMomentTC_norm(seq_nr,1) = data_now.ThirdMomentTC_norm;
-        WingClipData.ThirdMomentTI_norm(seq_nr,1) = data_now.ThirdMomentTI_norm;
+%         % S1&S2&S3: Hinge->Tip method
+%         WingClipData.FirstMomentRatioTip(seq_nr,1) = data_now.FirstMomentRatioTip;
+%         WingClipData.FirstMomentTC_pixels(seq_nr,1) = data_now.FirstMomentTC;
+%         WingClipData.FirstMomentTI_pixels(seq_nr,1) = data_now.FirstMomentTI;
+%         WingClipData.FirstMomentTC_norm(seq_nr,1) = data_now.FirstMomentTC_norm;
+%         WingClipData.FirstMomentTI_norm(seq_nr,1) = data_now.FirstMomentTI_norm;
+% 
+%         WingClipData.SecondMomentRatioTip(seq_nr,1) = data_now.SecondMomentRatioTip;
+%         WingClipData.SecondMomentTC_pixels(seq_nr,1) = data_now.SecondMomentTC;
+%         WingClipData.SecondMomentTI_pixels(seq_nr,1) = data_now.SecondMomentTI;
+%         WingClipData.SecondMomentTC_norm(seq_nr,1) = data_now.SecondMomentTC_norm;
+%         WingClipData.SecondMomentTI_norm(seq_nr,1) = data_now.SecondMomentTI_norm;
+% 
+%         WingClipData.ThirdMomentRatioTip(seq_nr,1) = data_now.ThirdMomentRatioTip;
+%         WingClipData.ThirdMomentTC_pixels(seq_nr,1) = data_now.ThirdMomentTC;
+%         WingClipData.ThirdMomentTI_pixels(seq_nr,1) = data_now.ThirdMomentTI;
+%         WingClipData.ThirdMomentTC_norm(seq_nr,1) = data_now.ThirdMomentTC_norm;
+%         WingClipData.ThirdMomentTI_norm(seq_nr,1) = data_now.ThirdMomentTI_norm;
 
         cd ..
     end
 end
 
 cd ..
-save('WingClipDatabase.mat','WingClipData')
+% WingClipDataTE = WingClipData;
+save('WingClipDatabase_TEclippedWingsCorrected.mat','WingClipData')
+
+cd ..
+% save('WingClipDatabase_TEdbCorrected.mat','WingClipData')

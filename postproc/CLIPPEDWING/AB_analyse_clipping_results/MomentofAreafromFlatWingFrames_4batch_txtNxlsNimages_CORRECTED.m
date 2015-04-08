@@ -1,4 +1,4 @@
-function [WingClipData] = MomentofAreafromFlatWingFrames_4batch_txtNxlsNimages_S1S2S3(plot_on)
+function [WingClipData] = MomentofAreafromFlatWingFrames_4batch_txtNxlsNimages_CORRECTED(plot_on)
 
 % clear all; close all; clc;
 
@@ -333,53 +333,149 @@ quiver(HingeI(2),HingeI(1),norm(HTI)*AXISTI(2),norm(HTI)*AXISTI(1),0,'g') %Plot 
 
 end
 
-%% store data
+%% correct S2 & S3 for erronious hinge loc (!!!!!!!!!!!!ONLY FOR TRAILING EDGE CUT WINGS!!!!!!!!!!!)
+
+% DO NOT CORRECT WING AREA (STALK NEAR HINGE IS SMALL)
+WingAreaC_corr = WingAreaC;
+WingAreaI_corr = WingAreaI;
+WingAreaRatio_corr = WingAreaRatio;
+
+% WING LENGTH IS MEAN LENGTH
+WingLength_mean = mean([WingLengthC WingLengthI]);
+
+WingLengthC_corr = WingLength_mean;
+WingLengthI_corr = WingLength_mean;
+WingLengthRatio_corr = WingLengthC_corr/WingLengthI_corr;
+
+% CG POSITION
+dCC = FirstMomentCC / WingAreaC;
+dCI = FirstMomentCI / WingAreaI;
+
+% TRANSLATE MEAN HINGE WRT CG
+dCC_corr = dCC + (WingLength_mean - WingLengthC);
+dCI_corr = dCI + (WingLength_mean - WingLengthI);
+
+% calc corrected values
+FirstMomentCC_corr = FirstMomentCC + WingAreaC* (dCC_corr^1-dCC^1);
+FirstMomentCI_corr = FirstMomentCI + WingAreaC* (dCI_corr^1-dCI^1);
+FirstMomentRatioCentroid_corr = FirstMomentCC_corr/FirstMomentCI_corr;
+
+SecondMomentCC_corr = SecondMomentCC + WingAreaC* (dCC_corr^2-dCC^2);
+SecondMomentCI_corr = SecondMomentCI + WingAreaC* (dCI_corr^2-dCI^2);
+SecondMomentRatioCentroid_corr = SecondMomentCC_corr/SecondMomentCI_corr;
+
+ThirdMomentCC_corr = ThirdMomentCC + WingAreaC* (dCC_corr^3-dCC^3);
+ThirdMomentCI_corr = ThirdMomentCI + WingAreaC* (dCI_corr^3-dCI^3);
+ThirdMomentRatioCentroid_corr = ThirdMomentCC_corr/ThirdMomentCI_corr;
+
+% norms
+FirstMomentCC_norm_corr = FirstMomentCC_corr/WingAreaC_corr/WingLengthC_corr^1;
+FirstMomentCI_norm_corr = FirstMomentCI_corr/WingAreaI_corr/WingLengthI_corr^1;
+
+SecondMomentCC_norm_corr = SecondMomentCC_corr/WingAreaC_corr/WingLengthC_corr^2;
+SecondMomentCI_norm_corr = SecondMomentCI_corr/WingAreaI_corr/WingLengthI_corr^2;
+
+ThirdMomentCC_norm_corr = ThirdMomentCC_corr/WingAreaC_corr/WingLengthC_corr^3;
+ThirdMomentCI_norm_corr = ThirdMomentCI_corr/WingAreaI_corr/WingLengthI_corr^3;
+
+%% store CORRECTED data
 % wing length
-WingClipData.WingLengthRatio = WingLengthRatio;
-WingClipData.WingLengthC = WingLengthC;
-WingClipData.WingLengthI = WingLengthI;
+WingClipData.WingLengthRatio = WingLengthRatio_corr;
+WingClipData.WingLengthC = WingLengthC_corr;
+WingClipData.WingLengthI = WingLengthI_corr;
 
 % wing area
-WingClipData.WingAreaRatio = WingAreaRatio;
-WingClipData.WingAreaC = WingAreaC;
-WingClipData.WingAreaI = WingAreaI;
-WingClipData.WingAreaC_norm = WingAreaC/WingLengthC^2;
-WingClipData.WingAreaI_norm = WingAreaI/WingLengthI^2;
+WingClipData.WingAreaRatio = WingAreaRatio_corr;
+WingClipData.WingAreaC = WingAreaC_corr;
+WingClipData.WingAreaI = WingAreaI_corr;
+WingClipData.WingAreaC_norm = WingAreaC_corr/WingLengthC_corr^2;
+WingClipData.WingAreaI_norm = WingAreaI_corr/WingLengthI_corr^2;
 
 %Hinge->Centroid method
-WingClipData.FirstMomentRatioCentroid = FirstMomentRatioCentroid;
-WingClipData.FirstMomentCC = FirstMomentCC;
-WingClipData.FirstMomentCI = FirstMomentCI;
-WingClipData.FirstMomentCC_norm = FirstMomentCC_norm;
-WingClipData.FirstMomentCI_norm = FirstMomentCI_norm;
+WingClipData.FirstMomentRatioCentroid = FirstMomentRatioCentroid_corr;
+WingClipData.FirstMomentCC = FirstMomentCC_corr;
+WingClipData.FirstMomentCI = FirstMomentCI_corr;
+WingClipData.FirstMomentCC_norm = FirstMomentCC_norm_corr;
+WingClipData.FirstMomentCI_norm = FirstMomentCI_norm_corr;
 
-WingClipData.SecondMomentRatioCentroid = SecondMomentRatioCentroid;
-WingClipData.SecondMomentCC = SecondMomentCC;
-WingClipData.SecondMomentCI = SecondMomentCI;
-WingClipData.SecondMomentCC_norm = SecondMomentCC_norm;
-WingClipData.SecondMomentCI_norm = SecondMomentCI_norm;
+WingClipData.SecondMomentRatioCentroid = SecondMomentRatioCentroid_corr;
+WingClipData.SecondMomentCC = SecondMomentCC_corr;
+WingClipData.SecondMomentCI = SecondMomentCI_corr;
+WingClipData.SecondMomentCC_norm = SecondMomentCC_norm_corr;
+WingClipData.SecondMomentCI_norm = SecondMomentCI_norm_corr;
 
-WingClipData.ThirdMomentRatioCentroid = ThirdMomentRatioCentroid;
-WingClipData.ThirdMomentCC = ThirdMomentCC;
-WingClipData.ThirdMomentCI = ThirdMomentCI;
-WingClipData.ThirdMomentCC_norm = ThirdMomentCC_norm;
-WingClipData.ThirdMomentCI_norm = ThirdMomentCI_norm;
+WingClipData.ThirdMomentRatioCentroid = ThirdMomentRatioCentroid_corr;
+WingClipData.ThirdMomentCC = ThirdMomentCC_corr;
+WingClipData.ThirdMomentCI = ThirdMomentCI_corr;
+WingClipData.ThirdMomentCC_norm = ThirdMomentCC_norm_corr;
+WingClipData.ThirdMomentCI_norm = ThirdMomentCI_norm_corr;
+% 
+% %Hinge->Tip method
+% WingClipData.FirstMomentRatioTip = FirstMomentRatioTip_corr;
+% WingClipData.FirstMomentTC = FirstMomentTC_corr;
+% WingClipData.FirstMomentTI = FirstMomentTI_corr;
+% WingClipData.FirstMomentTC_norm = FirstMomentTC_norm_corr;
+% WingClipData.FirstMomentTI_norm = FirstMomentTI_norm_corr;
+% 
+% WingClipData.SecondMomentRatioTip = SecondMomentRatioTip_corr;
+% WingClipData.SecondMomentTC = SecondMomentTC_corr;
+% WingClipData.SecondMomentTI = SecondMomentTI_corr;
+% WingClipData.SecondMomentTC_norm = SecondMomentTC_norm_corr;
+% WingClipData.SecondMomentTI_norm = SecondMomentTI_norm_corr;
+% 
+% WingClipData.ThirdMomentRatioTip = ThirdMomentRatioTip_corr;
+% WingClipData.ThirdMomentTC = ThirdMomentTC_corr;
+% WingClipData.ThirdMomentTI = ThirdMomentTI_corr;
+% WingClipData.ThirdMomentTC_norm = ThirdMomentTC_norm_corr;
+% WingClipData.ThirdMomentTI_norm = ThirdMomentTI_norm_corr;
 
-%Hinge->Tip method
-WingClipData.FirstMomentRatioTip = FirstMomentRatioTip;
-WingClipData.FirstMomentTC = FirstMomentTC;
-WingClipData.FirstMomentTI = FirstMomentTI;
-WingClipData.FirstMomentTC_norm = FirstMomentTC_norm;
-WingClipData.FirstMomentTI_norm = FirstMomentTI_norm;
-
-WingClipData.SecondMomentRatioTip = SecondMomentRatioTip;
-WingClipData.SecondMomentTC = SecondMomentTC;
-WingClipData.SecondMomentTI = SecondMomentTI;
-WingClipData.SecondMomentTC_norm = SecondMomentTC_norm;
-WingClipData.SecondMomentTI_norm = SecondMomentTI_norm;
-
-WingClipData.ThirdMomentRatioTip = ThirdMomentRatioTip;
-WingClipData.ThirdMomentTC = ThirdMomentTC;
-WingClipData.ThirdMomentTI = ThirdMomentTI;
-WingClipData.ThirdMomentTC_norm = ThirdMomentTC_norm;
-WingClipData.ThirdMomentTI_norm = ThirdMomentTI_norm;
+%% store data
+% % wing length
+% WingClipData.WingLengthRatio = WingLengthRatio;
+% WingClipData.WingLengthC = WingLengthC;
+% WingClipData.WingLengthI = WingLengthI;
+% 
+% % wing area
+% WingClipData.WingAreaRatio = WingAreaRatio;
+% WingClipData.WingAreaC = WingAreaC;
+% WingClipData.WingAreaI = WingAreaI;
+% WingClipData.WingAreaC_norm = WingAreaC/WingLengthC^2;
+% WingClipData.WingAreaI_norm = WingAreaI/WingLengthI^2;
+% 
+% %Hinge->Centroid method
+% WingClipData.FirstMomentRatioCentroid = FirstMomentRatioCentroid;
+% WingClipData.FirstMomentCC = FirstMomentCC;
+% WingClipData.FirstMomentCI = FirstMomentCI;
+% WingClipData.FirstMomentCC_norm = FirstMomentCC_norm;
+% WingClipData.FirstMomentCI_norm = FirstMomentCI_norm;
+% 
+% WingClipData.SecondMomentRatioCentroid = SecondMomentRatioCentroid;
+% WingClipData.SecondMomentCC = SecondMomentCC;
+% WingClipData.SecondMomentCI = SecondMomentCI;
+% WingClipData.SecondMomentCC_norm = SecondMomentCC_norm;
+% WingClipData.SecondMomentCI_norm = SecondMomentCI_norm;
+% 
+% WingClipData.ThirdMomentRatioCentroid = ThirdMomentRatioCentroid;
+% WingClipData.ThirdMomentCC = ThirdMomentCC;
+% WingClipData.ThirdMomentCI = ThirdMomentCI;
+% WingClipData.ThirdMomentCC_norm = ThirdMomentCC_norm;
+% WingClipData.ThirdMomentCI_norm = ThirdMomentCI_norm;
+% 
+% %Hinge->Tip method
+% WingClipData.FirstMomentRatioTip = FirstMomentRatioTip;
+% WingClipData.FirstMomentTC = FirstMomentTC;
+% WingClipData.FirstMomentTI = FirstMomentTI;
+% WingClipData.FirstMomentTC_norm = FirstMomentTC_norm;
+% WingClipData.FirstMomentTI_norm = FirstMomentTI_norm;
+% 
+% WingClipData.SecondMomentRatioTip = SecondMomentRatioTip;
+% WingClipData.SecondMomentTC = SecondMomentTC;
+% WingClipData.SecondMomentTI = SecondMomentTI;
+% WingClipData.SecondMomentTC_norm = SecondMomentTC_norm;
+% WingClipData.SecondMomentTI_norm = SecondMomentTI_norm;
+% 
+% WingClipData.ThirdMomentRatioTip = ThirdMomentRatioTip;
+% WingClipData.ThirdMomentTC = ThirdMomentTC;
+% WingClipData.ThirdMomentTI = ThirdMomentTI;
+% WingClipData.ThirdMomentTC_norm = ThirdMomentTC_norm;
+% WingClipData.ThirdMomentTI_norm = ThirdMomentTI_norm;
