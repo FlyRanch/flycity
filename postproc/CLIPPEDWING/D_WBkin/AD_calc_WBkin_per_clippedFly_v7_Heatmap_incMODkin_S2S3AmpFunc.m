@@ -2,14 +2,11 @@ clc
 clear
 close all
 
-plot_on = 1;
-plot_on = 0;
-
 Eqname=dir('roboflyDB_CutAndIntactWing_EqSolved_AnFnM_vs_S2nS3_clippedFlyWBfreq*')
 Eqname=Eqname.name;
 load(Eqname)
 
-MODname=dir('WBdataset_steadyNclipMods_S2S3ForceFuncs*')
+MODname=dir('WBdataset_steadyNclipMods_S2S3AmpFuncs*')
 MODname=MODname.name;
 load(MODname)
 
@@ -21,10 +18,13 @@ steady_name=dir('WBdataset_steady_*')
 steady_name=steady_name.name;
 load(steady_name)
 
+plot_on = 1;
+% plot_on = 0;
+
 %% plot dir
 if plot_on == 1
-    mkdir('steadyWBkinNwbMODkin_seqs_figs_S2S3ForceFuncs')
-    cd('steadyWBkinNwbMODkin_seqs_figs_S2S3ForceFuncs')
+    mkdir('steadyWBkinNwbMODkin_seqs_figs_S2S3AmpFuncs')
+    cd('steadyWBkinNwbMODkin_seqs_figs_S2S3AmpFuncs')
 end
 
 %% steady wb
@@ -61,6 +61,7 @@ Astroke_ratio_clip_all = nan(150,length(SecondMomentRatio_list));
 Astroke_ratio_intact_all = nan(150,length(SecondMomentRatio_list));
 Astroke_ratio_clip_intact_all = nan(150,length(SecondMomentRatio_list));
 
+clip_type_all = nan(150,length(SecondMomentRatio_list));
 
 for seq_now = 1:length(SecondMomentRatio_list)
     
@@ -101,11 +102,11 @@ for seq_now = 1:length(SecondMomentRatio_list)
             LengthRatio_now = LengthRatio(wb);
             
             %% S2S3funcs
-            sol = subs(solFi,S2,SecondMomentRatio_now);
+            sol = subs(solAi,S2,SecondMomentRatio_now);
             sol = subs(sol,S3,ThirdMomentRatio_now);
             S2S3funcIntact_now = eval(sol);
 
-            sol = subs(solFd,S2,SecondMomentRatio_now);
+            sol = subs(solAd,S2,SecondMomentRatio_now);
             sol = subs(sol,S3,ThirdMomentRatio_now);
             S2S3funcClipped_now = eval(sol);
             
@@ -173,6 +174,8 @@ for seq_now = 1:length(SecondMomentRatio_list)
             Astroke_ratio_intact_all(1:length(Astroke_ratio_intact_now),seq_now) = Astroke_ratio_intact_now;
             Astroke_ratio_clip_intact_all(1:length(Astroke_ratio_clip_intact_now),seq_now) = Astroke_ratio_clip_intact_now;
             
+            clip_type_all(1:length(clip_type_now),seq_now) = clip_type_now;
+   
             
             %% plot
             if plot_on == 1
@@ -404,6 +407,7 @@ Astroke_ratio_clip_mean = nanmean(Astroke_ratio_clip_all)';
 Astroke_ratio_intact_mean = nanmean(Astroke_ratio_intact_all)';
 Astroke_ratio_clip_intact_mean = nanmean(Astroke_ratio_clip_intact_all)';
 
+clip_type_mean = nanmean(clip_type_all)';
 
 %% plot
 % datapoints with color
@@ -433,7 +437,12 @@ for i = 1:length(Astroke_ratio_clip_mean)
     elseif color_nr>size(cmap_Aratio,1)
         color_nr=size(cmap_Aratio,1)
     end
-    plot(S2_ratio_mean(i),S3_ratio_mean(i),'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    
+    if clip_type_mean(i) > 1.5
+        plot(S2_ratio_mean(i),S3_ratio_mean(i),'dk','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    else
+        plot(S2_ratio_mean(i),S3_ratio_mean(i),'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    end
     hold on
 end
 axis equal
@@ -458,7 +467,12 @@ for i = 1:length(Astroke_ratio_intact_mean)
     elseif color_nr>size(cmap_Aratio,1)
         color_nr=size(cmap_Aratio,1)
     end
-    plot(S2_ratio_mean(i),S3_ratio_mean(i),'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    
+    if clip_type_mean(i) > 1.5
+        plot(S2_ratio_mean(i),S3_ratio_mean(i),'dk','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    else
+        plot(S2_ratio_mean(i),S3_ratio_mean(i),'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    end
     hold on
 end
 axis equal
@@ -483,7 +497,13 @@ for i = 1:length(Astroke_ratio_clip_intact_mean)
     elseif color_nr>size(cmap_Aratio,1)
         color_nr=size(cmap_Aratio,1)
     end
-    plot(S2_ratio_mean(i),S3_ratio_mean(i),'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    
+    if clip_type_mean(i) > 1.5
+        plot(S2_ratio_mean(i),S3_ratio_mean(i),'dk','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    else
+        plot(S2_ratio_mean(i),S3_ratio_mean(i),'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    end
+    
     hold on
 end
 axis equal
@@ -508,7 +528,12 @@ for i = 1:length(freqRatio_mean)
     elseif color_nr>size(cmap_Aratio,1)
         color_nr=size(cmap_Aratio,1)
     end
-    plot(S2_ratio_mean(i),S3_ratio_mean(i),'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    
+    if clip_type_mean(i) > 1.5
+        plot(S2_ratio_mean(i),S3_ratio_mean(i),'dk','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    else
+        plot(S2_ratio_mean(i),S3_ratio_mean(i),'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    end
     hold on
 end
 axis equal
@@ -528,16 +553,16 @@ set(h,'xtick',freqRatio_min:(freqRatio_max-freqRatio_min)/2:freqRatio_max)
 mkdir('clippedfly_steadyWBkin_param_figs')
 cd('clippedfly_steadyWBkin_param_figs')
 
-saveas(gcf,['clippedfly_steadyWBkin_strokeAmp_WBfreq2.fig'])
-saveas(gcf,['clippedfly_steadyWBkin_strokeAmp_WBfreq2.png'])
-% saveas(gcf,['clippedfly_steadyWBkin_strokeAmp_WBfreq2.svg'])
-plot2svg(['clippedfly_steadyWBkin_strokeAmp_WBfreq2.svg'])
+saveas(gcf,['clippedfly_steadyWBkin_strokeAmp_WBfreq.fig'])
+saveas(gcf,['clippedfly_steadyWBkin_strokeAmp_WBfreq.png'])
+% saveas(gcf,['clippedfly_steadyWBkin_strokeAmp_WBfreq.svg'])
+plot2svg(['clippedfly_steadyWBkin_strokeAmp_WBfreq.svg'])
 
 cd ..
 
 %% save data
-save('WBdataset_ClipNintact_wingbeat_kin_S2S3ForceFunc.mat','S2_ratio_mean','S3_ratio_mean',...
-    'freq_mean','freqRatio_mean',...
+save('WBdataset_ClipNintact_wingbeat_kin_S2S3AmpFunc.mat','S2_ratio_mean','S3_ratio_mean',...
+    'freq_mean','freqRatio_mean','clip_type_mean',...
     'Astroke_clip_mean','Astroke_intact_mean',...
     'Astroke_ratio_clip_mean','Astroke_ratio_intact_mean','Astroke_ratio_clip_intact_mean');
 

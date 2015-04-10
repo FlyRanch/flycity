@@ -9,7 +9,7 @@ Eqname=dir('roboflyDB_CutAndIntactWing_EqSolved_AnFnM_vs_S2nS3_clippedFlyWBfreq*
 Eqname=Eqname.name;
 load(Eqname)
 
-MODname=dir('WBdataset_steadyNclipMods_S2S3ForceFuncs*')
+MODname=dir('WBdataset_steadyNclipMods_S2S3AmpFuncs*')
 MODname=MODname.name;
 load(MODname)
 
@@ -23,8 +23,8 @@ load(steady_name)
 
 %% plot dir
 if plot_on == 1
-    mkdir('steadyWBkinNwbMODkin_seqs_figs_S2S3ForceFuncs')
-    cd('steadyWBkinNwbMODkin_seqs_figs_S2S3ForceFuncs')
+    mkdir('steadyWBkinNwbMODkin_seqs_figs_S2S3AmpFuncs')
+    cd('steadyWBkinNwbMODkin_seqs_figs_S2S3AmpFuncs')
 end
 
 %% steady wb
@@ -101,11 +101,11 @@ for seq_now = 1:length(SecondMomentRatio_list)
             LengthRatio_now = LengthRatio(wb);
             
             %% S2S3funcs
-            sol = subs(solFi,S2,SecondMomentRatio_now);
+            sol = subs(solAi,S2,SecondMomentRatio_now);
             sol = subs(sol,S3,ThirdMomentRatio_now);
             S2S3funcIntact_now = eval(sol);
 
-            sol = subs(solFd,S2,SecondMomentRatio_now);
+            sol = subs(solAd,S2,SecondMomentRatio_now);
             sol = subs(sol,S3,ThirdMomentRatio_now);
             S2S3funcClipped_now = eval(sol);
             
@@ -528,15 +528,15 @@ set(h,'xtick',freqRatio_min:(freqRatio_max-freqRatio_min)/2:freqRatio_max)
 mkdir('clippedfly_steadyWBkin_param_figs')
 cd('clippedfly_steadyWBkin_param_figs')
 
-saveas(gcf,['clippedfly_steadyWBkin_strokeAmp_WBfreq2.fig'])
-saveas(gcf,['clippedfly_steadyWBkin_strokeAmp_WBfreq2.png'])
-% saveas(gcf,['clippedfly_steadyWBkin_strokeAmp_WBfreq2.svg'])
-plot2svg(['clippedfly_steadyWBkin_strokeAmp_WBfreq2.svg'])
+saveas(gcf,['clippedfly_steadyWBkin_strokeAmp_WBfreq.fig'])
+saveas(gcf,['clippedfly_steadyWBkin_strokeAmp_WBfreq.png'])
+% saveas(gcf,['clippedfly_steadyWBkin_strokeAmp_WBfreq.svg'])
+plot2svg(['clippedfly_steadyWBkin_strokeAmp_WBfreq.svg'])
 
 cd ..
 
 %% save data
-save('WBdataset_ClipNintact_wingbeat_kin_S2S3ForceFunc.mat','S2_ratio_mean','S3_ratio_mean',...
+save('WBdataset_ClipNintact_wingbeat_kin_S2S3AmpFunc.mat','S2_ratio_mean','S3_ratio_mean',...
     'freq_mean','freqRatio_mean',...
     'Astroke_clip_mean','Astroke_intact_mean',...
     'Astroke_ratio_clip_mean','Astroke_ratio_intact_mean','Astroke_ratio_clip_intact_mean');

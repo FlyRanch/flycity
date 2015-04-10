@@ -2,14 +2,11 @@ clc
 clear
 close all
 
-plot_on = 1;
-plot_on = 0;
-
 Eqname=dir('roboflyDB_CutAndIntactWing_EqSolved_AnFnM_vs_S2nS3_clippedFlyWBfreq*')
 Eqname=Eqname.name;
 load(Eqname)
 
-MODname=dir('WBdataset_steadyNclipMods_S2S3ForceFuncs*')
+MODname=dir('WBdataset_steadyNclipMods_S2S3AmpRatioFunc*')
 MODname=MODname.name;
 load(MODname)
 
@@ -21,10 +18,13 @@ steady_name=dir('WBdataset_steady_*')
 steady_name=steady_name.name;
 load(steady_name)
 
+plot_on = 1;
+% plot_on = 0;
+
 %% plot dir
 if plot_on == 1
-    mkdir('steadyWBkinNwbMODkin_seqs_figs_S2S3ForceFuncs')
-    cd('steadyWBkinNwbMODkin_seqs_figs_S2S3ForceFuncs')
+    mkdir('steadyWBkinNwbMODkin_seqs_figs_S2S3AmpRatioFunc')
+    cd('steadyWBkinNwbMODkin_seqs_figs_S2S3AmpRatioFunc')
 end
 
 %% steady wb
@@ -37,13 +37,13 @@ dev_steady = dev_wb_steady_bins_meanCIstd;
 Astroke_steady = max(stroke_steady(:,1)) - min(stroke_steady(:,1));
 
 %% wb MODS
-strokeMOD_S2S3funcClipped = strokeMOD_wb_R_S2S3funcClipped_bins_meanCIstd;
-rotMOD_S2S3funcClipped = pitchMOD_wb_R_S2S3funcClipped_bins_meanCIstd;
-devMOD_S2S3funcClipped = devMOD_wb_R_S2S3funcClipped_bins_meanCIstd;
+strokeMOD_S2S3AmpRatioFuncClipped = strokeMOD_wb_R_S2S3AmpRatioFunc_bins_meanCIstd;
+rotMOD_S2S3AmpRatioFuncClipped = pitchMOD_wb_R_S2S3AmpRatioFunc_bins_meanCIstd;
+devMOD_S2S3AmpRatioFuncClipped = devMOD_wb_R_S2S3AmpRatioFunc_bins_meanCIstd;
 
-strokeMOD_S2S3funcIntact = strokeMOD_wb_L_S2S3funcIntact_bins_meanCIstd;
-rotMOD_S2S3funcIntact = pitchMOD_wb_L_S2S3funcIntact_bins_meanCIstd;
-devMOD_S2S3funcIntact = devMOD_wb_L_S2S3funcIntact_bins_meanCIstd;
+strokeMOD_S2S3AmpRatioFuncIntact = strokeMOD_wb_L_S2S3AmpRatioFunc_bins_meanCIstd;
+rotMOD_S2S3AmpRatioFuncIntact = pitchMOD_wb_L_S2S3AmpRatioFunc_bins_meanCIstd;
+devMOD_S2S3AmpRatioFuncIntact = devMOD_wb_L_S2S3AmpRatioFunc_bins_meanCIstd;
             
 %% loop through SecondMomentRatio's
 SecondMomentRatio_list = unique(SecondMomentRatio);
@@ -61,6 +61,7 @@ Astroke_ratio_clip_all = nan(150,length(SecondMomentRatio_list));
 Astroke_ratio_intact_all = nan(150,length(SecondMomentRatio_list));
 Astroke_ratio_clip_intact_all = nan(150,length(SecondMomentRatio_list));
 
+clip_type_all = nan(150,length(SecondMomentRatio_list));
 
 for seq_now = 1:length(SecondMomentRatio_list)
     
@@ -100,23 +101,19 @@ for seq_now = 1:length(SecondMomentRatio_list)
             LengthIntact_pixels_now = LengthIntact_pixels(wb);
             LengthRatio_now = LengthRatio(wb);
             
-            %% S2S3funcs
-            sol = subs(solFi,S2,SecondMomentRatio_now);
+            %% S2S3AmpRatioFunc
+            sol = subs(solAdAiRatio,S2,SecondMomentRatio_now);
             sol = subs(sol,S3,ThirdMomentRatio_now);
-            S2S3funcIntact_now = eval(sol);
-
-            sol = subs(solFd,S2,SecondMomentRatio_now);
-            sol = subs(sol,S3,ThirdMomentRatio_now);
-            S2S3funcClipped_now = eval(sol);
+            S2S3AmpRatioFunc_now = eval(sol);
             
-            %% WB kin based on S2S3func MODs
-            stroke_S2S3funcIntact_now   = stroke_steady(:,1)    + (nanmean(S2S3funcIntact_now)-S2S3funcIntact_NONclipped) * strokeMOD_S2S3funcIntact(:,1);
-            rot_S2S3funcIntact_now      = rot_steady(:,1)       + (nanmean(S2S3funcIntact_now)-S2S3funcIntact_NONclipped) * rotMOD_S2S3funcIntact(:,1);
-            dev_S2S3funcIntact_now      = dev_steady(:,1)       + (nanmean(S2S3funcIntact_now)-S2S3funcIntact_NONclipped) * devMOD_S2S3funcIntact(:,1);
+            %% WB kin based on S2S3AmpRatioFunc MODs
+            stroke_S2S3AmpRatioFuncIntact_now   = stroke_steady(:,1)    + (nanmean(S2S3AmpRatioFunc_now)-S2S3AmpRatioFunc_NONclipped) * strokeMOD_S2S3AmpRatioFuncIntact(:,1);
+            rot_S2S3AmpRatioFuncIntact_now      = rot_steady(:,1)       + (nanmean(S2S3AmpRatioFunc_now)-S2S3AmpRatioFunc_NONclipped) * rotMOD_S2S3AmpRatioFuncIntact(:,1);
+            dev_S2S3AmpRatioFuncIntact_now      = dev_steady(:,1)       + (nanmean(S2S3AmpRatioFunc_now)-S2S3AmpRatioFunc_NONclipped) * devMOD_S2S3AmpRatioFuncIntact(:,1);
             
-            stroke_S2S3funcClipped_now   = stroke_steady(:,1)    + (nanmean(S2S3funcClipped_now)-S2S3funcClipped_NONclipped) * strokeMOD_S2S3funcClipped(:,1);
-            rot_S2S3funcClipped_now      = rot_steady(:,1)       + (nanmean(S2S3funcClipped_now)-S2S3funcClipped_NONclipped) * rotMOD_S2S3funcClipped(:,1);
-            dev_S2S3funcClipped_now      = dev_steady(:,1)       + (nanmean(S2S3funcClipped_now)-S2S3funcClipped_NONclipped) * devMOD_S2S3funcClipped(:,1);
+            stroke_S2S3AmpRatioFuncClipped_now   = stroke_steady(:,1)    + (nanmean(S2S3AmpRatioFunc_now)-S2S3AmpRatioFunc_NONclipped) * strokeMOD_S2S3AmpRatioFuncClipped(:,1);
+            rot_S2S3AmpRatioFuncClipped_now      = rot_steady(:,1)       + (nanmean(S2S3AmpRatioFunc_now)-S2S3AmpRatioFunc_NONclipped) * rotMOD_S2S3AmpRatioFuncClipped(:,1);
+            dev_S2S3AmpRatioFuncClipped_now      = dev_steady(:,1)       + (nanmean(S2S3AmpRatioFunc_now)-S2S3AmpRatioFunc_NONclipped) * devMOD_S2S3AmpRatioFuncClipped(:,1);
 
             %% body kin data
             vel_now = V_mean_wb(wb);
@@ -173,6 +170,8 @@ for seq_now = 1:length(SecondMomentRatio_list)
             Astroke_ratio_intact_all(1:length(Astroke_ratio_intact_now),seq_now) = Astroke_ratio_intact_now;
             Astroke_ratio_clip_intact_all(1:length(Astroke_ratio_clip_intact_now),seq_now) = Astroke_ratio_clip_intact_now;
             
+            clip_type_all(1:length(clip_type_now),seq_now) = clip_type_now;
+   
             
             %% plot
             if plot_on == 1
@@ -182,8 +181,8 @@ for seq_now = 1:length(SecondMomentRatio_list)
                 plot(stroke_clip_now,'r')
                 hold on
                 plot(stroke_intact_now,'c')
-                plot(stroke_S2S3funcIntact_now(:,1),'b','linewidth',2)
-                plot(stroke_S2S3funcClipped_now(:,1),'color',[1 .5 0],'linewidth',2)
+                plot(stroke_S2S3AmpRatioFuncIntact_now(:,1),'b','linewidth',2)
+                plot(stroke_S2S3AmpRatioFuncClipped_now(:,1),'color',[1 .5 0],'linewidth',2)
 %                 plot(stroke_steady(:,1),'g','linewidth',2)
                 ylim([-90 90])
                 hold off
@@ -192,8 +191,8 @@ for seq_now = 1:length(SecondMomentRatio_list)
                 plot(pitch_wb_clip_now-90,'r')
                 hold on
                 plot(pitch_wb_intact_now-90,'c')
-                plot(rot_S2S3funcIntact_now(:,1)-90,'b','linewidth',2)
-                plot(rot_S2S3funcClipped_now(:,1)-90,'color',[1 .5 0],'linewidth',2)
+                plot(rot_S2S3AmpRatioFuncIntact_now(:,1)-90,'b','linewidth',2)
+                plot(rot_S2S3AmpRatioFuncClipped_now(:,1)-90,'color',[1 .5 0],'linewidth',2)
 %                 plot(rot_steady(:,1)-90,'g','linewidth',2)
                 ylim([-90 90])
                 hold off
@@ -202,8 +201,8 @@ for seq_now = 1:length(SecondMomentRatio_list)
                 plot(dev_wb_clip_now,'r')
                 hold on
                 plot(dev_wb_intact_now,'c')
-                plot(dev_S2S3funcIntact_now(:,1),'b','linewidth',2)
-                plot(dev_S2S3funcClipped_now(:,1),'color',[1 .5 0],'linewidth',2)
+                plot(dev_S2S3AmpRatioFuncIntact_now(:,1),'b','linewidth',2)
+                plot(dev_S2S3AmpRatioFuncClipped_now(:,1),'color',[1 .5 0],'linewidth',2)
 %                 plot(dev_steady(:,1),'g','linewidth',2)
                 ylim([-90 90])
                 hold off
@@ -271,8 +270,8 @@ for seq_now = 1:length(SecondMomentRatio_list)
                 hold on
 %                 plot(t_wb_bin,-nanmean(stroke_clip_now,2),'--k','linewidth',2)
 %                 plot(t_wb_bin,-nanmean(stroke_intact_now,2),'--k','linewidth',2)
-                plot(t_wb_bin,-stroke_S2S3funcIntact_now(:,1),'b','linewidth',2)
-                plot(t_wb_bin,-stroke_S2S3funcClipped_now(:,1),'color',[1 .5 0],'linewidth',2)
+                plot(t_wb_bin,-stroke_S2S3AmpRatioFuncIntact_now(:,1),'b','linewidth',2)
+                plot(t_wb_bin,-stroke_S2S3AmpRatioFuncClipped_now(:,1),'color',[1 .5 0],'linewidth',2)
 %                 plot(stroke_steady(:,1),'g','linewidth',2)
 %                 ylim([-90 90])
                 hold off
@@ -316,8 +315,8 @@ for seq_now = 1:length(SecondMomentRatio_list)
                 hold on
 %                 plot(t_wb_bin,-nanmean(pitch_wb_clip_now,2),'--k','linewidth',2)
 %                 plot(t_wb_bin,-nanmean(pitch_wb_intact_now,2),'--k','linewidth',2)
-                plot(t_wb_bin,-rot_S2S3funcIntact_now(:,1)+90,'b','linewidth',2)
-                plot(t_wb_bin,-rot_S2S3funcClipped_now(:,1)+90,'color',[1 .5 0],'linewidth',2)
+                plot(t_wb_bin,-rot_S2S3AmpRatioFuncIntact_now(:,1)+90,'b','linewidth',2)
+                plot(t_wb_bin,-rot_S2S3AmpRatioFuncClipped_now(:,1)+90,'color',[1 .5 0],'linewidth',2)
 %                 plot(stroke_steady(:,1),'g','linewidth',2)
 %                 ylim([-90 90])
                 hold off
@@ -361,8 +360,8 @@ for seq_now = 1:length(SecondMomentRatio_list)
                 hold on
 %                 plot(t_wb_bin,-nanmean(dev_wb_clip_now,2),'--k','linewidth',2)
 %                 plot(t_wb_bin,-nanmean(dev_wb_intact_now,2),'--k','linewidth',2)
-                plot(t_wb_bin,-dev_S2S3funcIntact_now(:,1),'b','linewidth',2)
-                plot(t_wb_bin,-dev_S2S3funcClipped_now(:,1),'color',[1 .5 0],'linewidth',2)
+                plot(t_wb_bin,-dev_S2S3AmpRatioFuncIntact_now(:,1),'b','linewidth',2)
+                plot(t_wb_bin,-dev_S2S3AmpRatioFuncClipped_now(:,1),'color',[1 .5 0],'linewidth',2)
 %                 plot(stroke_steady(:,1),'g','linewidth',2)
 %                 ylim([-90 90])
                 hold off
@@ -404,6 +403,7 @@ Astroke_ratio_clip_mean = nanmean(Astroke_ratio_clip_all)';
 Astroke_ratio_intact_mean = nanmean(Astroke_ratio_intact_all)';
 Astroke_ratio_clip_intact_mean = nanmean(Astroke_ratio_clip_intact_all)';
 
+clip_type_mean = nanmean(clip_type_all)';
 
 %% plot
 % datapoints with color
@@ -433,7 +433,12 @@ for i = 1:length(Astroke_ratio_clip_mean)
     elseif color_nr>size(cmap_Aratio,1)
         color_nr=size(cmap_Aratio,1)
     end
-    plot(S2_ratio_mean(i),S3_ratio_mean(i),'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    
+    if clip_type_mean(i) > 1.5
+        plot(S2_ratio_mean(i),S3_ratio_mean(i),'dk','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    else
+        plot(S2_ratio_mean(i),S3_ratio_mean(i),'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    end
     hold on
 end
 axis equal
@@ -458,7 +463,12 @@ for i = 1:length(Astroke_ratio_intact_mean)
     elseif color_nr>size(cmap_Aratio,1)
         color_nr=size(cmap_Aratio,1)
     end
-    plot(S2_ratio_mean(i),S3_ratio_mean(i),'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    
+    if clip_type_mean(i) > 1.5
+        plot(S2_ratio_mean(i),S3_ratio_mean(i),'dk','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    else
+        plot(S2_ratio_mean(i),S3_ratio_mean(i),'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    end
     hold on
 end
 axis equal
@@ -483,7 +493,13 @@ for i = 1:length(Astroke_ratio_clip_intact_mean)
     elseif color_nr>size(cmap_Aratio,1)
         color_nr=size(cmap_Aratio,1)
     end
-    plot(S2_ratio_mean(i),S3_ratio_mean(i),'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    
+    if clip_type_mean(i) > 1.5
+        plot(S2_ratio_mean(i),S3_ratio_mean(i),'dk','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    else
+        plot(S2_ratio_mean(i),S3_ratio_mean(i),'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    end
+    
     hold on
 end
 axis equal
@@ -508,7 +524,12 @@ for i = 1:length(freqRatio_mean)
     elseif color_nr>size(cmap_Aratio,1)
         color_nr=size(cmap_Aratio,1)
     end
-    plot(S2_ratio_mean(i),S3_ratio_mean(i),'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    
+    if clip_type_mean(i) > 1.5
+        plot(S2_ratio_mean(i),S3_ratio_mean(i),'dk','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    else
+        plot(S2_ratio_mean(i),S3_ratio_mean(i),'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+    end
     hold on
 end
 axis equal
@@ -528,16 +549,16 @@ set(h,'xtick',freqRatio_min:(freqRatio_max-freqRatio_min)/2:freqRatio_max)
 mkdir('clippedfly_steadyWBkin_param_figs')
 cd('clippedfly_steadyWBkin_param_figs')
 
-saveas(gcf,['clippedfly_steadyWBkin_strokeAmp_WBfreq2.fig'])
-saveas(gcf,['clippedfly_steadyWBkin_strokeAmp_WBfreq2.png'])
-% saveas(gcf,['clippedfly_steadyWBkin_strokeAmp_WBfreq2.svg'])
-plot2svg(['clippedfly_steadyWBkin_strokeAmp_WBfreq2.svg'])
+saveas(gcf,['clippedfly_steadyWBkin_strokeAmp_WBfreq.fig'])
+saveas(gcf,['clippedfly_steadyWBkin_strokeAmp_WBfreq.png'])
+% saveas(gcf,['clippedfly_steadyWBkin_strokeAmp_WBfreq.svg'])
+plot2svg(['clippedfly_steadyWBkin_strokeAmp_WBfreq.svg'])
 
 cd ..
 
 %% save data
-save('WBdataset_ClipNintact_wingbeat_kin_S2S3ForceFunc.mat','S2_ratio_mean','S3_ratio_mean',...
-    'freq_mean','freqRatio_mean',...
+save('WBdataset_ClipNintact_wingbeat_kin_S2S3AmpRatioFunc.mat','S2_ratio_mean','S3_ratio_mean',...
+    'freq_mean','freqRatio_mean','clip_type_mean',...
     'Astroke_clip_mean','Astroke_intact_mean',...
     'Astroke_ratio_clip_mean','Astroke_ratio_intact_mean','Astroke_ratio_clip_intact_mean');
 

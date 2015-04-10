@@ -32,32 +32,32 @@ calc_WB_S2S3funcIntact = 1;
 calc_WB_S2S3funcClipped = 1;
 % calc_WB_S2S3funcClipped = 0;
 
-%% S2S3 Force func settings
-% sol = subs(solFi,S2,SecondMomentRatio);
+%% S2S3 Amplitude func settings
+% sol = subs(solAi,S2,SecondMomentRatio);
 % sol = subs(sol,S3,ThirdMomentRatio);
 % S2S3funcIntact = eval(sol);
 % 
-% sol = subs(solFd,S2,SecondMomentRatio);
+% sol = subs(solAd,S2,SecondMomentRatio);
 % sol = subs(sol,S3,ThirdMomentRatio);
 % S2S3funcClipped = eval(sol);
 % 
 for i = 1: length(SecondMomentRatio)
 %     counter = length(SecondMomentRatio)-i
     
-    sol = subs(solFi,S2,SecondMomentRatio(i));
+    sol = subs(solAi,S2,SecondMomentRatio(i));
     sol = subs(sol,S3,ThirdMomentRatio(i));
     S2S3funcIntact(i,1) = eval(sol);
     
-    sol = subs(solFd,S2,SecondMomentRatio(i));
+    sol = subs(solAd,S2,SecondMomentRatio(i));
     sol = subs(sol,S3,ThirdMomentRatio(i));
     S2S3funcClipped(i,1) = eval(sol);
 end
     
-    sol = subs(solFi,S2,1);
+    sol = subs(solAi,S2,1);
     sol = subs(sol,S3,1);
     S2S3funcIntact_NONclipped = eval(sol);
     
-    sol = subs(solFd,S2,1);
+    sol = subs(solAd,S2,1);
     sol = subs(sol,S3,1);
     S2S3funcClipped_NONclipped = eval(sol);
 
@@ -73,11 +73,11 @@ S2S3funcClipped_cut = std_factor*nanstd(S2S3funcClipped);
 S2norm_plot = 0.5;
 S3norm_plot = 0.4;
 
-sol = subs(solFi,S2,S2norm_plot);
+sol = subs(solAi,S2,S2norm_plot);
 sol = subs(sol,S3,S3norm_plot);
 S2S3funcIntact_plot = S2S3funcIntact_NONclipped-eval(sol);
 
-sol = subs(solFd,S2,S2norm_plot);
+sol = subs(solAd,S2,S2norm_plot);
 sol = subs(sol,S3,S3norm_plot);
 S2S3funcClipped_plot = eval(sol)-S2S3funcClipped_NONclipped;
 
@@ -86,8 +86,9 @@ plot(S2S3funcIntact,S2S3funcClipped,'o')
 hold on
 plot(S2S3funcIntact_NONclipped,S2S3funcClipped_NONclipped,'g*')
 plot(S2S3funcIntact_NONclipped-S2S3funcIntact_plot,S2S3funcClipped_NONclipped+S2S3funcClipped_plot,'r*')
-plot([S2S3funcIntact_NONclipped+S2S3funcIntact_cut S2S3funcIntact_NONclipped+S2S3funcIntact_cut],[S2S3funcClipped_NONclipped S2S3funcClipped_NONclipped+S2S3funcClipped_plot],'-g')
-plot([S2S3funcIntact_NONclipped S2S3funcIntact_NONclipped-S2S3funcIntact_plot],[S2S3funcClipped_NONclipped-S2S3funcClipped_cut S2S3funcClipped_NONclipped-S2S3funcClipped_cut],'-g')
+plot([S2S3funcIntact_NONclipped-S2S3funcIntact_cut S2S3funcIntact_NONclipped-S2S3funcIntact_cut],[S2S3funcClipped_NONclipped+S2S3funcClipped_plot S2S3funcClipped_NONclipped],'-g')
+plot([S2S3funcIntact_NONclipped+S2S3funcIntact_cut S2S3funcIntact_NONclipped+S2S3funcIntact_cut],[S2S3funcClipped_NONclipped+S2S3funcClipped_plot S2S3funcClipped_NONclipped],'-g')
+plot([S2S3funcIntact_NONclipped-S2S3funcIntact_plot S2S3funcIntact_NONclipped+S2S3funcIntact_cut],[S2S3funcClipped_NONclipped+S2S3funcClipped_cut S2S3funcClipped_NONclipped+S2S3funcClipped_cut],'-g')
 legend('all flies','steady non-clipped','plot value','cut-off boundaries')
 xlabel('S2S3funcIntact')
 ylabel('S2S3funcClipped')
@@ -95,9 +96,9 @@ ylabel('S2S3funcClipped')
 mkdir('clippedfly_steadyWBkin_param_figs')
 cd('clippedfly_steadyWBkin_param_figs')
 
-saveas(gca,['S2S3ForceFuncs_realfly_cutoff_n_plot_values.fig'])
-saveas(gca,['S2S3ForceFuncs_realfly_cutoff_n_plot_values.png'])
-plot2svg(['S2S3ForceFuncs_realfly_cutoff_n_plot_values.svg'])
+saveas(gca,['S2S3AmpFuncs_realfly_cutoff_n_plot_values.fig'])
+saveas(gca,['S2S3AmpFuncs_realfly_cutoff_n_plot_values.png'])
+plot2svg(['S2S3AmpFuncs_realfly_cutoff_n_plot_values.svg'])
 
 cd ..
 
@@ -152,14 +153,16 @@ dev_us_steady = dev_us_steady_bins_meanCIstd(:,1);
 %% CALC CLIPPED WB MODS: S2S3funcIntact for intact wing
 if calc_WB_S2S3funcIntact == 1
     
+% calc_wbNORM_wingatt_CLIPPED_S2S3AmpFuncIntact_NOcircmean
+calc_wbNORM_wingatt_CLIPPED_S2S3AmpFuncIntact_NOcircmean_ABS
+
 % % calc_wbNORM_wingatt_CLIPPED_S2S3funcIntact_cutoff
 % calc_wbNORM_wingatt_CLIPPED_S2S3funcIntact_cutoff_NOcircmean
-% calc_wbNORM_wingatt_CLIPPED_S2S3AmpFuncIntact_NOcircmean
-calc_wbNORM_wingatt_CLIPPED_S2S3ForceFuncIntact_NOcircmean
+% calc_wbNORM_wingatt_CLIPPED_S2S3ForceFuncIntact_NOcircmean
 
 if plot_on == 1
-mkdir('WBmod_figs_S2S3ForceFuncIntact')
-cd('WBmod_figs_S2S3ForceFuncIntact')
+mkdir('WBmod_figs_S2S3AmpFuncIntact')
+cd('WBmod_figs_S2S3AmpFuncIntact')
 
 xmin = floor(100*min(S2S3funcIntact(:)))/100;
 xmax = ceil(100*max(S2S3funcIntact(:)))/100;
@@ -282,12 +285,12 @@ if calc_WB_S2S3funcClipped == 1
     
 % % calc_wbNORM_wingatt_CLIPPED_S2S3funcClipped_cutoff
 % calc_wbNORM_wingatt_CLIPPED_S2S3funcClipped_cutoff_NOcircmean
-% calc_wbNORM_wingatt_CLIPPED_S2S3AmpFuncClipped_NOcircmean
-calc_wbNORM_wingatt_CLIPPED_S2S3ForceFuncClipped_NOcircmean
+calc_wbNORM_wingatt_CLIPPED_S2S3AmpFuncClipped_NOcircmean
+% calc_wbNORM_wingatt_CLIPPED_S2S3ForceFuncClipped_NOcircmean
 
 if plot_on == 1
-mkdir('WBmod_figs_S2S3ForceFuncClipped')
-cd('WBmod_figs_S2S3ForceFuncClipped')
+mkdir('WBmod_figs_S2S3AmpFuncClipped')
+cd('WBmod_figs_S2S3AmpFuncClipped')
 
 xmin = floor(100*min(S2S3funcClipped(:)))/100;
 xmax = ceil(100*max(S2S3funcClipped(:)))/100;
@@ -407,7 +410,7 @@ end
 
 %% save all
 if save_on == 1
-    save('WBdataset_steadyNclipMods_S2S3ForceFuncs.mat')
+    save('WBdataset_steadyNclipMods_S2S3AmpFuncs.mat')
 end
 
 
