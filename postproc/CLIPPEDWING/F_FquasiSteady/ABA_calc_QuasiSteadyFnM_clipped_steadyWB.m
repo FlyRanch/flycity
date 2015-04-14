@@ -3,12 +3,7 @@ clc;
 close all
 warning off
 
-addpath('/home/florian/Dropbox/WORK/flytracker/flytracker');
-addpath('/home/florian/Dropbox/WORK/flytracker/flytracker/mex/');
-addpath('/home/florian/Dropbox/WORK/flytracker/flytracker/core/');
-addpath('/home/florian/Dropbox/WORK/flytracker/flytracker/results/');
-
-load('BodyWingModel_WingSections_TotalMean.mat')
+load('bodyNwingModel_4qsModel.mat')
 load('WBdataset_steady_1603WBs.mat')
 
 % load('WBmod_torquebased_Fenhanced_719WBs.mat')
