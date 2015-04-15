@@ -1,4 +1,4 @@
-function [ FM_strkpln, FM_inertia, Vel_wingtip ] = quasi_steady_man_wingkin4( settings, body_model, wing_model, theta_L, eta_L, phi_L, theta_R, eta_R, phi_R, f, rot_on )
+function [ FM_strkpln, Vel_wingtip ] = quasi_steady_FnMnWingkin( settings, body_model, wing_model, theta_L, eta_L, phi_L, theta_R, eta_R, phi_R, f, rot_on )
 
     % Load a_glob and maneuvering wing kinematic functions:
         
@@ -71,7 +71,7 @@ function [ FM_strkpln, FM_inertia, Vel_wingtip ] = quasi_steady_man_wingkin4( se
     
     [ FM_strkpln.FM, ~, ~ ,U_left, U_right, alfa_L, alfa_R, ~, ~ ] = Aerodynamic_forces( kine, body_model, wing_model, rot_on);
      
-    [ ~, FM_inertia ] = Inertia_instantaneous( kine, body_model, wing_model );
+%     [ ~, FM_inertia ] = Inertia_instantaneous( kine, body_model, wing_model );
     
     Vel_wingtip.U_left    = U_left;
     Vel_wingtip.U_right   = U_right;

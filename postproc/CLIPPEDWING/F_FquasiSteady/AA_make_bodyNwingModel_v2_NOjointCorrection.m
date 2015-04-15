@@ -22,41 +22,40 @@ clc
                      0              1              0; ...
                      sin(beta_strk) 0 cos(beta_strk)];
     
-    % Compute dimensions, mass, cg and inertia of body and wing:
-    
-    body_model.mass_fly           = nan(N,1);
-    body_model.mass_body          = nan(N,1);
-    body_model.length             = nan(N,1);
-    body_model.Inertia            = nan(3,3,N);
-    body_model.Joint_left         = nan(N,3);
-    body_model.Joint_right        = nan(N,3);
-    body_model.cg                 = nan(N,3);
-    body_model.x_mod              = nan(21,13,N);
-    body_model.y_mod              = nan(21,13,N);
-    body_model.z_mod              = nan(21,13,N);
-    
-    wing_model.length             = nan(N,1);
-    wing_model.mass               = nan(N,1);
-    wing_model.virtual_mass       = nan(N,1);
-    wing_model.Inertia            = nan(3,3,N);
-    wing_model.virtual_Inertia    = nan(3,3,N);
-    wing_model.area               = nan(N,1);
-    
-    wing_model.wing_cg_L          = nan(N,3);
-    wing_model.y_sect_L           = nan(nr_chord_sect,3,N);
-    wing_model.chords_L           = nan(N,nr_chord_sect);
-    wing_model.x_LE_L             = nan(N,nr_chord_sect);
-    wing_model.x_mod_L            = nan(25,2,N);
-    wing_model.y_mod_L            = nan(25,2,N);
-    wing_model.z_mod_L            = nan(25,2,N);
-    
-    wing_model.wing_cg_R          = nan(N,3);
-    wing_model.y_sect_R           = nan(nr_chord_sect,3,N);
-    wing_model.chords_R           = nan(N,nr_chord_sect);
-    wing_model.x_LE_R             = nan(N,nr_chord_sect);
-    wing_model.x_mod_R            = nan(25,2,N);
-    wing_model.y_mod_R            = nan(25,2,N);
-    wing_model.z_mod_R            = nan(25,2,N);
+%     % Compute dimensions, mass, cg and inertia of body and wing:
+%     body_model.mass_fly           = nan(1);
+%     body_model.mass_body          = nan(1);
+%     body_model.length             = nan(1);
+%     body_model.Inertia            = nan(3,3);
+%     body_model.Joint_left         = nan(3);
+%     body_model.Joint_right        = nan(3);
+%     body_model.cg                 = nan(3);
+%     body_model.x_mod              = nan(21,13);
+%     body_model.y_mod              = nan(21,13);
+%     body_model.z_mod              = nan(21,13);
+%     
+%     wing_model.length             = nan(1);
+%     wing_model.mass               = nan(1);
+%     wing_model.virtual_mass       = nan(1);
+%     wing_model.Inertia            = nan(3,3);
+%     wing_model.virtual_Inertia    = nan(3,3);
+%     wing_model.area               = nan(1);
+%     
+%     wing_model.wing_cg_L          = nan(3);
+%     wing_model.y_sect_L           = nan(nr_chord_sect,3);
+%     wing_model.chords_L           = nan(nr_chord_sect);
+%     wing_model.x_LE_L             = nan(nr_chord_sect);
+%     wing_model.x_mod_L            = nan(25,2);
+%     wing_model.y_mod_L            = nan(25,2);
+%     wing_model.z_mod_L            = nan(25,2);
+%     
+%     wing_model.wing_cg_R          = nan(3);
+%     wing_model.y_sect_R           = nan(nr_chord_sect,3);
+%     wing_model.chords_R           = nan(nr_chord_sect);
+%     wing_model.x_LE_R             = nan(nr_chord_sect);
+%     wing_model.x_mod_R            = nan(25,2);
+%     wing_model.y_mod_R            = nan(25,2);
+%     wing_model.z_mod_R            = nan(25,2);
     
         %% Load body model:        
         
@@ -87,12 +86,13 @@ wing_model.length           = max(wing_model.y_mod_R(:,1))-min(wing_model.y_mod_
 body_model.Joint_left       = body_model.length.*([0.2021 -0.1055 -0.1477]);
 body_model.Joint_right      = body_model.length.*([0.2021 0.1055 -0.1477]);
 
-djoint = 5.5/23 * wing_model.length;
-body_model.Joint_left(2)        = -djoint;
-body_model.Joint_right(2)       = djoint;
+% djoint = 5.5/23 * wing_model.length;
+% body_model.Joint_left(2)        = -djoint;
+% body_model.Joint_right(2)       = djoint;
 
 % body_model.mass_fly        = C_mfly*(wing_model.length/3)^3; % [kg]
 body_model.mass_fly        = Mfly; % [kg]
+body_model.Mg_fly        = Mg_fly; % [kg]
 
 
 %% inertia
@@ -126,35 +126,35 @@ body_model.mass_fly        = Mfly; % [kg]
 %         axis equal
 %         hold off
 
-        body_model.cg                   = cg_body;
-        body_model.Inertia            = I_body;
-        body_model.mass_body              = body_model.mass_fly-2*m_w;
-        body_model.R_strk = Rstr;
-        body_model.beta_strk = beta_strk;
+        body_model.cg                   = cg_body';
+        body_model.Inertia              = I_body;
+        body_model.mass_body            = body_model.mass_fly-2*m_w;
+        body_model.R_strk               = Rstr;
+        body_model.beta_strk            = beta_strk;
 
-        wing_model.mass                   = m_w;
-        wing_model.virtual_mass           = m_v_w;
-        wing_model.Inertia            = I_wing;
-        wing_model.virtual_Inertia    = I_v_wing;
-        wing_model.area                   = area_w;
+        wing_model.mass                 = m_w;
+        wing_model.virtual_mass         = m_v_w;
+        wing_model.Inertia              = I_wing;
+        wing_model.virtual_Inertia      = I_v_wing;
+        wing_model.area                 = area_w;
         wing_model.wing_cg_L            = cg_L;
         wing_model.wing_cg_R            = cg_R;
-        wing_model.y_sect_L           = -y_sect';
+        wing_model.y_sect_L             = -y_sect';
         wing_model.chords_L             = chords;
         wing_model.x_LE_L               = x_LE;
-        wing_model.y_sect_R           = y_sect';
+        wing_model.y_sect_R             = y_sect';
         wing_model.chords_R             = chords;
         wing_model.x_LE_R               = x_LE;
         
-        settings.rho_air = rho_air;
-%         settings.C_mfly = C_mfly;
-        settings.rho_cuticle = rho_cuticle;
-        settings.h_wing = h_wing;
-        settings.nr_chord_sect = nr_chord_sect;
-        settings.nr_timepoints = nr_timepoints;
-        settings.g = g;
-        settings.beta_strk = beta_strk;
-        settings.Rstr = Rstr;
+        settings.rho_air                = rho_air;
+%         settings.C_mfly                = C_mfly;
+        settings.rho_cuticle            = rho_cuticle;
+        settings.h_wing                 = h_wing;
+        settings.nr_chord_sect          = nr_chord_sect;
+        settings.nr_timepoints          = nr_timepoints;
+        settings.g                      = g;
+        settings.beta_strk              = beta_strk;
+        settings.Rstr                   = Rstr;
         
     % Save the structures:
     save(savefile,'body_model','wing_model','settings')

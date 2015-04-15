@@ -1,4 +1,4 @@
-function [ x, y, z, mod_fit ] = load_body_model_v2( xh )
+function [ x, y, z, mod_fit ] = load_body_model_basic2( xh )
 
     % Program that loads and creates body model for certain set of
     % quaternions

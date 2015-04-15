@@ -1,4 +1,4 @@
-function [ FM_strkpln, FM_L, FM_R ,U_left, U_right, alfa_L, alfa_R, alfa_dot_L, alfa_dot_R ] = Aerodynamic_forces( kine, body_model, wing_model, rot_lift_on)
+function [ FM_strkpln, FM_L, FM_R ,U_left, U_right, alfa_L, alfa_R, alfa_dot_L, alfa_dot_R ] = Aerodynamic_forces_atTimeNspanSections( kine, body_model, wing_model, rot_lift_on)
 
 
     % Compute the aerodynamic forces on the wings by means of a
@@ -32,6 +32,7 @@ function [ FM_strkpln, FM_L, FM_R ,U_left, U_right, alfa_L, alfa_R, alfa_dot_L, 
     C_rot           = 1.55;
     
     N = size(u_strk,2);
+    M = size(y_sect_L,2);
     
     nr_sect = length(y_sect_L);
     
@@ -178,129 +179,79 @@ function [ FM_strkpln, FM_L, FM_R ,U_left, U_right, alfa_L, alfa_R, alfa_dot_L, 
     
     end
     
-    
 
-    
-%     for i = 1:N
-%         
-%         for j = 1:nr_sect
+  %% sum values from span sections & Rstrk rotation
+%      for i = 1:N
 %             
-%             if alfa_L(j,i) >= 0
-%                 
-%                 alfa_left        = abs(radtodeg(alfa_L(j,i)));                                                       % [ deg ]
-%                 Cl_left          = 0.225+1.58*sind(2.13*alfa_left-7.2);
-%                 Cd_left          = 1.92-1.55*cosd(2.04*alfa_left-9.82);
-%                 L_trans_L(j,i)   = 1e-3*0.5*rho*chords_L(j)*(UL(1,j,i)^2+UL(3,j,i)^2).*Cl_left*delta_R;         % [ N ]
-%                 D_trans_L(j,i)   = 1e-3*0.5*rho*chords_L(j)*(UL(1,j,i)^2+UL(3,j,i)^2).*Cd_left*delta_R;         % [ N ]
-%                 F_trans_L(j,:,i) = [(L_trans_L(j,i)*sind(alfa_left)-D_trans_L(j,i)*cosd(alfa_left)) ...
-%                                     0 ...
-%                                     -(L_trans_L(j,i)*cosd(alfa_left)+D_trans_L(j,i)*sind(alfa_left))];        % [ N ]
-%                 M_trans_L(j,:,i) = (cross(y_sect_L(:,j),F_trans_L(j,:,i)'))';                                   % [ N*mm ]
-%                 
-%             else
-%                 
-%                 alfa_left        = abs(radtodeg(alfa_L(j,i)));                                                       % [ deg ]
-%                 Cl_left          = 0.225+1.58*sind(2.13*alfa_left-7.2);
-%                 Cd_left          = 1.92-1.55*cosd(2.04*alfa_left-9.82);
-%                 L_trans_L(j,i)   = 1e-3*0.5*rho*chords_L(j)*(UL(1,j,i)^2+UL(3,j,i)^2).*Cl_left*delta_R;         % [ N ]
-%                 D_trans_L(j,i)   = 1e-3*0.5*rho*chords_L(j)*(UL(1,j,i)^2+UL(3,j,i)^2).*Cd_left*delta_R;         % [ N ]
-%                 F_trans_L(j,:,i) = [(L_trans_L(j,i).*sind(alfa_left)-D_trans_L(j,i).*cosd(alfa_left)) ...
-%                                     0 ...
-%                                     (L_trans_L(j,i).*cosd(alfa_left)+D_trans_L(j,i).*sind(alfa_left))];        % [ N ]
-%                 M_trans_L(j,:,i) = (cross(y_sect_L(:,j),F_trans_L(j,:,i)'))';                                   % [ N*mm ]
-%                 
-%             end
+%             FM_L(:,i) = [sum(F_trans_L(:,:,i))'+sum(F_rot_L(:,:,i))'; sum(M_trans_L(:,:,i))'+sum(M_rot_L(:,:,i))'];
+%             FM_R(:,i) = [sum(F_trans_R(:,:,i))'+sum(F_rot_R(:,:,i))'; sum(M_trans_R(:,:,i))'+sum(M_rot_R(:,:,i))'];
 %             
+%             FM_L_trans(:,i)        = [sum(F_trans_L(:,:,i))'; sum(M_trans_L(:,:,i))'];
+%             FM_R_trans(:,i)        = [sum(F_trans_R(:,:,i))'; sum(M_trans_R(:,:,i))'];
 %             
-%             if alfa_R(j,i) >= 0
-%                 
-%                 alfa_right       = abs(radtodeg(alfa_R(j,i)));                                                       % [ deg ]
-%                 Cl_right         = 0.225+1.58*sind(2.13*alfa_right-7.2);
-%                 Cd_right         = 1.92-1.55*cosd(2.04*alfa_right-9.82);
-%                 L_trans_R(j,i)   = 1e-3*0.5*rho*chords_R(j)*(UR(1,j,i)^2+UR(3,j,i)^2).*Cl_right*delta_R;        % [ N ]
-%                 D_trans_R(j,i)   = 1e-3*0.5*rho*chords_R(j)*(UR(1,j,i)^2+UR(3,j,i)^2).*Cd_right*delta_R;        % [ N ]
-%                 F_trans_R(j,:,i) = [(L_trans_R(j,i)*sind(alfa_right)-D_trans_R(j,i)*cosd(alfa_right)) ...
-%                                     0 ...
-%                                     -(L_trans_R(j,i)*cosd(alfa_right)+D_trans_R(j,i)*sind(alfa_right))];      % [ N ]
-%                 M_trans_R(j,:,i) = (cross(y_sect_R(:,j),F_trans_R(j,:,i)'))';                                   % [ N*mm ]
-%                 
-%             else
-%                 
-%                 alfa_right       = abs(radtodeg(alfa_R(j,i)));                                                       % [ deg ]
-%                 Cl_right         = 0.225+1.58*sind(2.13*alfa_right-7.2);
-%                 Cd_right         = 1.92-1.55*cosd(2.04*alfa_right-9.82);
-%                 L_trans_R(j,i)   = 1e-3*0.5*rho*chords_R(j)*(UR(1,j,i)^2+UR(3,j,i)^2).*Cl_right*delta_R;        % [ N ]
-%                 D_trans_R(j,i)   = 1e-3*0.5*rho*chords_R(j)*(UR(1,j,i)^2+UR(3,j,i)^2).*Cd_right*delta_R;        % [ N ]
-%                 F_trans_R(j,:,i) = [(L_trans_R(j,i)*sind(alfa_right)-D_trans_R(j,i)*cosd(alfa_right)) ...
-%                                     0 ...
-%                                     (L_trans_R(j,i)*cosd(alfa_right)+D_trans_R(j,i)*sind(alfa_right))];      % [ N ]
-%                 M_trans_R(j,:,i) = (cross(y_sect_R(:,j),F_trans_R(j,:,i)'))';                                   % [ N*mm ]
-%                 
-%             end
+%             FM_L_rot(:,i)          = [sum(F_rot_L(:,:,i))'; sum(M_rot_L(:,:,i))'];
+%             FM_R_rot(:,i)          = [sum(F_rot_R(:,:,i))'; sum(M_rot_R(:,:,i))'];
 %             
-%             if rot_lift_on == 1
-%             
-%                 F_rot_L(j,:,i) = 1e-3*[ 0 0 C_rot*rho*alfa_dot_L(j,i).*chords_L(j)^2*sqrt(UL(1,j,i)^2+UL(3,j,i)^2)*delta_R];    % [ N ] 
-%                 F_rot_R(j,:,i) = 1e-3*[ 0 0 C_rot*rho*alfa_dot_R(j,i).*chords_R(j)^2*sqrt(UR(1,j,i)^2+UR(3,j,i)^2)*delta_R];    % [ N ]
-% 
-%                 M_rot_L(j,:,i) = (cross(y_sect_L(:,j),F_rot_L(j,:,i)'))';                         % [ N*mm ]
-%                 M_rot_R(j,:,i) = (cross(y_sect_R(:,j),F_rot_R(j,:,i)'))';                         % [ N*mm ]    
-%             
-%             end
-%             
-%         end
-%             
-%     end
-    
-     for i = 1:N
-            
-            FM_L(:,i) = [sum(F_trans_L(:,:,i))'+sum(F_rot_L(:,:,i))'; sum(M_trans_L(:,:,i))'+sum(M_rot_L(:,:,i))'];
-            FM_R(:,i) = [sum(F_trans_R(:,:,i))'+sum(F_rot_R(:,:,i))'; sum(M_trans_R(:,:,i))'+sum(M_rot_R(:,:,i))'];
-            
-            FM_L_trans(:,i)        = [sum(F_trans_L(:,:,i))'; sum(M_trans_L(:,:,i))'];
-            FM_R_trans(:,i)        = [sum(F_trans_R(:,:,i))'; sum(M_trans_R(:,:,i))'];
-            
-            FM_L_rot(:,i)          = [sum(F_rot_L(:,:,i))'; sum(M_rot_L(:,:,i))'];
-            FM_R_rot(:,i)          = [sum(F_rot_R(:,:,i))'; sum(M_rot_R(:,:,i))'];
-            
-            FM_strkpln(1:3,i) = R_strk*RL(:,:,i)'*FM_L(1:3,i)+R_strk*RR(:,:,i)'*FM_R(1:3,i);
-            FM_strkpln(4:6,i) = R_strk*RL(:,:,i)'*FM_L(4:6,i)+R_strk*RR(:,:,i)'*FM_R(4:6,i)+ ...
-                                R_strk*cross((Joint_left-cg_b),(RL(:,:,i)'*FM_L(1:3,i)))+R_strk*cross((Joint_right-cg_b),(RR(:,:,i)'*FM_R(1:3,i)));
-            
-            FM_strkpln_trans(1:3,i) = R_strk*RL(:,:,i)'*FM_L_trans(1:3,i)+R_strk*RR(:,:,i)'*FM_R_trans(1:3,i);
-            FM_strkpln_trans(4:6,i) = R_strk*RL(:,:,i)'*FM_L_trans(4:6,i)+R_strk*RR(:,:,i)'*FM_R_trans(4:6,i)+ ...
-                                R_strk*cross((Joint_left-cg_b),(RL(:,:,i)'*FM_L_trans(1:3,i)))+R_strk*cross((Joint_right-cg_b),(RR(:,:,i)'*FM_R_trans(1:3,i)));
-       
-            FM_strkpln_rot(1:3,i) = R_strk*RL(:,:,i)'*FM_L_rot(1:3,i)+R_strk*RR(:,:,i)'*FM_R_rot(1:3,i);
-            FM_strkpln_rot(4:6,i) = R_strk*RL(:,:,i)'*FM_L_rot(4:6,i)+R_strk*RR(:,:,i)'*FM_R_rot(4:6,i)+ ...
-                                R_strk*cross((Joint_left-cg_b),(RL(:,:,i)'*FM_L_rot(1:3,i)))+R_strk*cross((Joint_right-cg_b),(RR(:,:,i)'*FM_R_rot(1:3,i)));
-
 %             FM_strkpln(1:3,i) = R_strk*RL(:,:,i)'*FM_L(1:3,i)+R_strk*RR(:,:,i)'*FM_R(1:3,i);
 %             FM_strkpln(4:6,i) = R_strk*RL(:,:,i)'*FM_L(4:6,i)+R_strk*RR(:,:,i)'*FM_R(4:6,i)+ ...
-%                                 R_strk*cross([0; Joint_left(2); 0],(RL(:,:,i)'*FM_L(1:3,i)))+R_strk*cross([0; Joint_right(2); 0],(RR(:,:,i)'*FM_R(1:3,i)));
+%                                 R_strk*cross((Joint_left-cg_b),(RL(:,:,i)'*FM_L(1:3,i)))+R_strk*cross((Joint_right-cg_b),(RR(:,:,i)'*FM_R(1:3,i)));
 %             
 %             FM_strkpln_trans(1:3,i) = R_strk*RL(:,:,i)'*FM_L_trans(1:3,i)+R_strk*RR(:,:,i)'*FM_R_trans(1:3,i);
 %             FM_strkpln_trans(4:6,i) = R_strk*RL(:,:,i)'*FM_L_trans(4:6,i)+R_strk*RR(:,:,i)'*FM_R_trans(4:6,i)+ ...
-%                                 R_strk*cross([0; Joint_left(2); 0],(RL(:,:,i)'*FM_L_trans(1:3,i)))+R_strk*cross([0; Joint_right(2); 0],(RR(:,:,i)'*FM_R_trans(1:3,i)));
+%                                 R_strk*cross((Joint_left-cg_b),(RL(:,:,i)'*FM_L_trans(1:3,i)))+R_strk*cross((Joint_right-cg_b),(RR(:,:,i)'*FM_R_trans(1:3,i)));
 %        
 %             FM_strkpln_rot(1:3,i) = R_strk*RL(:,:,i)'*FM_L_rot(1:3,i)+R_strk*RR(:,:,i)'*FM_R_rot(1:3,i);
 %             FM_strkpln_rot(4:6,i) = R_strk*RL(:,:,i)'*FM_L_rot(4:6,i)+R_strk*RR(:,:,i)'*FM_R_rot(4:6,i)+ ...
-%                                 R_strk*cross([0; Joint_left(2); 0],(RL(:,:,i)'*FM_L_rot(1:3,i)))+R_strk*cross([0; Joint_right(2); 0],(RR(:,:,i)'*FM_R_rot(1:3,i)));
+%                                 R_strk*cross((Joint_left-cg_b),(RL(:,:,i)'*FM_L_rot(1:3,i)))+R_strk*cross((Joint_right-cg_b),(RR(:,:,i)'*FM_R_rot(1:3,i)));
 % 
-%             FM_strkpln(1:3,i) = R_strk*RL(:,:,i)'*FM_L(1:3,i)+R_strk*RR(:,:,i)'*FM_R(1:3,i);
-%             FM_strkpln(4:6,i) = R_strk*RL(:,:,i)'*FM_L(4:6,i)+R_strk*RR(:,:,i)'*FM_R(4:6,i)+ ...
-%                                 R_strk*cross(Joint_left,(RL(:,:,i)'*FM_L(1:3,i)))+R_strk*cross(Joint_right,(RR(:,:,i)'*FM_R(1:3,i)));
-%             
-%             FM_strkpln_trans(1:3,i) = R_strk*RL(:,:,i)'*FM_L_trans(1:3,i)+R_strk*RR(:,:,i)'*FM_R_trans(1:3,i);
-%             FM_strkpln_trans(4:6,i) = R_strk*RL(:,:,i)'*FM_L_trans(4:6,i)+R_strk*RR(:,:,i)'*FM_R_trans(4:6,i)+ ...
-%                                 R_strk*cross(Joint_left,(RL(:,:,i)'*FM_L_trans(1:3,i)))+R_strk*cross(Joint_right,(RR(:,:,i)'*FM_R_trans(1:3,i)));
-%        
-%             FM_strkpln_rot(1:3,i) = R_strk*RL(:,:,i)'*FM_L_rot(1:3,i)+R_strk*RR(:,:,i)'*FM_R_rot(1:3,i);
-%             FM_strkpln_rot(4:6,i) = R_strk*RL(:,:,i)'*FM_L_rot(4:6,i)+R_strk*RR(:,:,i)'*FM_R_rot(4:6,i)+ ...
-%                                 R_strk*cross(Joint_left,(RL(:,:,i)'*FM_L_rot(1:3,i)))+R_strk*cross(Joint_right,(RR(:,:,i)'*FM_R_rot(1:3,i)));
-
+% %             FM_strkpln(1:3,i) = R_strk*RL(:,:,i)'*FM_L(1:3,i)+R_strk*RR(:,:,i)'*FM_R(1:3,i);
+% %             FM_strkpln(4:6,i) = R_strk*RL(:,:,i)'*FM_L(4:6,i)+R_strk*RR(:,:,i)'*FM_R(4:6,i)+ ...
+% %                                 R_strk*cross([0; Joint_left(2); 0],(RL(:,:,i)'*FM_L(1:3,i)))+R_strk*cross([0; Joint_right(2); 0],(RR(:,:,i)'*FM_R(1:3,i)));
+% %             
+% %             FM_strkpln_trans(1:3,i) = R_strk*RL(:,:,i)'*FM_L_trans(1:3,i)+R_strk*RR(:,:,i)'*FM_R_trans(1:3,i);
+% %             FM_strkpln_trans(4:6,i) = R_strk*RL(:,:,i)'*FM_L_trans(4:6,i)+R_strk*RR(:,:,i)'*FM_R_trans(4:6,i)+ ...
+% %                                 R_strk*cross([0; Joint_left(2); 0],(RL(:,:,i)'*FM_L_trans(1:3,i)))+R_strk*cross([0; Joint_right(2); 0],(RR(:,:,i)'*FM_R_trans(1:3,i)));
+% %        
+% %             FM_strkpln_rot(1:3,i) = R_strk*RL(:,:,i)'*FM_L_rot(1:3,i)+R_strk*RR(:,:,i)'*FM_R_rot(1:3,i);
+% %             FM_strkpln_rot(4:6,i) = R_strk*RL(:,:,i)'*FM_L_rot(4:6,i)+R_strk*RR(:,:,i)'*FM_R_rot(4:6,i)+ ...
+% %                                 R_strk*cross([0; Joint_left(2); 0],(RL(:,:,i)'*FM_L_rot(1:3,i)))+R_strk*cross([0; Joint_right(2); 0],(RR(:,:,i)'*FM_R_rot(1:3,i)));
+% % 
+% %             FM_strkpln(1:3,i) = R_strk*RL(:,:,i)'*FM_L(1:3,i)+R_strk*RR(:,:,i)'*FM_R(1:3,i);
+% %             FM_strkpln(4:6,i) = R_strk*RL(:,:,i)'*FM_L(4:6,i)+R_strk*RR(:,:,i)'*FM_R(4:6,i)+ ...
+% %                                 R_strk*cross(Joint_left,(RL(:,:,i)'*FM_L(1:3,i)))+R_strk*cross(Joint_right,(RR(:,:,i)'*FM_R(1:3,i)));
+% %             
+% %             FM_strkpln_trans(1:3,i) = R_strk*RL(:,:,i)'*FM_L_trans(1:3,i)+R_strk*RR(:,:,i)'*FM_R_trans(1:3,i);
+% %             FM_strkpln_trans(4:6,i) = R_strk*RL(:,:,i)'*FM_L_trans(4:6,i)+R_strk*RR(:,:,i)'*FM_R_trans(4:6,i)+ ...
+% %                                 R_strk*cross(Joint_left,(RL(:,:,i)'*FM_L_trans(1:3,i)))+R_strk*cross(Joint_right,(RR(:,:,i)'*FM_R_trans(1:3,i)));
+% %        
+% %             FM_strkpln_rot(1:3,i) = R_strk*RL(:,:,i)'*FM_L_rot(1:3,i)+R_strk*RR(:,:,i)'*FM_R_rot(1:3,i);
+% %             FM_strkpln_rot(4:6,i) = R_strk*RL(:,:,i)'*FM_L_rot(4:6,i)+R_strk*RR(:,:,i)'*FM_R_rot(4:6,i)+ ...
+% %                                 R_strk*cross(Joint_left,(RL(:,:,i)'*FM_L_rot(1:3,i)))+R_strk*cross(Joint_right,(RR(:,:,i)'*FM_R_rot(1:3,i)));
+% 
+%      end
+     
+     
+       %% force & torque rotation for all span sections (from wing coord system, to body coord system, to strokeplane coord system)
+     for i = 1:N        % time loop
+         for j = 1:M    % span section loop
+             
+            F_strkpln_trans_L(j,i,:) = R_strk*RL(:,:,i)'*F_trans_L(j,:,i)';
+            M_strkpln_trans_L(j,i,:) = R_strk*RL(:,:,i)'*M_trans_L(j,:,i)';
+            
+            F_strkpln_rot_L(j,i,:) = R_strk*RL(:,:,i)'*F_rot_L(j,:,i)';
+            M_strkpln_rot_L(j,i,:) = R_strk*RL(:,:,i)'*M_rot_L(j,:,i)';
+            
+            F_strkpln_trans_R(j,i,:) = R_strk*RR(:,:,i)'*F_trans_R(j,:,i)';
+            M_strkpln_trans_R(j,i,:) = R_strk*RR(:,:,i)'*M_trans_R(j,:,i)';
+            
+            F_strkpln_rot_R(j,i,:) = R_strk*RR(:,:,i)'*F_rot_R(j,:,i)';
+            M_strkpln_rot_R(j,i,:) = R_strk*RR(:,:,i)'*M_rot_R(j,:,i)';
+         end
      end
-    
+     
+     
+     
+    %% switch y,z position in velocity array
      U_left = zeros(3,N,nr_sect);
      U_right = zeros(3,N,nr_sect);
      
@@ -314,22 +265,74 @@ function [ FM_strkpln, FM_L, FM_R ,U_left, U_right, alfa_L, alfa_R, alfa_dot_L, 
          end
          
      end    
+
      
-%      figure()
-%      hold on
-%      subplot(3,1,1); plot(1:N,FM_strkpln(1,:),'k',1:N,FM_strkpln_trans(1,:),'b',1:N,FM_strkpln_rot(1,:),'r')
-%      subplot(3,1,2); plot(1:N,FM_strkpln(2,:),'k',1:N,FM_strkpln_trans(2,:),'b',1:N,FM_strkpln_rot(2,:),'r')
-%      subplot(3,1,3); plot(1:N,FM_strkpln(3,:),'k',1:N,FM_strkpln_trans(3,:),'b',1:N,FM_strkpln_rot(3,:),'r')
-%      hold off
-% 
-%      figure()
-%      hold on
-%      subplot(3,1,1); plot(1:N,FM_strkpln(4,:),'k',1:N,FM_strkpln_trans(4,:),'b',1:N,FM_strkpln_rot(4,:),'r')
-%      subplot(3,1,2); plot(1:N,FM_strkpln(5,:),'k',1:N,FM_strkpln_trans(5,:),'b',1:N,FM_strkpln_rot(5,:),'r')
-%      subplot(3,1,3); plot(1:N,FM_strkpln(6,:),'k',1:N,FM_strkpln_trans(6,:),'b',1:N,FM_strkpln_rot(6,:),'r')
-%      hold off
-%      
-%      pause
+     %% store data
+     
+     % translational forces
+     FM_L.Fx_strkpln_trans_L(:,:) = F_strkpln_trans_L(:,:,1);
+     FM_L.Fy_strkpln_trans_L(:,:) = F_strkpln_trans_L(:,:,2);
+     FM_L.Fz_strkpln_trans_L(:,:) = F_strkpln_trans_L(:,:,3);
+     
+     FM_L.Mx_strkpln_trans_L(:,:) = M_strkpln_trans_L(:,:,1);
+     FM_L.My_strkpln_trans_L(:,:) = M_strkpln_trans_L(:,:,2);
+     FM_L.Mz_strkpln_trans_L(:,:) = M_strkpln_trans_L(:,:,3);
+     
+     FM_R.Fx_strkpln_trans_R(:,:) = F_strkpln_trans_R(:,:,1);
+     FM_R.Fy_strkpln_trans_R(:,:) = F_strkpln_trans_R(:,:,2);
+     FM_R.Fz_strkpln_trans_R(:,:) = F_strkpln_trans_R(:,:,3);
+     
+     FM_R.Mx_strkpln_trans_R(:,:) = M_strkpln_trans_R(:,:,1);
+     FM_R.My_strkpln_trans_R(:,:) = M_strkpln_trans_R(:,:,2);
+     FM_R.Mz_strkpln_trans_R(:,:) = M_strkpln_trans_R(:,:,3);
+     
+     % rotational forces
+     FM_L.Fx_strkpln_rot_L(:,:) = F_strkpln_rot_L(:,:,1);
+     FM_L.Fy_strkpln_rot_L(:,:) = F_strkpln_rot_L(:,:,2);
+     FM_L.Fz_strkpln_rot_L(:,:) = F_strkpln_rot_L(:,:,3);
+     
+     FM_L.Mx_strkpln_rot_L(:,:) = M_strkpln_rot_L(:,:,1);
+     FM_L.My_strkpln_rot_L(:,:) = M_strkpln_rot_L(:,:,2);
+     FM_L.Mz_strkpln_rot_L(:,:) = M_strkpln_rot_L(:,:,3);
+     
+     FM_R.Fx_strkpln_rot_R(:,:) = F_strkpln_rot_R(:,:,1);
+     FM_R.Fy_strkpln_rot_R(:,:) = F_strkpln_rot_R(:,:,2);
+     FM_R.Fz_strkpln_rot_R(:,:) = F_strkpln_rot_R(:,:,3);
+     
+     FM_R.Mx_strkpln_rot_R(:,:) = M_strkpln_rot_R(:,:,1);
+     FM_R.My_strkpln_rot_R(:,:) = M_strkpln_rot_R(:,:,2);
+     FM_R.Mz_strkpln_rot_R(:,:) = M_strkpln_rot_R(:,:,3);
+
+     % translational+rotational forces
+     FM_L.Fx_strkpln_L(:,:) = F_strkpln_trans_L(:,:,1) +  F_strkpln_rot_L(:,:,1);
+     FM_L.Fy_strkpln_L(:,:) = F_strkpln_trans_L(:,:,2) +  F_strkpln_rot_L(:,:,2);
+     FM_L.Fz_strkpln_L(:,:) = F_strkpln_trans_L(:,:,3) +  F_strkpln_rot_L(:,:,3);
+     
+     FM_R.Fx_strkpln_R(:,:) = F_strkpln_trans_R(:,:,1) +  F_strkpln_rot_R(:,:,1);
+     FM_R.Fy_strkpln_R(:,:) = F_strkpln_trans_R(:,:,2) +  F_strkpln_rot_R(:,:,2);
+     FM_R.Fz_strkpln_R(:,:) = F_strkpln_trans_R(:,:,3) +  F_strkpln_rot_R(:,:,3);
+     
+     FM_L.Mx_strkpln_L(:,:) = M_strkpln_trans_L(:,:,1) +  M_strkpln_rot_L(:,:,1);
+     FM_L.My_strkpln_L(:,:) = M_strkpln_trans_L(:,:,2) +  M_strkpln_rot_L(:,:,2);
+     FM_L.Mz_strkpln_L(:,:) = M_strkpln_trans_L(:,:,3) +  M_strkpln_rot_L(:,:,3);
+     
+     FM_R.Mx_strkpln_R(:,:) = M_strkpln_trans_R(:,:,1) +  M_strkpln_rot_R(:,:,1);
+     FM_R.My_strkpln_R(:,:) = M_strkpln_trans_R(:,:,2) +  M_strkpln_rot_R(:,:,2);
+     FM_R.Mz_strkpln_R(:,:) = M_strkpln_trans_R(:,:,3) +  M_strkpln_rot_R(:,:,3);
+     
+     % mean forces & torques
+     F_mean(:,:) = [sum(F_strkpln_trans_L)+sum(F_strkpln_rot_L)+sum(F_strkpln_trans_R)+sum(F_strkpln_rot_R)];
+     M_mean(:,:) = [sum(M_strkpln_trans_L)+sum(M_strkpln_rot_L)+sum(M_strkpln_trans_R)+sum(M_strkpln_rot_R)];
+     FM_strkpln = [F_mean M_mean];
 
 end
+     
+     
+     
+     
+     
 
+     
+     
+     
+     
