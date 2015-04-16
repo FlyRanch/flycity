@@ -13,7 +13,7 @@ plot_on = 1
 % plot_on = 0
 
 rot_on=1;
-rot_on=0;
+% rot_on=0;
 
 %% constants
 nr_sect = settings.nr_chord_sect;
@@ -130,7 +130,7 @@ for i = 1:(sect_max-sect_min+1)
     rot_R = deg2rad(rot_damaged_now);
 
     % qs forces & torques
-    [ FM_strkpln, Vel_wingtip ] = quasi_steady_FnMnWingkin_atTimeNspanSections( settings, body_model, wing_model, dev_L, rot_L, stroke_L, dev_R, rot_R, stroke_R, freq, rot_on );
+    [ FM_strkpln, ~ ] = quasi_steady_FnMnWingkin_atTimeNspanSections( settings, body_model, wing_model, dev_L, rot_L, stroke_L, dev_R, rot_R, stroke_R, freq, rot_on );
 
     Fx_intact_all = FM_strkpln.FM_L.Fx_strkpln_L;
     Fy_intact_all = FM_strkpln.FM_L.Fy_strkpln_L;
@@ -184,7 +184,7 @@ for i = 1:(sect_max-sect_min+1)
     
     %% WB kin FREQ MODs
 %     freq = f_clipped_fly;
-    freq = freq_steady;
+    freq = freq_now;
 
     stroke_L = deg2rad(stroke_steady);
     dev_L = deg2rad(dev_steady);
@@ -195,7 +195,7 @@ for i = 1:(sect_max-sect_min+1)
     rot_R = deg2rad(rot_steady);
 
     % qs forces & torques
-    [ FM_strkpln, Vel_wingtip ] = quasi_steady_FnMnWingkin_atTimeNspanSections( settings, body_model, wing_model, dev_L, rot_L, stroke_L, dev_R, rot_R, stroke_R, freq, rot_on );
+    [ FM_strkpln, ~ ] = quasi_steady_FnMnWingkin_atTimeNspanSections( settings, body_model, wing_model, dev_L, rot_L, stroke_L, dev_R, rot_R, stroke_R, freq, rot_on );
 
     Fx_intact_freqMOD = FM_strkpln.FM_L.Fx_strkpln_L;
     Fy_intact_freqMOD = FM_strkpln.FM_L.Fy_strkpln_L;
@@ -260,7 +260,7 @@ for i = 1:(sect_max-sect_min+1)
     rot_R = deg2rad(rot_steady);
 
     % qs forces & torques
-    [ FM_strkpln, Vel_wingtip ] = quasi_steady_FnMnWingkin_atTimeNspanSections( settings, body_model, wing_model, dev_L, rot_L, stroke_L, dev_R, rot_R, stroke_R, freq, rot_on );
+    [ FM_strkpln, ~ ] = quasi_steady_FnMnWingkin_atTimeNspanSections( settings, body_model, wing_model, dev_L, rot_L, stroke_L, dev_R, rot_R, stroke_R, freq, rot_on );
 
     Fx_intact_strokeMOD = FM_strkpln.FM_L.Fx_strkpln_L;
     Fy_intact_strokeMOD = FM_strkpln.FM_L.Fy_strkpln_L;
@@ -325,7 +325,7 @@ for i = 1:(sect_max-sect_min+1)
     rot_R = deg2rad(rot_steady);
 
     % qs forces & torques
-    [ FM_strkpln, Vel_wingtip ] = quasi_steady_FnMnWingkin_atTimeNspanSections( settings, body_model, wing_model, dev_L, rot_L, stroke_L, dev_R, rot_R, stroke_R, freq, rot_on );
+    [ FM_strkpln, ~ ] = quasi_steady_FnMnWingkin_atTimeNspanSections( settings, body_model, wing_model, dev_L, rot_L, stroke_L, dev_R, rot_R, stroke_R, freq, rot_on );
 
     Fx_intact_devMOD = FM_strkpln.FM_L.Fx_strkpln_L;
     Fy_intact_devMOD = FM_strkpln.FM_L.Fy_strkpln_L;
@@ -390,7 +390,7 @@ for i = 1:(sect_max-sect_min+1)
     rot_R = deg2rad(rot_damaged_now);
 
     % qs forces & torques
-    [ FM_strkpln, Vel_wingtip ] = quasi_steady_FnMnWingkin_atTimeNspanSections( settings, body_model, wing_model, dev_L, rot_L, stroke_L, dev_R, rot_R, stroke_R, freq, rot_on );
+    [ FM_strkpln, ~ ] = quasi_steady_FnMnWingkin_atTimeNspanSections( settings, body_model, wing_model, dev_L, rot_L, stroke_L, dev_R, rot_R, stroke_R, freq, rot_on );
 
     Fx_intact_rotMOD = FM_strkpln.FM_L.Fx_strkpln_L;
     Fy_intact_rotMOD = FM_strkpln.FM_L.Fy_strkpln_L;
@@ -555,23 +555,65 @@ end
     plot(S2ratios,My_NONdamaged_mean_all-My_NONdamaged_mean_all(S2ratios==1),'*-g')
     plot(S2ratios,Mz_NONdamaged_mean_all,'*-r')
     
-    
+%     % compare MODs
+%     figure
+%     subplot(2,1,1)
+%     hold on
+%     plot(S2ratios,Fz_damaged_mean_all-Fz_NONdamaged_mean_all,'o-k')
+%     plot(S2ratios,Fz_damaged_mean_freqMOD-Fz_NONdamaged_mean_all,'o-b')
+%     plot(S2ratios,Fz_damaged_mean_strokeMOD-Fz_NONdamaged_mean_all,'o-g')
+%     plot(S2ratios,Fz_damaged_mean_devMOD-Fz_NONdamaged_mean_all,'o-r')
+%     plot(S2ratios,Fz_damaged_mean_rotMOD-Fz_NONdamaged_mean_all,'o-c')
+%     
+%     subplot(2,1,2)
+%     hold on
+%     plot(S2ratios,Mx_damaged_mean_all-Mx_NONdamaged_mean_all,'o-k')
+%     plot(S2ratios,Mx_damaged_mean_freqMOD-Mx_NONdamaged_mean_all,'o-b')
+%     plot(S2ratios,Mx_damaged_mean_strokeMOD-Mx_NONdamaged_mean_all,'o-g')
+%     plot(S2ratios,Mx_damaged_mean_devMOD-Mx_NONdamaged_mean_all,'o-r')
+%     plot(S2ratios,Mx_damaged_mean_rotMOD-Mx_NONdamaged_mean_all,'o-c')
+%     
+%     
     % compare MODs
     figure
     subplot(2,1,1)
     hold on
-    plot(S2ratios,Fz_damaged_mean_all-Fz_NONdamaged_mean_all,'o-k')
-    plot(S2ratios,Fz_damaged_mean_freqMOD-Fz_NONdamaged_mean_all,'o-b')
-    plot(S2ratios,Fz_damaged_mean_strokeMOD-Fz_NONdamaged_mean_all,'o-g')
-    plot(S2ratios,Fz_damaged_mean_devMOD-Fz_NONdamaged_mean_all,'o-r')
-    plot(S2ratios,Fz_damaged_mean_rotMOD-Fz_NONdamaged_mean_all,'o-c')
+    plot(S2ratios,Fz_damaged_mean_all,'o-k')
+    plot(S2ratios,Fz_damaged_mean_freqMOD,'o-b')
+    plot(S2ratios,Fz_damaged_mean_strokeMOD,'o-g')
+    plot(S2ratios,Fz_damaged_mean_devMOD,'o-r')
+    plot(S2ratios,Fz_damaged_mean_rotMOD,'o-c')
     
     subplot(2,1,2)
     hold on
-    plot(S2ratios,Mx_damaged_mean_all-Mx_NONdamaged_mean_all,'o-k')
-    plot(S2ratios,Mx_damaged_mean_freqMOD-Mx_NONdamaged_mean_all,'o-b')
-    plot(S2ratios,Mx_damaged_mean_strokeMOD-Mx_NONdamaged_mean_all,'o-g')
-    plot(S2ratios,Mx_damaged_mean_devMOD-Mx_NONdamaged_mean_all,'o-r')
-    plot(S2ratios,Mx_damaged_mean_rotMOD-Mx_NONdamaged_mean_all,'o-c')
+    plot(S2ratios,Mx_damaged_mean_all,'o-k')
+    plot(S2ratios,Mx_damaged_mean_freqMOD,'o-b')
+    plot(S2ratios,Mx_damaged_mean_strokeMOD,'o-g')
+    plot(S2ratios,Mx_damaged_mean_devMOD,'o-r')
+    plot(S2ratios,Mx_damaged_mean_rotMOD,'o-c')
+     
+    % compare MODs
+    
+    Fz_sum = Fz_NONdamaged_mean_freqMOD+Fz_NONdamaged_mean_strokeMOD+Fz_NONdamaged_mean_devMOD+Fz_NONdamaged_mean_rotMOD;
+    Mx_sum = Mx_NONdamaged_mean_freqMOD+Mx_NONdamaged_mean_strokeMOD+Mx_NONdamaged_mean_devMOD+Mx_NONdamaged_mean_rotMOD;
+
+    figure
+    subplot(2,1,1)
+    hold on
+    plot(S2ratios,Fz_NONdamaged_mean_all,'o-k')
+    plot(S2ratios,Fz_sum - Fz_sum(S2ratios==1) + Fz_NONdamaged_mean_all(S2ratios==1),'o--k')
+    plot(S2ratios,Fz_NONdamaged_mean_freqMOD,'o-b')
+    plot(S2ratios,Fz_NONdamaged_mean_strokeMOD,'o-g')
+    plot(S2ratios,Fz_NONdamaged_mean_devMOD,'o-r')
+    plot(S2ratios,Fz_NONdamaged_mean_rotMOD,'o-c')
+    
+    subplot(2,1,2)
+    hold on
+    plot(S2ratios,Mx_NONdamaged_mean_all,'o-k')
+    plot(S2ratios,Mx_sum,'o--k')
+    plot(S2ratios,Mx_NONdamaged_mean_freqMOD,'o-b')
+    plot(S2ratios,Mx_NONdamaged_mean_strokeMOD,'o-g')
+    plot(S2ratios,Mx_NONdamaged_mean_devMOD,'o-r')
+    plot(S2ratios,Mx_NONdamaged_mean_rotMOD,'o-c')
     
     
