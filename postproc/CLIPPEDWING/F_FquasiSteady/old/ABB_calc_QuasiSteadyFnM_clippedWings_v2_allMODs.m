@@ -5,7 +5,7 @@ warning off
 
 load('bodyNwingModel_4qsModel.mat')
 
-loadname=dir('WBdataset_steadyNclipMods_S2S3AmpRatioFunc*')
+loadname=dir('WBdataset_steadyNclipMods_S2S3AmpRatioFunc.mat')
 loadname = loadname.name;
 load(loadname)
 
@@ -535,29 +535,29 @@ end
     
     % ALL MODs VS NO MODs
     figure
-    subplot(2,1,1)
+    subplot(1,2,1)
     hold on
-    plot(S2ratios,Fx_damaged_mean_all,'o-b')
-    plot(S2ratios,Fy_damaged_mean_all,'o-g')
-    plot(S2ratios,Fz_damaged_mean_all-Fz_damaged_mean_all(S2ratios==1),'o-r')
+    plot(S2ratios,Fx_damaged_mean_all,'o--b')
+    plot(S2ratios,Fy_damaged_mean_all,'o--g')
+    plot(S2ratios,Fz_damaged_mean_all-Fz_damaged_mean_all(S2ratios==1),'o--r')
     
-    plot(S2ratios,Fx_NONdamaged_mean_all,'*-b')
-    plot(S2ratios,Fy_NONdamaged_mean_all,'*-g')
-    plot(S2ratios,Fz_NONdamaged_mean_all-Fz_NONdamaged_mean_all(S2ratios==1),'*-r')
+    plot(S2ratios,Fx_NONdamaged_mean_all,'*--b')
+    plot(S2ratios,Fy_NONdamaged_mean_all,'*--g')
+    plot(S2ratios,Fz_NONdamaged_mean_all-Fz_NONdamaged_mean_all(S2ratios==1),'*--r')
     
-    subplot(2,1,2)
+    subplot(1,2,2)
     hold on
-    plot(S2ratios,Mx_damaged_mean_all,'o-b')
-    plot(S2ratios,My_damaged_mean_all-My_damaged_mean_all(S2ratios==1),'o-g')
-    plot(S2ratios,Mz_damaged_mean_all,'o-r')
+    plot(S2ratios,Mx_damaged_mean_all,'o--b')
+    plot(S2ratios,My_damaged_mean_all-My_damaged_mean_all(S2ratios==1),'o--g')
+    plot(S2ratios,Mz_damaged_mean_all,'o--r')
     
-    plot(S2ratios,Mx_NONdamaged_mean_all,'*-b')
-    plot(S2ratios,My_NONdamaged_mean_all-My_NONdamaged_mean_all(S2ratios==1),'*-g')
-    plot(S2ratios,Mz_NONdamaged_mean_all,'*-r')
+    plot(S2ratios,Mx_NONdamaged_mean_all,'*--b')
+    plot(S2ratios,My_NONdamaged_mean_all-My_NONdamaged_mean_all(S2ratios==1),'*--g')
+    plot(S2ratios,Mz_NONdamaged_mean_all,'*--r')
     
 %     % compare MODs
 %     figure
-%     subplot(2,1,1)
+%     subplot(1,2,1)
 %     hold on
 %     plot(S2ratios,Fz_damaged_mean_all-Fz_NONdamaged_mean_all,'o-k')
 %     plot(S2ratios,Fz_damaged_mean_freqMOD-Fz_NONdamaged_mean_all,'o-b')
@@ -565,7 +565,7 @@ end
 %     plot(S2ratios,Fz_damaged_mean_devMOD-Fz_NONdamaged_mean_all,'o-r')
 %     plot(S2ratios,Fz_damaged_mean_rotMOD-Fz_NONdamaged_mean_all,'o-c')
 %     
-%     subplot(2,1,2)
+%     subplot(1,2,2)
 %     hold on
 %     plot(S2ratios,Mx_damaged_mean_all-Mx_NONdamaged_mean_all,'o-k')
 %     plot(S2ratios,Mx_damaged_mean_freqMOD-Mx_NONdamaged_mean_all,'o-b')
@@ -576,7 +576,7 @@ end
 %     
     % compare MODs
     figure
-    subplot(2,1,1)
+    subplot(1,2,1)
     hold on
     plot(S2ratios,Fz_damaged_mean_all,'o-k')
     plot(S2ratios,Fz_damaged_mean_freqMOD,'o-b')
@@ -584,7 +584,7 @@ end
     plot(S2ratios,Fz_damaged_mean_devMOD,'o-r')
     plot(S2ratios,Fz_damaged_mean_rotMOD,'o-c')
     
-    subplot(2,1,2)
+    subplot(1,2,2)
     hold on
     plot(S2ratios,Mx_damaged_mean_all,'o-k')
     plot(S2ratios,Mx_damaged_mean_freqMOD,'o-b')
@@ -598,7 +598,7 @@ end
     Mx_sum = Mx_NONdamaged_mean_freqMOD+Mx_NONdamaged_mean_strokeMOD+Mx_NONdamaged_mean_devMOD+Mx_NONdamaged_mean_rotMOD;
 
     figure
-    subplot(2,1,1)
+    subplot(1,2,1)
     hold on
     plot(S2ratios,Fz_NONdamaged_mean_all,'o-k')
     plot(S2ratios,Fz_sum - Fz_sum(S2ratios==1) + Fz_NONdamaged_mean_all(S2ratios==1),'o--k')
@@ -607,7 +607,7 @@ end
     plot(S2ratios,Fz_NONdamaged_mean_devMOD,'o-r')
     plot(S2ratios,Fz_NONdamaged_mean_rotMOD,'o-c')
     
-    subplot(2,1,2)
+    subplot(1,2,2)
     hold on
     plot(S2ratios,Mx_NONdamaged_mean_all,'o-k')
     plot(S2ratios,Mx_sum,'o--k')

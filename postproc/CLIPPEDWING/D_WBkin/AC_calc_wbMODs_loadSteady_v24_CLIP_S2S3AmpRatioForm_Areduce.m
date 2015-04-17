@@ -125,14 +125,23 @@ dev_wb_steady = dev_wb_steady_bins_meanCIstd(:,1);
 dev_ds_steady = dev_ds_steady_bins_meanCIstd(:,1);
 dev_us_steady = dev_us_steady_bins_meanCIstd(:,1);
 
+%% reduce stroke amplitude due to increased wb freq
+AmpReduceRatio = 0.89;
+
+stroke_wb_steady_max = max(stroke_wb_steady);
+
+stroke_wb_steady    = AmpReduceRatio*(stroke_wb_steady-stroke_wb_steady_max) + stroke_wb_steady_max;
+stroke_ds_steady    = AmpReduceRatio*(stroke_ds_steady-stroke_wb_steady_max) + stroke_wb_steady_max;
+stroke_us_steady    = AmpReduceRatio*(stroke_us_steady-stroke_wb_steady_max) + stroke_wb_steady_max;
+
 %% CALC CLIPPED & INTACT WB MODS: S2S3AmpRatioFunc
 if calc_WB_S2S3AmpRatioFunc == 1
     
     calc_wbNORM_wingatt_CLIPPED_S2S3AmpRatioFunc_NOcircmean
 
 if plot_on == 1
-mkdir('WBmod_figs_S2S3AmpRatioFunc')
-cd('WBmod_figs_S2S3AmpRatioFunc')
+mkdir('WBmod_figs_S2S3AmpRatioFunc_AmpReduce')
+cd('WBmod_figs_S2S3AmpRatioFunc_AmpReduce')
 
 % xmin = floor(100*min(S2S3AmpRatioFunc(:)))/100;
 % xmax = ceil(100*max(S2S3AmpRatioFunc(:)))/100;
@@ -232,7 +241,7 @@ end
 
 %% save all
 if save_on == 1
-    save('WBdataset_steadyNclipMods_S2S3AmpRatioFunc.mat')
+    save('WBdataset_steadyNclipMods_S2S3AmpRatioFunc_AmpReduce.mat')
 end
 
 

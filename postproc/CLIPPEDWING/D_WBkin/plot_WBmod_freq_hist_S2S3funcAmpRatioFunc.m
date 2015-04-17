@@ -11,7 +11,7 @@ hold on
 
 %% variable
 ang_min = 150;
-ang_max = 300;
+ang_max = 250;
 
 subplot(2,2,1)
 var = f_wb_S2S3AmpRatioFunc;

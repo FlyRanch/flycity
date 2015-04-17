@@ -1,4 +1,4 @@
-function [ FM_strkpln, Vel_wingtip ] = quasi_steady_FnMnWingkin( settings, body_model, wing_model, theta_L, eta_L, phi_L, theta_R, eta_R, phi_R, f, rot_on )
+function [ FM_strkpln, Vel_wingtip ] = quasi_steady_FnMnWingkin_atTimeNspanSections( settings, body_model, wing_model, theta_L, eta_L, phi_L, theta_R, eta_R, phi_R, f, rot_on )
 
     % Load a_glob and maneuvering wing kinematic functions:
         

@@ -128,17 +128,14 @@ dev_us_steady = dev_us_steady_bins_meanCIstd(:,1);
 %% CALC CLIPPED & INTACT WB MODS: S2S3AmpRatioFunc
 if calc_WB_S2S3AmpRatioFunc == 1
     
-    calc_wbNORM_wingatt_CLIPPED_S2S3AmpRatioFunc_NOcircmean
+    calc_wbNORM_wingatt_CLIPPED_S2S3AmpRatioFunc_NOcircmean_freq
 
 if plot_on == 1
 mkdir('WBmod_figs_S2S3AmpRatioFunc')
 cd('WBmod_figs_S2S3AmpRatioFunc')
 
-% xmin = floor(100*min(S2S3AmpRatioFunc(:)))/100;
-% xmax = ceil(100*max(S2S3AmpRatioFunc(:)))/100;
-
-xmin = floor(100*min(S2S3AmpRatioFunc_NONclipped))/100;
-xmax =  ceil(100*max(S2S3AmpRatioFunc_NONclipped+S2S3AmpRatioFunc_plot))/100;
+xmin = floor(10*min(S2S3AmpRatioFunc_NONclipped))/10;
+xmax =  ceil(10*max(S2S3AmpRatioFunc))/10;
 
 %% body kin MODs
 %     plot_BODYmod_vel_hist_S2S3AmpRatioFunc
@@ -172,6 +169,43 @@ xmax =  ceil(100*max(S2S3AmpRatioFunc_NONclipped+S2S3AmpRatioFunc_plot))/100;
 %     plot2svg(['WBmod_Fsp_roll_S2S3AmpRatioFunc_',num2str(n_S2S3AmpRatioFunc),'WBs.svg'])
 
 %% WB kin MODs
+    ang_min = 150;
+    ang_max = 250;
+
+%     figure(10)
+%     hold on
+%     plot(S2S3AmpRatioFunc, f_wb,'.g')
+%     plot(S2S3AmpRatioFunc_NONclipped, f_wb_steady,'*r')
+%     plot(S2S3AmpRatioFunc(steady_nr_mean_wb==1), f_wb(steady_nr_mean_wb==1),'.b')
+%     % plot(S2S3AmpRatioFunc_S2S3AmpRatioFunc, f_wb_S2S3AmpRatioFunc,'r.')
+%     legend('steady WBs','parab fit','all wingbeats','NONclipped')
+%     axis([xmin xmax ang_min ang_max])
+%     set(gca,'XTick',xmin:(xmax-xmin)/2:xmax) 
+%     set(gca,'YTick',ang_min:(ang_max-ang_min)/4:ang_max) 
+%     xlabel('S2S3AmpRatioFunc','fontsize',10)
+%     ylabel('wingbeat frequency','fontsize',10)
+% 
+%     saveas(gca,['WBmod_freq_S2S3AmpRatioFunc_parabFit_',num2str(n_S2S3AmpRatioFunc),'WBs.fig'])
+%     saveas(gca,['WBmod_freq_S2S3AmpRatioFunc_parabFit_',num2str(n_S2S3AmpRatioFunc),'WBs.png'])
+%     plot2svg(['WBmod_freq_S2S3AmpRatioFunc_parabFit_',num2str(n_S2S3AmpRatioFunc),'WBs.svg'])
+
+    figure(11)
+    hold on
+    plot(S2S3AmpRatioFunc, f_wb,'.g')
+    plot(S2S3AmpRatioFunc_NONclipped, f_wb_steady,'*r')
+    plot(S2S3AmpRatioFunc(steady_nr_mean_wb==1), f_wb(steady_nr_mean_wb==1),'.b')
+    % plot(S2S3AmpRatioFunc_S2S3AmpRatioFunc, f_wb_S2S3AmpRatioFunc,'r.')
+    legend('steady WBs','asymp fit','all wingbeats','NONclipped')
+    axis([xmin xmax ang_min ang_max])
+    set(gca,'XTick',xmin:(xmax-xmin)/2:xmax) 
+    set(gca,'YTick',ang_min:(ang_max-ang_min)/4:ang_max) 
+    xlabel('S2S3AmpRatioFunc','fontsize',10)
+    ylabel('wingbeat frequency','fontsize',10)
+
+    saveas(gca,['WBmod_freq_S2S3AmpRatioFunc_asympFit_order10_',num2str(n_S2S3AmpRatioFunc),'WBs.fig'])
+    saveas(gca,['WBmod_freq_S2S3AmpRatioFunc_asympFit_order10_',num2str(n_S2S3AmpRatioFunc),'WBs.png'])
+    plot2svg(['WBmod_freq_S2S3AmpRatioFunc_asympFit_order10_',num2str(n_S2S3AmpRatioFunc),'WBs.svg'])
+
     plot_WBmod_freq_hist_S2S3funcAmpRatioFunc
     saveas(gca,['WBmod_freq_S2S3AmpRatioFunc_',num2str(n_S2S3AmpRatioFunc),'WBs.fig'])
     saveas(gca,['WBmod_freq_S2S3AmpRatioFunc_',num2str(n_S2S3AmpRatioFunc),'WBs.png'])
