@@ -206,6 +206,68 @@ xmax =  ceil(10*max(S2S3AmpRatioFunc))/10;
     saveas(gca,['WBmod_freq_S2S3AmpRatioFunc_asympFit_order10_',num2str(n_S2S3AmpRatioFunc),'WBs.png'])
     plot2svg(['WBmod_freq_S2S3AmpRatioFunc_asympFit_order10_',num2str(n_S2S3AmpRatioFunc),'WBs.svg'])
 
+    %% plot freq S2S3AmpRatioFunc
+    cmap_freq=cbrewer('seq','OrRd',100);
+    figure
+%     subplot(2,2,1)
+    hold on
+    plot(S2S3AmpRatioFunc_NONclipped, f_wb_steady,'sk','markersize',8,'markerfacecolor','w')
+    plot([xmin:(xmax-xmin)/99:xmax],feval(freq_S2S3AmpRatioFunc_steadyWBs_asympFit10,[xmin:(xmax-xmin)/99:xmax]),'-k','linewidth',3)
+    
+    N_min = 1;
+    N_max = 40;
+    n=0;
+    
+    f_steadyWB = f_wb(steady_nr_mean_wb==1);
+    S2S3AmpRatioFunc_steadyWB = S2S3AmpRatioFunc(steady_nr_mean_wb==1);
+
+    f_list = unique(f_steadyWB);
+    for i = 1:length(f_list)
+        
+        N_f = find(f_steadyWB == f_list(i));
+        f_plot = f_list(i);
+        
+        S2S3_now = S2S3AmpRatioFunc_steadyWB(N_f);
+        S2S3_list = unique(S2S3_now);
+        
+        for j = 1:length(S2S3_list)
+        
+            N_S2S3 = length(find(S2S3_now == S2S3_list(j)));
+            S2S3_plot = S2S3_list(j);
+            
+            n = n +1;
+            N_all(n,1) = N_S2S3;
+            
+            color_nr = round(99/(N_max-N_min)*(N_S2S3-N_min)+1);
+            if color_nr > 100
+                color_nr = 100;
+            end
+            
+            plot(S2S3_plot, f_plot,'ok','markersize',8,'markerfacecolor',cmap_freq(color_nr,:))
+        end
+    end
+        
+    
+%     legend('NONclipped steady WB','Clipped WBs','asymptotic fit','location','SE')
+    axis([xmin xmax ang_min ang_max])
+    set(gca,'XTick',xmin:(xmax-xmin)/2:xmax) 
+    set(gca,'YTick',ang_min:(ang_max-ang_min)/2:ang_max) 
+    xlabel('S2S3AmpRatioFunc','fontsize',10)
+    ylabel('wingbeat frequency','fontsize',10)
+    axis square
+    
+    colormap(cmap_freq)
+    caxis([N_min N_max])
+    h = colorbar('location','northoutside'); 
+    title(h,'#wingbeats')
+    set(h,'xtick',N_min:(N_max-N_min)/2:N_max)
+
+    saveas(gca,['WBmod_freq_S2S3AmpRatioFunc_asympFit_order10_',num2str(n_S2S3AmpRatioFunc),'WBs_MSfig.fig'])
+    saveas(gca,['WBmod_freq_S2S3AmpRatioFunc_asympFit_order10_',num2str(n_S2S3AmpRatioFunc),'WBs_MSfig.png'])
+    plot2svg(['WBmod_freq_S2S3AmpRatioFunc_asympFit_order10_',num2str(n_S2S3AmpRatioFunc),'WBs_MSfig.svg'])
+    
+    %% plot linear MODs
+    
     plot_WBmod_freq_hist_S2S3funcAmpRatioFunc
     saveas(gca,['WBmod_freq_S2S3AmpRatioFunc_',num2str(n_S2S3AmpRatioFunc),'WBs.fig'])
     saveas(gca,['WBmod_freq_S2S3AmpRatioFunc_',num2str(n_S2S3AmpRatioFunc),'WBs.png'])

@@ -592,7 +592,7 @@ f_wb = mean([f_wb_L,f_wb_R]')';
 %     figure(10)
 % end
 % [freq_S2S3AmpRatioFunc_steadyWBs_parabFit, freq_S2S3AmpRatioFunc_steadyWBs_parabFit_gof] = freq_S2S3AmpRatio_parab_fit_fsteady(S2S3AmpRatioFunc(steady_nr_mean_wb==1), f_wb(steady_nr_mean_wb==1), plot_on);
-
+% 
 if plot_on == 1
     figure(11)
     hold on

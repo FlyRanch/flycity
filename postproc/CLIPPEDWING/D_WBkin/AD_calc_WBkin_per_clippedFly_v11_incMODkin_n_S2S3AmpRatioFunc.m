@@ -464,12 +464,12 @@ freqRatio_max = 1.25;
 freqRatio_min = .75;
 
 %% stroke amplitude ratios: measured, model & MODvals
-Aratio_max = 1.25;
+Aratio_max = 1.3;
 Aratio_min = 1;
 
-figure
 % Ad/Ai model(x) VS measurement(y) VS MODvals(color)
-subplot(2,2,1)
+figure
+% subplot(2,2,1)
 for i = 1:length(Astroke_ratio_clip_intact_mean)
     color_nr = round(99/(Aratio_max-Aratio_min)*(AstrokeRatio_S2S3AmpRatioFunc_all(i)-Aratio_min)+1);
     if color_nr<1
@@ -479,9 +479,11 @@ for i = 1:length(Astroke_ratio_clip_intact_mean)
     end
     
     if clip_type_mean(i) > 1.5
-        errorbar(S2S3AmpRatioFunc_all(i),Astroke_ratio_clip_intact_mean(i),Astroke_ratio_clip_intact_ste(i),'dk','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+%         errorbar(S2S3AmpRatioFunc_all(i),Astroke_ratio_clip_intact_mean(i),Astroke_ratio_clip_intact_ste(i),'dk','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',8)
+        plot(S2S3AmpRatioFunc_all(i),Astroke_ratio_clip_intact_mean(i),'dk','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',8)
     else
-        errorbar(S2S3AmpRatioFunc_all(i),Astroke_ratio_clip_intact_mean(i),Astroke_ratio_clip_intact_ste(i),'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',5)
+%         errorbar(S2S3AmpRatioFunc_all(i),Astroke_ratio_clip_intact_mean(i),Astroke_ratio_clip_intact_ste(i),'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',8)
+        plot(S2S3AmpRatioFunc_all(i),Astroke_ratio_clip_intact_mean(i),'ok','markerfacecolor',cmap_Aratio(color_nr,:),'markersize',8)
     end
     
     hold on
@@ -500,8 +502,15 @@ h = colorbar('location','northoutside');
 title(h,'Ad/Ai MOD')
 set(h,'xtick',Aratio_min:(Aratio_max-Aratio_min)/2:Aratio_max)
 
+% save fig
+saveas(gcf,['clippedfly_steadyWBkin_strokeAmpRatio_model_realFly_MODfunc.fig'])
+saveas(gcf,['clippedfly_steadyWBkin_strokeAmpRatio_model_realFly_MODfunc.png'])
+% saveas(gcf,['clippedfly_steadyWBkin_strokeAmpRatio_model_realFly_MODfunc2.svg'])
+plot2svg(['clippedfly_steadyWBkin_strokeAmpRatio_model_realFly_MODfunc.svg'])
+
 % Ad/Ai model(x) VS MODvals(y) VS measurement(color)
-subplot(2,2,2)
+figure
+% subplot(2,2,2)
 for i = 1:length(Astroke_ratio_clip_intact_mean)
     color_nr = round(99/(Aratio_max-Aratio_min)*(Astroke_ratio_clip_intact_mean(i)-Aratio_min)+1);
     if color_nr<1
