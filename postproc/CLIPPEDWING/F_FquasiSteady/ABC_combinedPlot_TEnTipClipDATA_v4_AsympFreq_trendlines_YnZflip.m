@@ -197,7 +197,7 @@ freq_asymFitNr = 10;
     ylabel('normalized forces F/mg')
     axis([0.5 1 0 1])
     set(gca,'xtick',0:.5:1)
-    set(gca,'ytick',-1.5:.25:1)
+    set(gca,'ytick',0:1:1)
     
     subplot(1,2,2)
     hold on
@@ -213,7 +213,7 @@ freq_asymFitNr = 10;
     ylabel('normalized torques T/mgl')
     axis([0.5 1 -.05 .15])
     set(gca,'xtick',0:.5:1)
-    set(gca,'ytick',-.15:.05:.2)    
+    set(gca,'ytick',-.05:.05:.15)    
     
     % compare MODs -Fz & Mx
     
@@ -247,7 +247,7 @@ freq_asymFitNr = 10;
     ylabel('normalized roll torque Tx/mgl')
     axis([0.5 1 0 .2])
     set(gca,'xtick',0:.5:1)
-    set(gca,'ytick',-.25:.25:.3)    
+    set(gca,'ytick',-.2:.2:.2)    
 
     % compare MODs: -Fy & -Mz
     
