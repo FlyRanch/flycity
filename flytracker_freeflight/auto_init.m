@@ -109,11 +109,13 @@ for j = 1
 
             T_body = data.kine.body.data.v_trans(:,frame);
 
-            %Calculation translation vector -q_body*T10*q_body` + T_body
-            %T10 is the approximate location of tailpt in our generative model
-            %It is the next to last cross-section of model at the dorsal edge
-            [xbody,ybody,zbody,s,th,X,Frenet,T10] = flybodymod(params.bodyctr,params.bodyrad,params.bodylen,PAR);
-
+             %% !!! 20150604 FTMmod: body model needs to be scaled !!!
+             %Calculation translation vector -q_body*T10*q_body` + T_body
+             %T10 is the approximate location of tailpt in our generative model
+             %It is the next to last cross-section of model at the dorsal edge
+            [xbody,ybody,zbody,s,th,X,Frenet,T10] = flybodymod(params.bodyctr,params.bodyrad,params.bodyscale*params.bodylen,PAR);
+%             [xbody,ybody,zbody,s,th,X,Frenet,T10] = flybodymod(params.bodyctr,params.bodyrad,params.bodylen,PAR);
+            
             %Say T10 is right on the tip of the thorax
             T10 = [xbody(1,1) ybody(1,1) zbody(1,1)];
             T10 = -T10;
