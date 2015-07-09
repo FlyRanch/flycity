@@ -16,7 +16,7 @@ crop_on = 1
 % name
 dir_now = cd;
 
-camnr = dir_now(43);
+camnr = dir_now(end-9);
 fig_name = ['cam' camnr '_filteredREV']
 dir_name = [fig_name,'_',dir_now(end-21:end-14),dir_now(end-4:end)];
 
@@ -28,15 +28,15 @@ cd(dir_now)
 
 % im #s
 bg_nr = 1;
-bg_nr = 5588;
+% bg_nr = 5588;
 % bg_nr = 5589;
 
 start = 1;
 % start = 1000;
-start = 1700;
+start = 795;
 
 stop = 5588;
-stop = 3300;
+stop = 3000;
 
 skip = 1;
 % skip = 3;
@@ -51,10 +51,10 @@ if str2num(camnr) == 1
     y_max = 800;
 
 elseif str2num(camnr) == 2
-    x_min = 51;
-    x_max = 750;
-    y_min = 201;
-    y_max = 800;
+    x_min = 201;
+    x_max = 600;
+    y_min = 601;
+    y_max = 900;
 
 elseif str2num(camnr) == 3
     x_min = 1;
