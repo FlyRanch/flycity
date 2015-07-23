@@ -1,5 +1,5 @@
 
-figure(1)
+figure(fig_nr)
 % subplot(1,2,2)
 % title('stroke amplitude ratios @ non-clipped wingbeat freq')
 % axis off
@@ -34,7 +34,7 @@ h = colorbar('location','northoutside');
 title(h,'Aratio intact wing') 
 set(h,'xtick',A_min:(A_max-A_min)/2:A_max)
 
-figure(7)
+figure(fig_nr+10)
 subplot(1,2,1)
 ezsurf(solAdAiRatio,[S2_min,S2_max,S3_min,S3_max])
 view(2)
@@ -45,7 +45,7 @@ title([])
 set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
 set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
 caxis([AdAiRatio_min AdAiRatio_max])
-colormap(cmap_surf)
+colormap(cmap_BGBr)
 h = colorbar('location','northoutside'); 
 title(h,'Adamaged/Aintact') 
 set(h,'xtick',AdAiRatio_min:(AdAiRatio_max-AdAiRatio_min)/2:AdAiRatio_max)
