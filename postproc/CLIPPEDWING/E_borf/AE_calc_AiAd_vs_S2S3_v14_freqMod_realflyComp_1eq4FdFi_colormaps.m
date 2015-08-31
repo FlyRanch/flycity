@@ -56,16 +56,27 @@ cmap_BuRd_edge(end,:) = [0 0 0];
 
 cmap_Aratio = cmap_BuRd;
 
-%% colormap for A+: pink to white to green
-cmap_BrBG =cbrewer('div','BrBG',100);
-cmap_BGBr = flipud(cmap_BrBG);
+%% colormap for A+: reds
+% cmap_Reds =cbrewer('seq','Reds',100);
+% cmap_AdAi = cmap_Reds;
+% 
+% cmap_YlOrRd =cbrewer('seq','YlOrRd',100);
+% cmap_AdAi = cmap_YlOrRd;
 
-% black at edges of cmap
-cmap_BGBr_edge = cmap_BGBr;
-cmap_BGBr_edge(1,:) = [0 0 0];
-cmap_BGBr_edge(end,:) = [0 0 0];
+cmap_hot =colormap(hot(100));
+cmap_hot = flipud(cmap_hot);
+cmap_AdAi = cmap_hot;
 
-cmap_AdAi = cmap_BGBr;
+% %% colormap for A+: pink to white to green
+% cmap_BrBG =cbrewer('div','BrBG',100);
+% cmap_BGBr = flipud(cmap_BrBG);
+% 
+% % black at edges of cmap
+% cmap_BGBr_edge = cmap_BGBr;
+% cmap_BGBr_edge(1,:) = [0 0 0];
+% cmap_BGBr_edge(end,:) = [0 0 0];
+% 
+% cmap_AdAi = cmap_BGBr;
 
 %% colormap for Forces: purple to white to green
 cmap_PRGn =cbrewer('div','PRGn',100);
@@ -291,16 +302,27 @@ cmap_BuRd_edge(end,:) = [0 0 0];
 
 cmap_Aratio = cmap_BuRd;
 
-%% colormap for A+: pink to white to green
-cmap_BrBG =cbrewer('div','BrBG',100);
-cmap_BGBr = flipud(cmap_BrBG);
+%% colormap for A+: reds
+% cmap_Reds =cbrewer('seq','Reds',100);
+% cmap_AdAi = cmap_Reds;
+% 
+% cmap_YlOrRd =cbrewer('seq','YlOrRd',100);
+% cmap_AdAi = cmap_YlOrRd;
 
-% black at edges of cmap
-cmap_BGBr_edge = cmap_BGBr;
-cmap_BGBr_edge(1,:) = [0 0 0];
-cmap_BGBr_edge(end,:) = [0 0 0];
+cmap_hot =colormap(hot(100));
+cmap_hot = flipud(cmap_hot);
+cmap_AdAi = cmap_hot;
 
-cmap_AdAi = cmap_BGBr;
+% %% colormap for A+: pink to white to green
+% cmap_BrBG =cbrewer('div','BrBG',100);
+% cmap_BGBr = flipud(cmap_BrBG);
+% 
+% % black at edges of cmap
+% cmap_BGBr_edge = cmap_BGBr;
+% cmap_BGBr_edge(1,:) = [0 0 0];
+% cmap_BGBr_edge(end,:) = [0 0 0];
+% 
+% cmap_AdAi = cmap_BGBr;
 
 %% colormap for Forces: purple to white to green
 cmap_PRGn =cbrewer('div','PRGn',100);
@@ -539,7 +561,7 @@ figure(112)
 saveas(gcf,'Mx_vs_S2nS3_cutWBfreq_LinSurfFitInterac.fig')
 saveas(gcf,'Mx_vs_S2nS3_cutWBfreq_LinSurfFitInterac.png')
 % saveas(gcf,'Mx_vs_S2nS3_cutWBfreq_LinSurfFitInterac.svg')
-plot2svg('Mx_vs_S2nS3_cutWBfreq_LinSurfFitInterac.svg')
+% plot2svg('Mx_vs_S2nS3_cutWBfreq_LinSurfFitInterac.svg')
 
 figure(103)
 saveas(gcf,'Fd_vs_S2nS3_cutWBfreq_LinSurfFitInterac.fig')

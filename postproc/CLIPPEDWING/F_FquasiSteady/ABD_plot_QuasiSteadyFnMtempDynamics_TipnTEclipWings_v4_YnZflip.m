@@ -3,8 +3,12 @@ clc;
 close all
 warning off
 
+
+freq_asymFitNr = 10;
+peakloc = 0;
+
 %% Tip clip    
-load(['allMODs_TipClip_freqAsym10.mat'])
+load(['allMODs_TipClip_freqAsym',num2str(freq_asymFitNr),'_peakloc',num2str(peakloc),'.mat'])
     
     figure(1)
     subplot(2,1,1)
@@ -168,8 +172,8 @@ load(['allMODs_TipClip_freqAsym10.mat'])
     set(gca,'ytick',-90:90:90)    
     
 %% TE clip    
-load(['allMODs_TEclip_freqAsym10.mat'])
-    
+load(['allMODs_TEClip_freqAsym',num2str(freq_asymFitNr),'_peakloc',num2str(peakloc),'.mat'])
+
     figure(2)
     subplot(2,1,1)
     hold on

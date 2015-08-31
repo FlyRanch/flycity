@@ -516,6 +516,10 @@ cmap_freq = cmap_GyRd;
 % % freq colormap: jet
 % cmap_freq = jet(100);
 
+cmap_AR = cbrewer('seq','Reds',100);
+cmap_AR = hot(100);
+cmap_AR = flipud(cmap_AR);
+
 S2norm_min = .5;
 S2norm_max = 1;
 S3norm_min = .5;
@@ -535,10 +539,10 @@ r2_min = 1.4e-3;
 r2_max = 2e-3;
 r3_min = 1.4e-3;
 r3_max = 2e-3;
-AR_min = 0;
+AR_min = 2;
 AR_max = 6;
 
-%% r2 & r3 NON-normailzed VS freq_clippedfly & AR
+%% r2 & r3 NON-normailzed VS freq_clippedfly
 figure
 
 % freq
@@ -579,62 +583,8 @@ h = colorbar('location','northoutside');
 title(h,'freq/freq_s_t_e_a_d_y')
 set(h,'xtick',freqRatio_min:(freqRatio_max-freqRatio_min)/2:freqRatio_max)
 
-% wing AR
+%% S2 & S3 NON-normailzed VS freq_clippedfly
 subplot(2,2,4)
-
-for i = 1:length(AR_Clipped_mean)
-    color_nr_clipped = round(99/(AR_max-AR_min)*(AR_Clipped_mean(i)-AR_min)+1);
-    color_nr_intact = round(99/(AR_max-AR_min)*(AR_Intact_mean(i)-AR_min)+1);
-    
-    if color_nr_clipped<1
-        color_nr_clipped=1
-    elseif color_nr_clipped>size(cmap_freq,1)
-        color_nr_clipped=size(cmap_freq,1)
-    end
-    
-    if color_nr_intact<1
-        color_nr_intact=1
-    elseif color_nr_intact>size(cmap_freq,1)
-        color_nr_intact=size(cmap_freq,1)
-    end
-    
-    plot(r2_Intact_mean(i),r3_Intact_mean(i),'sk','markerfacecolor',cmap_freq(color_nr_intact,:),'markersize',6)
-    if clip_type_mean(i) > 1.5
-        plot(r2_Clipped_mean(i),r3_Clipped_mean(i),'dk','markerfacecolor',cmap_freq(color_nr_clipped,:),'markersize',8)
-    else
-        plot(r2_Clipped_mean(i),r3_Clipped_mean(i),'ok','markerfacecolor',cmap_freq(color_nr_clipped,:),'markersize',8)
-    end
-    hold on
-end
-axis equal
-% axis square
-axis tight
-axis([r2_min,r2_max,r3_min,r3_max])
-set(gca,'xtick',r2_min:(r2_max-r2_min):r2_max)
-set(gca,'ytick',r3_min:(r3_max-r3_min):r3_max)
-xlabel('r_2')
-ylabel('r_3')
-colormap(cmap_freq)
-caxis([AR_min AR_max])
-
-subplot(2,2,2)
-colormap(cmap_freq)
-caxis([AR_min AR_max])
-h = colorbar('location','northoutside'); 
-title(h,'Wing AR')
-set(h,'xtick',AR_min:(AR_max-AR_min):AR_max)
-
-% save fig
-saveas(gcf,['clippedfly_steadyWBkin_r2nr3_vs_WBfreqnAR.fig'])
-saveas(gcf,['clippedfly_steadyWBkin_r2nr3_vs_WBfreqnAR.png'])
-% saveas(gcf,['clippedfly_steadyWBkin_r2nr3_vs_WBfreqnAR.svg'])
-plot2svg(['clippedfly_steadyWBkin_r2nr3_vs_WBfreqnAR.svg'])
-
-%% S2 & S3 NON-normailzed VS freq_clippedfly & WingArea
-figure
-
-% freq
-subplot(2,2,3)
 color_nr_steady = round(99/(freqRatio_max-freqRatio_min)*(1-freqRatio_min)+1);
 
 for i = 1:length(freqRatio_mean)
@@ -664,37 +614,89 @@ ylabel('S_3')
 colormap(cmap_freq)
 caxis([freqRatio_min freqRatio_max])
 
-subplot(2,2,1)
+subplot(2,2,2)
 colormap(cmap_freq)
 caxis([freqRatio_min freqRatio_max])
 h = colorbar('location','northoutside'); 
 title(h,'freq/freq_s_t_e_a_d_y')
 set(h,'xtick',freqRatio_min:(freqRatio_max-freqRatio_min)/2:freqRatio_max)
 
-% wing area
-subplot(2,2,4)
+% save fig
+saveas(gcf,['clippedfly_steadyWBkin_r2nr3NS2nS3_vs_WBfreq.fig'])
+saveas(gcf,['clippedfly_steadyWBkin_r2nr3NS2nS3_vs_WBfreq.png'])
+% saveas(gcf,['clippedfly_steadyWBkin_r2nr3NS2nS3_vs_WBfreq.svg'])
+plot2svg(['clippedfly_steadyWBkin_r2nr3NS2nS3_vs_WBfreq.svg'])
 
-for i = 1:length(Area_Clipped_mean)
-    color_nr_clipped = round(99/(Area_max-Area_min)*(Area_Clipped_mean(i)-Area_min)+1);
-    color_nr_intact = round(99/(Area_max-Area_min)*(Area_Intact_mean(i)-Area_min)+1);
+%% r2 & r3 NON-normailzed VS AR
+figure
+subplot(2,2,3)
+
+for i = 1:length(AR_Clipped_mean)
+    color_nr_clipped = round(99/(AR_max-AR_min)*(AR_Clipped_mean(i)-AR_min)+1);
+    color_nr_intact = round(99/(AR_max-AR_min)*(AR_Intact_mean(i)-AR_min)+1);
     
     if color_nr_clipped<1
         color_nr_clipped=1
-    elseif color_nr_clipped>size(cmap_freq,1)
-        color_nr_clipped=size(cmap_freq,1)
+    elseif color_nr_clipped>size(cmap_AR,1)
+        color_nr_clipped=size(cmap_AR,1)
     end
     
     if color_nr_intact<1
         color_nr_intact=1
-    elseif color_nr_intact>size(cmap_freq,1)
-        color_nr_intact=size(cmap_freq,1)
+    elseif color_nr_intact>size(cmap_AR,1)
+        color_nr_intact=size(cmap_AR,1)
     end
     
-    plot(S2_Intact_mean(i),S3_Intact_mean(i),'sk','markerfacecolor',cmap_freq(color_nr_intact,:),'markersize',6)
+    plot(r2_Intact_mean(i),r3_Intact_mean(i),'sk','markerfacecolor',cmap_AR(color_nr_intact,:),'markersize',6)
     if clip_type_mean(i) > 1.5
-        plot(S2_Clipped_mean(i),S3_Clipped_mean(i),'dk','markerfacecolor',cmap_freq(color_nr_clipped,:),'markersize',8)
+        plot(r2_Clipped_mean(i),r3_Clipped_mean(i),'dk','markerfacecolor',cmap_AR(color_nr_clipped,:),'markersize',8)
     else
-        plot(S2_Clipped_mean(i),S3_Clipped_mean(i),'ok','markerfacecolor',cmap_freq(color_nr_clipped,:),'markersize',8)
+        plot(r2_Clipped_mean(i),r3_Clipped_mean(i),'ok','markerfacecolor',cmap_AR(color_nr_clipped,:),'markersize',8)
+    end
+    hold on
+end
+axis equal
+% axis square
+axis tight
+axis([r2_min,r2_max,r3_min,r3_max])
+set(gca,'xtick',r2_min:(r2_max-r2_min):r2_max)
+set(gca,'ytick',r3_min:(r3_max-r3_min):r3_max)
+xlabel('r_2')
+ylabel('r_3')
+colormap(cmap_AR)
+caxis([AR_min AR_max])
+
+subplot(2,2,1)
+colormap(cmap_AR)
+caxis([AR_min AR_max])
+h = colorbar('location','northoutside'); 
+title(h,'Wing AR')
+set(h,'xtick',AR_min:(AR_max-AR_min):AR_max)
+
+%% S2 & S3 NON-normailzed VS AR
+subplot(2,2,4)
+
+for i = 1:length(AR_Clipped_mean)
+    color_nr_clipped = round(99/(AR_max-AR_min)*(AR_Clipped_mean(i)-AR_min)+1);
+    color_nr_intact = round(99/(AR_max-AR_min)*(AR_Intact_mean(i)-AR_min)+1);
+    
+    if color_nr_clipped<1
+        color_nr_clipped=1
+    elseif color_nr_clipped>size(cmap_AR,1)
+        color_nr_clipped=size(cmap_AR,1)
+    end
+    
+    if color_nr_intact<1
+        color_nr_intact=1
+    elseif color_nr_intact>size(cmap_AR,1)
+        color_nr_intact=size(cmap_AR,1)
+    end
+    
+    plot(S2_Intact_mean(i),S3_Intact_mean(i),'sk','markerfacecolor',cmap_AR(color_nr_intact,:),'markersize',6)
+    if clip_type_mean(i) > 1.5
+        plot(S2_Clipped_mean(i),S3_Clipped_mean(i),'dk','markerfacecolor',cmap_AR(color_nr_clipped,:),'markersize',8)
+    else
+        plot(S2_Clipped_mean(i),S3_Clipped_mean(i),'ok','markerfacecolor',cmap_AR(color_nr_clipped,:),'markersize',8)
     end
     hold on
 end
@@ -706,27 +708,125 @@ set(gca,'xtick',S2_min:(S2_max-S2_min):S2_max)
 set(gca,'ytick',S3_min:(S3_max-S3_min):S3_max)
 xlabel('S_2')
 ylabel('S_3')
-colormap(cmap_freq)
+colormap(cmap_AR)
+caxis([AR_min AR_max])
+
+subplot(2,2,2)
+colormap(cmap_AR)
+caxis([AR_min AR_max])
+h = colorbar('location','northoutside'); 
+title(h,'Wing AR')
+set(h,'xtick',AR_min:(AR_max-AR_min):AR_max)
+
+% save fig
+saveas(gcf,['clippedfly_steadyWBkin_r2nr3NS2nS3_vs_AR.fig'])
+saveas(gcf,['clippedfly_steadyWBkin_r2nr3NS2nS3_vs_AR.png'])
+% saveas(gcf,['clippedfly_steadyWBkin_r2nr3NS2nS3_vs_AR.svg'])
+plot2svg(['clippedfly_steadyWBkin_r2nr3NS2nS3_vs_AR.svg'])
+
+%% r2 & r3 NON-normailzed VS wing area
+figure
+subplot(2,2,3)
+
+for i = 1:length(Area_Clipped_mean)
+    color_nr_clipped = round(99/(Area_max-Area_min)*(Area_Clipped_mean(i)-Area_min)+1);
+    color_nr_intact = round(99/(Area_max-Area_min)*(Area_Intact_mean(i)-Area_min)+1);
+    
+    if color_nr_clipped<1
+        color_nr_clipped=1
+    elseif color_nr_clipped>size(cmap_AR,1)
+        color_nr_clipped=size(cmap_AR,1)
+    end
+    
+    if color_nr_intact<1
+        color_nr_intact=1
+    elseif color_nr_intact>size(cmap_AR,1)
+        color_nr_intact=size(cmap_AR,1)
+    end
+    
+    plot(r2_Intact_mean(i),r3_Intact_mean(i),'sk','markerfacecolor',cmap_AR(color_nr_intact,:),'markersize',6)
+    if clip_type_mean(i) > 1.5
+        plot(r2_Clipped_mean(i),r3_Clipped_mean(i),'dk','markerfacecolor',cmap_AR(color_nr_clipped,:),'markersize',8)
+    else
+        plot(r2_Clipped_mean(i),r3_Clipped_mean(i),'ok','markerfacecolor',cmap_AR(color_nr_clipped,:),'markersize',8)
+    end
+    hold on
+end
+
+axis equal
+% axis square
+axis tight
+axis([r2_min,r2_max,r3_min,r3_max])
+set(gca,'xtick',r2_min:(r2_max-r2_min):r2_max)
+set(gca,'ytick',r3_min:(r3_max-r3_min):r3_max)
+xlabel('r_2')
+ylabel('r_3')
+colormap(cmap_AR)
+caxis([Area_min Area_max])
+
+subplot(2,2,1)
+colormap(cmap_AR)
+caxis([Area_min Area_max])
+h = colorbar('location','northoutside'); 
+title(h,'Wing area')
+set(h,'xtick',Area_min:(Area_max-Area_min):Area_max)
+
+%% S2 & S3 NON-normailzed VS wing area
+subplot(2,2,4)
+
+for i = 1:length(Area_Clipped_mean)
+    color_nr_clipped = round(99/(Area_max-Area_min)*(Area_Clipped_mean(i)-Area_min)+1);
+    color_nr_intact = round(99/(Area_max-Area_min)*(Area_Intact_mean(i)-Area_min)+1);
+    
+    if color_nr_clipped<1
+        color_nr_clipped=1
+    elseif color_nr_clipped>size(cmap_AR,1)
+        color_nr_clipped=size(cmap_AR,1)
+    end
+    
+    if color_nr_intact<1
+        color_nr_intact=1
+    elseif color_nr_intact>size(cmap_AR,1)
+        color_nr_intact=size(cmap_AR,1)
+    end
+    
+    plot(S2_Intact_mean(i),S3_Intact_mean(i),'sk','markerfacecolor',cmap_AR(color_nr_intact,:),'markersize',6)
+    if clip_type_mean(i) > 1.5
+        plot(S2_Clipped_mean(i),S3_Clipped_mean(i),'dk','markerfacecolor',cmap_AR(color_nr_clipped,:),'markersize',8)
+    else
+        plot(S2_Clipped_mean(i),S3_Clipped_mean(i),'ok','markerfacecolor',cmap_AR(color_nr_clipped,:),'markersize',8)
+    end
+    hold on
+end
+
+% axis equal
+axis square
+axis tight
+axis([S2_min,S2_max,S3_min,S3_max])
+set(gca,'xtick',S2_min:(S2_max-S2_min):S2_max)
+set(gca,'ytick',S3_min:(S3_max-S3_min):S3_max)
+xlabel('S_2')
+ylabel('S_3')
+colormap(cmap_AR)
 caxis([Area_min Area_max])
 
 subplot(2,2,2)
-colormap(cmap_freq)
+colormap(cmap_AR)
 caxis([Area_min Area_max])
 h = colorbar('location','northoutside'); 
 title(h,'Wing area')
 set(h,'xtick',Area_min:(Area_max-Area_min):Area_max)
 
 % save fig
-saveas(gcf,['clippedfly_steadyWBkin_S2nS3_vs_WBfreqnArea.fig'])
-saveas(gcf,['clippedfly_steadyWBkin_S2nS3_vs_WBfreqnArea.png'])
-% saveas(gcf,['clippedfly_steadyWBkin_S2nS3_vs_WBfreqnArea.svg'])
-plot2svg(['clippedfly_steadyWBkin_S2nS3_vs_WBfreqnArea.svg'])
+saveas(gcf,['clippedfly_steadyWBkin_r2nr3NS2nS3_vs_Area.fig'])
+saveas(gcf,['clippedfly_steadyWBkin_r2nr3NS2nS3_vs_Area.png'])
+% saveas(gcf,['clippedfly_steadyWBkin_r2nr3NS2nS3_vs_Area.svg'])
+plot2svg(['clippedfly_steadyWBkin_r2nr3NS2nS3_vs_Area.svg'])
 
 
 %% stroke amplitude ratio of clipped & intact wing: measured, model & MODvals
 Aratio_max = 1.3;
 Aratio_min = 1;
-cmap_AdAi_top = cmap_AdAi(end/2:end,:);
 
 % Ad/Ai model(x) VS measurement(y) VS MODvals(color)
 figure
@@ -735,16 +835,16 @@ for i = 1:length(Astroke_ratio_clip_intact_mean)
     color_nr = round(99/(Aratio_max-Aratio_min)*(AstrokeRatio_S2S3AmpRatioFunc_all(i)-Aratio_min)+1);
     if color_nr<1
         color_nr=1
-    elseif color_nr>size(cmap_AdAi_top,1)
-        color_nr=size(cmap_AdAi_top,1)
+    elseif color_nr>size(cmap_AdAi,1)
+        color_nr=size(cmap_AdAi,1)
     end
     
     if clip_type_mean(i) > 1.5
-%         errorbar(S2S3AmpRatioFunc_all(i),Astroke_ratio_clip_intact_mean(i),Astroke_ratio_clip_intact_ste(i),'dk','markerfacecolor',cmap_AdAi_top(color_nr,:),'markersize',8)
-        plot(S2S3AmpRatioFunc_all(i),Astroke_ratio_clip_intact_mean(i),'dk','markerfacecolor',cmap_AdAi_top(color_nr,:),'markersize',8)
+%         errorbar(S2S3AmpRatioFunc_all(i),Astroke_ratio_clip_intact_mean(i),Astroke_ratio_clip_intact_ste(i),'dk','markerfacecolor',cmap_AdAi(color_nr,:),'markersize',8)
+        plot(S2S3AmpRatioFunc_all(i),Astroke_ratio_clip_intact_mean(i),'dk','markerfacecolor',cmap_AdAi(color_nr,:),'markersize',10)
     else
-%         errorbar(S2S3AmpRatioFunc_all(i),Astroke_ratio_clip_intact_mean(i),Astroke_ratio_clip_intact_ste(i),'ok','markerfacecolor',cmap_AdAi_top(color_nr,:),'markersize',8)
-        plot(S2S3AmpRatioFunc_all(i),Astroke_ratio_clip_intact_mean(i),'ok','markerfacecolor',cmap_AdAi_top(color_nr,:),'markersize',8)
+%         errorbar(S2S3AmpRatioFunc_all(i),Astroke_ratio_clip_intact_mean(i),Astroke_ratio_clip_intact_ste(i),'ok','markerfacecolor',cmap_AdAi(color_nr,:),'markersize',8)
+        plot(S2S3AmpRatioFunc_all(i),Astroke_ratio_clip_intact_mean(i),'ok','markerfacecolor',cmap_AdAi(color_nr,:),'markersize',10)
     end
     
     hold on
@@ -757,7 +857,7 @@ set(gca,'xtick',Aratio_min:(Aratio_max-Aratio_min)/2:Aratio_max)
 set(gca,'ytick',Aratio_min:(Aratio_max-Aratio_min)/2:Aratio_max)
 xlabel('Ad/Ai model')
 ylabel('Ad/Ai real fly')
-colormap(cmap_AdAi_top)
+colormap(cmap_AdAi)
 caxis([Aratio_min Aratio_max])
 h = colorbar('location','northoutside'); 
 title(h,'Ad/Ai MOD')
@@ -776,14 +876,14 @@ for i = 1:length(Astroke_ratio_clip_intact_mean)
     color_nr = round(99/(Aratio_max-Aratio_min)*(Astroke_ratio_clip_intact_mean(i)-Aratio_min)+1);
     if color_nr<1
         color_nr=1
-    elseif color_nr>size(cmap_AdAi_top,1)
-        color_nr=size(cmap_AdAi_top,1)
+    elseif color_nr>size(cmap_AdAi,1)
+        color_nr=size(cmap_AdAi,1)
     end
     
     if clip_type_mean(i) > 1.5
-        plot(S2S3AmpRatioFunc_all(i),AstrokeRatio_S2S3AmpRatioFunc_all(i),'dk','markerfacecolor',cmap_AdAi_top(color_nr,:),'markersize',5)
+        plot(S2S3AmpRatioFunc_all(i),AstrokeRatio_S2S3AmpRatioFunc_all(i),'dk','markerfacecolor',cmap_AdAi(color_nr,:),'markersize',8)
     else
-        plot(S2S3AmpRatioFunc_all(i),AstrokeRatio_S2S3AmpRatioFunc_all(i),'ok','markerfacecolor',cmap_AdAi_top(color_nr,:),'markersize',5)
+        plot(S2S3AmpRatioFunc_all(i),AstrokeRatio_S2S3AmpRatioFunc_all(i),'ok','markerfacecolor',cmap_AdAi(color_nr,:),'markersize',8)
     end
     
     hold on
@@ -796,7 +896,7 @@ set(gca,'xtick',Aratio_min:(Aratio_max-Aratio_min)/2:Aratio_max)
 set(gca,'ytick',Aratio_min:(Aratio_max-Aratio_min)/2:Aratio_max)
 xlabel('Ad/Ai model')
 ylabel('Ad/Ai MOD')
-colormap(cmap_AdAi_top)
+colormap(cmap_AdAi)
 caxis([Aratio_min Aratio_max])
 h = colorbar('location','northoutside'); 
 title(h,'Ad/Ai real fly')
@@ -1066,9 +1166,9 @@ for i = 1:length(freqRatio_mean)
     end
     
     if clip_type_mean(i) > 1.5
-        plot(S2_ratio_mean(i),S3_ratio_mean(i),'dk','markerfacecolor',cmap_freq(color_nr,:),'markersize',5)
+        plot(S2_ratio_mean(i),S3_ratio_mean(i),'dk','markerfacecolor',cmap_freq(color_nr,:),'markersize',8)
     else
-        plot(S2_ratio_mean(i),S3_ratio_mean(i),'ok','markerfacecolor',cmap_freq(color_nr,:),'markersize',5)
+        plot(S2_ratio_mean(i),S3_ratio_mean(i),'ok','markerfacecolor',cmap_freq(color_nr,:),'markersize',8)
     end
     hold on
 end

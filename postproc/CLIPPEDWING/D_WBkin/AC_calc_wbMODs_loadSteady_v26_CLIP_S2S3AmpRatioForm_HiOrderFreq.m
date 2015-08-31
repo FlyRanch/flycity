@@ -207,7 +207,9 @@ xmax =  ceil(10*max(S2S3AmpRatioFunc))/10;
     plot2svg(['WBmod_freq_S2S3AmpRatioFunc_asympFit_order10_',num2str(n_S2S3AmpRatioFunc),'WBs.svg'])
 
     %% plot freq S2S3AmpRatioFunc
-    cmap_freq=cbrewer('seq','OrRd',100);
+    cmap_freq=cbrewer('seq','Blues',25);
+%     cmap_freq=hot(100);
+%     cmap_freq = flipud(cmap_freq);
     figure
 %     subplot(2,2,1)
     hold on
@@ -215,8 +217,10 @@ xmax =  ceil(10*max(S2S3AmpRatioFunc))/10;
     plot([xmin:(xmax-xmin)/99:xmax],feval(freq_S2S3AmpRatioFunc_steadyWBs_asympFit10,[xmin:(xmax-xmin)/99:xmax]),'-k','linewidth',3)
     
     N_min = 1;
-    N_max = 40;
+    N_max = 25;
     n=0;
+    
+    xmax=1.3;
     
     f_steadyWB = f_wb(steady_nr_mean_wb==1);
     S2S3AmpRatioFunc_steadyWB = S2S3AmpRatioFunc(steady_nr_mean_wb==1);
@@ -238,12 +242,12 @@ xmax =  ceil(10*max(S2S3AmpRatioFunc))/10;
             n = n +1;
             N_all(n,1) = N_S2S3;
             
-            color_nr = round(99/(N_max-N_min)*(N_S2S3-N_min)+1);
-            if color_nr > 100
-                color_nr = 100;
+            color_nr = round(24/(N_max-N_min)*(N_S2S3-N_min)+1);
+            if color_nr > 25
+                color_nr = 25;
             end
             
-            plot(S2S3_plot, f_plot,'ok','markersize',8,'markerfacecolor',cmap_freq(color_nr,:))
+            plot(S2S3_plot, f_plot,'^k','markersize',8,'markerfacecolor',cmap_freq(color_nr,:))
         end
     end
         

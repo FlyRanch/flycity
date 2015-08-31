@@ -5,10 +5,10 @@ warning off
 
 
 freq_asymFitNr = 10;
-    
+peakloc = 0;
 
         %% plot TIP cut wing data
-    load(['allMODs_TipClip_freqAsym',num2str(freq_asymFitNr),'.mat'])
+    load(['allMODs_TipClip_freqAsym',num2str(freq_asymFitNr),'_peakloc',num2str(peakloc),'.mat'])
 
     S2ratios_TEnTip = S2ratios;
     S3ratios_TEnTip = S3ratios;
@@ -88,7 +88,7 @@ freq_asymFitNr = 10;
     figure(2)
     subplot(1,2,1)
     hold on
-    plot(S2ratios,-Fz_damaged_mean_steady,'ok','markersize',10,'markerfacecolor','w')
+    plot(S2ratios,-Fz_damaged_mean_steady,'ok','markersize',10,'markerfacecolor','k')
     plot(S2ratios,-Fz_damaged_mean_all,'ok','markersize',10,'markerfacecolor',[.5 .5 .5])
     plot(S2ratios,-Fz_damaged_mean_freqMOD,'ok','markersize',10,'markerfacecolor','b')
     plot(S2ratios,-Fz_damaged_mean_strokeMOD,'ok','markersize',10,'markerfacecolor','g')
@@ -97,7 +97,7 @@ freq_asymFitNr = 10;
     
     subplot(1,2,2)
     hold on
-    plot(S2ratios,Mx_damaged_mean_steady,'ok','markersize',10,'markerfacecolor','w')
+    plot(S2ratios,Mx_damaged_mean_steady,'ok','markersize',10,'markerfacecolor','k')
     plot(S2ratios,Mx_damaged_mean_all,'ok','markersize',10,'markerfacecolor',[.5 .5 .5])
     plot(S2ratios,Mx_damaged_mean_freqMOD,'ok','markersize',10,'markerfacecolor','b')
     plot(S2ratios,Mx_damaged_mean_strokeMOD,'ok','markersize',10,'markerfacecolor','g')
@@ -108,7 +108,7 @@ freq_asymFitNr = 10;
     figure(3)
     subplot(1,2,1)
     hold on
-    plot(S2ratios,-Fy_damaged_mean_steady,'ok','markersize',10,'markerfacecolor','w')
+    plot(S2ratios,-Fy_damaged_mean_steady,'ok','markersize',10,'markerfacecolor','k')
     plot(S2ratios,-Fy_damaged_mean_all,'ok','markersize',10,'markerfacecolor',[.5 .5 .5])
     plot(S2ratios,-Fy_damaged_mean_freqMOD,'ok','markersize',10,'markerfacecolor','b')
     plot(S2ratios,-Fy_damaged_mean_strokeMOD,'ok','markersize',10,'markerfacecolor','g')
@@ -117,7 +117,7 @@ freq_asymFitNr = 10;
     
     subplot(1,2,2)
     hold on
-    plot(S2ratios,-Mz_damaged_mean_steady,'ok','markersize',10,'markerfacecolor','w')
+    plot(S2ratios,-Mz_damaged_mean_steady,'ok','markersize',10,'markerfacecolor','k')
     plot(S2ratios,-Mz_damaged_mean_all,'ok','markersize',10,'markerfacecolor',[.5 .5 .5])
     plot(S2ratios,-Mz_damaged_mean_freqMOD,'ok','markersize',10,'markerfacecolor','b')
     plot(S2ratios,-Mz_damaged_mean_strokeMOD,'ok','markersize',10,'markerfacecolor','g')
@@ -125,7 +125,7 @@ freq_asymFitNr = 10;
     plot(S2ratios,-Mz_damaged_mean_rotMOD,'ok','markersize',10,'markerfacecolor','c')
     
     %% plot TE cut wing data
-    load(['allMODs_TEclip_freqAsym',num2str(freq_asymFitNr),'.mat'])
+    load(['allMODs_TEclip_freqAsym',num2str(freq_asymFitNr),'_peakloc',num2str(peakloc),'.mat'])
 
     S2ratios_TEnTip = [S2ratios_TEnTip;S2ratios];
     S3ratios_TEnTip = [S3ratios_TEnTip;S3ratios];
@@ -220,7 +220,7 @@ freq_asymFitNr = 10;
     figure(2)
     subplot(1,2,1)
     hold on
-    plot(S2ratios,-Fz_damaged_mean_steady,'dk','markersize',10,'markerfacecolor','w')
+    plot(S2ratios,-Fz_damaged_mean_steady,'dk','markersize',10,'markerfacecolor','k')
     plot(S2ratios,-Fz_damaged_mean_all,'dk','markersize',10,'markerfacecolor',[.5 .5 .5])
     plot(S2ratios,-Fz_damaged_mean_freqMOD,'dk','markersize',10,'markerfacecolor','b')
     plot(S2ratios,-Fz_damaged_mean_strokeMOD,'dk','markersize',10,'markerfacecolor','g')
@@ -236,7 +236,7 @@ freq_asymFitNr = 10;
     
     subplot(1,2,2)
     hold on
-    plot(S2ratios,Mx_damaged_mean_steady,'dk','markersize',10,'markerfacecolor','w')
+    plot(S2ratios,Mx_damaged_mean_steady,'dk','markersize',10,'markerfacecolor','k')
     plot(S2ratios,Mx_damaged_mean_all,'dk','markersize',10,'markerfacecolor',[.5 .5 .5])
     plot(S2ratios,Mx_damaged_mean_freqMOD,'dk','markersize',10,'markerfacecolor','b')
     plot(S2ratios,Mx_damaged_mean_strokeMOD,'dk','markersize',10,'markerfacecolor','g')
@@ -254,7 +254,7 @@ freq_asymFitNr = 10;
     figure(3)
     subplot(1,2,1)
     hold on
-    plot(S2ratios,-Fy_damaged_mean_steady,'dk','markersize',10,'markerfacecolor','w')
+    plot(S2ratios,-Fy_damaged_mean_steady,'dk','markersize',10,'markerfacecolor','k')
     plot(S2ratios,-Fy_damaged_mean_all,'dk','markersize',10,'markerfacecolor',[.5 .5 .5])
     plot(S2ratios,-Fy_damaged_mean_freqMOD,'dk','markersize',10,'markerfacecolor','b')
     plot(S2ratios,-Fy_damaged_mean_strokeMOD,'dk','markersize',10,'markerfacecolor','g')
@@ -270,7 +270,7 @@ freq_asymFitNr = 10;
     
     subplot(1,2,2)
     hold on
-    plot(S2ratios,-Mz_damaged_mean_steady,'dk','markersize',10,'markerfacecolor','w')
+    plot(S2ratios,-Mz_damaged_mean_steady,'dk','markersize',10,'markerfacecolor','k')
     plot(S2ratios,-Mz_damaged_mean_all,'dk','markersize',10,'markerfacecolor',[.5 .5 .5])
     plot(S2ratios,-Mz_damaged_mean_freqMOD,'dk','markersize',10,'markerfacecolor','b')
     plot(S2ratios,-Mz_damaged_mean_strokeMOD,'dk','markersize',10,'markerfacecolor','g')

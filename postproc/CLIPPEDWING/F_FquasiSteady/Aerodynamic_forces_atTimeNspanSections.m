@@ -1,4 +1,4 @@
-function [ FM_strkpln, FM_L, FM_R ,U_left, U_right, alfa_L, alfa_R, alfa_dot_L, alfa_dot_R ] = Aerodynamic_forces_atTimeNspanSections( kine, body_model, wing_model, rot_lift_on)
+function [ FM_strkpln, FM_L, FM_R, U_left, U_right, Udot_left, Udot_right, alfa_L, alfa_R, alfa_dot_L, alfa_dot_R ] = Aerodynamic_forces_atTimeNspanSections( kine, body_model, wing_model, rot_lift_on)
 
 
     % Compute the aerodynamic forces on the wings by means of a
@@ -50,6 +50,8 @@ function [ FM_strkpln, FM_L, FM_R ,U_left, U_right, alfa_L, alfa_R, alfa_dot_L, 
     
     UL          = zeros(3,nr_sect,N);                 % [ mm/s ]
     UR          = zeros(3,nr_sect,N);                 % [ mm/s ]
+    U_dot_L     = zeros(3,nr_sect,N);                 % [ mm/s^2 ]
+    U_dot_R     = zeros(3,nr_sect,N);                 % [ mm/s^2 ]
     alfa_L      = zeros(nr_sect,N);                   % [ rad ]
     alfa_R      = zeros(nr_sect,N);                   % [ rad ]
     alfa_dot_L  = zeros(nr_sect,N);                   % [ rad/s ]
@@ -93,11 +95,11 @@ function [ FM_strkpln, FM_L, FM_R ,U_left, U_right, alfa_L, alfa_R, alfa_dot_L, 
             UL(:,j,i) = cross(wL(:,i),y_sect_L(:,j))+cross(RL(:,:,i)*wb(:,i),RL(:,:,i)*Joint_left+y_sect_L(:,j))+RL(:,:,i)*vb(:,i);   % [ mm/s ]
             UR(:,j,i) = cross(wR(:,i),y_sect_R(:,j))+cross(RR(:,:,i)*wb(:,i),RR(:,:,i)*Joint_right+y_sect_R(:,j))+RR(:,:,i)*vb(:,i);  % [ mm/s ]
 
-%             U_dot_L = cross(w_dot_L(:,i),y_sect_L(:,j))+cross(WL*RL(:,:,i)*wb(:,i),RL(:,:,i)*Joint_left+y_sect_L(:,j))+...
-%                            cross(RL(:,:,i)*wb(:,i),WL*RL(:,:,i)*Joint_left+y_sect_L(:,j))+WL*RL(:,:,i)*vb(:,i);
-% 
-%             U_dot_R = cross(w_dot_R(:,i),y_sect_R(:,j))+cross(WR*RR(:,:,i)*wb(:,i),RR(:,:,i)*Joint_right+y_sect_R(:,j))+...
-%                            cross(RR(:,:,i)*wb(:,i),WR*RR(:,:,i)*Joint_right+y_sect_R(:,j))+WR*RR(:,:,i)*vb(:,i);
+            U_dot_L(:,j,i) = cross(w_dot_L(:,i),y_sect_L(:,j))+cross(WL*RL(:,:,i)*wb(:,i),RL(:,:,i)*Joint_left+y_sect_L(:,j))+...
+                           cross(RL(:,:,i)*wb(:,i),WL*RL(:,:,i)*Joint_left+y_sect_L(:,j))+WL*RL(:,:,i)*vb(:,i);
+
+            U_dot_R(:,j,i) = cross(w_dot_R(:,i),y_sect_R(:,j))+cross(WR*RR(:,:,i)*wb(:,i),RR(:,:,i)*Joint_right+y_sect_R(:,j))+...
+                           cross(RR(:,:,i)*wb(:,i),WR*RR(:,:,i)*Joint_right+y_sect_R(:,j))+WR*RR(:,:,i)*vb(:,i);
 
             alfa_L(j,i) = real(atan2(UL(3,j,i),UL(1,j,i)));     % [ rad ]
             alfa_R(j,i) = real(atan2(UR(3,j,i),UR(1,j,i)));     % [ rad ]
@@ -255,12 +257,18 @@ function [ FM_strkpln, FM_L, FM_R ,U_left, U_right, alfa_L, alfa_R, alfa_dot_L, 
      U_left = zeros(3,N,nr_sect);
      U_right = zeros(3,N,nr_sect);
      
+     Udot_left = zeros(3,N,nr_sect);
+     Udot_right = zeros(3,N,nr_sect);
+     
      for i = 1:N
          
          for j = 1:nr_sect
          
             U_left(:,i,j) = UL(:,j,i);
             U_right(:,i,j) = UR(:,j,i);
+         
+            Udot_left(:,i,j) = U_dot_L(:,j,i);
+            Udot_right(:,i,j) = U_dot_R(:,j,i);
          
          end
          
@@ -269,6 +277,7 @@ function [ FM_strkpln, FM_L, FM_R ,U_left, U_right, alfa_L, alfa_R, alfa_dot_L, 
      
      %% store data
      
+     %% strokeplane coord system
      % translational forces
      FM_L.Fx_strkpln_trans_L(:,:) = F_strkpln_trans_L(:,:,1);
      FM_L.Fy_strkpln_trans_L(:,:) = F_strkpln_trans_L(:,:,2);
@@ -325,14 +334,65 @@ function [ FM_strkpln, FM_L, FM_R ,U_left, U_right, alfa_L, alfa_R, alfa_dot_L, 
      M_mean(:,:) = [sum(M_strkpln_trans_L)+sum(M_strkpln_rot_L)+sum(M_strkpln_trans_R)+sum(M_strkpln_rot_R)];
      FM_strkpln = [F_mean M_mean];
 
-end
+     %% wing coord system
+     % translational forces
+     FM_L.Fx_trans_L(:,:) = F_trans_L(:,1,:);
+     FM_L.Fy_trans_L(:,:) = F_trans_L(:,2,:);
+     FM_L.Fz_trans_L(:,:) = F_trans_L(:,3,:);
      
+     FM_L.Mx_trans_L(:,:) = M_trans_L(:,1,:);
+     FM_L.My_trans_L(:,:) = M_trans_L(:,2,:);
+     FM_L.Mz_trans_L(:,:) = M_trans_L(:,3,:);
      
+     FM_R.Fx_trans_R(:,:) = F_trans_R(:,1,:);
+     FM_R.Fy_trans_R(:,:) = F_trans_R(:,2,:);
+     FM_R.Fz_trans_R(:,:) = F_trans_R(:,3,:);
      
+     FM_R.Mx_trans_R(:,:) = M_trans_R(:,1,:);
+     FM_R.My_trans_R(:,:) = M_trans_R(:,2,:);
+     FM_R.Mz_trans_R(:,:) = M_trans_R(:,3,:);
      
+     % rotational forces
+     FM_L.Fx_rot_L(:,:) = F_rot_L(:,1,:);
+     FM_L.Fy_rot_L(:,:) = F_rot_L(:,2,:);
+     FM_L.Fz_rot_L(:,:) = F_rot_L(:,3,:);
      
+     FM_L.Mx_rot_L(:,:) = M_rot_L(:,1,:);
+     FM_L.My_rot_L(:,:) = M_rot_L(:,2,:);
+     FM_L.Mz_rot_L(:,:) = M_rot_L(:,3,:);
+     
+     FM_R.Fx_rot_R(:,:) = F_rot_R(:,1,:);
+     FM_R.Fy_rot_R(:,:) = F_rot_R(:,2,:);
+     FM_R.Fz_rot_R(:,:) = F_rot_R(:,3,:);
+     
+     FM_R.Mx_rot_R(:,:) = M_rot_R(:,1,:);
+     FM_R.My_rot_R(:,:) = M_rot_R(:,2,:);
+     FM_R.Mz_rot_R(:,:) = M_rot_R(:,3,:);
 
+     % translational+rotational forces
+     FM_L.Fx_L(:,:) = F_trans_L(:,1,:) +  F_rot_L(:,1,:);
+     FM_L.Fy_L(:,:) = F_trans_L(:,2,:) +  F_rot_L(:,2,:);
+     FM_L.Fz_L(:,:) = F_trans_L(:,3,:) +  F_rot_L(:,3,:);
      
+     FM_R.Fx_R(:,:) = F_trans_R(:,1,:) +  F_rot_R(:,1,:);
+     FM_R.Fy_R(:,:) = F_trans_R(:,2,:) +  F_rot_R(:,2,:);
+     FM_R.Fz_R(:,:) = F_trans_R(:,3,:) +  F_rot_R(:,3,:);
      
+     FM_L.Mx_L(:,:) = M_trans_L(:,1,:) +  M_rot_L(:,1,:);
+     FM_L.My_L(:,:) = M_trans_L(:,2,:) +  M_rot_L(:,2,:);
+     FM_L.Mz_L(:,:) = M_trans_L(:,3,:) +  M_rot_L(:,3,:);
      
+     FM_R.Mx_R(:,:) = M_trans_R(:,1,:) +  M_rot_R(:,1,:);
+     FM_R.My_R(:,:) = M_trans_R(:,2,:) +  M_rot_R(:,2,:);
+     FM_R.Mz_R(:,:) = M_trans_R(:,3,:) +  M_rot_R(:,3,:);
      
+     % mean forces & torques
+     F_L_mean(:,:) = sum(F_trans_L)+sum(F_rot_L);
+     M_L_mean(:,:) = sum(M_trans_L)+sum(M_rot_L);
+     FM_L.FM_mean = [F_L_mean M_L_mean];
+
+     F_R_mean(:,:) = sum(F_trans_R)+sum(F_rot_R);
+     M_R_mean(:,:) = sum(M_trans_R)+sum(M_rot_R);
+     FM_R.FM_mean = [F_R_mean M_R_mean];
+end
+

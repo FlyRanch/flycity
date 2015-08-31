@@ -181,15 +181,15 @@ My_CoM_norm_freqMod = My_CoM_norm*Fnorm_clip_steady;
 figure
 subplot(1,2,1)
 hold on
-plot(Amp_ratio,Fx_norm,'sk','markersize',7,'markerfacecolor','b')
-% plot(Amp_ratio,-Fy_norm,'sk','markersize',7,'markerfacecolor','r')
-plot(Amp_ratio,-FyMinSteady_norm,'sk','markersize',7,'markerfacecolor','r')
-plot(Amp_ratio,-Fz_norm,'sk','markersize',7,'markerfacecolor','g')
+plot(Amp_ratio,Fx_norm,'sk','markersize',9,'markerfacecolor','b')
+% plot(Amp_ratio,-Fy_norm,'sk','markersize',9,'markerfacecolor','r')
+plot(Amp_ratio,-FyMinSteady_norm,'sk','markersize',9,'markerfacecolor','r')
+plot(Amp_ratio,-Fz_norm,'sk','markersize',9,'markerfacecolor','g')
 
-plot(Amp_ratio,Fx_norm_freqMod,'sk','markersize',7,'markerfacecolor','c')
-% plot(Amp_ratio,-Fy_norm_freqMod,'sk','markersize',7,'markerfacecolor',[1 .5 0])
-plot(Amp_ratio,-FyMinSteady_norm_freqMod,'sk','markersize',7,'markerfacecolor',[1 .5 0])
-plot(Amp_ratio,-Fz_norm_freqMod,'sk','markersize',7,'markerfacecolor',[0 .5 0])
+plot(Amp_ratio,Fx_norm_freqMod,'sk','markersize',9,'markerfacecolor','c')
+% plot(Amp_ratio,-Fy_norm_freqMod,'sk','markersize',9,'markerfacecolor',[1 .5 0])
+plot(Amp_ratio,-FyMinSteady_norm_freqMod,'sk','markersize',9,'markerfacecolor',[1 .5 0])
+plot(Amp_ratio,-Fz_norm_freqMod,'sk','markersize',9,'markerfacecolor',[0 .5 0])
 
 % linear fits
 plot([min(Amp_ratio) max(Amp_ratio)],polyval(Fx_Amp_fit,[min(Amp_ratio) max(Amp_ratio)]),'k')
@@ -213,15 +213,15 @@ set(gca,'ytick',-1.5:.25:1.5)
 subplot(1,2,2)
 hold on
 
-plot(Amp_ratio,MxMinSteady_norm,'sk','markersize',7,'markerfacecolor','b')
-% plot(Amp_ratio,-MyMinSteady_norm,'sk','markersize',7,'markerfacecolor','r')
-plot(Amp_ratio,-My_CoM_norm,'sk','markersize',7,'markerfacecolor','r')
-plot(Amp_ratio,-MzMinSteady_norm,'sk','markersize',7,'markerfacecolor','g')
+plot(Amp_ratio,MxMinSteady_norm,'sk','markersize',9,'markerfacecolor','b')
+% plot(Amp_ratio,-MyMinSteady_norm,'sk','markersize',9,'markerfacecolor','r')
+plot(Amp_ratio,-My_CoM_norm,'sk','markersize',9,'markerfacecolor','r')
+plot(Amp_ratio,-MzMinSteady_norm,'sk','markersize',9,'markerfacecolor','g')
 
-plot(Amp_ratio,MxMinSteady_norm_freqMod,'sk','markersize',7,'markerfacecolor','c')
-% plot(Amp_ratio,-MyMinSteady_norm_freqMod,'sk','markersize',7,'markerfacecolor',[1 .5 0])
-plot(Amp_ratio,-My_CoM_norm_freqMod,'sk','markersize',7,'markerfacecolor',[1 .5 0])
-plot(Amp_ratio,-MzMinSteady_norm_freqMod,'sk','markersize',7,'markerfacecolor',[0 .5 0])
+plot(Amp_ratio,MxMinSteady_norm_freqMod,'sk','markersize',9,'markerfacecolor','c')
+% plot(Amp_ratio,-MyMinSteady_norm_freqMod,'sk','markersize',9,'markerfacecolor',[1 .5 0])
+plot(Amp_ratio,-My_CoM_norm_freqMod,'sk','markersize',9,'markerfacecolor',[1 .5 0])
+plot(Amp_ratio,-MzMinSteady_norm_freqMod,'sk','markersize',9,'markerfacecolor',[0 .5 0])
 
 plot([min(Amp_ratio) max(Amp_ratio)],polyval(MxMinSteady_Amp_fit,[min(Amp_ratio) max(Amp_ratio)]),'k')
 % plot([min(Amp_ratio) max(Amp_ratio)],polyval(-MyMinSteady_Amp_fit,[min(Amp_ratio) max(Amp_ratio)]),'k')

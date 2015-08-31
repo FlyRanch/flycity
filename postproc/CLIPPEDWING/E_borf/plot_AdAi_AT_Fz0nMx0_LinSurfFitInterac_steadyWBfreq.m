@@ -45,7 +45,7 @@ title([])
 set(gca,'xtick',S2_min:(S2_max-S2_min)/2:S2_max)
 set(gca,'ytick',S3_min:(S3_max-S3_min)/2:S3_max)
 caxis([AdAiRatio_min AdAiRatio_max])
-colormap(cmap_BGBr)
+colormap(cmap_AdAi)
 h = colorbar('location','northoutside'); 
 title(h,'Adamaged/Aintact') 
 set(h,'xtick',AdAiRatio_min:(AdAiRatio_max-AdAiRatio_min)/2:AdAiRatio_max)
