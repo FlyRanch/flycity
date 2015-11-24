@@ -64,7 +64,7 @@ peakloc = 0;
     
     % ALL MODs VS NO MODs
     figure(1)
-    subplot(1,2,1)
+    subplot(2,2,1)
     hold on
     plot(S2ratios,Fx_damaged_mean_all,'ok','markersize',10,'markerfacecolor','b')
     plot(S2ratios,-Fy_damaged_mean_all,'ok','markersize',10,'markerfacecolor','r')
@@ -74,7 +74,7 @@ peakloc = 0;
     plot(S2ratios,-Fy_damaged_mean_steady,'ok','markersize',10,'markerfacecolor',[1 .5 0])
     plot(S2ratios,-Fz_damaged_mean_steady,'ok','markersize',10,'markerfacecolor',[0 .5 0])
     
-    subplot(1,2,2)
+    subplot(2,2,2)
     hold on
     plot(S2ratios,Mx_damaged_mean_all,'ok','markersize',10,'markerfacecolor','b')
     plot(S2ratios,-My_damaged_mean_all--My_damaged_mean_all(S2ratios==1),'ok','markersize',10,'markerfacecolor','r')
@@ -86,7 +86,7 @@ peakloc = 0;
     
     % compare MODs -Fz & Mx
     figure(2)
-    subplot(1,2,1)
+    subplot(2,2,1)
     hold on
     plot(S2ratios,-Fz_damaged_mean_steady,'ok','markersize',10,'markerfacecolor','k')
     plot(S2ratios,-Fz_damaged_mean_all,'ok','markersize',10,'markerfacecolor',[.5 .5 .5])
@@ -95,7 +95,7 @@ peakloc = 0;
     plot(S2ratios,-Fz_damaged_mean_devMOD,'ok','markersize',10,'markerfacecolor','r')
     plot(S2ratios,-Fz_damaged_mean_rotMOD,'ok','markersize',10,'markerfacecolor','c')
     
-    subplot(1,2,2)
+    subplot(2,2,2)
     hold on
     plot(S2ratios,Mx_damaged_mean_steady,'ok','markersize',10,'markerfacecolor','k')
     plot(S2ratios,Mx_damaged_mean_all,'ok','markersize',10,'markerfacecolor',[.5 .5 .5])
@@ -106,7 +106,7 @@ peakloc = 0;
     
     % compare MODs: -Fy & -Mz
     figure(3)
-    subplot(1,2,1)
+    subplot(2,2,1)
     hold on
     plot(S2ratios,-Fy_damaged_mean_steady,'ok','markersize',10,'markerfacecolor','k')
     plot(S2ratios,-Fy_damaged_mean_all,'ok','markersize',10,'markerfacecolor',[.5 .5 .5])
@@ -115,7 +115,7 @@ peakloc = 0;
     plot(S2ratios,-Fy_damaged_mean_devMOD,'ok','markersize',10,'markerfacecolor','r')
     plot(S2ratios,-Fy_damaged_mean_rotMOD,'ok','markersize',10,'markerfacecolor','c')
     
-    subplot(1,2,2)
+    subplot(2,2,2)
     hold on
     plot(S2ratios,-Mz_damaged_mean_steady,'ok','markersize',10,'markerfacecolor','k')
     plot(S2ratios,-Mz_damaged_mean_all,'ok','markersize',10,'markerfacecolor',[.5 .5 .5])
@@ -182,7 +182,7 @@ peakloc = 0;
 
     % ALL MODs VS NO MODs
     figure(1)
-    subplot(1,2,1)
+    subplot(2,2,1)
     hold on
     plot(S2ratios,Fx_damaged_mean_all,'dk','markersize',10,'markerfacecolor','b')
     plot(S2ratios,-Fy_damaged_mean_all,'dk','markersize',10,'markerfacecolor','r')
@@ -199,7 +199,7 @@ peakloc = 0;
     set(gca,'xtick',0:.5:1)
     set(gca,'ytick',0:1:1)
     
-    subplot(1,2,2)
+    subplot(2,2,2)
     hold on
     plot(S2ratios,Mx_damaged_mean_all,'dk','markersize',10,'markerfacecolor','b')
     plot(S2ratios,-My_damaged_mean_all--My_damaged_mean_all(S2ratios==1),'dk','markersize',10,'markerfacecolor','r')
@@ -218,7 +218,7 @@ peakloc = 0;
     % compare MODs -Fz & Mx
     
     figure(2)
-    subplot(1,2,1)
+    subplot(2,2,1)
     hold on
     plot(S2ratios,-Fz_damaged_mean_steady,'dk','markersize',10,'markerfacecolor','k')
     plot(S2ratios,-Fz_damaged_mean_all,'dk','markersize',10,'markerfacecolor',[.5 .5 .5])
@@ -234,7 +234,7 @@ peakloc = 0;
     set(gca,'xtick',0:.5:1)
     set(gca,'ytick',-1.5:.25:1)
     
-    subplot(1,2,2)
+    subplot(2,2,2)
     hold on
     plot(S2ratios,Mx_damaged_mean_steady,'dk','markersize',10,'markerfacecolor','k')
     plot(S2ratios,Mx_damaged_mean_all,'dk','markersize',10,'markerfacecolor',[.5 .5 .5])
@@ -252,7 +252,7 @@ peakloc = 0;
     % compare MODs: -Fy & -Mz
     
     figure(3)
-    subplot(1,2,1)
+    subplot(2,2,1)
     hold on
     plot(S2ratios,-Fy_damaged_mean_steady,'dk','markersize',10,'markerfacecolor','k')
     plot(S2ratios,-Fy_damaged_mean_all,'dk','markersize',10,'markerfacecolor',[.5 .5 .5])
@@ -268,7 +268,7 @@ peakloc = 0;
     set(gca,'xtick',0:.5:1)
     set(gca,'ytick',-1.5:.25:1)
     
-    subplot(1,2,2)
+    subplot(2,2,2)
     hold on
     plot(S2ratios,-Mz_damaged_mean_steady,'dk','markersize',10,'markerfacecolor','k')
     plot(S2ratios,-Mz_damaged_mean_all,'dk','markersize',10,'markerfacecolor',[.5 .5 .5])
@@ -286,7 +286,7 @@ peakloc = 0;
     
     %% plot trendlines
     figure(1)
-    subplot(1,2,1)
+    subplot(2,2,1)
     plot(sort(S2ratios_TEnTip),polyval(polyfit(S2ratios_TEnTip,Fx_damaged_mean_all_TEnTip',1),sort(S2ratios_TEnTip)),'b','linewidth',2)
     plot(sort(S2ratios_TEnTip),polyval(polyfit(S2ratios_TEnTip,-Fy_damaged_mean_all_TEnTip',1),sort(S2ratios_TEnTip)),'r','linewidth',2)
     plot(sort(S2ratios_TEnTip),polyval(polyfit(S2ratios_TEnTip,-Fz_damaged_mean_all_TEnTip',1),sort(S2ratios_TEnTip)),'g','linewidth',2)
@@ -298,7 +298,7 @@ peakloc = 0;
     % adjusted
     plot(sort(S2ratios_TEnTip),polyval(polyfit(S2ratios_TEnTip,-Fz_damaged_mean_all_TEnTip',2),sort(S2ratios_TEnTip)),'g','linewidth',2)
 
-    subplot(1,2,2)
+    subplot(2,2,2)
     plot(sort(S3ratios_TEnTip),polyval(polyfit(S3ratios_TEnTip,Mx_damaged_mean_all_TEnTip',1),sort(S3ratios_TEnTip)),'b','linewidth',2)
 %     plot(sort(S3ratios_TEnTip),polyval(polyfit(S3ratios_TEnTip,-My_damaged_mean_all_TEnTip',1),sort(S3ratios_TEnTip)),'r','linewidth',2)
     plot(sort(S3ratios_TEnTip),polyval(polyfit(S3ratios_TEnTip,-Mz_damaged_mean_all_TEnTip',1),sort(S3ratios_TEnTip)),'g','linewidth',2)
@@ -313,7 +313,7 @@ peakloc = 0;
     plot(sort(S3ratios_TEnTip),polyval(polyfit(S3ratios_TEnTip,-My_damaged_mean_steady_TEnTip'--My_damaged_mean_steady(S2ratios==1),1),sort(S3ratios_TEnTip)),'color',[1 .5 0],'linewidth',2)
 
     figure(2)
-    subplot(1,2,1)
+    subplot(2,2,1)
     plot(sort(S2ratios_TEnTip),polyval(polyfit(S2ratios_TEnTip,-Fz_damaged_mean_steady_TEnTip',1),sort(S2ratios_TEnTip)),'k','linewidth',2)
     plot(sort(S2ratios_TEnTip),polyval(polyfit(S2ratios_TEnTip,-Fz_damaged_mean_all_TEnTip',1),sort(S2ratios_TEnTip)),'color',[.5 .5 .5],'linewidth',2)
     plot(sort(S2ratios_TEnTip),polyval(polyfit(S2ratios_TEnTip,-Fz_damaged_mean_freqMOD_TEnTip',1),sort(S2ratios_TEnTip)),'b','linewidth',2)
@@ -325,7 +325,7 @@ peakloc = 0;
     plot(sort(S2ratios_TEnTip),polyval(polyfit(S2ratios_TEnTip,-Fz_damaged_mean_all_TEnTip',2),sort(S2ratios_TEnTip)),'color',[.5 .5 .5],'linewidth',2)
     plot(sort(S2ratios_TEnTip),polyval(polyfit(S2ratios_TEnTip,-Fz_damaged_mean_freqMOD_TEnTip',2),sort(S2ratios_TEnTip)),'b','linewidth',2)
 
-    subplot(1,2,2)
+    subplot(2,2,2)
     plot(sort(S2ratios_TEnTip),polyval(polyfit(S2ratios_TEnTip,Mx_damaged_mean_steady_TEnTip',1),sort(S2ratios_TEnTip)),'k','linewidth',2)
     plot(sort(S2ratios_TEnTip),polyval(polyfit(S2ratios_TEnTip,Mx_damaged_mean_all_TEnTip',1),sort(S2ratios_TEnTip)),'color',[.5 .5 .5],'linewidth',2)
     plot(sort(S2ratios_TEnTip),polyval(polyfit(S2ratios_TEnTip,Mx_damaged_mean_freqMOD_TEnTip',1),sort(S2ratios_TEnTip)),'b','linewidth',2)
@@ -334,7 +334,7 @@ peakloc = 0;
     plot(sort(S2ratios_TEnTip),polyval(polyfit(S2ratios_TEnTip,Mx_damaged_mean_rotMOD_TEnTip',1),sort(S2ratios_TEnTip)),'c','linewidth',2)
 
     figure(3)
-    subplot(1,2,1)
+    subplot(2,2,1)
     plot(sort(S2ratios_TEnTip),polyval(polyfit(S2ratios_TEnTip,-Fy_damaged_mean_steady_TEnTip',1),sort(S2ratios_TEnTip)),'k','linewidth',2)
     plot(sort(S2ratios_TEnTip),polyval(polyfit(S2ratios_TEnTip,-Fy_damaged_mean_all_TEnTip',1),sort(S2ratios_TEnTip)),'color',[.5 .5 .5],'linewidth',2)
     plot(sort(S2ratios_TEnTip),polyval(polyfit(S2ratios_TEnTip,-Fy_damaged_mean_freqMOD_TEnTip',1),sort(S2ratios_TEnTip)),'b','linewidth',2)
@@ -342,7 +342,7 @@ peakloc = 0;
     plot(sort(S2ratios_TEnTip),polyval(polyfit(S2ratios_TEnTip,-Fy_damaged_mean_devMOD_TEnTip',1),sort(S2ratios_TEnTip)),'r','linewidth',2)
     plot(sort(S2ratios_TEnTip),polyval(polyfit(S2ratios_TEnTip,-Fy_damaged_mean_rotMOD_TEnTip',1),sort(S2ratios_TEnTip)),'c','linewidth',2)
 
-    subplot(1,2,2)
+    subplot(2,2,2)
     plot(sort(S2ratios_TEnTip),polyval(polyfit(S2ratios_TEnTip,-Mz_damaged_mean_steady_TEnTip',1),sort(S2ratios_TEnTip)),'k','linewidth',2)
     plot(sort(S2ratios_TEnTip),polyval(polyfit(S2ratios_TEnTip,-Mz_damaged_mean_all_TEnTip',1),sort(S2ratios_TEnTip)),'color',[.5 .5 .5],'linewidth',2)
     plot(sort(S2ratios_TEnTip),polyval(polyfit(S2ratios_TEnTip,-Mz_damaged_mean_freqMOD_TEnTip',1),sort(S2ratios_TEnTip)),'b','linewidth',2)

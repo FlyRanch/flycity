@@ -9,7 +9,7 @@ warning off
 % maximum possible wingbeat
 load('WBdataset_steady_1603WBs.mat')
 stroke_amp_steady = max(stroke_wb_steady_bins_meanCIstd(:,1))-min(stroke_wb_steady_bins_meanCIstd(:,1));
-A_ratio_max = 180/stroke_amp_steady;
+A_ratio_max = 178/stroke_amp_steady;
 
 %% const
 % A_min = 0.5;
@@ -133,7 +133,7 @@ calc_AdAi_FiFd_MiMd_AT_Fz0nMx0_AT_WBfreq_singleEq
 A_max = A_ratio_max;
 A_min = A_ratio_max - 2*(A_ratio_max-Aratio_intact);
 
-% cmap_Aratio & cmap_AdAi: centered at uncut equilibrium & black at Amp > 180deg
+% cmap_Aratio & cmap_AdAi: centered at uncut equilibrium & black at Amp > 178deg
 n_Amax = round(99/(A_max-A_min)*(A_ratio_max-A_min)+1);
 if n_Amax <= length(cmap_Aratio)
     cmap_Aratio(n_Amax:end,:)=0;
@@ -254,7 +254,7 @@ clear
 load('WBdataset_steady_1603WBs.mat')
 stroke_amp_steady = max(stroke_wb_steady_bins_meanCIstd(:,1))-min(stroke_wb_steady_bins_meanCIstd(:,1));
 
-A_ratio_max = 180/stroke_amp_steady;
+A_ratio_max = 178/stroke_amp_steady;
 % A_ratio0 = .72;
 
 %% const
@@ -379,7 +379,7 @@ calc_AdAi_FiFd_MiMd_AT_Fz0nMx0_AT_WBfreq_singleEq
 A_max = A_ratio_max;
 A_min = A_ratio_max - 2*(A_ratio_max-Aratio_intact);
 
-% cmap_Aratio & cmap_AdAi: centered at uncut equilibrium & black at Amp > 180deg
+% cmap_Aratio & cmap_AdAi: centered at uncut equilibrium & black at Amp > 178deg
 n_Amax = round(99/(A_max-A_min)*(A_ratio_max-A_min)+1);
 if n_Amax <= length(cmap_Aratio)
     cmap_Aratio(n_Amax:end,:)=0;

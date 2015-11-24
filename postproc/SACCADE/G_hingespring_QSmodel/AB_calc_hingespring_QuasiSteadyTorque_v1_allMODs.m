@@ -1,4 +1,4 @@
-% clear;
+clear;
 clc;
 close all
 warning off
@@ -21,7 +21,7 @@ rot_on=1;
 
 % location of peak rotation angle
 
-% loc_set = 3
+loc_set = 3
 if loc_set == 1
     maxpeak_nr = 1;
     minpeak_nr = 2;
@@ -252,18 +252,43 @@ for i = 1:length(YawMods)
     rot_min_fwd_all(i,:) = rot_min_L;
     rot_min_rwd_all(i,:) = rot_min_R;
     
+    % spanwise torques @ rot max & rot min
+    Mwing_total_fwd_atRotmax(i,1) = Mwing_total_fwd_all(n_rot_max_L,i);
+    Mwing_total_fwd_atRotmin(i,1) = Mwing_total_fwd_all(n_rot_min_L,i);
+    
+    Mwing_total_rwd_atRotmax(i,1) = Mwing_total_rwd_all(n_rot_max_R,i);
+    Mwing_total_rwd_atRotmin(i,1) = Mwing_total_rwd_all(n_rot_min_R,i);
+
+    Mwing_mass_fwd_atRotmax(i,1) = Mwing_mass_fwd_all(n_rot_max_L,i);
+    Mwing_mass_fwd_atRotmin(i,1) = Mwing_mass_fwd_all(n_rot_min_L,i);
+    
+    Mwing_mass_rwd_atRotmax(i,1) = Mwing_mass_rwd_all(n_rot_max_R,i);
+    Mwing_mass_rwd_atRotmin(i,1) = Mwing_mass_rwd_all(n_rot_min_R,i);
+
+    Mwing_inertia_fwd_atRotmax(i,1) = Mwing_inertia_fwd_all(n_rot_max_L,i);
+    Mwing_inertia_fwd_atRotmin(i,1) = Mwing_inertia_fwd_all(n_rot_min_L,i);
+    
+    Mwing_inertia_rwd_atRotmax(i,1) = Mwing_inertia_rwd_all(n_rot_max_R,i);
+    Mwing_inertia_rwd_atRotmin(i,1) = Mwing_inertia_rwd_all(n_rot_min_R,i);
+
+    Mwing_aero_fwd_atRotmax(i,1) = Mwing_aero_fwd_all(n_rot_max_L,i);
+    Mwing_aero_fwd_atRotmin(i,1) = Mwing_aero_fwd_all(n_rot_min_L,i);
+    
+    Mwing_aero_rwd_atRotmax(i,1) = Mwing_aero_rwd_all(n_rot_max_R,i);
+    Mwing_aero_rwd_atRotmin(i,1) = Mwing_aero_rwd_all(n_rot_min_R,i);
+
     % spanwise torque change
-    dMwing_total_fwd_all(i,1) = Mwing_total_fwd_all(n_rot_max_L,i) - Mwing_total_fwd_all(n_rot_min_L,i);
-    dMwing_total_rwd_all(i,1) = Mwing_total_rwd_all(n_rot_max_R,i) - Mwing_total_rwd_all(n_rot_min_R,i);
+    dMwing_total_fwd_all(i,1) = (Mwing_total_fwd_all(n_rot_max_L,i) - Mwing_total_fwd_all(n_rot_min_L,i));
+    dMwing_total_rwd_all(i,1) = (Mwing_total_rwd_all(n_rot_max_R,i) - Mwing_total_rwd_all(n_rot_min_R,i));
 
-    dMwing_mass_fwd_all(i,1) = Mwing_mass_fwd_all(n_rot_max_L,i) - Mwing_mass_fwd_all(n_rot_min_L,i);
-    dMwing_mass_rwd_all(i,1) = Mwing_mass_rwd_all(n_rot_max_R,i) - Mwing_mass_rwd_all(n_rot_min_R,i);
+    dMwing_mass_fwd_all(i,1) = (Mwing_mass_fwd_all(n_rot_max_L,i) - Mwing_mass_fwd_all(n_rot_min_L,i));
+    dMwing_mass_rwd_all(i,1) = (Mwing_mass_rwd_all(n_rot_max_R,i) - Mwing_mass_rwd_all(n_rot_min_R,i));
 
-    dMwing_inertia_fwd_all(i,1) = Mwing_inertia_fwd_all(n_rot_max_L,i) - Mwing_inertia_fwd_all(n_rot_min_L,i);
-    dMwing_inertia_rwd_all(i,1) = Mwing_inertia_rwd_all(n_rot_max_R,i) - Mwing_inertia_rwd_all(n_rot_min_R,i);
+    dMwing_inertia_fwd_all(i,1) = (Mwing_inertia_fwd_all(n_rot_max_L,i) - Mwing_inertia_fwd_all(n_rot_min_L,i));
+    dMwing_inertia_rwd_all(i,1) = (Mwing_inertia_rwd_all(n_rot_max_R,i) - Mwing_inertia_rwd_all(n_rot_min_R,i));
 
-    dMwing_aero_fwd_all(i,1) = Mwing_aero_fwd_all(n_rot_max_L,i) - Mwing_aero_fwd_all(n_rot_min_L,i);
-    dMwing_aero_rwd_all(i,1) = Mwing_aero_rwd_all(n_rot_max_R,i) - Mwing_aero_rwd_all(n_rot_min_R,i);
+    dMwing_aero_fwd_all(i,1) = (Mwing_aero_fwd_all(n_rot_max_L,i) - Mwing_aero_fwd_all(n_rot_min_L,i));
+    dMwing_aero_rwd_all(i,1) = (Mwing_aero_rwd_all(n_rot_max_R,i) - Mwing_aero_rwd_all(n_rot_min_R,i));
     
     % wingbeat kinematics
     freq_all(i,1) = freq_now;
@@ -318,6 +343,110 @@ end
     My_mean_all = nanmean(My_total_all);
     Mz_mean_all = nanmean(Mz_total_all);
     
+%% neg Arot & dM
+if loc_set == 3
+    Arot_fwd_all = -Arot_fwd_all;
+    Arot_rwd_all = -Arot_rwd_all;
+    
+    dMwing_total_fwd_all = -dMwing_total_fwd_all;
+    dMwing_total_rwd_all = -dMwing_total_rwd_all;
+    
+    dMwing_inertia_fwd_all = -dMwing_inertia_fwd_all;
+    dMwing_inertia_rwd_all = -dMwing_inertia_rwd_all;
+    
+    dMwing_mass_fwd_all = -dMwing_mass_fwd_all;
+    dMwing_mass_rwd_all = -dMwing_mass_rwd_all;
+    
+    dMwing_aero_fwd_all = -dMwing_aero_fwd_all;
+    dMwing_aero_rwd_all = -dMwing_aero_rwd_all;
+end
+
+    %% calc spring constants
+    
+    %dMtotal
+    k_ArotdMtotal_fwd_coeffs_norm_deg = polyfit(Arot_fwd_all,dMwing_total_fwd_all,1);
+    k_ArotdMtotal_rwd_coeffs_norm_deg = polyfit(Arot_rwd_all,dMwing_total_rwd_all,1);
+
+    k_ArotdMtotal_fwd_coeffs_norm_rad = polyfit(pi/180*(Arot_fwd_all),dMwing_total_fwd_all,1);
+    k_ArotdMtotal_rwd_coeffs_norm_rad = polyfit(pi/180*(Arot_rwd_all),dMwing_total_rwd_all,1);
+
+    k_ArotdMtotal_fwd_norm_deg = k_ArotdMtotal_fwd_coeffs_norm_deg(1);
+    k_ArotdMtotal_rwd_norm_deg = k_ArotdMtotal_rwd_coeffs_norm_deg(1);
+
+    k_ArotdMtotal_fwd_norm_rad = k_ArotdMtotal_fwd_coeffs_norm_rad(1);
+    k_ArotdMtotal_rwd_norm_rad = k_ArotdMtotal_rwd_coeffs_norm_rad(1);
+    
+    %dMmass
+    k_ArotdMmass_fwd_coeffs_norm_deg = polyfit(Arot_fwd_all,dMwing_mass_fwd_all,1);
+    k_ArotdMmass_rwd_coeffs_norm_deg = polyfit(Arot_rwd_all,dMwing_mass_rwd_all,1);
+
+    k_ArotdMmass_fwd_coeffs_norm_rad = polyfit(pi/180*(Arot_fwd_all),dMwing_mass_fwd_all,1);
+    k_ArotdMmass_rwd_coeffs_norm_rad = polyfit(pi/180*(Arot_rwd_all),dMwing_mass_rwd_all,1);
+
+    k_ArotdMmass_fwd_norm_deg = k_ArotdMmass_fwd_coeffs_norm_deg(1);
+    k_ArotdMmass_rwd_norm_deg = k_ArotdMmass_rwd_coeffs_norm_deg(1);
+
+    k_ArotdMmass_fwd_norm_rad = k_ArotdMmass_fwd_coeffs_norm_rad(1);
+    k_ArotdMmass_rwd_norm_rad = k_ArotdMmass_rwd_coeffs_norm_rad(1);
+    
+    %dMinertia
+    k_ArotdMinertia_fwd_coeffs_norm_deg = polyfit(Arot_fwd_all,dMwing_inertia_fwd_all,1);
+    k_ArotdMinertia_rwd_coeffs_norm_deg = polyfit(Arot_rwd_all,dMwing_inertia_rwd_all,1);
+
+    k_ArotdMinertia_fwd_coeffs_norm_rad = polyfit(pi/180*(Arot_fwd_all),dMwing_inertia_fwd_all,1);
+    k_ArotdMinertia_rwd_coeffs_norm_rad = polyfit(pi/180*(Arot_rwd_all),dMwing_inertia_rwd_all,1);
+
+    k_ArotdMinertia_fwd_norm_deg = k_ArotdMinertia_fwd_coeffs_norm_deg(1);
+    k_ArotdMinertia_rwd_norm_deg = k_ArotdMinertia_rwd_coeffs_norm_deg(1);
+
+    k_ArotdMinertia_fwd_norm_rad = k_ArotdMinertia_fwd_coeffs_norm_rad(1);
+    k_ArotdMinertia_rwd_norm_rad = k_ArotdMinertia_rwd_coeffs_norm_rad(1);
+    
+    %dMaero
+    k_ArotdMaero_fwd_coeffs_norm_deg = polyfit(Arot_fwd_all,dMwing_aero_fwd_all,1);
+    k_ArotdMaero_rwd_coeffs_norm_deg = polyfit(Arot_rwd_all,dMwing_aero_rwd_all,1);
+
+    k_ArotdMaero_fwd_coeffs_norm_rad = polyfit(pi/180*(Arot_fwd_all),dMwing_aero_fwd_all,1);
+    k_ArotdMaero_rwd_coeffs_norm_rad = polyfit(pi/180*(Arot_rwd_all),dMwing_aero_rwd_all,1);
+
+    k_ArotdMaero_fwd_norm_deg = k_ArotdMaero_fwd_coeffs_norm_deg(1);
+    k_ArotdMaero_rwd_norm_deg = k_ArotdMaero_rwd_coeffs_norm_deg(1);
+
+    k_ArotdMaero_fwd_norm_rad = k_ArotdMaero_fwd_coeffs_norm_rad(1);
+    k_ArotdMaero_rwd_norm_rad = k_ArotdMaero_rwd_coeffs_norm_rad(1);
+    
+%% calc rot0 as function of Tyaw
+rot0_max_fwd_all_rad = rot_max_fwd_all + Mwing_total_fwd_atRotmax/k_ArotdMtotal_fwd_norm_rad;
+rot0_min_fwd_all_rad = rot_min_fwd_all + Mwing_total_fwd_atRotmin/k_ArotdMtotal_fwd_norm_rad;
+
+rot0_max_rwd_all_rad = rot_max_rwd_all + Mwing_total_rwd_atRotmax/k_ArotdMtotal_rwd_norm_rad;
+rot0_min_rwd_all_rad = rot_min_rwd_all + Mwing_total_rwd_atRotmin/k_ArotdMtotal_rwd_norm_rad;
+
+rot_max_fwd_all_deg = rad2deg(rot_max_fwd_all);
+rot_min_fwd_all_deg = rad2deg(rot_min_fwd_all);
+
+rot_max_rwd_all_deg = rad2deg(rot_max_rwd_all);
+rot_min_rwd_all_deg = rad2deg(rot_min_rwd_all);
+
+rot0_max_fwd_all_deg = rot_max_fwd_all_deg + Mwing_total_fwd_atRotmax/k_ArotdMtotal_fwd_norm_deg;
+rot0_min_fwd_all_deg = rot_min_fwd_all_deg + Mwing_total_fwd_atRotmin/k_ArotdMtotal_fwd_norm_deg;
+
+rot0_max_rwd_all_deg = rot_max_rwd_all_deg + Mwing_total_rwd_atRotmax/k_ArotdMtotal_rwd_norm_deg;
+rot0_min_rwd_all_deg = rot_min_rwd_all_deg + Mwing_total_rwd_atRotmin/k_ArotdMtotal_rwd_norm_deg;
+
+% trendlines
+rot0Tyaw_coeff_fwd_rotmax_deg = polyfit([YawTorques_all],[rot0_max_fwd_all_deg],1);
+rot0Tyaw_coeff_rwd_rotmax_deg = polyfit([YawTorques_all],[rot0_max_rwd_all_deg],1);
+
+rot0Tyaw_coeff_fwd_rotmin_deg = polyfit([YawTorques_all],[rot0_min_fwd_all_deg],1);
+rot0Tyaw_coeff_rwd_rotmin_deg = polyfit([YawTorques_all],[rot0_min_rwd_all_deg],1);
+    
+rot0Tyaw_coeff_fwd_rotmax_rad = polyfit([YawTorques_all],[rot0_max_fwd_all_rad],1);
+rot0Tyaw_coeff_rwd_rotmax_rad = polyfit([YawTorques_all],[rot0_max_rwd_all_rad],1);
+
+rot0Tyaw_coeff_fwd_rotmin_rad = polyfit([YawTorques_all],[rot0_min_fwd_all_rad],1);
+rot0Tyaw_coeff_rwd_rotmin_rad = polyfit([YawTorques_all],[rot0_min_rwd_all_rad],1);
+    
     %% save data & plots
     save(['hingespring_Arot_vs_dTspanwise_peakloc',num2str(loc_set),'_steps',num2str(nr_timepoints),'.mat'])
     
@@ -334,6 +463,35 @@ end
     saveas(gca,['rotationangles_peakloc',num2str(loc_set),'_steps',num2str(nr_timepoints),'.png'])
     plot2svg(['rotationangles_peakloc',num2str(loc_set),'_steps',num2str(nr_timepoints),'.svg'])
     
+%% plot rotation angles throughout wingbeat
+figure
+hold on
+plot(t_norm,rot_fwd_all(:,1)-90,'-k','linewidth',2)
+plot(t_norm,rot_fwd_all(:,end)-90,'-r','linewidth',2)
+plot(t_norm,rot_rwd_all(:,end)-90,'-b','linewidth',2)
+
+plot(t_norm(n_rot_max_fwd_all(1)),rot_fwd_all(n_rot_max_fwd_all(1),1)-90,'ok','linewidth',2)
+plot(t_norm(n_rot_min_fwd_all(1)),rot_fwd_all(n_rot_min_fwd_all(1),1)-90,'ok','linewidth',2)
+
+plot(t_norm(n_rot_max_fwd_all(end)),rot_fwd_all(n_rot_max_fwd_all(end),end)-90,'or','linewidth',2)
+plot(t_norm(n_rot_min_fwd_all(end)),rot_fwd_all(n_rot_min_fwd_all(end),end)-90,'or','linewidth',2)
+
+plot(t_norm(n_rot_max_rwd_all(end)),rot_rwd_all(n_rot_max_rwd_all(end),end)-90,'ob','linewidth',2)
+plot(t_norm(n_rot_min_rwd_all(end)),rot_rwd_all(n_rot_min_rwd_all(end),end)-90,'ob','linewidth',2)
+
+legend('steady','fwd','rwd')
+axis tight
+axis square
+axis([0,1,-60,60])
+set(gca,'xtick',[0 1])
+set(gca,'ytick',[-60 0 60])
+xlabel('wingbeat cycle')
+ylabel('wing rotation angle [deg]')
+
+saveas(gca,['rot_vs_WBcycle_peakloc',num2str(loc_set),'_steps',num2str(nr_timepoints),'.fig'])
+saveas(gca,['rot_vs_WBcycle_peakloc',num2str(loc_set),'_steps',num2str(nr_timepoints),'.png'])
+plot2svg(['rot_vs_WBcycle_peakloc',num2str(loc_set),'_steps',num2str(nr_timepoints),'.svg'])
+
 %% plot rotation angle amplitude VS change in spanwise torque
 cmap_hot =colormap(hot(100));
 cmap_hot = flipud(cmap_hot);
@@ -345,6 +503,12 @@ if loc_set == 1
 
     dM_min = .45;
     dM_max = .475;
+
+    rot0max_min = 40;
+    rot0max_max = 50;
+
+    rot0min_min = 140;
+    rot0min_max = 150;
     
 elseif loc_set == 2
     Arot_min = 97.5;
@@ -352,28 +516,25 @@ elseif loc_set == 2
 
     dM_min = .138;
     dM_max = .155;
+
+    rot0max_min = 40;
+    rot0max_max = 50;
+
+    rot0min_min = 140;
+    rot0min_max = 150;
     
 elseif loc_set == 3
-    Arot_fwd_all = -Arot_fwd_all;
-    Arot_rwd_all = -Arot_rwd_all;
-    
-    dMwing_total_fwd_all = -dMwing_total_fwd_all;
-    dMwing_total_rwd_all = -dMwing_total_rwd_all;
-    
-    dMwing_inertia_fwd_all = -dMwing_inertia_fwd_all;
-    dMwing_inertia_rwd_all = -dMwing_inertia_rwd_all;
-    
-    dMwing_mass_fwd_all = -dMwing_mass_fwd_all;
-    dMwing_mass_rwd_all = -dMwing_mass_rwd_all;
-    
-    dMwing_aero_fwd_all = -dMwing_aero_fwd_all;
-    dMwing_aero_rwd_all = -dMwing_aero_rwd_all;
-    
     Arot_min = 92;
     Arot_max = 97;
 
     dM_min = -.02;
     dM_max = .06;
+
+    rot0max_min = 40;
+    rot0max_max = 50;
+
+    rot0min_min = 140;
+    rot0min_max = 150;
 end
 
 YawTorque_min = 0;
@@ -396,8 +557,11 @@ hold on
         plot(Arot_rwd_all(i),dMwing_total_rwd_all(i),'o-','markerfacecolor',cmap_Tyaw(color_nr,:),'markersize',10,'color',[.5 .5 .5])
     end
 
-    plot(Arot_fwd_all,dMwing_total_fwd_all,'-k')
-    plot(Arot_rwd_all,dMwing_total_rwd_all,'-','color',[.5 .5 .5])
+%     plot(Arot_fwd_all,dMwing_total_fwd_all,'-k')
+%     plot(Arot_rwd_all,dMwing_total_rwd_all,'-','color',[.5 .5 .5])
+
+    plot([min(Arot_fwd_all) max(Arot_fwd_all)],polyval(k_ArotdMtotal_fwd_coeffs_norm_deg,[min(Arot_fwd_all) max(Arot_fwd_all)]),'-k','linewidth',2)
+    plot([min(Arot_rwd_all) max(Arot_rwd_all)],polyval(k_ArotdMtotal_rwd_coeffs_norm_deg,[min(Arot_rwd_all) max(Arot_rwd_all)]),'-k','linewidth',2,'color',[.5 .5 .5])
 
     legend('fwd','rwd')
     axis tight
@@ -454,8 +618,12 @@ hold on
     end
 
     subplot(2,2,1)
-    plot(Arot_fwd_all,dMwing_total_fwd_all,'-k')
-    plot(Arot_rwd_all,dMwing_total_rwd_all,'-','color',[.5 .5 .5])
+
+%     plot(Arot_fwd_all,dMwing_total_fwd_all,'-k')
+%     plot(Arot_rwd_all,dMwing_total_rwd_all,'-','color',[.5 .5 .5])
+
+    plot([min(Arot_fwd_all) max(Arot_fwd_all)],polyval(k_ArotdMtotal_fwd_coeffs_norm_deg,[min(Arot_fwd_all) max(Arot_fwd_all)]),'-k','linewidth',2)
+    plot([min(Arot_rwd_all) max(Arot_rwd_all)],polyval(k_ArotdMtotal_rwd_coeffs_norm_deg,[min(Arot_rwd_all) max(Arot_rwd_all)]),'-k','linewidth',2,'color',[.5 .5 .5])
 
     axis tight
     axis square
@@ -468,8 +636,12 @@ hold on
     title('total torque')
 
     subplot(2,2,2)
-    plot(Arot_fwd_all,dMwing_inertia_fwd_all,'-k')
-    plot(Arot_rwd_all,dMwing_inertia_rwd_all,'-','color',[.5 .5 .5])
+
+%     plot(Arot_fwd_all,dMwing_inertia_fwd_all,'-k')
+%     plot(Arot_rwd_all,dMwing_inertia_rwd_all,'-','color',[.5 .5 .5])
+
+    plot([min(Arot_fwd_all) max(Arot_fwd_all)],polyval(k_ArotdMinertia_fwd_coeffs_norm_deg,[min(Arot_fwd_all) max(Arot_fwd_all)]),'-k','linewidth',2)
+    plot([min(Arot_rwd_all) max(Arot_rwd_all)],polyval(k_ArotdMinertia_rwd_coeffs_norm_deg,[min(Arot_rwd_all) max(Arot_rwd_all)]),'-k','linewidth',2,'color',[.5 .5 .5])
 
     axis tight
     axis square
@@ -482,8 +654,12 @@ hold on
     title('intertial torque')
     
     subplot(2,2,3)
-    plot(Arot_fwd_all,dMwing_mass_fwd_all,'-k')
-    plot(Arot_rwd_all,dMwing_mass_rwd_all,'-','color',[.5 .5 .5])
+
+%     plot(Arot_fwd_all,dMwing_mass_fwd_all,'-k')
+%     plot(Arot_rwd_all,dMwing_mass_rwd_all,'-','color',[.5 .5 .5])
+
+    plot([min(Arot_fwd_all) max(Arot_fwd_all)],polyval(k_ArotdMmass_fwd_coeffs_norm_deg,[min(Arot_fwd_all) max(Arot_fwd_all)]),'-k','linewidth',2)
+    plot([min(Arot_rwd_all) max(Arot_rwd_all)],polyval(k_ArotdMmass_rwd_coeffs_norm_deg,[min(Arot_rwd_all) max(Arot_rwd_all)]),'-k','linewidth',2,'color',[.5 .5 .5])
 
     axis tight
     axis square
@@ -496,8 +672,12 @@ hold on
     title('mass torque')
 
     subplot(2,2,4)
-    plot(Arot_fwd_all,dMwing_aero_fwd_all,'-k')
-    plot(Arot_rwd_all,dMwing_aero_rwd_all,'-','color',[.5 .5 .5])
+
+%     plot(Arot_fwd_all,dMwing_aero_fwd_all,'-k')
+%     plot(Arot_rwd_all,dMwing_aero_rwd_all,'-','color',[.5 .5 .5])
+
+    plot([min(Arot_fwd_all) max(Arot_fwd_all)],polyval(k_ArotdMaero_fwd_coeffs_norm_deg,[min(Arot_fwd_all) max(Arot_fwd_all)]),'-k','linewidth',2)
+    plot([min(Arot_rwd_all) max(Arot_rwd_all)],polyval(k_ArotdMaero_rwd_coeffs_norm_deg,[min(Arot_rwd_all) max(Arot_rwd_all)]),'-k','linewidth',2,'color',[.5 .5 .5])
 
     axis tight
     axis square
@@ -513,7 +693,51 @@ hold on
     saveas(gca,['Arot_vs_dTspanwise_vs_YawTorque_components_peakloc',num2str(loc_set),'_steps',num2str(nr_timepoints),'.png'])
     plot2svg(['Arot_vs_dTspanwise_vs_YawTorque_components_peakloc',num2str(loc_set),'_steps',num2str(nr_timepoints),'.svg'])
     
-        
+%% plot rot0 as function of Tyaw
+figure
+
+% rot0 @ rot_max
+subplot(2,2,1)
+hold on
+plot(YawTorques_all,rot0_max_fwd_all_deg,'dk','markerfacecolor','r','markersize',10)
+plot(YawTorques_all,rot0_max_rwd_all_deg,'ok','markerfacecolor','b','markersize',10)
+
+plot([min(YawTorques_all) max(YawTorques_all)],polyval(rot0Tyaw_coeff_fwd_rotmax_deg,[min(YawTorques_all) max(YawTorques_all)]),'-k','linewidth',2)
+plot([min(YawTorques_all) max(YawTorques_all)],polyval(rot0Tyaw_coeff_rwd_rotmax_deg,[min(YawTorques_all) max(YawTorques_all)]),'-b','color',[.5 .5 .5],'linewidth',2)
+
+legend('fwd@ds','rwd@ds')
+axis tight
+% axis square
+axis([YawTorque_min,YawTorque_max,rot0max_min,rot0max_max])
+set(gca,'xtick',YawTorque_min:(YawTorque_max-YawTorque_min):YawTorque_max)
+set(gca,'ytick',rot0max_min:(rot0max_max-rot0max_min):rot0max_max)
+xlabel('normalized yaw torque')
+ylabel('rot0 [deg]')
+title('rot0 @ mid downstroke')
+
+% rot0 @ rot_min
+subplot(2,2,2)
+hold on
+plot(YawTorques_all,rot0_min_fwd_all_deg,'dk','markerfacecolor','r','markersize',10)
+plot(YawTorques_all,rot0_min_rwd_all_deg,'ok','markerfacecolor','b','markersize',10)
+
+plot([min(YawTorques_all) max(YawTorques_all)],polyval(rot0Tyaw_coeff_fwd_rotmin_deg,[min(YawTorques_all) max(YawTorques_all)]),'-k','linewidth',2)
+plot([min(YawTorques_all) max(YawTorques_all)],polyval(rot0Tyaw_coeff_rwd_rotmin_deg,[min(YawTorques_all) max(YawTorques_all)]),'-','color',[.5 .5 .5],'linewidth',2)
+
+legend('fwd@us','rwd@us')
+axis tight
+% axis square
+axis([YawTorque_min,YawTorque_max,rot0min_min,rot0min_max])
+set(gca,'xtick',YawTorque_min:(YawTorque_max-YawTorque_min):YawTorque_max)
+set(gca,'ytick',rot0min_min:(rot0min_max-rot0min_min):rot0min_max)
+xlabel('normalized yaw torque')
+ylabel('rot0 [deg]')
+title('rot0 @ mid upstroke')
+
+saveas(gca,['rot0_vs_YawTorque_peakloc',num2str(loc_set),'_steps',num2str(nr_timepoints),'.fig'])
+saveas(gca,['rot0_vs_YawTorque_peakloc',num2str(loc_set),'_steps',num2str(nr_timepoints),'.png'])
+plot2svg(['rot0_vs_YawTorque_peakloc',num2str(loc_set),'_steps',num2str(nr_timepoints),'.svg'])
+
 %% plot ALL MODs
 %     figure
 %     subplot(1,2,1)

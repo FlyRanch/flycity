@@ -114,6 +114,8 @@ function [ FM_strkpln, FM_L, FM_R, U_left, U_right, Udot_left, Udot_right, alfa_
             x_cp_L = x_LE_L(j)-chords_L(j)*(0.82*abs(alfa_L(j,i))/pi+0.05);
             x_cp_R = x_LE_R(j)-chords_R(j)*(0.82*abs(alfa_R(j,i))/pi+0.05);
 
+            x_cp_L_all(j,i) = x_cp_L;
+            
             if alfa_L(j,i) >= 0
                 
                 alfa_left        = abs(radtodeg(alfa_L(j,i)));                                                       % [ deg ]

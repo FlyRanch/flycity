@@ -23,8 +23,6 @@ clc;
 close all
 warning off
 
-cd flytracks
-
 addpath('/home/matt/Dropbox/WORK/flytracker');
 addpath('/home/matt/Dropbox/WORK/flytracker/mex/');
 addpath('/home/matt/Dropbox/WORK/flytracker/core/');
@@ -39,6 +37,18 @@ addpath('/home/flycity/Dropbox/WORK/flytracker');
 addpath('/home/flycity/Dropbox/WORK/flytracker/mex/');
 addpath('/home/flycity/Dropbox/WORK/flytracker/core/');
 addpath('/home/flycity/Dropbox/WORK/flytracker/results/');
+
+flytracker_dirNfile = mfilename('fullpath');
+cuts = strfind(flytracker_dirNfile,filesep);
+
+flytracker_file = flytracker_dirNfile(cuts(end)+1:end);
+flytracker_dir = flytracker_dirNfile(1:cuts(end)-1);
+
+addpath([flytracker_dir filesep]);
+addpath([flytracker_dir filesep 'mex' filesep]);
+addpath([flytracker_dir filesep 'core' filesep]);
+
+cd flytracks
 
 % [FileName,PathName] = uigetfile({'*.mat'},'Select "ManualFit" data file for the video sequence');
 % 

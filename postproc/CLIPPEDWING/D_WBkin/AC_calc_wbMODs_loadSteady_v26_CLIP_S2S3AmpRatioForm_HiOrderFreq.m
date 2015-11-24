@@ -211,9 +211,9 @@ xmax =  ceil(10*max(S2S3AmpRatioFunc))/10;
 %     cmap_freq=hot(100);
 %     cmap_freq = flipud(cmap_freq);
     figure
-%     subplot(2,2,1)
+    subplot(2,2,3)
     hold on
-    plot(S2S3AmpRatioFunc_NONclipped, f_wb_steady,'sk','markersize',8,'markerfacecolor','w')
+    plot(S2S3AmpRatioFunc_NONclipped, f_wb_steady,'sk','markersize',7,'markerfacecolor','w')
     plot([xmin:(xmax-xmin)/99:xmax],feval(freq_S2S3AmpRatioFunc_steadyWBs_asympFit10,[xmin:(xmax-xmin)/99:xmax]),'-k','linewidth',3)
     
     N_min = 1;
@@ -247,7 +247,7 @@ xmax =  ceil(10*max(S2S3AmpRatioFunc))/10;
                 color_nr = 25;
             end
             
-            plot(S2S3_plot, f_plot,'^k','markersize',8,'markerfacecolor',cmap_freq(color_nr,:))
+            plot(S2S3_plot, f_plot,'vk','markersize',5,'markerfacecolor',cmap_freq(color_nr,:))
         end
     end
         
@@ -260,6 +260,7 @@ xmax =  ceil(10*max(S2S3AmpRatioFunc))/10;
     ylabel('wingbeat frequency','fontsize',10)
     axis square
     
+    subplot(2,2,1)
     colormap(cmap_freq)
     caxis([N_min N_max])
     h = colorbar('location','northoutside'); 
