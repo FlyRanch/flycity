@@ -9,6 +9,10 @@ cmap_MODs_blue = [1 1 1; 0 1 1; 0 .5 1; 0 0 1; 0 0 .5];
 freq_asymFitNr = 10;
 peakloc = 0;
 
+Aratio_max = 1.3;
+Aratio_min = 1;
+
+
         %% plot TIP cut wing data
     load(['allMODs_TipClip_freqAsym',num2str(freq_asymFitNr),'_roton1.mat'])
 
@@ -111,6 +115,21 @@ peakloc = 0;
     Mx_damaged_mean_strokeDevRotMOD_TEnTip = Mx_damaged_mean_strokeDevRotMOD;
     My_damaged_mean_strokeDevRotMOD_TEnTip = My_damaged_mean_strokeDevRotMOD;
     Mz_damaged_mean_strokeDevRotMOD_TEnTip = Mz_damaged_mean_strokeDevRotMOD;
+    
+    % ALL S2 & S3
+    figure(1000)
+    subplot(2,2,3)
+    hold on
+    for i = 1:length(S2S3AmpRatioFuncs)
+        color_nr = round(99/(Aratio_max-Aratio_min)*(S2S3AmpRatioFuncs(i)-Aratio_min)+1);
+        if color_nr<1
+            color_nr=1
+        elseif color_nr>size(cmap_AdAi,1)
+            color_nr=size(cmap_AdAi,1)
+        end
+
+        plot(S2ratios(i),S3ratios(i),'ok','markerfacecolor',cmap_AdAi(color_nr,:),'markersize',10)
+    end
     
     % ALL MODs VS NO MODs
     figure(1)
@@ -331,6 +350,31 @@ peakloc = 0;
     My_damaged_mean_strokeDevRotMOD_TEnTip = [My_damaged_mean_strokeDevRotMOD_TEnTip My_damaged_mean_strokeDevRotMOD];
     Mz_damaged_mean_strokeDevRotMOD_TEnTip = [Mz_damaged_mean_strokeDevRotMOD_TEnTip Mz_damaged_mean_strokeDevRotMOD];
 
+    % ALL S2 & S3
+    figure(1000)
+    subplot(2,2,3)
+    hold on
+    for i = 1:length(S2S3AmpRatioFuncs)
+        color_nr = round(99/(Aratio_max-Aratio_min)*(S2S3AmpRatioFuncs(i)-Aratio_min)+1);
+        if color_nr<1
+            color_nr=1
+        elseif color_nr>size(cmap_AdAi,1)
+            color_nr=size(cmap_AdAi,1)
+        end
+
+        plot(S2ratios(i),S3ratios(i),'dk','markerfacecolor',cmap_AdAi(color_nr,:),'markersize',10)
+    end
+    
+    plot(1,1,'sk','markerfacecolor','w','markersize',10)
+
+%     legend('Tip clip','TE clip','location','NW')
+    xlabel('S2 ratio')
+    ylabel('S3 ratio')
+    axis equal
+    axis([0.5 1 0.5 1])
+    set(gca,'xtick',0:.5:1)
+    set(gca,'ytick',0:.5:1)
+    
     % ALL MODs VS NO MODs
     figure(1)
     subplot(2,2,1)
@@ -771,6 +815,25 @@ peakloc = 0;
     
     mkdir('qsModel_FnM_TEnTipCut')
     cd('qsModel_FnM_TEnTipCut')
+    
+    figure(1000)
+        
+    subplot(2,2,1)
+    hold on
+    plot(1,1,'sk','markerfacecolor','w','markersize',10)
+    plot(1,1,'ok','markerfacecolor','w','markersize',10)
+    plot(1,1,'dk','markerfacecolor','w','markersize',10)
+    legend('undamaged','tip cut','TE cut')
+    colormap(cmap_AdAi)
+    caxis([Aratio_min Aratio_max])
+    h = colorbar('location','northoutside'); 
+    title(h,'A+')
+    set(h,'xtick',Aratio_min:(Aratio_max-Aratio_min):Aratio_max)
+    axis off
+
+    saveas(gca,['S2vsS3vsAmpRatio.fig'])
+    saveas(gca,['S2vsS3vsAmpRatio.png'])
+    plot2svg(['S2vsS3vsAmpRatio.svg'])
     
     figure(1)
     saveas(gca,['FnM_WBmod_TEnTipClip_YnZflip_asympFit',num2str(freq_asymFitNr),'.fig'])
